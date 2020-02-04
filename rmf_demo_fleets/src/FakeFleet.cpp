@@ -101,8 +101,8 @@ private:
 
     robot.location = robot.path[robot.path.size() - 1];
     robot.location.t = steady_clock->now();
-    robot.location.x += 0.01;
-    robot.location.y -= 0.01;
+    robot.location.x += 0.005;
+    robot.location.y -= 0.005;
 
     robot.path.clear();
     for (int i = 0; i < 10; ++i)
@@ -110,8 +110,8 @@ private:
       Location wp;
       wp = robot.location;
       wp.t.sec += 1 * (i + 1);
-      wp.x += 0.01 * (i + 1);
-      wp.y -= 0.01 * (i + 1);
+      wp.x += 0.005 * (i + 1);
+      wp.y -= 0.005 * (i + 1);
       robot.path.push_back(wp);
     }
 
