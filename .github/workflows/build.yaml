@@ -1,0 +1,35 @@
+name: build_ci
+on: push
+jobs:
+
+  ros2:
+    runs-on: ubuntu-18.04
+    container:
+      image: docker://ros:eloquent-ros-base-bionic
+    steps:
+    - name: non-ros-deps
+      run: |
+        sudo apt update && sudo apt install -y \
+          git cmake wget python3-vcstool \
+          libyaml-cpp-dev qt5-default \
+          libeigen3-dev libccd-dev libfcl-dev \
+          libyaml-cpp-dev libwebsocketpp-dev \
+          libboost-all-dev
+    - name: ros-deps
+      run: |
+        sudo apt install -y \
+          ros-eloquent-rviz2 \
+          ros-eloquent-launch*
+    - name: workspace
+      run: |
+        cd /home/
+        mkdir -p rmf_demos_ws/src
+        cd /home/rmf_demos_ws
+        wget https://raw.githubusercontent.com/osrf/rmf_demos/master/rmf_demos.repos
+        vcs import src < rmf_demos.repos
+    - name: build
+      shell: bash
+      run: |
+        cd /home/rmf_demos_ws
+        source /opt/ros/eloquent/setup.bash
+        colcon build
