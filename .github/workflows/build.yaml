@@ -1,4 +1,4 @@
-name: build_ci
+name: build
 on: push
 jobs:
 
