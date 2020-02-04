@@ -10,7 +10,7 @@ jobs:
     - name: non-ros-deps
       run: |
         sudo apt update && sudo apt install -y \
-          git cmake \
+          git cmake wget python3-vcstool \
           libyaml-cpp-dev qt5-default \
           libeigen3-dev libccd-dev libfcl-dev \
           libyaml-cpp-dev libwebsocketpp-dev \
