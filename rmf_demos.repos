@@ -1,0 +1,17 @@
+repositories:
+  osrf/rmf_core:
+    type: git
+    url: https://github.com/osrf/rmf_core.git
+    version: master
+  osrf/rmf_schedule_visualizer:
+    type: git
+    url: https://github.com/osrf/rmf_schedule_visualizer.git
+    version: master
+  osrf/traffic_editor:
+    type: git
+    url: https://github.com/osrf/traffic_editor.git
+    version: master
+  osrf/rmf_demos:
+    type: git
+    url: https://github.com/osrf/rmf_demos.git
+    version: master
