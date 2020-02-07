@@ -63,36 +63,29 @@ target_include_directories(slotcar
     ${tf2_ros_INCLUDE_DIRS}
 )
 
-# These lines are taken out because of this issue: https://github.com/ament/ament_cmake/issues/158
-#ament_target_dependencies(slotcar
-#  rmf_sim_utils
-#  "rmf_fleet_msgs"
-#  "rclcpp"
-#  "gazebo_dev"
-#  "gazebo_ros"
-#  "geometry_msgs"
-#  "tf2_ros"
-#)
-
 ###############################
 # door stuff
 ###############################
 
 add_library(door SHARED src/door.cpp)
 
+target_link_libraries(door
+  PUBLIC
+    rmf_sim_utils
+    ${rmf_fleet_msgs_LIBRARIES}
+    ${rclcpp_LIBRARIES}
+    ${GAZEBO_LIBRARIES}
+    ${gazebo_ros_LIBRARIES}
+    ${rmf_door_msgs_LIBRARIES}
+)
+
 target_include_directories(door
   PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
     ${geometry_msgs_INCLUDE_DIRS}
     ${rmf_door_msgs_INCLUDE_DIRS}
-)
-
-ament_target_dependencies(door
-  "rmf_fleet_msgs"
-  "rclcpp"
-  "gazebo_dev"
-  "gazebo_ros"
-  "rmf_door_msgs"
 )
 
 ###############################
