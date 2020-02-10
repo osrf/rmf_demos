@@ -14,12 +14,15 @@ jobs:
           libyaml-cpp-dev qt5-default \
           libeigen3-dev libccd-dev libfcl-dev \
           libyaml-cpp-dev libwebsocketpp-dev \
-          libboost-all-dev
+          libboost-all-dev curl
     - name: ros-deps
       run: |
         sudo apt install -y \
           ros-eloquent-rviz2 \
           ros-eloquent-launch*
+    - name: gazebo
+      run: |
+        curl -sSL http://get.gazebosim.org | sh
     - name: workspace
       run: |
         cd /home/
