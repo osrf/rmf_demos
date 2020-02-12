@@ -107,7 +107,6 @@ target_link_libraries(teleport
     ${gazebo_ros_LIBRARIES}
     ${rmf_dispenser_msgs_LIBRARIES}
     ${std_msgs_LIBRARIES}
-
 )
 
 target_include_directories(teleport
