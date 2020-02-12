@@ -18,13 +18,16 @@
   <depend>gazebo_ros</depend>
   <depend>gazebo_msgs</depend>
   <depend>gazebo_dev</depend>
-  <depend>rmf_fleet_msgs</depend>
-  <depend>rmf_door_msgs</depend>
+
   <depend>tf2_ros</depend>
+  <depend>std_srvs</depend>
+
   <depend>geometry_msgs</depend>
   <depend>std_msgs</depend>
-  <depend>std_srvs</depend>
-  <depend>rmf_task_msgs</depend>
+  
+  <depend>rmf_fleet_msgs</depend>
+  <depend>rmf_door_msgs</depend>
+  <depend>rmf_dispenser_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
