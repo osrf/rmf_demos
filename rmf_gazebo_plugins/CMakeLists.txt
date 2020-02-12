@@ -39,6 +39,10 @@ target_include_directories(rmf_sim_utils
     ${GAZEBO_INCLUDE_DIRS}
 )
 
+###############################
+# Slotcar Plugin
+###############################
+
 add_library(slotcar SHARED ${PROJECT_SOURCE_DIR}/src/slotcar.cpp)
 
 target_link_libraries(slotcar
@@ -64,7 +68,7 @@ target_include_directories(slotcar
 )
 
 ###############################
-# door stuff
+# Door Plugin
 ###############################
 
 add_library(door SHARED src/door.cpp)
@@ -89,11 +93,33 @@ target_include_directories(door
 )
 
 ###############################
-# install stuff
+# Teleport Plugin
+###############################
+
+add_library(teleport SHARED src/teleport.cpp)
+
+target_link_libraries(door
+  PUBLIC
+    ${rclcpp_LIBRARIES}
+    ${GAZEBO_LIBRARIES}
+    ${gazebo_ros_LIBRARIES}
+    ${rmf_task_msgs_LIBRARIES}
+)
+
+target_include_directories(teleport
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${GAZEBO_INCLUDE_DIRS}
+    ${rmf_task_msgs_INCLUDE_DIRS}
+)
+
+###############################
+# Install Targets
 ###############################
 
 install(
-  TARGETS rmf_sim_utils slotcar door
+  TARGETS rmf_sim_utils slotcar door teleport
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
