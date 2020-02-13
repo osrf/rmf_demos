@@ -1,0 +1,9 @@
+<library path="/librmf_rviz_plugin">
+  <class name="rmf_plugin/RMFPanel"
+         type="rmf_plugin::RMFPanel"
+         base_class_type="rviz_common::Panel">
+    <description>
+      A panel to control rmf_demos
+    </description>
+  </class>
+</library>
