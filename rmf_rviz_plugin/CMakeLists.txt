@@ -23,15 +23,57 @@ find_package(rviz_default_plugins REQUIRED)
 find_package(rmf_task_msgs REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Test)
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+add_definitions(-DQT_NO_KEYWORDS)
+
+set(src_files src/Control.cpp)
+
+add_library(${PROJECT_NAME} SHARED ${SRC_FILES})
+
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+    ${QT5_LIBRARIES} 
+    ${rclcpp_LIBRARIES}
+    ${rmf_task_msgs_LIBRARIES}
+    rviz_common::rviz_common
+    ${rviz_rendering_LIBRARIES}
+    ${rviz_default_plugins_LIBRARIES}
+    ${Qt5Widgets_LIBRARIES}
+)
+
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+    ${rclcpp_INCLUDE_DIRS}
+    ${rmf_task_msgs_INCLUDE_DIRS}
+    ${rviz_common_INCLUDE_DIRS}
+    ${rviz_rendering_INCLUDE_DIRS}
+    ${rviz_default_plugins_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
+    ${QT5_INCLUDE_DIRS}
+)
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+target_compile_definitions(${PROJECT_NAME} PRIVATE "RVIZ_DEFAULT_PLUGINS_BUILDING_LIBRARY")
+
+pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
+
+ament_export_include_directories(include)
+ament_export_interfaces(${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ament_export_dependencies(
+  Qt5
+  rviz_common
+  rclcpp
+  Qt5Widgets
+)
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+)
 
 ament_package()
