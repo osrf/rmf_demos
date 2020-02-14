@@ -21,7 +21,7 @@ find_package(rviz_common REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(rviz_default_plugins REQUIRED)
 find_package(rmf_task_msgs REQUIRED)
-find_package(Qt5 REQUIRED COMPONENTS Widgets Test)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Test)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -35,9 +35,11 @@ target_link_libraries(${PROJECT_NAME}
     ${rclcpp_LIBRARIES}
     ${rmf_task_msgs_LIBRARIES}
     rviz_common::rviz_common
+    rviz_default_plugins::rviz_default_plugins
     ${rviz_rendering_LIBRARIES}
     ${rviz_default_plugins_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
+    ${Qt5Core_LIBRARIES}
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -51,6 +53,7 @@ target_include_directories(${PROJECT_NAME}
     ${rviz_default_plugins_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${QT5_INCLUDE_DIRS}
+    ${Qt5Core_INCLUDE_DIRS}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
@@ -77,7 +80,7 @@ install(
 )
 
 install(FILES plugin_description.xml
-  DESTINATION share
+  DESTINATION share/
 )
 
 ament_package()

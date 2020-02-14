@@ -17,13 +17,14 @@
 
 #include "Control.hpp"
 
+#include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <Qlabel>
 
 namespace rmf_rviz_plugin {
 
-RMFPanel::create_layout()
+RmfPanel::create_layout()
 {
   // Layout for delivery request
   // HLayout 1
@@ -73,7 +74,7 @@ RMFPanel::create_layout()
   layout_delivery->addStretch();
 }
 
-RMFPanel::RMFPanel(QWidget* parent)
+RmfPanel::RmfPanel(QWidget* parent)
 : rviz_common::Panel(parent)
 {
   _node = std::make_shared<rclcpp::Node>("rmf_panel_plugin");
@@ -82,6 +83,8 @@ RMFPanel::RMFPanel(QWidget* parent)
     "/delivery_requests",
     rclcpp::QoS(10));
 
+  _thread = std::thread([&](){rclcpp::spin(_node)}, this);
+
   // Initialize labels
   _delivery_task_id->setText("");
   _delivery_pickup->setText("pantry");
@@ -89,9 +92,58 @@ RMFPanel::RMFPanel(QWidget* parent)
   _delivery_robot->setText("magni");
 
   create_layout();
+
+  _has_loaded = true;
+}
+
+RmfPanel::~RmfPanel()
+{
+  if (_has_loaded)
+  {
+    _thread.join()
+    rclcpp::shutdown();
+  }
+}
+
+void RmfPanel::set_delivery_task_id(const QString& max)
+{
+
+}
+void RmfPanel::set_delivery_pickup(const QString& topic)
+{
+
+}
+void RmfPanel::set_delivery_dropoff(const QString& map_name)
+{
+
+}
+void RmfPanel::set_delivery_robot(const QString& map_name)
+{
+
+}
+
+void RmfPanel::update_delivery_task_id()
+{
+
+}
+void RmfPanel::update_delivery_pickup()
+{
+
+}
+void RmfPanel::update_delivery_dropoff()
+{
+
+}
+void RmfPanel::update_delivery_robot()
+{
+
+}
+void RmfPanel::request_delivery()
+{
+
 }
 
 } // namespace rmf_rviz_plugin
 
 #include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(rmf_rviz_plugin::RMFPanel, rviz_common::Panel)
+PLUGINLIB_EXPORT_CLASS(rmf_rviz_plugin::RmfPanel, rviz_common::Panel)

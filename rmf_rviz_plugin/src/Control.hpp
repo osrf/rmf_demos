@@ -15,8 +15,8 @@
  *
 */
 
-#ifndef RMF_RVIZ_PLUGIN_CONTROL_HPP
-#define RMF_RVIZ_PLUGIN_CONTROL_HPP
+#ifndef RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
+#define RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
 
 #include <rviz_common/panel.hpp>
 #include <rclcpp/rclcpp.hpp>
@@ -27,17 +27,18 @@
 #include <QPushButton>
 
 #include <memory>
+#include <thread>
 
 namesapce rmf_rviz_plugin {
 
 using Delivery = rmf_task_msgs::msg::Delivery;
 
-class RMFPanel : public rviz_common::Panel
+class RmfPanel : public rviz_common::Panel
 {
 Q_OBJECT
 public:
-  RMFPanel(QWidget* parent =0);
-  ~RMFPanel();
+  RmfPanel(QWidget* parent = 0);
+  ~RmfPanel();
 
   virtual void load(const rviz_common::Config& config);
   virtual void save(rviz_common::Config config) const;
@@ -74,8 +75,12 @@ protected:
   rclcpp::Node::SharedPtr _node;
   rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
 
+  bool _has_loaded = false;
+  
+  std::thread _thread;
+
 };
 
 } // namespace rmf_rviz_plugin
 
-#endif // RMF_RVIZ_PLUGIN_CONTROL_HPP
+#endif // RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
