@@ -20,11 +20,11 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <Qlabel>
+#include <QLabel>
 
 namespace rmf_rviz_plugin {
 
-RmfPanel::create_layout()
+void RmfPanel::create_layout()
 {
   // Layout for delivery request
   // HLayout 1
@@ -62,20 +62,43 @@ RmfPanel::create_layout()
   QHBoxLayout* layout_delivery4 = new QHBoxLayout;
   _delivery_button = new QPushButton(this);
   _delivery_button->setText("Request Delivery");
-  layout_delivery4->addWidget(new QLabel("Pickup:"));
+  layout_delivery4->addWidget(_delivery_button);
   layout_delivery4->addStretch();
 
-  QVHoxLayout* layout_delivery = new QVBoxLayout;
+  QVBoxLayout* layout_delivery = new QVBoxLayout;
   layout_delivery->addStretch();
-  layout_delivery->addLayout(layout_delivery1)
-  layout_delivery->addLayout(layout_delivery2)
-  layout_delivery->addLayout(layout_delivery3)
-  layout_delivery->addLayout(layout_delivery4)
+  layout_delivery->addLayout(layout_delivery1);
+  layout_delivery->addLayout(layout_delivery2);
+  layout_delivery->addLayout(layout_delivery3);
+  layout_delivery->addLayout(layout_delivery4);
   layout_delivery->addStretch();
+  setLayout(layout_delivery);
+
+  // Initialize text fields
+  _delivery_task_id_editor->setText(_delivery_task_id);
+  _delivery_pickup_editor->setText(_delivery_pickup);
+  _delivery_dropoff_editor->setText(_delivery_dropoff);
+  _delivery_robot_editor->setText(_delivery_robot);
+
+  // QT signal connections
+  connect(_delivery_task_id_editor,
+      SIGNAL(editingFinished()), this, SLOT(update_delivery_task_id()));
+  connect(_delivery_robot_editor,
+      SIGNAL(editingFinished()), this, SLOT(update_delivery_robot()));
+  connect(_delivery_pickup_editor,
+      SIGNAL(editingFinished()), this, SLOT(update_delivery_pickup()));
+  connect(_delivery_dropoff_editor,
+      SIGNAL(editingFinished()), this, SLOT(update_delivery_dropoff()));
+  connect(_delivery_button,
+      SIGNAL(clicked()), this, SLOT(request_delivery()));
 }
 
 RmfPanel::RmfPanel(QWidget* parent)
-: rviz_common::Panel(parent)
+: rviz_common::Panel(parent),
+  _delivery_task_id(""),
+  _delivery_robot("magni"),
+  _delivery_pickup("pantry"),
+  _delivery_dropoff("hardware-2")
 {
   _node = std::make_shared<rclcpp::Node>("rmf_panel_plugin");
 
@@ -83,15 +106,9 @@ RmfPanel::RmfPanel(QWidget* parent)
     "/delivery_requests",
     rclcpp::QoS(10));
 
-  _thread = std::thread([&](){rclcpp::spin(_node)}, this);
-
-  // Initialize labels
-  _delivery_task_id->setText("");
-  _delivery_pickup->setText("pantry");
-  _delivery_dropoff->setText("hardware_2");
-  _delivery_robot->setText("magni");
-
-  create_layout();
+  _thread = std::thread([&](){rclcpp::spin(_node);});
+  
+   create_layout();
 
   _has_loaded = true;
 }
@@ -100,7 +117,7 @@ RmfPanel::~RmfPanel()
 {
   if (_has_loaded)
   {
-    _thread.join()
+    _thread.join();
     rclcpp::shutdown();
   }
 }
@@ -140,7 +157,35 @@ void RmfPanel::update_delivery_robot()
 }
 void RmfPanel::request_delivery()
 {
+  Delivery delivery;
+  _delivery_task_id = _delivery_task_id == "" ? "task#42" : _delivery_task_id;
 
+  delivery.task_id = _delivery_task_id.toStdString();
+  delivery.pickup_place_name = _delivery_pickup.toStdString();
+  delivery.dropoff_place_name = _delivery_dropoff.toStdString();
+
+  _delivery_pub->publish(delivery);
+}
+
+void RmfPanel::load(const rviz_common::Config& config)
+{
+  rviz_common::Panel::load(config);
+  QString delivery_task_id;
+  QString delivery_robot;
+  QString delivery_pickup;
+  QString delivery_dropoff;
+
+  if (config.mapGetString("delivery_task_id", &delivery_task_id))
+  {
+    _delivery_task_id_editor->setText(delivery_task_id);
+    update_delivery_task_id();
+  }
+}
+
+void RmfPanel::save(rviz_common::Config config) const
+{
+  rviz_common::Panel::save(config);
+  config.mapSetValue("delivery_task_id", _delivery_task_id);
 }
 
 } // namespace rmf_rviz_plugin

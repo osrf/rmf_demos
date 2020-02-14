@@ -21,7 +21,7 @@
 #include <rviz_common/panel.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include <rmf_task_msgs/msg/delivery.msg>
+#include <rmf_task_msgs/msg/delivery.hpp>
 
 #include <QLineEdit>
 #include <QPushButton>
@@ -29,7 +29,7 @@
 #include <memory>
 #include <thread>
 
-namesapce rmf_rviz_plugin {
+namespace rmf_rviz_plugin {
 
 using Delivery = rmf_task_msgs::msg::Delivery;
 

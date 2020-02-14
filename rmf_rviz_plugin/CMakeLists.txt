@@ -25,9 +25,7 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets Test)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-set(src_files src/Control.cpp)
-
-add_library(${PROJECT_NAME} SHARED ${SRC_FILES})
+add_library(${PROJECT_NAME} SHARED src/Control.cpp)
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
