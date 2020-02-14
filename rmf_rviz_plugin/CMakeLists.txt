@@ -76,4 +76,8 @@ install(
   INCLUDES DESTINATION include
 )
 
+install(FILES plugin_description.xml
+  DESTINATION share
+)
+
 ament_package()
