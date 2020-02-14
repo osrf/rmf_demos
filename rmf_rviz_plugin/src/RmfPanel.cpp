@@ -15,7 +15,7 @@
  *
 */
 
-#include "Control.hpp"
+#include "RmfPanel.hpp"
 
 #include <QPainter>
 #include <QVBoxLayout>
@@ -71,7 +71,6 @@ void RmfPanel::create_layout()
   layout_delivery->addLayout(layout_delivery2);
   layout_delivery->addLayout(layout_delivery3);
   layout_delivery->addLayout(layout_delivery4);
-  layout_delivery->addStretch();
   setLayout(layout_delivery);
 
   // Initialize text fields
@@ -95,10 +94,10 @@ void RmfPanel::create_layout()
 
 RmfPanel::RmfPanel(QWidget* parent)
 : rviz_common::Panel(parent),
-  _delivery_task_id(""),
+  _delivery_task_id("task#42"),
   _delivery_robot("magni"),
   _delivery_pickup("pantry"),
-  _delivery_dropoff("hardware-2")
+  _delivery_dropoff("hardware_2")
 {
   _node = std::make_shared<rclcpp::Node>("rmf_panel_plugin");
 
@@ -122,42 +121,60 @@ RmfPanel::~RmfPanel()
   }
 }
 
-void RmfPanel::set_delivery_task_id(const QString& max)
+void RmfPanel::set_delivery_task_id(const QString& value)
 {
-
+  std::lock_guard<std::mutex> lock(_mutex);
+  _delivery_task_id = value;
+  Q_EMIT configChanged();
 }
-void RmfPanel::set_delivery_pickup(const QString& topic)
-{
 
+void RmfPanel::set_delivery_pickup(const QString& value)
+{
+  std::lock_guard<std::mutex> lock(_mutex);
+  _delivery_pickup = value;
+  Q_EMIT configChanged();
 }
-void RmfPanel::set_delivery_dropoff(const QString& map_name)
-{
 
+void RmfPanel::set_delivery_dropoff(const QString& value)
+{
+  std::lock_guard<std::mutex> lock(_mutex);
+  _delivery_dropoff = value;
+  Q_EMIT configChanged();
 }
-void RmfPanel::set_delivery_robot(const QString& map_name)
-{
 
+void RmfPanel::set_delivery_robot(const QString& value)
+{
+  std::lock_guard<std::mutex> lock(_mutex);
+  _delivery_robot = value;
+  Q_EMIT configChanged();
 }
 
 void RmfPanel::update_delivery_task_id()
 {
-
+  set_delivery_task_id(_delivery_task_id);
 }
+
 void RmfPanel::update_delivery_pickup()
 {
-
+  set_delivery_pickup(_delivery_pickup);
 }
+
 void RmfPanel::update_delivery_dropoff()
 {
-
+  set_delivery_dropoff(_delivery_dropoff);
 }
+
 void RmfPanel::update_delivery_robot()
 {
-
+  set_delivery_robot(_delivery_robot);
 }
+
 void RmfPanel::request_delivery()
 {
   Delivery delivery;
+
+  std::lock_guard<std::mutex> lock(_mutex);
+
   _delivery_task_id = _delivery_task_id == "" ? "task#42" : _delivery_task_id;
 
   delivery.task_id = _delivery_task_id.toStdString();

@@ -28,6 +28,7 @@
 
 #include <memory>
 #include <thread>
+#include <mutex>
 
 namespace rmf_rviz_plugin {
 
@@ -44,10 +45,10 @@ public:
   virtual void save(rviz_common::Config config) const;
 
 public Q_SLOTS:
-  void set_delivery_task_id(const QString& max);
-  void set_delivery_pickup(const QString& topic);
-  void set_delivery_dropoff(const QString& map_name);
-  void set_delivery_robot(const QString& map_name);
+  void set_delivery_task_id(const QString& value);
+  void set_delivery_pickup(const QString& value);
+  void set_delivery_dropoff(const QString& value);
+  void set_delivery_robot(const QString& value);
 
 protected Q_SLOTS:
   void update_delivery_task_id();
@@ -78,6 +79,7 @@ protected:
   bool _has_loaded = false;
   
   std::thread _thread;
+  std::mutex _mutex;
 
 };
 
