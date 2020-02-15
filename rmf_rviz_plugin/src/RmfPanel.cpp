@@ -36,12 +36,12 @@ void RmfPanel::create_layout()
   QHBoxLayout* layout_delivery2 = new QHBoxLayout;
   layout_delivery2->addWidget(new QLabel("Task ID:"));
   _delivery_task_id_editor = new QLineEdit;
-  _delivery_task_id_editor->setFixedWidth(200);
+  _delivery_task_id_editor->setFixedWidth(100);
   layout_delivery2->addWidget(_delivery_task_id_editor);
 
   layout_delivery2->addWidget(new QLabel("Robot:"));
   _delivery_robot_editor = new QLineEdit;
-  _delivery_robot_editor->setFixedWidth(200);
+  _delivery_robot_editor->setFixedWidth(100);
   layout_delivery2->addWidget(_delivery_robot_editor);
   layout_delivery2->addStretch();
 
@@ -49,12 +49,12 @@ void RmfPanel::create_layout()
   QHBoxLayout* layout_delivery3 = new QHBoxLayout;
   layout_delivery3->addWidget(new QLabel("Pickup:"));
   _delivery_pickup_editor = new QLineEdit;
-  _delivery_pickup_editor->setFixedWidth(200);
+  _delivery_pickup_editor->setFixedWidth(100);
   layout_delivery3->addWidget(_delivery_pickup_editor);
 
   layout_delivery3->addWidget(new QLabel("Dropoff:"));
   _delivery_dropoff_editor = new QLineEdit;
-  _delivery_dropoff_editor->setFixedWidth(200);
+  _delivery_dropoff_editor->setFixedWidth(100);
   layout_delivery3->addWidget(_delivery_dropoff_editor);
   layout_delivery3->addStretch();
 
@@ -151,22 +151,22 @@ void RmfPanel::set_delivery_robot(const QString& value)
 
 void RmfPanel::update_delivery_task_id()
 {
-  set_delivery_task_id(_delivery_task_id);
+  set_delivery_task_id(_delivery_task_id_editor->text());
 }
 
 void RmfPanel::update_delivery_pickup()
 {
-  set_delivery_pickup(_delivery_pickup);
+  set_delivery_pickup(_delivery_pickup_editor->text());
 }
 
 void RmfPanel::update_delivery_dropoff()
 {
-  set_delivery_dropoff(_delivery_dropoff);
+  set_delivery_dropoff(_delivery_dropoff_editor->text());
 }
 
 void RmfPanel::update_delivery_robot()
 {
-  set_delivery_robot(_delivery_robot);
+  set_delivery_robot(_delivery_robot_editor->text());
 }
 
 void RmfPanel::request_delivery()
@@ -174,7 +174,6 @@ void RmfPanel::request_delivery()
   Delivery delivery;
 
   std::lock_guard<std::mutex> lock(_mutex);
-
   _delivery_task_id = _delivery_task_id == "" ? "task#42" : _delivery_task_id;
 
   delivery.task_id = _delivery_task_id.toStdString();
