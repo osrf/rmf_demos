@@ -92,9 +92,10 @@ void RmfPanel::create_layout()
   _loop_num_editor->setFixedWidth(100);
   layout_loop->addWidget(_loop_num_editor, 2, 1);
 
+  // Row 4
   _loop_button = new QPushButton(this);
   _loop_button->setText("Request Loop");
-  layout_loop->addWidget(_loop_button, 2, 2, 1, 2);
+  layout_loop->addWidget(_loop_button, 3, 1, 1, 2);
 
   // Creating box for loop request
   QGroupBox* loop_box = new QGroupBox("Loop Request");
