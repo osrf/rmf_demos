@@ -17,7 +17,6 @@
 
 #include "RmfPanel.hpp"
 
-#include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
