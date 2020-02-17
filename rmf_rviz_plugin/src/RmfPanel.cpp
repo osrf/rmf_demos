@@ -22,6 +22,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QGroupBox>
+#include <QGridLayout>
 
 namespace rmf_rviz_plugin {
 
@@ -29,6 +30,7 @@ void RmfPanel::create_layout()
 {
   // Layout for delivery request
   // HLayout 1
+
   QHBoxLayout* layout_delivery1 = new QHBoxLayout;
   layout_delivery1->addWidget(new QLabel("Task ID:"));
   _delivery_task_id_editor = new QLineEdit;
@@ -58,9 +60,11 @@ void RmfPanel::create_layout()
   QHBoxLayout* layout_delivery3 = new QHBoxLayout;
   _delivery_button = new QPushButton(this);
   _delivery_button->setText("Request Delivery");
+  layout_delivery3->addStretch();
   layout_delivery3->addWidget(_delivery_button);
   layout_delivery3->addStretch();
 
+  // Combining delivery layouts 
   QVBoxLayout* layout_delivery = new QVBoxLayout;
   layout_delivery->addLayout(layout_delivery1);
   layout_delivery->addLayout(layout_delivery2);
@@ -98,9 +102,9 @@ void RmfPanel::create_layout()
 
   //HLayout 3
   QHBoxLayout* layout_loop3 = new QHBoxLayout;
-  layout_loop3->addWidget(new QLabel("# Loops:"));
+  layout_loop3->addWidget(new QLabel("Loops:"));
   _loop_num_editor = new QLineEdit;
-  _loop_num_editor->setFixedWidth(150);
+  _loop_num_editor->setFixedWidth(100);
   layout_loop3->addWidget(_loop_num_editor);
 
   _loop_button = new QPushButton(this);
@@ -108,6 +112,7 @@ void RmfPanel::create_layout()
   layout_loop3->addWidget(_loop_button);
   layout_loop3->addStretch();
 
+  // Combining loop layouts
   QVBoxLayout* layout_loop = new QVBoxLayout;
   layout_loop->addLayout(layout_loop1);
   layout_loop->addLayout(layout_loop2);
