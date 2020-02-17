@@ -29,96 +29,75 @@ namespace rmf_rviz_plugin {
 void RmfPanel::create_layout()
 {
   // Layout for delivery request
-  // HLayout 1
+  QGridLayout* layout_delivery = new QGridLayout(this);
 
-  QHBoxLayout* layout_delivery1 = new QHBoxLayout;
-  layout_delivery1->addWidget(new QLabel("Task ID:"));
+  // Row 1
+  layout_delivery->addWidget(new QLabel("Task ID:"), 0, 0);
   _delivery_task_id_editor = new QLineEdit;
   _delivery_task_id_editor->setFixedWidth(150);
-  layout_delivery1->addWidget(_delivery_task_id_editor);
+  layout_delivery->addWidget(_delivery_task_id_editor,0, 1);
 
-  layout_delivery1->addWidget(new QLabel("Robot:"));
+  layout_delivery->addWidget(new QLabel("Robot:"), 0, 2);
   _delivery_robot_editor = new QLineEdit;
   _delivery_robot_editor->setFixedWidth(150);
-  layout_delivery1->addWidget(_delivery_robot_editor);
-  layout_delivery1->addStretch();
+  layout_delivery->addWidget(_delivery_robot_editor, 0, 3);
 
-  // HLayout 2
-  QHBoxLayout* layout_delivery2 = new QHBoxLayout;
-  layout_delivery2->addWidget(new QLabel("Pickup:"));
+  // Row 2
+  layout_delivery->addWidget(new QLabel("Pickup:"), 1, 0);
   _delivery_pickup_editor = new QLineEdit;
   _delivery_pickup_editor->setFixedWidth(150);
-  layout_delivery2->addWidget(_delivery_pickup_editor);
+  layout_delivery->addWidget(_delivery_pickup_editor, 1, 1);
 
-  layout_delivery2->addWidget(new QLabel("Dropoff:"));
+  layout_delivery->addWidget(new QLabel("Dropoff:"), 1, 2);
   _delivery_dropoff_editor = new QLineEdit;
   _delivery_dropoff_editor->setFixedWidth(150);
-  layout_delivery2->addWidget(_delivery_dropoff_editor);
-  layout_delivery2->addStretch();
+  layout_delivery->addWidget(_delivery_dropoff_editor, 1, 3);
 
-  //HLayout 3
-  QHBoxLayout* layout_delivery3 = new QHBoxLayout;
+  // Row 3
   _delivery_button = new QPushButton(this);
   _delivery_button->setText("Request Delivery");
-  layout_delivery3->addStretch();
-  layout_delivery3->addWidget(_delivery_button);
-  layout_delivery3->addStretch();
+  layout_delivery->addWidget(_delivery_button, 2, 1, 1, 2);
 
-  // Combining delivery layouts 
-  QVBoxLayout* layout_delivery = new QVBoxLayout;
-  layout_delivery->addLayout(layout_delivery1);
-  layout_delivery->addLayout(layout_delivery2);
-  layout_delivery->addLayout(layout_delivery3);
-
-  auto delivery_box = new QGroupBox("Delivery Request");
+  // Creating box for delivery request
+  QGroupBox* delivery_box = new QGroupBox("Delivery Request");
   delivery_box->setLayout(layout_delivery);
 
   // Layout for loop request
-  // HLayout 1
-  QHBoxLayout* layout_loop1 = new QHBoxLayout;
-  layout_loop1->addWidget(new QLabel("Task ID:"));
+  // Row 1
+  QGridLayout* layout_loop = new QGridLayout(this);
+  layout_loop->addWidget(new QLabel("Task ID:"), 0, 0);
   _loop_task_id_editor = new QLineEdit;
   _loop_task_id_editor->setFixedWidth(150);
-  layout_loop1->addWidget(_loop_task_id_editor);
+  layout_loop->addWidget(_loop_task_id_editor, 0 , 1);
 
-  layout_loop1->addWidget(new QLabel("Robot:"));
+  layout_loop->addWidget(new QLabel("Robot:"), 0, 2);
   _loop_robot_editor = new QLineEdit;
   _loop_robot_editor->setFixedWidth(150);
-  layout_loop1->addWidget(_loop_robot_editor);
-  layout_loop1->addStretch();
+  layout_loop->addWidget(_loop_robot_editor, 0, 3);
 
-  // HLayout 2
-  QHBoxLayout* layout_loop2 = new QHBoxLayout;
-  layout_loop2->addWidget(new QLabel("Start:"));
+  // Row 2
+  layout_loop->addWidget(new QLabel("Start:"), 1, 0);
   _loop_start_editor = new QLineEdit;
   _loop_start_editor->setFixedWidth(150);
-  layout_loop2->addWidget(_loop_start_editor);
+  layout_loop->addWidget(_loop_start_editor, 1, 1);
 
-  layout_loop2->addWidget(new QLabel("Finish:"));
+  layout_loop->addWidget(new QLabel("Finish:"), 1, 2);
   _loop_finish_editor = new QLineEdit;
   _loop_finish_editor->setFixedWidth(150);
-  layout_loop2->addWidget(_loop_finish_editor);
-  layout_loop2->addStretch();
+  layout_loop->addWidget(_loop_finish_editor, 1, 3);
 
-  //HLayout 3
-  QHBoxLayout* layout_loop3 = new QHBoxLayout;
-  layout_loop3->addWidget(new QLabel("Loops:"));
+  // Row 3
+  layout_loop->addWidget(new QLabel("Loops:"), 2, 0);
   _loop_num_editor = new QLineEdit;
   _loop_num_editor->setFixedWidth(100);
-  layout_loop3->addWidget(_loop_num_editor);
+  layout_loop->addWidget(_loop_num_editor, 2, 1);
 
   _loop_button = new QPushButton(this);
   _loop_button->setText("Request Loop");
-  layout_loop3->addWidget(_loop_button);
-  layout_loop3->addStretch();
+  layout_loop->addWidget(_loop_button, 2, 2, 1, 2);
 
-  // Combining loop layouts
-  QVBoxLayout* layout_loop = new QVBoxLayout;
-  layout_loop->addLayout(layout_loop1);
-  layout_loop->addLayout(layout_loop2);
-  layout_loop->addLayout(layout_loop3);
-
-  auto loop_box = new QGroupBox("Loop Request");
+  // Creating box for loop request
+  QGroupBox* loop_box = new QGroupBox("Loop Request");
   loop_box->setLayout(layout_loop);
 
   // Combining layouts into a single vertical layout
