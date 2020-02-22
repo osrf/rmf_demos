@@ -15,7 +15,8 @@ jobs:
           libccd-dev libfcl-dev \
           libyaml-cpp-dev libwebsocketpp-dev \
           libboost-all-dev curl \
-          python3-shapely python3-yaml
+          python3-shapely python3-yaml \
+          -y
     - name: gazebo
       run: |
         curl -sSL http://get.gazebosim.org | sh
@@ -24,7 +25,8 @@ jobs:
         sudo apt install \
           ros-eloquent-rviz2 \
           ros-eloquent-launch* \
-          ros-eloquent-gazebo-ros-pkgs
+          ros-eloquent-gazebo-ros-pkgs \
+          -y
     - name: workspace
       run: |
         cd /home/
