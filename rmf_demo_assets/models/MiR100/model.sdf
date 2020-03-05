@@ -3,12 +3,11 @@
 <sdf version="1.6">
   <model name='MiR100'>
 
-    <!-- TODO(MXG): Find actual physical properties for MiR instead of duplicating Sesto's -->
+    <!-- TODO(MXG): Find actual physical properties for MiR -->
     <plugin name="slotcar" filename="libslotcar.so">
 
       <!-- Forward / Backward -->
 
-      <!-- Official Sesto limit: 0.7 -->
       <nominal_drive_speed>
         0.7
       </nominal_drive_speed>
@@ -18,7 +17,6 @@
       </nominal_drive_acceleration>
 
       <!-- Theoretical no-slip limit with current suspension: 0.8 -->
-      <!-- Official Sesto limit: 0.5 -->
       <max_drive_acceleration>
         0.75
       </max_drive_acceleration>
@@ -26,21 +24,19 @@
 
       <!-- Turning -->
 
-      <!-- Official Sesto limit: 0.3 -->
       <nominal_turn_speed>
         0.3
       </nominal_turn_speed>
 
       <!-- Note: The official maximum turn acceleration value is 0.25, but that
-           seems to be too small for the simulated Sesto to do course
+           seems to be too small for the simulated MiR100 to do course
            corrections while driving, so it ends up swaying erratically. Using
-           this larger value helps keep Sesto's course stable. -->
+           this larger value helps keep MiR100's course stable. -->
       <nominal_turn_acceleration>
         1.5
       </nominal_turn_acceleration>
 
       <!-- Theoretical no-slip limit with current suspension: 2.166666... -->
-      <!-- Official Sesto limit: 0.25 -->
       <max_turn_acceleration>
         2.0
       </max_turn_acceleration>
@@ -236,8 +232,9 @@
         <mass>5.0</mass>
         <!--<mass>2.60595111</mass>-->
         <!-- Note: These calculated MOI values seem to be too small for ODE's
-                   numerical precision and make Sesto slip. So instead we use
-                   some higher values (x10) which seem to get better behavior-->
+                   numerical precision and make the robot slip. So instead we 
+                   use some higher values (x10) which seem to get better 
+                   behavior-->
         <!--inertia>
           <ixx>0.00757897446874</ixx>
           <iyy>0.01302975553365</iyy>
@@ -328,8 +325,9 @@
         <!--<mass>2.60595111</mass>-->
         <mass>5.0</mass>
         <!-- Note: These calculated MOI values seem to be too small for ODE's
-                   numerical precision and make Sesto slip. So instead we use
-                   some higher values (x10) which seem to get better behavior-->
+                   numerical precision and make the robot slip. So instead we 
+                   use some higher values (x10) which seem to get better 
+                   behavior-->
         <!--inertia>
           <ixx>0.00757897446874</ixx>
           <iyy>0.01302975553365</iyy>
