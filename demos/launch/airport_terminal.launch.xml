@@ -1,0 +1,59 @@
+<?xml version='1.0' ?>
+
+<launch>
+
+  <!-- Common launch -->
+  <include file="$(find-pkg-share demos)/common.launch.xml">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="config_file" value="$(find-pkg-share rmf_demo_maps)/airport_terminal/airport_terminal.building.yaml"/>
+    <!-- <arg name="viz_config_file" value ="$(find-pkg-share demos)/include/office.rviz"/> -->
+  </include>
+
+  <group>
+    <let name="world_path" value="$(find-pkg-share rmf_demo_maps)/maps/airport_terminal/airport_terminal.world" />
+    <let name="model_path" value="$(find-pkg-share rmf_demo_maps)/maps/airport_terminal/models:$(find-pkg-share rmf_demo_assets)/models:/usr/share/gazebo-9/models" />
+    <let name="resource_path" value="$(find-pkg-share rmf_demo_assets):/usr/share/gazebo-9" />
+    <let name="plugin_path" value="$(find-pkg-prefix rmf_gazebo_plugins)/lib" />
+
+    <executable cmd="gzserver --verbose -s libgazebo_ros_init.so $(var world_path)" output="both">
+      <env name="GAZEBO_MODEL_PATH" value="$(var model_path)" />
+      <env name="GAZEBO_RESOURCE_PATH" value="$(var resource_path)" />
+      <env name="GAZEBO_PLUGIN_PATH" value="$(var plugin_path)" />
+      <env name="GAZEBO_MODEL_DATABASE_URI" value="" />
+    </executable>
+    <executable cmd="gzclient --verbose $(var world_path)" output="both">
+      <env name="GAZEBO_MODEL_PATH" value="$(var model_path)" />
+      <env name="GAZEBO_RESOURCE_PATH" value="$(var resource_path)" />
+      <env name="GAZEBO_PLUGIN_PATH" value="$(var plugin_path)" />
+    </executable>
+  </group>
+
+  <!-- Cleaning Magni fleet adapter -->
+  <include file="$(find-pkg-share demos)/include/cleaning_magni_adapter.launch.xml">
+    <arg name="use_sim_time" value="true"/>
+  </include>
+
+  <!-- The robot state aggregator needed for the Magni slotcar_plugin -->
+  <group>
+    <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
+      <arg name="robot_prefix" value="cleaning_magni"/>
+      <arg name="fleet_name" value="cleaning_magni"/>
+      <arg name="use_sim_time" value="true"/>
+    </include>
+  </group>
+
+  <!-- Patrol MiR100 fleet adapter -->
+  <include file="$(find-pkg-share demos)/include/patrol_mir100_adapter.launch.xml">
+    <arg name="use_sim_time" value="true"/>
+  </include>
+
+  <!-- The robot state aggregator needed for the MiR100 slotcar_plugin -->
+  <group>
+    <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
+      <arg name="robot_prefix" value="patrol_mir100"/>
+      <arg name="fleet_name" value="patrol_mir100"/>
+      <arg name="use_sim_time" value="true"/>
+    </include>
+  </group>
+
+</launch>
