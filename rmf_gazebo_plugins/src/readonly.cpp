@@ -33,6 +33,7 @@
 #include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <building_map_msgs/msg/building_map.hpp>
 #include <building_map_msgs/msg/level.hpp>
+#include <building_map_msgs/msg/graph.hpp>
 
 #include "utils.hpp"
 
@@ -43,6 +44,7 @@ class ReadonlyPlugin : public gazebo::ModelPlugin
 public:
   using BuildingMap = building_map_msgs::msg::BuildingMap;
   using Level = building_map_msgs::msg::Level;
+  using Graph = building_map_msgs::msg::Graph;
 
   ReadonlyPlugin();
   ~ReadonlyPlugin();
@@ -54,8 +56,11 @@ public:
 private:
   rclcpp::Logger logger();
 
-  void initialize_neightbor_map();
-  std::size_t get_next_waypoint(ignition::math::Pose3d& pose);
+  void initialize_graph();
+  void initialize_start(const ignition::math::Pose3d& pose);
+  double compute_ds(const ignition::math::Pose3d& pose, const std::size_t& wp);
+
+  std::size_t get_next_waypoint(const ignition::math::Pose3d& pose);
 
   gazebo::event::ConnectionPtr _update_connection;
   gazebo_ros::Node::SharedPtr _ros_node;
@@ -73,9 +78,11 @@ private:
   bool _found_level = false;
   bool _found_graph = false;
   bool _initialized_graph = false;
+  bool _initialized_start = false;
   Level _level;
+  Graph _graph;
 
-  std::size_t _nav_graph_index = 0;
+  std::size_t _nav_graph_index = 1;
   std::string _start_wp_name = "caddy";
   std::size_t _start_wp;
   std::size_t _next_wp;
@@ -111,7 +118,20 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
   _model = model;
   _ros_node = gazebo_ros::Node::Get(sdf);
 
-  RCLCPP_INFO(logger(), "hello i am " + model->GetName());
+  // Getting sdf elements
+  if (sdf->HasElement("level_name"))
+    _level_name = sdf->Get<std::string>("level_name");
+  RCLCPP_INFO(logger(), "Setting level name to: " + _level_name);
+
+  if (sdf->HasElement("graph_index"))
+    _nav_graph_index = sdf->Get<std::size_t>("graph_index");
+  RCLCPP_INFO(logger(), "Setting nav graph index: " + _nav_graph_index);
+
+  if (sdf->HasElement("spawn_waypoint"))
+    _start_wp_name = sdf->Get<std::string>("spawn_waypoint");
+  RCLCPP_INFO(logger(), "Setting start wp name: " + _start_wp_name);
+
+  RCLCPP_INFO(logger(), "Hello i am " + model->GetName());
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&ReadonlyPlugin::OnUpdate, this));
@@ -137,7 +157,10 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
 {
   if (msg->levels.empty())
+  {
+    RCLCPP_ERROR(logger(), "Received empty building map");
     return;
+  }
 
   _found_map = true;
   _map = *msg;
@@ -160,7 +183,7 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
         RCLCPP_INFO(logger(), "Graph index [%d] containts [%d] waypoints",
             _nav_graph_index,
             level.nav_graphs[_nav_graph_index].vertices.size());
-        initialize_neightbor_map();
+        initialize_graph();
       }
       else
       {
@@ -174,11 +197,11 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
 
   if (!_found_level)
     RCLCPP_ERROR(logger(),
-        "Did not find level [%s] in building map.Path will not be published.",
+        "Did not find level [%s] in building map. Path will not be published.",
         _level_name.c_str());
 }
 
-void ReadonlyPlugin::initialize_neightbor_map()
+void ReadonlyPlugin::initialize_graph()
 {
   if (!_found_graph)
     return;
@@ -188,15 +211,15 @@ void ReadonlyPlugin::initialize_neightbor_map()
   _initialized_graph = false;
 
   const auto start_time = std::chrono::steady_clock::now();
-  const auto& graph = _level.nav_graphs[_nav_graph_index];
-  for (const auto& edge : graph.edges)
+  _graph = _level.nav_graphs[_nav_graph_index];
+  for (const auto& edge : _graph.edges)
   {
     auto entry = _neighbor_map.find(edge.v1_idx);
 
     // Inserting new entry
     if (entry == _neighbor_map.end())
     {
-      std::unordered_set<std::size_t> neighbors({edge.v2_idx});
+      std::unordered_set<std::size_t> neighbors({edge.v1_idx, edge.v2_idx});
       _neighbor_map.insert(std::make_pair(edge.v1_idx, neighbors));
     }
     // Updating existing entry
@@ -208,15 +231,68 @@ void ReadonlyPlugin::initialize_neightbor_map()
 
   _initialized_graph = true;
 
-  // const auto finish_time = std::chrono::steady_clock::now();
-  // auto processing_time = std::chrono::duration_cast<std::chrono::duration<double>>(
-  //     finish_time - start_time).count();
-  // RCLCPP_ERROR(logger(),
-  //       "Initialize Neighbor Time: [%f]",
-  //       processing_time);
 }
 
- std::size_t get_next_waypoint(ignition::math::Pose3d& pose)
+double ReadonlyPlugin::compute_ds(
+    const ignition::math::Pose3d& pose,
+    const std::size_t& wp)
+{
+  // TODO consider returning a nullptr instead
+  assert(_found_graph);
+  assert(wp < _graph.vertices.size());
+  
+  ignition::math::Vector3d world_position{pose.Pos().X(), pose.Pos().Y(), 0};
+  ignition::math::Vector3d graph_position{
+    _graph.vertices[wp].x,
+    _graph.vertices[wp].y,
+    0};
+  return std::abs((world_position - graph_position).Length());
+}
+
+void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
+{
+  if (!_initialized_graph)
+    return;
+  if (_initialized_start)
+    return;
+
+  bool found = false;
+  for (std::size_t i = 0; i < _graph.vertices.size(); i++)
+  {
+    if (_graph.vertices[i].name.c_str() == _start_wp_name)
+    {
+      found = true;
+      _start_wp = i;
+      RCLCPP_INFO(logger(), "Start waypoint found in nav graph");
+    }
+  }
+
+  // TODO find the closest wp if the coordiantes do not match
+  if (compute_ds(pose, _start_wp) < 1e-1)
+  {
+    _initialized_start = true;
+    RCLCPP_INFO(logger(), "Start waypoint successfully initialized");
+    const auto& entry = _neighbor_map.find(_start_wp);
+    for (const auto& index : entry->second)
+    {
+      auto neighbor = _graph.vertices[index].name;
+      RCLCPP_ERROR(logger(), "Start waypoint [%s] has neighbor [%s]",
+          _start_wp_name.c_str(), neighbor.c_str());
+    }
+    
+  }
+  else
+  {
+    RCLCPP_ERROR(
+      logger(),
+      "Spawn coordinates [%f,%f,%f] differs from that of waypoint [%s] in nav_graph [%f, %f, %f]",
+       pose.Pos().X(), pose.Pos().Y(),0,
+      _start_wp_name.c_str(),
+      _graph.vertices[_start_wp].x, _graph.vertices[_start_wp].y, 0);
+  }
+  
+}
+ std::size_t get_next_waypointconst(const ignition::math::Pose3d& pose)
  {
 
 
@@ -225,11 +301,15 @@ void ReadonlyPlugin::initialize_neightbor_map()
 void ReadonlyPlugin::OnUpdate()
 {
   _update_count++;
+  const auto& world = _model->GetWorld();
+  auto pose = _model->WorldPose();
+
+  // if (_initialized_graph && !_initialized_start)
+  //   initialize_start(wp);
 
   if (_update_count % 100 == 0) // todo: be smarter, use elapsed sim time
   {
-    const auto& world = _model->GetWorld();
-    auto wp = _model->WorldPose();
+    initialize_start(pose);
 
     const double time = world->SimTime().Double();
     _last_update_time = time;
@@ -244,19 +324,19 @@ void ReadonlyPlugin::OnUpdate()
     _robot_state_msg.mode = _current_mode;
     _robot_state_msg.battery_percent = 98.0;
 
-    _robot_state_msg.location.x = wp.Pos().X();
-    _robot_state_msg.location.y = wp.Pos().Y();
-    _robot_state_msg.location.yaw = wp.Rot().Yaw();
+    _robot_state_msg.location.x = pose.Pos().X();
+    _robot_state_msg.location.y = pose.Pos().Y();
+    _robot_state_msg.location.yaw = pose.Rot().Yaw();
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
 
     _path.clear();
 
-    if (_initialized_graph)
+    if (_initialized_graph && _initialized_start)
     {
       rmf_fleet_msgs::msg::Location next_loc;
-      next_loc.x = 64.08;
-      next_loc.y = -25.53;
+      next_loc.x = 64.12;
+      next_loc.y = -10.88;
       next_loc.yaw = 0.0;
       const rclcpp::Time later{t_sec + 10, t_nsec, RCL_ROS_TIME};
       next_loc.t = later;
