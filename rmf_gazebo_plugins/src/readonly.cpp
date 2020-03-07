@@ -59,7 +59,6 @@ private:
   void initialize_graph();
   void initialize_start(const ignition::math::Pose3d& pose);
   double compute_ds(const ignition::math::Pose3d& pose, const std::size_t& wp);
-
   std::size_t get_next_waypoint(const ignition::math::Pose3d& pose);
 
   gazebo::event::ConnectionPtr _update_connection;
@@ -67,33 +66,35 @@ private:
   gazebo::physics::ModelPtr _model;
 
   rclcpp::Publisher<rmf_fleet_msgs::msg::RobotState>::SharedPtr robot_state_pub;
-
   rclcpp::Subscription<BuildingMap>::SharedPtr _building_map_sub;
 
   rmf_fleet_msgs::msg::RobotState _robot_state_msg;
   rmf_fleet_msgs::msg::RobotMode _current_mode;
   std::vector<rmf_fleet_msgs::msg::Location> _path;
-  BuildingMap _map;
+
   bool _found_map = false;
   bool _found_level = false;
   bool _found_graph = false;
   bool _initialized_graph = false;
   bool _initialized_start = false;
+
+  // Store cache of BuildingMap
+  BuildingMap _map;
   Level _level;
   Graph _graph;
 
+  std::string _level_name = "L1";
   std::size_t _nav_graph_index = 1;
   std::string _start_wp_name = "caddy";
   std::size_t _start_wp;
   std::size_t _next_wp;
+
   std::unordered_map<std::size_t, std::unordered_set<std::size_t>> _neighbor_map;
 
-  // Book keeping
   double _last_update_time = 0.0;
   int _update_count = 0;
   std::string _name;
   std::string _current_task_id;
-  std::string _level_name = "L1";
 
   std::mutex _mutex;
 };
@@ -212,13 +213,24 @@ void ReadonlyPlugin::initialize_graph()
 
   const auto start_time = std::chrono::steady_clock::now();
   _graph = _level.nav_graphs[_nav_graph_index];
+  RCLCPP_ERROR(logger(), "Nav graph with [%d] lanes" , _graph.edges.size());
   for (const auto& edge : _graph.edges)
   {
-    auto entry = _neighbor_map.find(edge.v1_idx);
+    std::size_t v1_idx = edge.v1_idx;
+    std::size_t v2_idx = edge.v2_idx;
+    // RCLCPP_INFO(logger(), "Edge: [%d:%s, %d:%s] %d" ,
+        // v1_idx,
+        // _graph.vertices[v1_idx].name.c_str(),
+        // v2_idx,
+        // _graph.vertices[v2_idx].name.c_str(),
+        // edge.edge_type);
 
-    // Inserting new entry
+    // Inserting entry for v1_idx
+    auto entry = _neighbor_map.find(edge.v1_idx);
     if (entry == _neighbor_map.end())
     {
+      // We assume the vertex is a neighbor of itself to account for when the
+      // robot turns around and heads back to the start index
       std::unordered_set<std::size_t> neighbors({edge.v1_idx, edge.v2_idx});
       _neighbor_map.insert(std::make_pair(edge.v1_idx, neighbors));
     }
@@ -227,6 +239,23 @@ void ReadonlyPlugin::initialize_graph()
     {
       entry->second.insert(edge.v2_idx);
     }
+
+    // If bidrectional, add entry for v2_idx
+    if (edge.edge_type == edge.EDGE_TYPE_BIDIRECTIONAL)
+    {
+      entry = _neighbor_map.find(edge.v2_idx);
+      if (entry == _neighbor_map.end())
+      {
+        std::unordered_set<std::size_t> neighbors({edge.v1_idx, edge.v2_idx});
+        _neighbor_map.insert(std::make_pair(edge.v2_idx, neighbors));
+      }
+      // Updating existing entry
+      else
+      {
+        entry->second.insert(edge.v1_idx);
+      }
+    }
+
   }
 
   _initialized_graph = true;
@@ -251,9 +280,10 @@ double ReadonlyPlugin::compute_ds(
 
 void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
 {
-  if (!_initialized_graph)
-    return;
   if (_initialized_start)
+    return;
+
+  if (!_initialized_graph)
     return;
 
   bool found = false;
@@ -272,15 +302,15 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
   {
     _initialized_start = true;
     RCLCPP_INFO(logger(), "Start waypoint successfully initialized");
-    const auto& entry = _neighbor_map.find(_start_wp);
-    for (const auto& index : entry->second)
-    {
-      auto neighbor = _graph.vertices[index].name;
-      RCLCPP_ERROR(logger(), "Start waypoint [%s] has neighbor [%s]",
-          _start_wp_name.c_str(), neighbor.c_str());
-    }
-    
+    // const auto& entry = _neighbor_map.find(_start_wp);
+    // for (const auto& index : entry->second)
+    // {
+    //   auto neighbor = _graph.vertices[index].name;
+    //   RCLCPP_ERROR(logger(), "Start waypoint [%s] has neighbor [%s]",
+    //       _start_wp_name.c_str(), neighbor.c_str());
+    // }
   }
+
   else
   {
     RCLCPP_ERROR(
@@ -290,22 +320,24 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
       _start_wp_name.c_str(),
       _graph.vertices[_start_wp].x, _graph.vertices[_start_wp].y, 0);
   }
+
+  // Here we initialzie the next waypoint 
+  _next_wp = get_next_waypoint(pose);
   
 }
- std::size_t get_next_waypointconst(const ignition::math::Pose3d& pose)
- {
-
-
- }
+std::size_t ReadonlyPlugin::get_next_waypoint(const ignition::math::Pose3d& pose)
+{
+  // Return the waypoint closest to the robot in the direction of its heading
+  const auto& neighbors = _neighbor_map.find(_start_wp)->second;
+  auto it = ++neighbors.begin();
+  return *it;
+}
 
 void ReadonlyPlugin::OnUpdate()
 {
   _update_count++;
   const auto& world = _model->GetWorld();
   auto pose = _model->WorldPose();
-
-  // if (_initialized_graph && !_initialized_start)
-  //   initialize_start(wp);
 
   if (_update_count % 100 == 0) // todo: be smarter, use elapsed sim time
   {
@@ -334,9 +366,17 @@ void ReadonlyPlugin::OnUpdate()
 
     if (_initialized_graph && _initialized_start)
     {
+      if (compute_ds(pose, _next_wp) < 1)
+      {
+        _start_wp = _next_wp;
+        RCLCPP_ERROR(logger(), "Reached goal, moving to next wp");
+      }
+      _next_wp = get_next_waypoint(pose);
       rmf_fleet_msgs::msg::Location next_loc;
-      next_loc.x = 64.12;
-      next_loc.y = -10.88;
+      next_loc.x = _graph.vertices[_next_wp].x;
+      next_loc.y = _graph.vertices[_next_wp].y;
+      // 64.12;
+      // next_loc.y = -10.88;
       next_loc.yaw = 0.0;
       const rclcpp::Time later{t_sec + 10, t_nsec, RCL_ROS_TIME};
       next_loc.t = later;
