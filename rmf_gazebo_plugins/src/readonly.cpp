@@ -216,8 +216,8 @@ void ReadonlyPlugin::initialize_graph()
   RCLCPP_ERROR(logger(), "Nav graph with [%d] lanes" , _graph.edges.size());
   for (const auto& edge : _graph.edges)
   {
-    std::size_t v1_idx = edge.v1_idx;
-    std::size_t v2_idx = edge.v2_idx;
+    // std::size_t v1_idx = edge.v1_idx;
+    // std::size_t v2_idx = edge.v2_idx;
     // RCLCPP_INFO(logger(), "Edge: [%d:%s, %d:%s] %d" ,
         // v1_idx,
         // _graph.vertices[v1_idx].name.c_str(),
@@ -329,8 +329,31 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const ignition::math::Pose3d& pose
 {
   // Return the waypoint closest to the robot in the direction of its heading
   const auto& neighbors = _neighbor_map.find(_start_wp)->second;
-  auto it = ++neighbors.begin();
-  return *it;
+  const double current_yaw = pose.Rot().Euler().Z();
+  auto wp_it = neighbors.begin();
+  double min_dist = std::numeric_limits<double>::max();
+  const ignition::math::Vector3d current_heading{
+    std::cos(current_yaw), std::sin(current_yaw), 0.0};
+  
+  for (auto it = neighbors.begin(); it != neighbors.end(); it++)
+  {
+    const auto& waypoint = _graph.vertices[*it];
+    ignition::math::Vector3d disp_vector{
+      waypoint.x - pose.Pos().X(),
+      waypoint.y - pose.Pos().Y(),
+      0};
+    const double dist = disp_vector.Length();
+    if (current_heading.Dot(disp_vector.Normalize()) > 0)
+    {
+      if (dist < min_dist)
+      {
+        min_dist = dist;
+        wp_it = it;
+      }
+    }
+  }
+
+  return *wp_it;
 }
 
 void ReadonlyPlugin::OnUpdate()
@@ -366,7 +389,7 @@ void ReadonlyPlugin::OnUpdate()
 
     if (_initialized_graph && _initialized_start)
     {
-      if (compute_ds(pose, _next_wp) < 1)
+      if (compute_ds(pose, _next_wp) < 2)
       {
         _start_wp = _next_wp;
         RCLCPP_ERROR(logger(), "Reached goal, moving to next wp");
