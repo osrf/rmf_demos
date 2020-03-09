@@ -29,6 +29,8 @@
   <depend>rmf_door_msgs</depend>
   <depend>rmf_dispenser_msgs</depend>
 
+  <depend>rmf_traffic</depend>
+
   <depend>building_map_msgs</depend>
 
   <export>

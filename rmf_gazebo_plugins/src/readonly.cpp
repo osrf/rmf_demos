@@ -35,6 +35,9 @@
 #include <building_map_msgs/msg/level.hpp>
 #include <building_map_msgs/msg/graph.hpp>
 
+#include <rmf_traffic/agv/Interpolate.hpp>
+#include <rmf_traffic/agv/VehicleTraits.hpp>
+
 #include "utils.hpp"
 
 using namespace rmf_gazebo_plugins;
@@ -45,21 +48,35 @@ public:
   using BuildingMap = building_map_msgs::msg::BuildingMap;
   using Level = building_map_msgs::msg::Level;
   using Graph = building_map_msgs::msg::Graph;
-
+  using Path = std::vector<rmf_fleet_msgs::msg::Location>;
   ReadonlyPlugin();
   ~ReadonlyPlugin();
+
+  enum class Heuristic : uint16_t
+  {
+    // Returns waypoint with shortest eucledian distance to robot. 
+    Dist,
+
+    // Returns waypoint in the direction most similar to the heading 
+    Heading,
+
+    NUM,
+  };
 
   void map_cb(const BuildingMap::SharedPtr msg);
   void Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf) override;
   void OnUpdate();
 
 private:
+
   rclcpp::Logger logger();
 
+  void set_traits();
   void initialize_graph();
   void initialize_start(const ignition::math::Pose3d& pose);
   double compute_ds(const ignition::math::Pose3d& pose, const std::size_t& wp);
   std::size_t get_next_waypoint(const ignition::math::Pose3d& pose);
+  Path compute_path(const ignition::math::Pose3d& pose);
 
   gazebo::event::ConnectionPtr _update_connection;
   gazebo_ros::Node::SharedPtr _ros_node;
@@ -70,7 +87,15 @@ private:
 
   rmf_fleet_msgs::msg::RobotState _robot_state_msg;
   rmf_fleet_msgs::msg::RobotMode _current_mode;
-  std::vector<rmf_fleet_msgs::msg::Location> _path;
+
+  Path _path;
+  Heuristic _heuristic = Heuristic::Heading;
+  double _v_n = 0.7;
+  double _a_n = 0.5;
+  double _w_n = 0.6;
+  double _alpha_n = 1.5;
+  rmf_traffic::agv::VehicleTraits _traits{
+      {_v_n, _a_n}, {_w_n, _alpha_n}, nullptr};
 
   bool _found_map = false;
   bool _found_level = false;
@@ -86,6 +111,8 @@ private:
   std::string _level_name = "L1";
   std::size_t _nav_graph_index = 1;
   std::string _start_wp_name = "caddy";
+  // The number of waypoints to add to the predicted path. Minimum is 1.
+  std::size_t _lookahead = 1;
   std::size_t _start_wp;
   std::size_t _next_wp;
 
@@ -132,7 +159,28 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
     _start_wp_name = sdf->Get<std::string>("spawn_waypoint");
   RCLCPP_INFO(logger(), "Setting start wp name: " + _start_wp_name);
 
-  RCLCPP_INFO(logger(), "Hello i am " + model->GetName());
+  if (sdf->HasElement("look_ahead"))
+    _lookahead = sdf->Get<std::size_t>("look_ahead");
+  _lookahead = _lookahead < 1 ? 1 : _lookahead;
+  RCLCPP_INFO(logger(), "Setting lookahead: " + std::to_string(_lookahead));
+
+  if (sdf->HasElement("nominal_drive_speed"))
+    _v_n = sdf->Get<double>("nominal_drive_speed");
+  RCLCPP_INFO(logger(), "Setting nominal drive speed to: " + std::to_string(_v_n));
+
+  if (sdf->HasElement("nominal_drive_acceleration"))
+    _a_n = sdf->Get<double>("nominal_drive_acceleration");
+  RCLCPP_INFO(logger(), "Setting nominal drive acceleration to: " + std::to_string(_a_n));
+
+  if (sdf->HasElement("nominal_turn_speed"))
+    _w_n = sdf->Get<double>("nominal_turn_speed");
+  RCLCPP_INFO(logger(), "Setting nominal turn speed to:" + std::to_string(_w_n));
+
+  if (sdf->HasElement("nominal_turn_acceleration"))
+    _alpha_n = sdf->Get<double>("nominal_turn_acceleration");
+  RCLCPP_INFO(logger(), "Setting nominal turn acceleration to:" + std::to_string(_alpha_n));
+
+  RCLCPP_INFO(logger(), "hello i am " + model->GetName());
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&ReadonlyPlugin::OnUpdate, this));
@@ -330,30 +378,66 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const ignition::math::Pose3d& pose
   // Return the waypoint closest to the robot in the direction of its heading
   const auto& neighbors = _neighbor_map.find(_start_wp)->second;
   const double current_yaw = pose.Rot().Euler().Z();
-  auto wp_it = neighbors.begin();
-  double min_dist = std::numeric_limits<double>::max();
   const ignition::math::Vector3d current_heading{
     std::cos(current_yaw), std::sin(current_yaw), 0.0};
-  
-  for (auto it = neighbors.begin(); it != neighbors.end(); it++)
+
+  auto wp_it = neighbors.begin();
+
+  switch (_heuristic)
   {
-    const auto& waypoint = _graph.vertices[*it];
-    ignition::math::Vector3d disp_vector{
-      waypoint.x - pose.Pos().X(),
-      waypoint.y - pose.Pos().Y(),
-      0};
-    const double dist = disp_vector.Length();
-    if (current_heading.Dot(disp_vector.Normalize()) > 0)
+    case Heuristic::Dist:
     {
-      if (dist < min_dist)
+      double min_dist = std::numeric_limits<double>::max();
+      for (auto it = neighbors.begin(); it != neighbors.end(); it++)
       {
-        min_dist = dist;
-        wp_it = it;
+        const auto& waypoint = _graph.vertices[*it];
+        ignition::math::Vector3d disp_vector{
+          waypoint.x - pose.Pos().X(),
+          waypoint.y - pose.Pos().Y(),
+          0};
+        const double dist = disp_vector.Length();
+        if (current_heading.Dot(disp_vector.Normalize()) > 0)
+        {
+          if (dist < min_dist)
+          {
+            min_dist = dist;
+            wp_it = it;
+          }
+        }
+      }
+      break;
+    }
+
+    case Heuristic::Heading:
+    {
+      double max_dist = std::numeric_limits<double>::min();
+      for (auto it = neighbors.begin(); it != neighbors.end(); it++)
+      {
+        const auto& waypoint = _graph.vertices[*it];
+        ignition::math::Vector3d disp_vector{
+            waypoint.x - pose.Pos().X(),
+            waypoint.y - pose.Pos().Y(),
+            0};
+        const double dist = current_heading.Dot(disp_vector.Normalize());
+        // Consider the waypoints with highest projected distance
+        if (dist > max_dist)
+        {
+          max_dist = dist;
+          wp_it = it;
+        }
       }
     }
   }
 
   return *wp_it;
+}
+
+ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& pose)
+{
+
+  Path path;
+  path.resize(_lookahead);
+
 }
 
 void ReadonlyPlugin::OnUpdate()
@@ -389,7 +473,7 @@ void ReadonlyPlugin::OnUpdate()
 
     if (_initialized_graph && _initialized_start)
     {
-      if (compute_ds(pose, _next_wp) < 2)
+      if (compute_ds(pose, _next_wp) <= 2.0)
       {
         _start_wp = _next_wp;
         RCLCPP_ERROR(logger(), "Reached goal, moving to next wp");
@@ -398,8 +482,6 @@ void ReadonlyPlugin::OnUpdate()
       rmf_fleet_msgs::msg::Location next_loc;
       next_loc.x = _graph.vertices[_next_wp].x;
       next_loc.y = _graph.vertices[_next_wp].y;
-      // 64.12;
-      // next_loc.y = -10.88;
       next_loc.yaw = 0.0;
       const rclcpp::Time later{t_sec + 10, t_nsec, RCL_ROS_TIME};
       next_loc.t = later;
