@@ -31,7 +31,6 @@ find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_door_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
-find_package(rmf_traffic REQUIRED)
 
 include(GNUInstallDirs)
 
@@ -135,7 +134,6 @@ target_link_libraries(readonly
     ${rclcpp_LIBRARIES}
     ${GAZEBO_LIBRARIES}
     ${gazebo_ros_LIBRARIES}
-    rmf_traffic::rmf_traffic
 )
 
 target_include_directories(readonly

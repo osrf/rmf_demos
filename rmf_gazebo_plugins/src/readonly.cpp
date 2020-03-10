@@ -338,13 +338,6 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
     // Here we initialzie the next waypoint
     compute_path(pose);
     RCLCPP_INFO(logger(), "Start waypoint successfully initialized");
-    // const auto& entry = _neighbor_map.find(_start_wp);
-    // for (const auto& index : entry->second)
-    // {
-    //   auto neighbor = _graph.vertices[index].name;
-    //   RCLCPP_ERROR(logger(), "Start waypoint [%s] has neighbor [%s]",
-    //       _start_wp_name.c_str(), neighbor.c_str());
-    // }
   }
 
   else
@@ -371,10 +364,6 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t& start_wp,
   for (auto it = neighbors.begin(); it != neighbors.end(); it++)
   {
     const auto& waypoint = _graph.vertices[*it];
-    // ignition::math::Vector3d disp_vector{
-    //     waypoint.x - pose.Pos().X(),
-    //     waypoint.y - pose.Pos().Y(),
-    //     0};
     ignition::math::Vector3d disp_vector{
         waypoint.x - _graph.vertices[start_wp].x,
         waypoint.y - _graph.vertices[start_wp].y,
@@ -405,6 +394,7 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
   
   while (count < _lookahead)
   {
+    std::lock_guard<std::mutex> lock(_mutex);
     auto wp = get_next_waypoint(start_wp, heading, pose);
     _next_wp[count] = wp;
     // Add to path here
@@ -455,24 +445,17 @@ void ReadonlyPlugin::OnUpdate()
     _robot_state_msg.location.yaw = pose.Rot().Yaw();
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
-
-    // RCLCPP_INFO(logger(), "Start: [%d:%s] Next: [%d:%s],[%d:%s] ",
-    //     _start_wp, _wp_names[_start_wp].c_str(), _next_wp[0], _wp_names[_next_wp[0]].c_str(),
-    //     _next_wp[1], _wp_names[_next_wp[1]].c_str());
     
     if (_initialized_graph && _initialized_start)
     {
       if (compute_ds(pose, _next_wp[0]) <= 2.0)
       {
         _start_wp = _next_wp[0];
-        RCLCPP_ERROR(logger(), "Reached goal, moving to next wp");
+        RCLCPP_ERROR(logger(), "Reached goal [%d,%s]",
+            _next_wp[0], _wp_names[_next_wp[0]].c_str());
       }
-      
       _robot_state_msg.path = compute_path(pose);
     }
-
-    // _robot_state_msg.path = _path;
-
     robot_state_pub->publish(_robot_state_msg);
   }
 
