@@ -79,6 +79,7 @@ private:
   rmf_fleet_msgs::msg::RobotMode _current_mode;
 
   Path _path;
+  // These are currently unused but may be needed if the Planner api is used
   double _v_n = 0.7;
   double _a_n = 0.5;
   double _w_n = 0.6;
@@ -251,7 +252,7 @@ void ReadonlyPlugin::initialize_graph()
 
   const auto start_time = std::chrono::steady_clock::now();
   _graph = _level.nav_graphs[_nav_graph_index];
-  RCLCPP_ERROR(logger(), "Nav graph with [%d] lanes" , _graph.edges.size());
+  RCLCPP_INFO(logger(), "Nav graph contains [%d] lanes" , _graph.edges.size());
   for (const auto& edge : _graph.edges)
   {
     // Inserting entry for v1_idx
@@ -435,7 +436,7 @@ void ReadonlyPlugin::OnUpdate()
     const rclcpp::Time now{t_sec, t_nsec, RCL_ROS_TIME};
 
     _robot_state_msg.name = _model->GetName();
-    _robot_state_msg.model = "caddy_0";
+    _robot_state_msg.model = "";
     _robot_state_msg.task_id = _current_task_id;
     _robot_state_msg.mode = _current_mode;
     _robot_state_msg.battery_percent = 98.0;
@@ -446,16 +447,17 @@ void ReadonlyPlugin::OnUpdate()
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
     
-    if (_initialized_graph && _initialized_start)
+    if (_initialized_start)
     {
       if (compute_ds(pose, _next_wp[0]) <= 2.0)
       {
         _start_wp = _next_wp[0];
-        RCLCPP_ERROR(logger(), "Reached goal [%d,%s]",
+        RCLCPP_INFO(logger(), "Reached goal [%d,%s]",
             _next_wp[0], _wp_names[_next_wp[0]].c_str());
       }
       _robot_state_msg.path = compute_path(pose);
     }
+
     robot_state_pub->publish(_robot_state_msg);
   }
 
