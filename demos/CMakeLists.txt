@@ -8,6 +8,7 @@ install(
   PROGRAMS
     scripts/airport_terminal/airport_terminal_loop_scenario.sh
     scripts/airport_terminal/airport_terminal_spawn_robots.sh
+    scripts/airport_terminal/test_doors.sh
   DESTINATION lib/${PROJECT_NAME}
 )
 

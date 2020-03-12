@@ -165,7 +165,7 @@ public:
     _doors.emplace_back(_model->GetName() == "chart_lift_door",
                         left_door_joint, params);
 
-    if (right_door_joint_name != "")
+    if (right_door_joint_name != "empty_joint")
     {
       const auto right_door_joint = _model->GetJoint(right_door_joint_name);
       if (!right_door_joint)
