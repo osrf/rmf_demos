@@ -30,6 +30,7 @@ find_package(std_srvs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_door_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
+find_package(building_map_msgs REQUIRED)
 
 include(GNUInstallDirs)
 
@@ -120,11 +121,37 @@ target_include_directories(teleport
 )
 
 ###############################
+# Readonly Plugin
+###############################
+
+add_library(readonly SHARED ${PROJECT_SOURCE_DIR}/src/readonly.cpp)
+
+target_link_libraries(readonly
+  PUBLIC
+    rmf_sim_utils
+    ${rmf_fleet_msgs_LIBRARIES}
+    ${building_map_msgs_LIBRARIES}
+    ${rclcpp_LIBRARIES}
+    ${GAZEBO_LIBRARIES}
+    ${gazebo_ros_LIBRARIES}
+)
+
+target_include_directories(readonly
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${GAZEBO_INCLUDE_DIRS}
+    ${std_msgs_INCLUDE_DIRS}
+    ${rmf_fleet_msgs_INCLUDE_DIRS}
+    ${building_map_msgs_INCLUDE_DIRS}
+)
+
+###############################
 # Install Targets
 ###############################
 
 install(
-  TARGETS rmf_sim_utils slotcar door teleport
+  TARGETS rmf_sim_utils slotcar door teleport readonly
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
