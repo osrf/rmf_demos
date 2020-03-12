@@ -162,21 +162,23 @@ public:
             left_door_joint_name.c_str());
       return;
     }
-
-    const auto right_door_joint = _model->GetJoint(right_door_joint_name);
-    if (!right_door_joint)
-    {
-      RCLCPP_ERROR(
-            _ros_node->get_logger(),
-            " -- Model is missing the right door joint [%s]",
-            right_door_joint_name.c_str());
-      return;
-    }
-
     _doors.emplace_back(_model->GetName() == "chart_lift_door",
                         left_door_joint, params);
-    _doors.emplace_back(_model->GetName() == "chart_lift_door",
-                        right_door_joint, params, true);
+
+    if (right_door_joint_name != "")
+    {
+      const auto right_door_joint = _model->GetJoint(right_door_joint_name);
+      if (!right_door_joint)
+      {
+        RCLCPP_ERROR(
+              _ros_node->get_logger(),
+              " -- Model is missing the right door joint [%s]",
+              right_door_joint_name.c_str());
+        return;
+      }
+      _doors.emplace_back(_model->GetName() == "chart_lift_door",
+                          right_door_joint, params, true);
+    }
 
     _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&DoorPlugin::on_update, this));
