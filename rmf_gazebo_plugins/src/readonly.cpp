@@ -63,16 +63,15 @@ private:
   void initialize_graph();
   void initialize_start(const ignition::math::Pose3d& pose);
   double compute_ds(const ignition::math::Pose3d& pose, const std::size_t& wp);
-  std::size_t get_next_waypoint(const std::size_t& start_wp,
-      const ignition::math::Vector3d& heading,
-      const ignition::math::Pose3d& pose);
+  std::size_t get_next_waypoint(const std::size_t start_wp,
+      const ignition::math::Vector3d& heading);
   Path compute_path(const ignition::math::Pose3d& pose);
 
   gazebo::event::ConnectionPtr _update_connection;
   gazebo_ros::Node::SharedPtr _ros_node;
   gazebo::physics::ModelPtr _model;
 
-  rclcpp::Publisher<rmf_fleet_msgs::msg::RobotState>::SharedPtr robot_state_pub;
+  rclcpp::Publisher<rmf_fleet_msgs::msg::RobotState>::SharedPtr _robot_state_pub;
   rclcpp::Subscription<BuildingMap>::SharedPtr _building_map_sub;
 
   rmf_fleet_msgs::msg::RobotState _robot_state_msg;
@@ -85,14 +84,13 @@ private:
   double _w_n = 0.6;
   double _alpha_n = 1.5;
 
-  bool _found_map = false;
   bool _found_level = false;
   bool _found_graph = false;
   bool _initialized_graph = false;
   bool _initialized_start = false;
 
   // Store cache of BuildingMap
-  BuildingMap _map;
+  // BuildingMap _map;
   Level _level;
   Graph _graph;
 
@@ -105,7 +103,6 @@ private:
   std::vector<std::size_t> _next_wp;
 
   std::unordered_map<std::size_t, std::unordered_set<std::size_t>> _neighbor_map;
-  std::unordered_map<std::size_t, std::string> _wp_names;
 
   double _last_update_time = 0.0;
   int _update_count = 0;
@@ -176,7 +173,7 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&ReadonlyPlugin::OnUpdate, this));
 
-  robot_state_pub = _ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
+  _robot_state_pub = _ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
       "/robot_state", 10);
 
   // Subscription to /map
@@ -202,8 +199,6 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
     return;
   }
 
-  _found_map = true;
-  _map = *msg;
   RCLCPP_INFO(logger(), "Received building map with %d levels", msg->levels.size());
   _found_level = false;
   _found_graph = false;
@@ -250,7 +245,6 @@ void ReadonlyPlugin::initialize_graph()
 
   _initialized_graph = false;
 
-  const auto start_time = std::chrono::steady_clock::now();
   _graph = _level.nav_graphs[_nav_graph_index];
   RCLCPP_INFO(logger(), "Nav graph contains [%d] lanes" , _graph.edges.size());
   for (const auto& edge : _graph.edges)
@@ -287,10 +281,6 @@ void ReadonlyPlugin::initialize_graph()
     }
 
   }
-
-  // Initialize _wp_names
-  for (std::size_t i =0; i < _graph.vertices.size(); ++i)
-    _wp_names.insert(std::make_pair(i, _graph.vertices[i].name));
 
   _initialized_graph = true;
 
@@ -333,7 +323,7 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
   }
 
   // TODO find the closest wp if the coordiantes do not match
-  if (compute_ds(pose, _start_wp) < 1e-1)
+  if (found && compute_ds(pose, _start_wp) < 1e-1)
   {
     _initialized_start = true;
     // Here we initialzie the next waypoint
@@ -341,7 +331,7 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
     RCLCPP_INFO(logger(), "Start waypoint successfully initialized");
   }
 
-  else
+  else if (found)
   {
     RCLCPP_ERROR(
       logger(),
@@ -350,11 +340,16 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
       _start_wp_name.c_str(),
       _graph.vertices[_start_wp].x, _graph.vertices[_start_wp].y, 0);
   }
-  
+
+  else
+  {
+    RCLCPP_ERROR(
+      logger(),
+      "Start waypoint [%s] not found in nav graph", _start_wp_name.c_str());
+  }
 }
-std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t& start_wp,
-    const ignition::math::Vector3d& heading,
-    const ignition::math::Pose3d& pose)
+std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
+    const ignition::math::Vector3d& heading)
 {
   // Return the waypoint closest to the robot in the direction of its heading
   const auto& neighbors = _neighbor_map.find(start_wp)->second;
@@ -370,7 +365,7 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t& start_wp,
         waypoint.y - _graph.vertices[start_wp].y,
         0};
     const double dist = heading.Dot(disp_vector.Normalize());
-    // Consider the waypoints with highest projected distance
+    // Consider the waypoints with largest projected distance
     if (dist > max_dist)
     {
       max_dist = dist;
@@ -385,25 +380,23 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
 {
   Path path;
   path.resize(_lookahead);
-
-  std::size_t count = 0;
   
   auto start_wp = _start_wp;
   const double current_yaw = pose.Rot().Euler().Z();
   ignition::math::Vector3d heading{
       std::cos(current_yaw), std::sin(current_yaw), 0.0};
   
-  while (count < _lookahead)
+  for (std::size_t i = 0; i < _lookahead; i++)
   {
     std::lock_guard<std::mutex> lock(_mutex);
-    auto wp = get_next_waypoint(start_wp, heading, pose);
-    _next_wp[count] = wp;
+    auto wp = get_next_waypoint(start_wp, heading);
+    _next_wp[i] = wp;
     // Add to path here
     Location location;
     location.x = _graph.vertices[wp].x;
     location.y = _graph.vertices[wp].y;
     location.level_name = _level_name;
-    path[count] = location;
+    path[i] = location;
     // Update heading for next iteration
     auto next_heading = ignition::math::Vector3d{
       _graph.vertices[wp].x - _graph.vertices[start_wp].x,
@@ -411,7 +404,6 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
       0};
     heading = next_heading.Normalize();
     start_wp = wp;
-    ++count;
   }
 
   return path;
@@ -452,13 +444,13 @@ void ReadonlyPlugin::OnUpdate()
       if (compute_ds(pose, _next_wp[0]) <= 2.0)
       {
         _start_wp = _next_wp[0];
-        RCLCPP_INFO(logger(), "Reached goal [%d,%s]",
-            _next_wp[0], _wp_names[_next_wp[0]].c_str());
+        RCLCPP_INFO(logger(), "Reached waypoint [%d,%s]",
+            _next_wp[0], _graph.vertices[_next_wp[0]].name.c_str());
       }
       _robot_state_msg.path = compute_path(pose);
     }
 
-    robot_state_pub->publish(_robot_state_msg);
+    _robot_state_pub->publish(_robot_state_msg);
   }
 
 }
