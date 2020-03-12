@@ -3,10 +3,6 @@ levels:
     doors:
       - [1197, 276, {motion_axis: [1, start], motion_degrees: [3, 85], motion_direction: [2, -1], name: [1, n01_door], type: [1, double_hinged]}]
       - [1198, 1199, {motion_axis: [1, start], motion_degrees: [3, 85], motion_direction: [2, 1], name: [1, n02_door], type: [1, double_hinged]}]
-      - [245, 265, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, s01_door], type: [1, hinged]}]
-      - [219, 239, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, south_door], type: [1, double_sliding]}]
-      - [214, 1200, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, s04_door], type: [1, sliding]}]
-      - [181, 167, {motion_axis: [1, start], motion_degrees: [3, 80], motion_direction: [2, 1], name: [1, test_door], type: [1, sliding]}]
     drawing:
       filename: airport_terminal.png
     elevation: 0
