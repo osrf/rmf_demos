@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<sdf version="1.6">
+  <model name='Pond'>
+    <static>true</static>
+    <link name="body">
+      <pose>0 0 0 0 0 0</pose>
+
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>model://Pond/meshes/Pond.dae</uri></mesh>
+          </geometry>
+        </visual>
+
+        <collision name="collision">
+	<pose>0 0 2.5 0 0 0</pose>
+          <geometry>
+            <box><size>7 8 5</size></box>
+          </geometry>
+        </collision>
+
+    </link>
+  </model>
+</sdf>
