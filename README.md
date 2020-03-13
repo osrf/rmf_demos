@@ -31,13 +31,13 @@ sudo apt update && sudo apt install \
   python3-shapely python3-yaml
 ```
 
-Install Gazebo
-```bash
-# This step is optional, but if you do encounter issues with your already
-# existing gazebo build, you should consider removing it before reinstalling
-sudo apt remove gazebo*
+Setup a new ROS 2 workspace and pull in all the required repositories using `vcs`,
 
-curl -sSL http://get.gazebosim.org | sh
+```bash
+mkdir -p ~/rmf_demos_ws/src
+cd ~/rmf_demos_ws
+wget https://raw.githubusercontent.com/osrf/rmf_demos/master/rmf_demos.repos
+vcs import src < rmf_demos.repos
 ```
 
 Ensure all ROS prerequisites are fulfilled,
@@ -48,15 +48,6 @@ rosdep install --from-paths src --ignore-src --rosdistro eloquent
 ```
 
 ## Compiling Instructions
-
-Setup a new ROS 2 workspace and pull in all the required repositories using `vcs`,
-
-```bash
-mkdir -p ~/rmf_demos_ws/src
-cd ~/rmf_demos_ws
-wget https://raw.githubusercontent.com/osrf/rmf_demos/master/rmf_demos.repos
-vcs import src < rmf_demos.repos
-```
 
 Source ROS 2 Eloquent and build,
 
@@ -125,4 +116,12 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 run demos airport_terminal_loop_scenario.sh
 ```
 
-More instructions on using the `traffic_editor` can be found in the [repository](https://github.com/osrf/traffic_editor).
+# Notes
+
+* More instructions on using the `traffic_editor` can be found in the [repository](https://github.com/osrf/traffic_editor).
+
+* If you encounter problems launching the demos in `gazebo`, consider removing the local installation and reinstalling using the `rosdep` command listed at the top,
+
+```bash
+sudo apt remove gazebo*
+```
