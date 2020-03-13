@@ -22,11 +22,8 @@ jobs:
         curl -sSL http://get.gazebosim.org | sh
     - name: ros-deps
       run: |
-        sudo apt install \
-          ros-eloquent-rviz2 \
-          ros-eloquent-launch* \
-          ros-eloquent-gazebo-ros-pkgs \
-          -y
+        cd ~/rmf_demos_ws
+        rosdep install --from-paths src --ignore-src --rosdistro eloquent
     - name: workspace
       run: |
         cd /home/
