@@ -99,14 +99,17 @@ Below is a screenshot of how the provided demo map will look like, when opened u
 
 ## Airport Terminal World
 
-This demo world shows robot interaction on a much larger map, with a lot more lanes, destinations, robots and possible interactions between robots from different fleets, robots and infrastructure, as well as robots and users.
+This demo world shows robot interaction on a much larger map, with a lot more lanes, destinations, robots and possible interactions between robots from different fleets, robots and infrastructure, as well as robots and users. In the illustrations below, from top to bottom we have how the world looks like in `traffic_editor`, the schedule visualizer in `rviz`, and the full simulation in `gazebo`,
+
+![](media/airport_terminal_traffic_editor_screenshot.png)
+![](media/airport_terminal_demo_screenshot.png)
+
+To launch the world and the schedule visualizer,
 
 ```bash
 source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos airport_terminal.launch.xml
 ```
-![](media/airport_terminal_traffic_editor_screenshot.png)
-![](media/airport_terminal_demo_screenshot.png)
 
 To start a basic setup where Magni and MiR100 robots are spawned, without sending any requests,
 
