@@ -32,7 +32,7 @@ jobs:
         cd /home/rmf_demos_ws
         rosdep update
         sudo rosdep install --from-paths src --ignore-src --rosdistro eloquent \
-          -y 
+          -y --skip-keys "websocketpp ament_python"
     - name: checkout
       shell: bash
       run: |
