@@ -20,10 +20,6 @@ jobs:
     - name: gazebo
       run: |
         curl -sSL http://get.gazebosim.org | sh
-    - name: ros-deps
-      run: |
-        cd ~/rmf_demos_ws
-        rosdep install --from-paths src --ignore-src --rosdistro eloquent
     - name: workspace
       run: |
         cd /home/
@@ -31,6 +27,10 @@ jobs:
         cd /home/rmf_demos_ws
         wget https://raw.githubusercontent.com/osrf/rmf_demos/master/rmf_demos.repos
         vcs import src < rmf_demos.repos
+    - name: ros-deps
+      run: |
+        cd /home/rmf_demos_ws
+        rosdep install --from-paths src --ignore-src --rosdistro eloquent
     - name: checkout
       shell: bash
       run: |
