@@ -44,7 +44,8 @@ Ensure all ROS prerequisites are fulfilled,
 
 ```bash
 cd ~/rmf_demos_ws
-rosdep install --from-paths src --ignore-src --rosdistro eloquent
+rosdep install --from-paths src --ignore-src --rosdistro eloquent \
+    -y --skip-keys "websocketpp ament_python"
 ```
 
 ## Compiling Instructions
@@ -124,4 +125,8 @@ ros2 run demos airport_terminal_loop_scenario.sh
 
 ```bash
 sudo apt remove gazebo*
+
+cd ~/rmf_demos_ws
+rosdep install --from-paths src --ignore-src --rosdistro eloquent \
+    -y --skip-keys "websocketpp ament_python"
 ```
