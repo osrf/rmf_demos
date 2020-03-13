@@ -30,6 +30,7 @@ jobs:
     - name: ros-deps
       run: |
         cd /home/rmf_demos_ws
+        rosdep update
         rosdep install --from-paths src --ignore-src --rosdistro eloquent
     - name: checkout
       shell: bash
