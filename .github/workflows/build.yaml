@@ -32,7 +32,7 @@ jobs:
         cd /home/rmf_demos_ws
         rosdep update
         rosdep install --from-paths src --ignore-src --rosdistro eloquent -y \
-          --skip-keys "websocketpp ament_python"
+          --skip-keys "websocketpp ament_python libgazebo9"
     - name: checkout
       shell: bash
       run: |
