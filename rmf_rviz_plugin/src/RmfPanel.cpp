@@ -153,9 +153,9 @@ RmfPanel::RmfPanel(QWidget* parent)
   _delivery_dropoff("hardware_2"),
   _loop_task_id("task#24"),
   _loop_robot("magni"),
-  _loop_num("1"),
   _loop_start("coe"),
-  _loop_finish("cubicle_1")
+  _loop_finish("cubicle_1"),
+  _loop_num("1")
 {
   _node = std::make_shared<rclcpp::Node>("rmf_panel_plugin");
 
@@ -336,10 +336,64 @@ void RmfPanel::load(const rviz_common::Config& config)
   QString delivery_pickup;
   QString delivery_dropoff;
 
+  QString loop_task_id;
+  QString loop_robot;
+  QString loop_start;
+  QString loop_finish;
+  QString loop_num;
+
   if (config.mapGetString("delivery_task_id", &delivery_task_id))
   {
     _delivery_task_id_editor->setText(delivery_task_id);
     update_delivery_task_id();
+  }
+
+  if (config.mapGetString("delivery_robot", &delivery_robot))
+  {
+    _delivery_robot_editor->setText(delivery_robot);
+    update_delivery_robot();
+  }
+
+  if (config.mapGetString("delivery_pickup", &delivery_pickup))
+  {
+    _delivery_pickup_editor->setText(delivery_pickup);
+    update_delivery_pickup();
+  }
+
+  if (config.mapGetString("delivery_dropoff", &delivery_dropoff))
+  {
+    _delivery_dropoff_editor->setText(delivery_dropoff);
+    update_delivery_dropoff();
+  }
+
+  if (config.mapGetString("loop_task_id", &loop_task_id))
+  {
+    _loop_task_id_editor->setText(loop_task_id);
+    update_loop_task_id();
+  }
+
+  if (config.mapGetString("loop_robot", &loop_robot))
+  {
+    _loop_robot_editor->setText(loop_robot);
+    update_loop_robot();
+  }
+
+  if (config.mapGetString("loop_start", &loop_start))
+  {
+    _loop_start_editor->setText(loop_start);
+    update_loop_start();
+  }
+
+  if (config.mapGetString("loop_finish", &loop_finish))
+  {
+    _loop_finish_editor->setText(loop_finish);
+    update_loop_finish();
+  }
+
+  if (config.mapGetString("loop_num", &loop_num))
+  {
+    _loop_num_editor->setText(loop_num);
+    update_loop_num();
   }
 }
 
@@ -348,6 +402,15 @@ void RmfPanel::save(rviz_common::Config config) const
 {
   rviz_common::Panel::save(config);
   config.mapSetValue("delivery_task_id", _delivery_task_id);
+  config.mapSetValue("delivery_robot", _delivery_robot);
+  config.mapSetValue("delivery_pickup", _delivery_pickup);
+  config.mapSetValue("delivery_dropoff", _delivery_dropoff);
+
+  config.mapSetValue("loop_task_id", _loop_task_id);
+  config.mapSetValue("loop_robot", _loop_robot);
+  config.mapSetValue("loop_start", _loop_start);
+  config.mapSetValue("loop_finish", _loop_finish);
+  config.mapSetValue("loop_num", _loop_num);
 }
 
 } // namespace rmf_rviz_plugin
