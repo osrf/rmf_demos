@@ -1,5 +1,8 @@
 levels:
   L1:
+    doors:
+      - [277, 912, {motion_axis: [1, start], motion_degrees: [3, 85], motion_direction: [2, 1], name: [1, n01_door], type: [1, double_hinged]}]
+      - [1200, 311, {motion_axis: [1, start], motion_degrees: [3, 85], motion_direction: [2, 1], name: [1, n02_door], type: [1, double_hinged]}]
     drawing:
       filename: airport_terminal.png
     elevation: 0
@@ -246,7 +249,6 @@ levels:
       - [721, 725, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [724, 720, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [720, 721, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [723, 722, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [723, 673, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [673, 674, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [674, 753, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
@@ -267,7 +269,6 @@ levels:
       - [675, 754, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [783, 679, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [726, 784, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [784, 785, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [785, 786, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [786, 787, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [787, 788, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
@@ -321,6 +322,12 @@ levels:
       - [714, 1198, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [1198, 1199, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [1199, 759, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [784, 1201, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1201, 1202, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1202, 785, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [723, 1203, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
+      - [1203, 1204, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
+      - [1204, 722, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
     layers:
       {}
     measurements:
@@ -1238,7 +1245,7 @@ levels:
       - [879.6609999999999, 219.903, 0, ""]
       - [878.597, 254.611, 0, ""]
       - [634.211, 44.158, 0, ""]
-      - [0.39, 487.145, 0, ""]
+      - [1.016, 492.549, 0, ""]
       - [723.717, 376.088, 0, ""]
       - [737.744, 348.572, 0, ""]
       - [750.178, 326.339, 0, ""]
@@ -1526,6 +1533,11 @@ levels:
       - [340.645, 609.421, 0, ""]
       - [1132.252, 524.857, 0, ""]
       - [1131.675, 587.942, 0, ""]
+      - [198.813, 180.124, 0, ""]
+      - [187.87, 158.557, 0, ""]
+      - [221.024, 158.4, 0, ""]
+      - [19.174, 472.777, 0, ""]
+      - [19.046, 502.842, 0, ""]
     walls:
       - [6, 10, {}]
       - [10, 9, {}]
