@@ -16,8 +16,6 @@
 
   <depend>rclcpp</depend>
   <depend>gazebo_ros_pkgs</depend>
-  <depend>gazebo_msgs</depend>
-  <depend>gazebo_dev</depend>
 
   <depend>std_msgs</depend>
   
