@@ -91,14 +91,14 @@ protected:
   QPushButton* _loop_button;
 
   QString _delivery_task_id;
+  QString _delivery_robot;
   QString _delivery_pickup;
   QString _delivery_dropoff;
-  QString _delivery_robot;
 
   QString _loop_task_id;
+  QString _loop_robot;
   QString _loop_start;
   QString _loop_finish;
-  QString _loop_robot;
   QString _loop_num;
 
   rclcpp::Node::SharedPtr _node;
