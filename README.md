@@ -130,16 +130,3 @@ cd ~/rmf_demos_ws
 rosdep install --from-paths src --ignore-src --rosdistro eloquent \
     -y --skip-keys "websocketpp ament_python"
 ```
-
-* If `gazebo` is complaining about `Getting models from .... This may take a few seconds.`, while the demo throws a `No mesh specified` error, this is due to missing open source gazebo models, that can be found in the [official repository](https://bitbucket.org/osrf/gazebo_models/src/default/). Here are some basic steps that could help solve it,
-
-```bash
-cd ~/.
-
-# clone the open source models 
-hg clone https://bitbucket.org/osrf/gazebo_models
-
-# copy them to the default models path for Gazebo
-cd ~/gazebo_models
-cp -r * ~/.gazebo/models/.
-```
