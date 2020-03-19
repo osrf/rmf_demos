@@ -48,8 +48,6 @@ rosdep install --from-paths src --ignore-src --rosdistro eloquent \
     -y --skip-keys "websocketpp ament_python"
 ```
 
-In the scenario 
-
 ## Compiling Instructions
 
 Source ROS 2 Eloquent and build,
