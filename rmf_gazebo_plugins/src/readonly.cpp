@@ -39,7 +39,8 @@
 
 using namespace rmf_gazebo_plugins;
 
-class ReadonlyPlugin : public gazebo::ModelPlugin {
+class ReadonlyPlugin : public gazebo::ModelPlugin
+{
 public:
   using BuildingMap = building_map_msgs::msg::BuildingMap;
   using Level = building_map_msgs::msg::Level;
@@ -194,7 +195,8 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 
 void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
 {
-  if (msg->levels.empty()) {
+  if (msg->levels.empty())
+  {
     RCLCPP_ERROR(logger(), "Received empty building map");
     return;
   }
@@ -203,22 +205,26 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
               msg->levels.size());
   _found_level = false;
   _found_graph = false;
-  for (const auto &level : msg->levels) {
+  for (const auto &level : msg->levels)
+  {
     RCLCPP_INFO(logger(), "Level name: [%s]", level.name.c_str());
-    if (level.name.c_str() == _level_name) {
+    if (level.name.c_str() == _level_name)
+    {
       _level = level;
       _found_level = true;
       RCLCPP_INFO(logger(), "Found level [%s] with %d nav_graphs",
                   level.name.c_str(), level.nav_graphs.size());
 
-      if (_nav_graph_index < level.nav_graphs.size()) {
+      if (_nav_graph_index < level.nav_graphs.size())
+      {
         _found_graph = true;
         RCLCPP_INFO(logger(), "Graph index [%d] containts [%d] waypoints",
                     _nav_graph_index,
                     level.nav_graphs[_nav_graph_index].vertices.size());
         initialize_graph();
       }
-      else {
+      else
+      {
         RCLCPP_ERROR(
             logger(),
             "Specified nav_graph index [%d] does not exist in level [%s]",
@@ -246,29 +252,35 @@ void ReadonlyPlugin::initialize_graph()
 
   _graph = _level.nav_graphs[_nav_graph_index];
   RCLCPP_INFO(logger(), "Nav graph contains [%d] lanes", _graph.edges.size());
-  for (const auto &edge : _graph.edges) {
+  for (const auto &edge : _graph.edges)
+  {
     // Inserting entry for v1_idx
     auto entry = _neighbor_map.find(edge.v1_idx);
-    if (entry == _neighbor_map.end()) {
+    if (entry == _neighbor_map.end())
+    {
       // We assume the vertex is a neighbor of itself to account for when the
       // robot turns around and heads back to the start index
       std::unordered_set<std::size_t> neighbors({edge.v1_idx, edge.v2_idx});
       _neighbor_map.insert(std::make_pair(edge.v1_idx, neighbors));
     }
     // Updating existing entry
-    else {
+    else
+    {
       entry->second.insert(edge.v2_idx);
     }
 
     // If bidrectional, add entry for v2_idx
-    if (edge.edge_type == edge.EDGE_TYPE_BIDIRECTIONAL) {
+    if (edge.edge_type == edge.EDGE_TYPE_BIDIRECTIONAL)
+    {
       entry = _neighbor_map.find(edge.v2_idx);
-      if (entry == _neighbor_map.end()) {
+      if (entry == _neighbor_map.end())
+      {
         std::unordered_set<std::size_t> neighbors({edge.v1_idx, edge.v2_idx});
         _neighbor_map.insert(std::make_pair(edge.v2_idx, neighbors));
       }
       // Updating existing entry
-      else {
+      else
+      {
         entry->second.insert(edge.v1_idx);
       }
     }
@@ -300,8 +312,10 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d &pose)
     return;
 
   bool found = false;
-  for (std::size_t i = 0; i < _graph.vertices.size(); i++) {
-    if (_graph.vertices[i].name.c_str() == _start_wp_name) {
+  for (std::size_t i = 0; i < _graph.vertices.size(); i++)
+  {
+    if (_graph.vertices[i].name.c_str() == _start_wp_name)
+    {
       found = true;
       _start_wp = i;
       RCLCPP_INFO(logger(), "Start waypoint found in nav graph");
@@ -309,14 +323,16 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d &pose)
   }
 
   // TODO find the closest wp if the coordiantes do not match
-  if (found && compute_ds(pose, _start_wp) < 1e-1) {
+  if (found && compute_ds(pose, _start_wp) < 1e-1)
+  {
     _initialized_start = true;
     // Here we initialzie the next waypoint
     compute_path(pose);
     RCLCPP_INFO(logger(), "Start waypoint successfully initialized");
   }
 
-  else if (found) {
+  else if (found)
+  {
     RCLCPP_ERROR(logger(),
                  "Spawn coordinates [%f,%f,%f] differs from that of waypoint "
                  "[%s] in nav_graph [%f, %f, %f]",
@@ -324,7 +340,8 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d &pose)
                  _graph.vertices[_start_wp].x, _graph.vertices[_start_wp].y, 0);
   }
 
-  else {
+  else
+  {
     RCLCPP_ERROR(logger(), "Start waypoint [%s] not found in nav graph",
                  _start_wp_name.c_str());
   }
@@ -339,14 +356,16 @@ ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
   auto wp_it = neighbors.begin();
   double max_dist = std::numeric_limits<double>::min();
 
-  for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
+  for (auto it = neighbors.begin(); it != neighbors.end(); it++)
+  {
     const auto &waypoint = _graph.vertices[*it];
     ignition::math::Vector3d disp_vector{
         waypoint.x - _graph.vertices[start_wp].x,
         waypoint.y - _graph.vertices[start_wp].y, 0};
     const double dist = heading.Dot(disp_vector.Normalize());
     // Consider the waypoints with largest projected distance
-    if (dist > max_dist) {
+    if (dist > max_dist)
+    {
       max_dist = dist;
       wp_it = it;
     }
@@ -366,7 +385,8 @@ ReadonlyPlugin::compute_path(const ignition::math::Pose3d &pose)
   ignition::math::Vector3d heading{std::cos(current_yaw), std::sin(current_yaw),
                                    0.0};
 
-  for (std::size_t i = 0; i < _lookahead; i++) {
+  for (std::size_t i = 0; i < _lookahead; i++)
+  {
     std::lock_guard<std::mutex> lock(_mutex);
     auto wp = get_next_waypoint(start_wp, heading);
     _next_wp[i] = wp;
@@ -416,8 +436,10 @@ void ReadonlyPlugin::OnUpdate()
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
 
-    if (_initialized_start) {
-      if (compute_ds(pose, _next_wp[0]) <= 2.0) {
+    if (_initialized_start)
+    {
+      if (compute_ds(pose, _next_wp[0]) <= 2.0)
+      {
         _start_wp = _next_wp[0];
         RCLCPP_INFO(logger(), "Reached waypoint [%d,%s]", _next_wp[0],
                     _graph.vertices[_next_wp[0]].name.c_str());

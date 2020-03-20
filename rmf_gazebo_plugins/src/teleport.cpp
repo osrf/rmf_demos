@@ -27,9 +27,11 @@
 
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
 
-namespace rmf_gazebo_plugins {
+namespace rmf_gazebo_plugins
+{
 
-class TeleportPlugin : public gazebo::ModelPlugin {
+class TeleportPlugin : public gazebo::ModelPlugin
+{
 public:
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
   using Pose3d = ignition::math::Pose3d;
@@ -81,12 +83,14 @@ public:
     auto status = msg->status;
     std::string source_guid = msg->source_guid.c_str();
 
-    if (source_guid == _load_guid && !_object_loaded) {
+    if (source_guid == _load_guid && !_object_loaded)
+    {
       RCLCPP_INFO(_node->get_logger(), "Loading object");
       _model->SetWorldPose(_load_pose);
       _object_loaded = true;
     }
-    else if (source_guid == _unload_guid && _object_loaded) {
+    else if (source_guid == _unload_guid && _object_loaded)
+    {
       RCLCPP_INFO(_node->get_logger(), "Unloading object");
       _model->SetWorldPose(_unload_pose);
 
@@ -97,14 +101,16 @@ public:
       _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
-    else {
+    else
+    {
       return;
     }
   }
 
   ~TeleportPlugin()
   {
-    if (_load_complete) {
+    if (_load_complete)
+    {
       rclcpp::shutdown();
     }
   }

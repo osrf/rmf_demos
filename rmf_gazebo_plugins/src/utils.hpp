@@ -3,14 +3,16 @@
 
 #include <sdf/Element.hh>
 
-namespace rmf_gazebo_plugins {
+namespace rmf_gazebo_plugins
+{
 
 // TODO(MXG): Refactor the use of this function to replace it with
 // compute_desired_rate_of_change()
 double compute_ds(double s_target, double v_actual, double v_max,
                   double accel_nom, double accel_max, double dt);
 
-struct MotionParams {
+struct MotionParams
+{
   double v_max = 0.2;
   double a_max = 0.1;
   double a_nom = 0.08;
@@ -31,18 +33,22 @@ template <typename T>
 bool get_sdf_attribute_required(const sdf::ElementPtr &sdf,
                                 const std::string &attribute_name, T &value)
 {
-  if (sdf->HasAttribute(attribute_name)) {
-    if (sdf->GetAttribute(attribute_name)->Get(value)) {
+  if (sdf->HasAttribute(attribute_name))
+  {
+    if (sdf->GetAttribute(attribute_name)->Get(value))
+    {
       std::cout << "Using specified attribute value [" << value
                 << "] for property [" << attribute_name << "]" << std::endl;
       return true;
     }
-    else {
+    else
+    {
       std::cerr << "Failed to parse sdf attribute for [" << attribute_name
                 << "]" << std::endl;
     }
   }
-  else {
+  else
+  {
     std::cerr << "Attribute [" << attribute_name << "] not found" << std::endl;
   }
 
@@ -54,18 +60,22 @@ template <typename T>
 bool get_sdf_param_required(const sdf::ElementPtr &sdf,
                             const std::string &parameter_name, T &value)
 {
-  if (sdf->HasElement(parameter_name)) {
-    if (sdf->GetElement(parameter_name)->GetValue()->Get(value)) {
+  if (sdf->HasElement(parameter_name))
+  {
+    if (sdf->GetElement(parameter_name)->GetValue()->Get(value))
+    {
       std::cout << "Using specified value [" << value << "] for property ["
                 << parameter_name << "]" << std::endl;
       return true;
     }
-    else {
+    else
+    {
       std::cerr << "Failed to parse sdf value for [" << parameter_name << "]"
                 << std::endl;
     }
   }
-  else {
+  else
+  {
     std::cerr << "Property [" << parameter_name << "] not found" << std::endl;
   }
 
@@ -77,17 +87,21 @@ template <typename T>
 void get_sdf_param_if_available(const sdf::ElementPtr &sdf,
                                 const std::string &parameter_name, T &value)
 {
-  if (sdf->HasElement(parameter_name)) {
-    if (sdf->GetElement(parameter_name)->GetValue()->Get(value)) {
+  if (sdf->HasElement(parameter_name))
+  {
+    if (sdf->GetElement(parameter_name)->GetValue()->Get(value))
+    {
       std::cout << "Using specified value [" << value << "] for property ["
                 << parameter_name << "]" << std::endl;
     }
-    else {
+    else
+    {
       std::cerr << "Failed to parse sdf value for [" << parameter_name << "]"
                 << std::endl;
     }
   }
-  else {
+  else
+  {
     std::cout << "Using default value [" << value << "] for property ["
               << parameter_name << "]" << std::endl;
   }
