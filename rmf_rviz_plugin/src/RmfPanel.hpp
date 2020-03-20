@@ -31,87 +31,85 @@
 #include <thread>
 #include <mutex>
 
-namespace rmf_rviz_plugin {
-
-using Delivery = rmf_task_msgs::msg::Delivery;
-using Loop = rmf_task_msgs::msg::Loop;
-
-class RmfPanel : public rviz_common::Panel
+namespace rmf_rviz_plugin
 {
-Q_OBJECT
-public:
-  RmfPanel(QWidget* parent = 0);
-  ~RmfPanel();
 
-  virtual void load(const rviz_common::Config& config);
-  virtual void save(rviz_common::Config config) const;
+  using Delivery = rmf_task_msgs::msg::Delivery;
+  using Loop = rmf_task_msgs::msg::Loop;
 
-public Q_SLOTS:
-  void set_delivery_task_id(const QString& value);
-  void set_delivery_pickup(const QString& value);
-  void set_delivery_dropoff(const QString& value);
-  void set_delivery_robot(const QString& value);
+  class RmfPanel:public rviz_common::Panel
+  {
+  Q_OBJECT public:
+    RmfPanel (QWidget * parent = 0);
+    ~RmfPanel ();
 
-  void set_loop_task_id(const QString& value);
-  void set_loop_start(const QString& value);
-  void set_loop_finish(const QString& value);
-  void set_loop_robot(const QString& value);
-  void set_loop_num(const QString& value);
+    virtual void load (const rviz_common::Config & config);
+    virtual void save (rviz_common::Config config) const;
 
-protected Q_SLOTS:
-  void update_delivery_task_id();
-  void update_delivery_pickup();
-  void update_delivery_dropoff();
-  void update_delivery_robot();
-  void request_delivery();
+    public Q_SLOTS:void set_delivery_task_id (const QString & value);
+    void set_delivery_pickup (const QString & value);
+    void set_delivery_dropoff (const QString & value);
+    void set_delivery_robot (const QString & value);
 
-  void update_loop_task_id();
-  void update_loop_start();
-  void update_loop_finish();
-  void update_loop_robot();
-  void update_loop_num();
-  void request_loop();
+    void set_loop_task_id (const QString & value);
+    void set_loop_start (const QString & value);
+    void set_loop_finish (const QString & value);
+    void set_loop_robot (const QString & value);
+    void set_loop_num (const QString & value);
 
-protected:
-  
-  void create_layout();
+    protected Q_SLOTS:void update_delivery_task_id ();
+    void update_delivery_pickup ();
+    void update_delivery_dropoff ();
+    void update_delivery_robot ();
+    void request_delivery ();
 
-  QLineEdit* _delivery_task_id_editor;
-  QLineEdit* _delivery_pickup_editor;
-  QLineEdit* _delivery_dropoff_editor;
-  QLineEdit* _delivery_robot_editor;
+    void update_loop_task_id ();
+    void update_loop_start ();
+    void update_loop_finish ();
+    void update_loop_robot ();
+    void update_loop_num ();
+    void request_loop ();
 
-  QLineEdit* _loop_task_id_editor;
-  QLineEdit* _loop_start_editor;
-  QLineEdit* _loop_finish_editor;
-  QLineEdit* _loop_robot_editor;
-  QLineEdit* _loop_num_editor;
+  protected:
 
-  QPushButton* _delivery_button;
-  QPushButton* _loop_button;
+    void create_layout ();
 
-  QString _delivery_task_id;
-  QString _delivery_robot;
-  QString _delivery_pickup;
-  QString _delivery_dropoff;
+    QLineEdit *_delivery_task_id_editor;
+    QLineEdit *_delivery_pickup_editor;
+    QLineEdit *_delivery_dropoff_editor;
+    QLineEdit *_delivery_robot_editor;
 
-  QString _loop_task_id;
-  QString _loop_robot;
-  QString _loop_start;
-  QString _loop_finish;
-  QString _loop_num;
+    QLineEdit *_loop_task_id_editor;
+    QLineEdit *_loop_start_editor;
+    QLineEdit *_loop_finish_editor;
+    QLineEdit *_loop_robot_editor;
+    QLineEdit *_loop_num_editor;
 
-  rclcpp::Node::SharedPtr _node;
-  rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
-  rclcpp::Publisher<Loop>::SharedPtr _loop_pub;
+    QPushButton *_delivery_button;
+    QPushButton *_loop_button;
 
-  bool _has_loaded = false;
-  
-  std::thread _thread;
-  std::mutex _mutex;
+    QString _delivery_task_id;
+    QString _delivery_robot;
+    QString _delivery_pickup;
+    QString _delivery_dropoff;
 
-};
+    QString _loop_task_id;
+    QString _loop_robot;
+    QString _loop_start;
+    QString _loop_finish;
+    QString _loop_num;
 
-} // namespace rmf_rviz_plugin
+      rclcpp::Node::SharedPtr _node;
+      rclcpp::Publisher < Delivery >::SharedPtr _delivery_pub;
+      rclcpp::Publisher < Loop >::SharedPtr _loop_pub;
 
-#endif // RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
+    bool _has_loaded = false;
+
+      std::thread _thread;
+      std::mutex _mutex;
+
+  };
+
+}                               // namespace rmf_rviz_plugin
+
+#endif                          // RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
