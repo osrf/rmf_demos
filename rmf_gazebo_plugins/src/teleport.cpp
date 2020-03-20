@@ -50,7 +50,8 @@ public:
 
   bool _object_loaded = false;
 
-  void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override {
+  void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override
+  {
     // Store the pointer to the model
     _model = _parent;
 
@@ -75,7 +76,8 @@ public:
   }
 
   // Called by the world update start event
-  void dispenser_result_cb(DispenserResult::UniquePtr msg) {
+  void dispenser_result_cb(DispenserResult::UniquePtr msg)
+  {
     auto status = msg->status;
     std::string source_guid = msg->source_guid.c_str();
 
@@ -83,7 +85,8 @@ public:
       RCLCPP_INFO(_node->get_logger(), "Loading object");
       _model->SetWorldPose(_load_pose);
       _object_loaded = true;
-    } else if (source_guid == _unload_guid && _object_loaded) {
+    }
+    else if (source_guid == _unload_guid && _object_loaded) {
       RCLCPP_INFO(_node->get_logger(), "Unloading object");
       _model->SetWorldPose(_unload_pose);
 
@@ -93,13 +96,14 @@ public:
       rclcpp::sleep_for(std::chrono::nanoseconds(3000000000));
       _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
-
-    } else {
+    }
+    else {
       return;
     }
   }
 
-  ~TeleportPlugin() {
+  ~TeleportPlugin()
+  {
     if (_load_complete) {
       rclcpp::shutdown();
     }
