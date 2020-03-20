@@ -7,8 +7,7 @@ namespace rmf_gazebo_plugins
 {
 
 //==============================================================================
-double compute_ds(double s_target, double v_actual, const double v_max,
-                  const double accel_nom, const double accel_max,
+double compute_ds(double s_target, double v_actual, const double v_max, const double accel_nom, const double accel_max,
                   const double dt)
 {
   double sign = 1.0;
@@ -36,7 +35,7 @@ double compute_ds(double s_target, double v_actual, const double v_max,
     // This is what our deceleration should be if we want to begin a constant
     // deceleration from now until we reach the goal
     double deceleration = pow(v_actual, 2) / s_target;
-    deceleration = std::min(deceleration, accel_max);
+    deceleration        = std::min(deceleration, accel_max);
 
     if (accel_nom <= deceleration)
     {
@@ -51,8 +50,7 @@ double compute_ds(double s_target, double v_actual, const double v_max,
 }
 
 //==============================================================================
-double compute_desired_rate_of_change(double _s_target, double _v_actual,
-                                      const MotionParams &_motion_params,
+double compute_desired_rate_of_change(double _s_target, double _v_actual, const MotionParams &_motion_params,
                                       const double _dt)
 {
   double sign = 1.0;
@@ -79,7 +77,7 @@ double compute_desired_rate_of_change(double _s_target, double _v_actual,
     // This is what our deceleration should be if we want to begin a constant
     // deceleration from now until we reach the goal
     double deceleration = pow(_v_actual, 2) / (2.0 * _s_target);
-    deceleration = std::min(deceleration, _motion_params.a_max);
+    deceleration        = std::min(deceleration, _motion_params.a_max);
 
     if (_motion_params.a_nom <= deceleration)
     {
@@ -96,9 +94,7 @@ double compute_desired_rate_of_change(double _s_target, double _v_actual,
 }
 
 //==============================================================================
-bool get_element_required(const sdf::ElementPtr &_sdf,
-                          const std::string &_element_name,
-                          sdf::ElementPtr &_element)
+bool get_element_required(const sdf::ElementPtr &_sdf, const std::string &_element_name, sdf::ElementPtr &_element)
 {
   if (!_sdf->HasElement(_element_name))
   {

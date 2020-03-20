@@ -34,7 +34,7 @@ class TeleportPlugin : public gazebo::ModelPlugin
 {
 public:
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
-  using Pose3d = ignition::math::Pose3d;
+  using Pose3d          = ignition::math::Pose3d;
 
   // Pointer to the model
   gazebo::physics::ModelPtr _model;
@@ -68,9 +68,7 @@ public:
 
     _result_sub = _node->create_subscription<DispenserResult>(
         "/dispenser_results", rclcpp::SystemDefaultsQoS(),
-        [&](DispenserResult::UniquePtr msg) {
-          dispenser_result_cb(std::move(msg));
-        });
+        [&](DispenserResult::UniquePtr msg) { dispenser_result_cb(std::move(msg)); });
 
     _initial_pose = _model->WorldPose();
 
@@ -80,7 +78,7 @@ public:
   // Called by the world update start event
   void dispenser_result_cb(DispenserResult::UniquePtr msg)
   {
-    auto status = msg->status;
+    auto status             = msg->status;
     std::string source_guid = msg->source_guid.c_str();
 
     if (source_guid == _load_guid && !_object_loaded)
