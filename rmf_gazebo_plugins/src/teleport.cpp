@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
@@ -29,10 +29,8 @@
 
 namespace rmf_gazebo_plugins {
 
-class TeleportPlugin : public gazebo::ModelPlugin
-{
-public: 
-
+class TeleportPlugin : public gazebo::ModelPlugin {
+public:
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
   using Pose3d = ignition::math::Pose3d;
 
@@ -46,13 +44,13 @@ public:
   std::string _load_guid;
   std::string _unload_guid;
 
+  Pose3d _initial_pose;
   Pose3d _load_pose;
   Pose3d _unload_pose;
 
   bool _object_loaded = false;
 
-  void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override
-  {
+  void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override {
     // Store the pointer to the model
     _model = _parent;
 
@@ -63,47 +61,46 @@ public:
     get_sdf_param_required<Pose3d>(_sdf, "unload_pose", _unload_pose);
 
     _node = gazebo_ros::Node::Get(_sdf);
-    std::cout << "Started teleport_plugin node..." <<std::endl;
+    std::cout << "Started teleport_plugin node..." << std::endl;
 
     _result_sub = _node->create_subscription<DispenserResult>(
-        "/dispenser_results",
-        rclcpp::SystemDefaultsQoS(),
-        [&](DispenserResult::UniquePtr msg)
-        {
+        "/dispenser_results", rclcpp::SystemDefaultsQoS(),
+        [&](DispenserResult::UniquePtr msg) {
           dispenser_result_cb(std::move(msg));
         });
-    
+
+    _initial_pose = _model->WorldPose();
+
     _load_complete = true;
   }
 
   // Called by the world update start event
-  void dispenser_result_cb(DispenserResult::UniquePtr msg)
-  {
+  void dispenser_result_cb(DispenserResult::UniquePtr msg) {
     auto status = msg->status;
     std::string source_guid = msg->source_guid.c_str();
 
-    if (source_guid == _load_guid && !_object_loaded)
-    {
-      RCLCPP_INFO(_node->get_logger(),  "Loading object");
+    if (source_guid == _load_guid && !_object_loaded) {
+      RCLCPP_INFO(_node->get_logger(), "Loading object");
       _model->SetWorldPose(_load_pose);
       _object_loaded = true;
-    }
-    else if (source_guid == _unload_guid && _object_loaded)
-    {
-      RCLCPP_INFO(_node->get_logger(),  "Unloading object");
+    } else if (source_guid == _unload_guid && _object_loaded) {
+      RCLCPP_INFO(_node->get_logger(), "Unloading object");
       _model->SetWorldPose(_unload_pose);
+
+      // BH: Hard coded: Leave object at goal location for 3.0 second, then
+      // teleport
+      // it back to initial ( pre pickup  ) location
+      rclcpp::sleep_for(std::chrono::nanoseconds(3000000000));
+      _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
-    }
-    else
-    {
+
+    } else {
       return;
-    } 
+    }
   }
 
-  ~TeleportPlugin()
-  {
-    if (_load_complete)
-    {
+  ~TeleportPlugin() {
+    if (_load_complete) {
       rclcpp::shutdown();
     }
   }
