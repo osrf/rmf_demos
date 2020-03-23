@@ -71,12 +71,12 @@ protected:
   QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
 
   // Status - For visualizing important inforation on the selected agent
-  QTextEdit* _fleet_status_view;
-  QTextEdit* _fleet_summary_view; // Displays task summaries from rmf_core
+  QListView* _fleet_status_view;
+  QListView* _fleet_summary_view; // Displays task summaries from rmf_core
 
   // Schedule - For visualizing and planning future schedule actions
   QListView* _schedule_list_view; // Displays [action] by [fleet] at [time]
-  QCheckBox* _pop_schedule_checkbox; // If checked, run schedule live
+  QCheckBox* _pause_schedule_checkbox; // If checked, pause schedule running
   QPushButton* _edit_schedule_item_button;
   QPushButton* _delete_schedule_item_button;
 
