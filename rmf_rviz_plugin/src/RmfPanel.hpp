@@ -47,63 +47,12 @@ public:
   virtual void save(rviz_common::Config config) const;
 
 public Q_SLOTS:
-  void set_delivery_task_id(const QString& value);
-  void set_delivery_pickup(const QString& value);
-  void set_delivery_dropoff(const QString& value);
-  void set_delivery_robot(const QString& value);
-
-  void set_loop_task_id(const QString& value);
-  void set_loop_start(const QString& value);
-  void set_loop_finish(const QString& value);
-  void set_loop_robot(const QString& value);
-  void set_loop_num(const QString& value);
 
 protected Q_SLOTS:
-  void update_delivery_task_id();
-  void update_delivery_pickup();
-  void update_delivery_dropoff();
-  void update_delivery_robot();
-  void request_delivery();
-
-  void update_loop_task_id();
-  void update_loop_start();
-  void update_loop_finish();
-  void update_loop_robot();
-  void update_loop_num();
-  void request_loop();
 
 protected:
   
   void create_layout();
-
-  QLineEdit* _delivery_task_id_editor;
-  QLineEdit* _delivery_pickup_editor;
-  QLineEdit* _delivery_dropoff_editor;
-  QLineEdit* _delivery_robot_editor;
-
-  QLineEdit* _loop_task_id_editor;
-  QLineEdit* _loop_start_editor;
-  QLineEdit* _loop_finish_editor;
-  QLineEdit* _loop_robot_editor;
-  QLineEdit* _loop_num_editor;
-
-  QPushButton* _delivery_button;
-  QPushButton* _loop_button;
-
-  QString _delivery_task_id;
-  QString _delivery_robot;
-  QString _delivery_pickup;
-  QString _delivery_dropoff;
-
-  QString _loop_task_id;
-  QString _loop_robot;
-  QString _loop_start;
-  QString _loop_finish;
-  QString _loop_num;
-
-  rclcpp::Node::SharedPtr _node;
-  rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
-  rclcpp::Publisher<Loop>::SharedPtr _loop_pub;
 
   bool _has_loaded = false;
   
