@@ -25,7 +25,13 @@
 #include <rmf_task_msgs/msg/loop.hpp>
 
 #include <QLineEdit>
+#include <QComboBox>
+#include <QTimeEdit>
 #include <QPushButton>
+#include <QCheckBox>
+#include <QTextEdit>
+#include <QListView>
+#include <QSpinBox>
 
 #include <memory>
 #include <thread>
@@ -53,6 +59,32 @@ protected Q_SLOTS:
 protected:
   
   void create_layout();
+
+  // Defining GUI QT Components - Focused on Fleets
+  // Selectors - For targeting agents to accomplish goals
+  QComboBox* _fleet_selector; 
+  QComboBox* _robot_selector;
+  QComboBox* _start_waypoint_selector;
+  QComboBox* _end_waypoint_selector;
+  QSpinBox* _repeat_count_selector; // Determines number of times to repeat an action
+  QTimeEdit* _time_selector;
+  QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
+
+  // Status - For visualizing important inforation on the selected agent
+  QTextEdit* _fleet_status_view;
+  QTextEdit* _fleet_summary_view; // Displays task summaries from rmf_core
+
+  // Schedule - For visualizing and planning future schedule actions
+  QListView* _schedule_list_view; // Displays [action] by [fleet] at [time]
+  QCheckBox* _pop_schedule_checkbox; // If checked, run schedule live
+  QPushButton* _edit_schedule_item_button;
+  QPushButton* _delete_schedule_item_button;
+
+  // Actions - For queuing commands in Schedule
+  QPushButton* _send_delivery_button;
+  QPushButton* _send_loop_button;
+  QPushButton* _pause_robot_button;
+  QPushButton* _resume_robot_button;
 
   bool _has_loaded = false;
   
