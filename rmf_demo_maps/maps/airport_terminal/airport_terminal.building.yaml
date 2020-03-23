@@ -1,8 +1,8 @@
 levels:
   L1:
     doors:
-      - [277, 912, {motion_axis: [1, start], motion_degrees: [3, 85], motion_direction: [2, 1], name: [1, n01_door], type: [1, double_hinged]}]
-      - [1200, 311, {motion_axis: [1, start], motion_degrees: [3, 85], motion_direction: [2, 1], name: [1, n02_door], type: [1, double_hinged]}]
+      - [1205, 1206, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n02_door], type: [1, double_hinged]}]
+      - [1207, 1208, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n01_door], type: [1, double_hinged]}]
     drawing:
       filename: airport_terminal.png
     elevation: 0
@@ -328,6 +328,10 @@ levels:
       - [723, 1203, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [1203, 1204, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
       - [1204, 722, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
+      - [784, 1209, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1209, 1210, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1210, 1211, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1211, 1212, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
     layers:
       {}
     measurements:
@@ -610,7 +614,7 @@ levels:
       - [279.743, 649.23, 0, ""]
       - [293.187, 650.054, 0, ""]
       - [35.792, 451.588, 0, ""]
-      - [36.401, 492.745, 0, ""]
+      - [36.179, 492.554, 0, ""]
       - [119.019, 506.463, 0, ""]
       - [133.653, 446.71, 0, ""]
       - [157.737, 391.835, 0, ""]
@@ -1006,7 +1010,7 @@ levels:
       - [2857.409, 44.629, 0, ""]
       - [940.712, 643.332, 0, ""]
       - [1019.506, 643.332, 0, ""]
-      - [131.301, 162.165, 0, junction_n02]
+      - [140.054, 161.575, 0, junction_n02]
       - [439.335, 161.884, 0, ""]
       - [708.283, 131.406, 0, ""]
       - [778.588, 126.566, 0, junction_n12]
@@ -1117,8 +1121,8 @@ levels:
       - [463.398, 147.032, 0, ""]
       - [1383.237, 77.586, 0, ""]
       - [1421.499, 77.82899999999999, 0, ""]
-      - [143.398, 158.789, 0, ""]
-      - [411.767, 158.227, 0, ""]
+      - [140.689, 162.702, 0, ""]
+      - [412.437, 163.087, 0, ""]
       - [461.516, 138.922, 0, ""]
       - [644.1, 139.067, 0, ""]
       - [733.2569999999999, 135.367, 0, ""]
@@ -1534,10 +1538,18 @@ levels:
       - [1132.252, 524.857, 0, ""]
       - [1131.675, 587.942, 0, ""]
       - [198.813, 180.124, 0, ""]
-      - [187.87, 158.557, 0, ""]
-      - [221.024, 158.4, 0, ""]
+      - [187.1, 162.611, 0, ""]
+      - [221.841, 162.702, 0, ""]
       - [19.174, 472.777, 0, ""]
       - [19.046, 502.842, 0, ""]
+      - [198.896, 144.477, 0, ""]
+      - [198.794, 176.729, 0, ""]
+      - [4.211, 492.453, 0, ""]
+      - [32.893, 492.665, 0, ""]
+      - [20.654, 396.722, 0, ""]
+      - [20.186, 472.75, 0, ""]
+      - [20.398, 502.884, 0, ""]
+      - [19.383, 546.11, 0, junction_n01]
     walls:
       - [6, 10, {}]
       - [10, 9, {}]
@@ -1991,6 +2003,10 @@ levels:
       - [329, 823, {}]
       - [823, 328, {}]
       - [327, 819, {}]
+      - [311, 1205, {}]
+      - [1200, 1206, {}]
+      - [912, 1207, {}]
+      - [1208, 277, {}]
 lifts:
   {}
 name: airport_terminal
