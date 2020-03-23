@@ -37,6 +37,7 @@
 #include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <rmf_task_msgs/msg/delivery.hpp>
 #include <rmf_task_msgs/msg/loop.hpp>
+#include <rmf_task_msgs/msg/tasks.hpp>
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -46,6 +47,8 @@
 #include <QTextEdit>
 #include <QListView>
 #include <QSpinBox>
+#include <QTimer>
+#include <QStringListModel>
 
 #include <memory>
 #include <thread>
@@ -71,6 +74,7 @@ using GetParameters = rcl_interfaces::srv::GetParameters;
 using PathRequest = rmf_fleet_msgs::msg::PathRequest;
 using ModeRequest = rmf_fleet_msgs::msg::ModeRequest;
 using DoorRequest = rmf_door_msgs::msg::DoorRequest;
+using TaskSummary = rmf_task_msgs::msg::TaskSummary;
 using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
 using Graph = rmf_traffic::agv::Graph;
 
@@ -85,8 +89,15 @@ public:
   virtual void save(rviz_common::Config config) const;
 
 public Q_SLOTS:
+  void send_delivery();
 
 protected Q_SLOTS:
+  void update_fleet_selector();
+  void update_robot_selector();
+  void update_start_waypoint_selector();
+  void update_end_waypoint_selector();
+  void update_time_selector();
+  void update_task_summary_list();
 
 protected:
   
@@ -94,7 +105,8 @@ protected:
   void initialize_publishers(rclcpp::Node::SharedPtr _node);
   void initialize_subscribers(rclcpp::Node::SharedPtr _node);
   void initialize_state_record();
-  void generate_robot_uuid(std::string fleet_name, std::string robot_name);
+  void initialize_qt_connections();
+  void initialize_models();
 
   // Defining GUI QT Components - Focused on Fleets
   // Selectors - For targeting agents to accomplish goals
@@ -107,8 +119,9 @@ protected:
   QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
 
   // Status - For visualizing important inforation on the selected agent
-  QListView* _fleet_status_view;
   QListView* _fleet_summary_view; // Displays task summaries from rmf_core
+  QStringListModel* _fleet_summary_model;
+  QStringList _fleet_summary_data;
 
   // Schedule - For visualizing and planning future schedule actions
   QListView* _schedule_list_view; // Displays [action] by [fleet] at [time]
@@ -122,6 +135,9 @@ protected:
   QPushButton* _pause_robot_button;
   QPushButton* _resume_robot_button;
 
+  // QTimer to update fields
+  QTimer* _update_timer;
+
   bool _has_loaded = false;
   
   std::thread _thread;
@@ -131,6 +147,9 @@ protected:
 private:
   // ROS2 Plumbing
   rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
+  rclcpp::Subscription<TaskSummary>::SharedPtr _task_summary_sub;
+
+  rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
 
   // Book Keeping
   std::unordered_map<std::string, std::vector<std::string>> _map_fleet_to_robots;
@@ -139,9 +158,11 @@ private:
 
   // Misc Functions
   rmf_utils::optional<GraphInfo> load_fleet_graph_info(std::string fleet_name) const;
+  std::string generate_task_uuid(int len);
 
   // ROS2 callbacks
   void _fleet_state_callback(const FleetState::SharedPtr msg);
+  void _task_summary_callback(const TaskSummary::SharedPtr msg);
 
 };
 } // namespace rmf_rviz_plugin
