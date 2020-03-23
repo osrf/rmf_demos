@@ -1,5 +1,8 @@
 levels:
   L1:
+    doors:
+      - [1205, 1206, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n02_door], type: [1, double_hinged]}]
+      - [1207, 1208, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n01_door], type: [1, double_hinged]}]
     drawing:
       filename: airport_terminal.png
     elevation: 0
@@ -321,6 +324,16 @@ levels:
       - [714, 1198, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [1198, 1199, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [1199, 759, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [784, 1201, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1201, 1202, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1202, 785, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [723, 1203, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
+      - [1203, 1204, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
+      - [1204, 722, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
+      - [784, 1209, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1209, 1210, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1210, 1211, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [1211, 1212, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
     layers:
       {}
     measurements:
@@ -1526,6 +1539,19 @@ levels:
       - [340.645, 609.421, 0, ""]
       - [1132.252, 524.857, 0, ""]
       - [1131.675, 587.942, 0, ""]
+      - [198.813, 180.124, 0, ""]
+      - [187.1, 162.611, 0, ""]
+      - [221.841, 162.702, 0, ""]
+      - [19.174, 472.777, 0, ""]
+      - [19.046, 502.842, 0, ""]
+      - [198.896, 144.477, 0, ""]
+      - [198.794, 176.729, 0, ""]
+      - [4.211, 492.453, 0, ""]
+      - [32.893, 492.665, 0, ""]
+      - [20.654, 396.722, 0, ""]
+      - [20.186, 472.75, 0, ""]
+      - [20.398, 502.884, 0, ""]
+      - [19.383, 546.11, 0, junction_n01]
     walls:
       - [6, 10, {}]
       - [10, 9, {}]
@@ -1979,6 +2005,10 @@ levels:
       - [329, 823, {}]
       - [823, 328, {}]
       - [327, 819, {}]
+      - [311, 1205, {}]
+      - [1200, 1206, {}]
+      - [912, 1207, {}]
+      - [1208, 277, {}]
 lifts:
   {}
 name: airport_terminal

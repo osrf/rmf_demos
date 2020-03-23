@@ -29,6 +29,11 @@ spawn_robot MiR100 mir100_1
 send_loop_job junction_central_east junction_north_east mir100
 
 
+echo "Spawning and sending job to robot mir100_2."
+spawn_robot MiR100 mir100_2
+send_loop_job west_koi_pond junction_n01 mir100
+
+
 echo "Spawning and sending job to robot magni_0."
 spawn_robot Magni magni_0
 send_loop_job junction_s10 junction_n18 magni
