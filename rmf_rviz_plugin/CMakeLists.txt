@@ -22,19 +22,30 @@ find_package(rviz_common REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(rviz_default_plugins REQUIRED)
 find_package(rmf_task_msgs REQUIRED)
+find_package(rmf_fleet_msgs REQUIRED)
+find_package(rmf_door_msgs REQUIRED)
+find_package(rmf_lift_msgs REQUIRED)
+find_package(rmf_dispenser_msgs REQUIRED)
+find_package(rmf_task_msgs REQUIRED)
+find_package(rmf_traffic REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Test)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-add_library(${PROJECT_NAME} SHARED src/RmfPanel.cpp)
+add_library(${PROJECT_NAME} SHARED src/RmfPanel.cpp src/ParseGraph.cpp)
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
     ${QT5_LIBRARIES} 
     ${rclcpp_LIBRARIES}
     ${rmf_task_msgs_LIBRARIES}
+    ${rmf_fleet_msgs_LIBRARIES}
+    ${rmf_door_msgs_LIBRARIES}
+    ${rmf_lift_msgs_LIBRARIES}
+    ${rmf_dispenser_msgs_LIBRARIES}
     rviz_common::rviz_common
     rviz_default_plugins::rviz_default_plugins
+    rmf_traffic::rmf_traffic
     ${rviz_rendering_LIBRARIES}
     ${rviz_default_plugins_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
@@ -47,6 +58,11 @@ target_include_directories(${PROJECT_NAME}
     $<INSTALL_INTERFACE:include>
     ${rclcpp_INCLUDE_DIRS}
     ${rmf_task_msgs_INCLUDE_DIRS}
+    ${rmf_fleet_msgs_INCLUDE_DIRS}
+    ${rmf_door_msgs_INCLUDE_DIRS}
+    ${rmf_lift_msgs_INCLUDE_DIRS}
+    ${rmf_traffic_INCLUDE_DIRS}
+    ${rmf_dispenser_msgs_INCLUDE_DIRS}
     ${rviz_common_INCLUDE_DIRS}
     ${rviz_rendering_INCLUDE_DIRS}
     ${rviz_default_plugins_INCLUDE_DIRS}

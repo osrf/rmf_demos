@@ -19,8 +19,22 @@
 #define RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
 
 #include <rviz_common/panel.hpp>
+#include <rcl_interfaces/srv/get_parameters.hpp>
 #include <rclcpp/rclcpp.hpp>
 
+#include <geometry_msgs/msg/point_stamped.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
+#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
+#include <rmf_door_msgs/msg/door_mode.hpp>
+#include <rmf_door_msgs/msg/door_request.hpp>
+#include <rmf_door_msgs/msg/door_state.hpp>
+#include <rmf_fleet_msgs/msg/fleet_state.hpp>
+#include <rmf_fleet_msgs/msg/mode_request.hpp>
+#include <rmf_fleet_msgs/msg/path_request.hpp>
+#include <rmf_fleet_msgs/msg/robot_mode.hpp>
+#include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <rmf_task_msgs/msg/delivery.hpp>
 #include <rmf_task_msgs/msg/loop.hpp>
 
@@ -37,10 +51,28 @@
 #include <thread>
 #include <mutex>
 
+#include "ParseGraph.hpp"
+
 namespace rmf_rviz_plugin {
 
 using Delivery = rmf_task_msgs::msg::Delivery;
 using Loop = rmf_task_msgs::msg::Loop;
+using FleetState = rmf_fleet_msgs::msg::FleetState;
+using RobotState = rmf_fleet_msgs::msg::RobotState;
+using DoorState = rmf_door_msgs::msg::DoorState;
+using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
+using Location = rmf_fleet_msgs::msg::Location;
+using RobotMode = rmf_fleet_msgs::msg::RobotMode;
+using DoorMode = rmf_door_msgs::msg::DoorMode;
+using PoseStamped = geometry_msgs::msg::PoseStamped;
+using PointStamped = geometry_msgs::msg::PointStamped;
+using PoseWithCovarianceStamped = geometry_msgs::msg::PoseWithCovarianceStamped;
+using GetParameters = rcl_interfaces::srv::GetParameters;
+using PathRequest = rmf_fleet_msgs::msg::PathRequest;
+using ModeRequest = rmf_fleet_msgs::msg::ModeRequest;
+using DoorRequest = rmf_door_msgs::msg::DoorRequest;
+using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
+using Graph = rmf_traffic::agv::Graph;
 
 class RmfPanel : public rviz_common::Panel
 {
@@ -59,6 +91,10 @@ protected Q_SLOTS:
 protected:
   
   void create_layout();
+  void initialize_publishers(rclcpp::Node::SharedPtr _node);
+  void initialize_subscribers(rclcpp::Node::SharedPtr _node);
+  void initialize_state_record();
+  void generate_robot_uuid(std::string fleet_name, std::string robot_name);
 
   // Defining GUI QT Components - Focused on Fleets
   // Selectors - For targeting agents to accomplish goals
@@ -90,9 +126,24 @@ protected:
   
   std::thread _thread;
   std::mutex _mutex;
+  rclcpp::Node::SharedPtr _node;
+
+private:
+  // ROS2 Plumbing
+  rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
+
+  // Book Keeping
+  std::unordered_map<std::string, std::vector<std::string>> _map_fleet_to_robots;
+  std::unordered_map<std::string, GraphInfo> _map_fleet_to_graph_info;
+  std::unordered_map<std::string, RobotState> _map_robot_to_state;
+
+  // Misc Functions
+  rmf_utils::optional<GraphInfo> load_fleet_graph_info(std::string fleet_name) const;
+
+  // ROS2 callbacks
+  void _fleet_state_callback(const FleetState::SharedPtr msg);
 
 };
-
 } // namespace rmf_rviz_plugin
 
 #endif // RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
