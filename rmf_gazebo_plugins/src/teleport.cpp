@@ -98,9 +98,8 @@ public:
       _object_loaded = false;
 
       // Hard coded: Leave object at goal location for 2.0 second, then
-      // teleport
-      // it back to initial ( pre pickup  ) location
-      rclcpp::sleep_for(std::chrono::nanoseconds(2000000000));
+      // teleport it back to initial ( pre pickup  ) location
+      rclcpp::sleep_for(std::chrono::seconds(2));
       _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
