@@ -124,6 +124,13 @@ void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node)
 {
   _delivery_pub = _node->create_publisher<Delivery>(
       rmf_rviz_plugin::DeliveryTopicName, rclcpp::QoS(10));
+
+  _loop_pub = _node->create_publisher<Loop>(
+      rmf_rviz_plugin::LoopRequestTopicName, rclcpp::QoS(10));
+
+  // TODO: Simulation robots do not seem to respond?
+  _mode_request_pub = _node->create_publisher<ModeRequest>(
+      rmf_rviz_plugin::ModeRequestTopicName, rclcpp::QoS(10));
 }
 
 void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node)
@@ -147,6 +154,8 @@ void RmfPanel::initialize_qt_connections()
 {
   connect(this, SIGNAL(configChanged()), this, SLOT(update_fleet_selector()));
   connect(this, SIGNAL(configChanged()), this, SLOT(update_robot_selector()));
+  connect(this, SIGNAL(configChanged()), this, SLOT(update_schedule()));
+
   connect(_fleet_selector,
       SIGNAL(currentTextChanged(const QString&)), 
       this, 
@@ -159,9 +168,16 @@ void RmfPanel::initialize_qt_connections()
       SIGNAL(currentTextChanged(const QString&)), 
       this, 
       SLOT(update_end_waypoint_selector()));
+
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(update_time_selector()));
-  connect(_send_delivery_button, SIGNAL(clicked()), this, SLOT(send_delivery()));
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(update_task_summary_list()));
+  connect(_update_timer, SIGNAL(timeout()), this, SLOT(pop_schedule()));
+
+  connect(_send_delivery_button, SIGNAL(clicked()), this, SLOT(queue_delivery()));
+  connect(_send_loop_button, SIGNAL(clicked()), this, SLOT(queue_loop()));
+  connect(_delete_schedule_item_button, SIGNAL(clicked()), this, SLOT(delete_schedule_item()));
+  connect(_pause_robot_button, SIGNAL(clicked()), this, SLOT(pause_robot()));
+  connect(_resume_robot_button, SIGNAL(clicked()), this, SLOT(resume_robot()));
 }
 
 void RmfPanel::initialize_models()
@@ -169,6 +185,13 @@ void RmfPanel::initialize_models()
   _fleet_summary_model = new QStringListModel();
   _fleet_summary_data = QStringList();
   _fleet_summary_view->setModel(_fleet_summary_model);
+
+  _schedule_list_model = new QStringListModel();
+  _schedule_list_data = QStringList();
+  _schedule_list_view->setModel(_schedule_list_model);
+
+  _queued_deliveries = std::vector<std::pair<QTime, Delivery>>();
+  _queued_loops = std::vector<std::pair<QTime, Loop>>();
 }
 
 // Misc Functions
@@ -262,19 +285,143 @@ void RmfPanel::save(rviz_common::Config config) const
 
 // Q_SLOTS
 // Actions
-void RmfPanel::send_delivery()
+void RmfPanel::queue_delivery()
 {
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
   Delivery delivery;
-  std::lock_guard<std::mutex> lock(_mutex);
 
   delivery.task_id = generate_task_uuid(3);
   delivery.pickup_place_name = start;
   delivery.dropoff_place_name = end;
 
-  _delivery_pub->publish(delivery);
-  RCLCPP_INFO(_node->get_logger(), "Published delivery request");
+  auto delivery_time = _time_selector->time();
+
+  int insertPos = 0;
+  for(auto it = _queued_deliveries.begin(); it != _queued_deliveries.end(); it++)
+  {
+    if (delivery_time <= it->first)
+    {
+      break;
+    }
+    else
+    {
+      insertPos++;
+    }
+  }
+
+  std::pair<QTime, Delivery> data = std::pair<QTime, Delivery>(delivery_time, delivery);
+  _queued_deliveries.insert(_queued_deliveries.begin() + insertPos, data);
+
+  RCLCPP_INFO(_node->get_logger(), "Queued delivery request");
+  Q_EMIT configChanged();
+}
+
+void RmfPanel::queue_loop()
+{
+  std::string start = _start_waypoint_selector->currentText().toStdString();
+  std::string end = _end_waypoint_selector->currentText().toStdString();
+  Loop loop;
+
+  loop.task_id = generate_task_uuid(4);
+  loop.robot_type = _fleet_selector->currentText().toStdString();
+  loop.num_loops = _repeat_count_selector->value();
+  loop.start_name = start;
+  loop.finish_name = end;
+
+  auto loop_time = _time_selector->time();
+
+  int insertPos = 0;
+  for(auto it = _queued_loops.begin(); it != _queued_loops.end(); it++)
+  {
+    if (loop_time <= it->first)
+    {
+      break;
+    }
+    else
+    {
+      insertPos++;
+    }
+  }
+
+  std::pair<QTime, Loop> data = std::pair<QTime, Loop>(loop_time, loop);
+  _queued_loops.insert(_queued_loops.begin() + insertPos, data);
+
+  RCLCPP_INFO(_node->get_logger(), "Queued loop request");
+  Q_EMIT configChanged();
+}
+
+
+void RmfPanel::pop_delivery()
+{
+  auto msg = _queued_deliveries.begin()->second;
+  std::lock_guard<std::mutex> lock(_mutex);
+  _delivery_pub->publish(msg);
+  _queued_deliveries.erase(_queued_deliveries.begin());
+}
+
+void RmfPanel::pop_loop()
+{
+  auto msg = _queued_loops.begin()->second;
+  std::lock_guard<std::mutex> lock(_mutex);
+  _loop_pub->publish(msg);
+  _queued_loops.erase(_queued_loops.begin());
+}
+
+void RmfPanel::delete_schedule_item()
+{
+  if(_schedule_list_data.count() == 0)
+  {
+    return;
+  }
+
+  int idx = _schedule_list_view->currentIndex().row();
+
+  // These index the offset into the respective vectors we are aiming to delete
+  int d_idx = 0;
+  int l_idx = 0;
+  bool is_loop = true;
+  std::cout << "Index" << idx << std::endl;
+  for(int i=0; i <= idx; i++) // We need to iterate at least once
+  {
+    // Iterate through the selection index from the listview, pointing to the 
+    // corresponding element in the right vector according to increasing time
+    if (_queued_deliveries.begin() + d_idx == _queued_deliveries.end())
+    {
+      // deliveries is empty, increment loops
+      l_idx++;
+      is_loop = true;
+    }
+    else if (_queued_loops.begin() + l_idx == _queued_loops.end())
+    {
+      // loops is empty ,increment deliveries
+      d_idx++;
+      is_loop = false;
+    }
+    else if (_queued_loops[l_idx].first <= _queued_deliveries[d_idx].first)
+    {
+      // Loops has earlier timestamp, increment loops
+      l_idx++;
+      is_loop = true;
+    }
+    else 
+    {
+      // Deliveries has earlier timestamp, increment deliveries
+      d_idx++;
+      is_loop = false;
+    }
+  }
+
+  // Once we iterate through all i, we know what to delete
+  if (is_loop)
+  {
+    _queued_loops.erase(_queued_loops.begin() + l_idx - 1);
+  } 
+  else
+  {
+    _queued_deliveries.erase(_queued_deliveries.begin() + d_idx - 1);
+  }
+  Q_EMIT configChanged();
 }
 
 // Updates
@@ -289,6 +436,28 @@ void RmfPanel::update_fleet_selector()
       _fleet_selector->addItem(QString(it.first.c_str()));
     }
   }
+}
+
+void RmfPanel::pause_robot()
+{
+  ModeRequest msg = ModeRequest();
+  msg.fleet_name = _fleet_selector->currentText().toStdString();
+  msg.robot_name = _robot_selector->currentText().toStdString();
+  msg.task_id = generate_task_uuid(2);
+  msg.mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_PAUSED;
+  _mode_request_pub->publish(msg);
+  RCLCPP_INFO(_node->get_logger(), "Pausing robot..");
+}
+
+void RmfPanel::resume_robot()
+{
+  ModeRequest msg = ModeRequest();
+  msg.fleet_name = _fleet_selector->currentText().toStdString();
+  msg.robot_name = _robot_selector->currentText().toStdString();
+  msg.task_id = generate_task_uuid(2);
+  msg.mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_MOVING;
+  _mode_request_pub->publish(msg);
+  RCLCPP_INFO(_node->get_logger(), "Resuming robot..");
 }
 
 void RmfPanel::update_robot_selector()
@@ -336,6 +505,137 @@ void RmfPanel::update_task_summary_list()
 {
   _fleet_summary_model->setStringList(_fleet_summary_data);
   _fleet_summary_view->scrollToBottom();
+}
+
+void RmfPanel::update_schedule()
+{
+  int queued_deliveries_count = _queued_deliveries.size();
+  int queued_loops_count = _queued_loops.size();
+  int schedule_count = _schedule_list_data.size();
+  bool schedule_changed = (schedule_count != queued_deliveries_count + queued_loops_count);
+  bool schedule_empty = (_queued_deliveries.size() + _queued_loops.size()) == 0;
+
+  _schedule_list_data = QStringList();
+
+  if (schedule_empty)
+  {
+  }
+  else if (schedule_changed) 
+  {
+    // First clear all data
+
+    // Iterate down _queued_deliveries and _queued_loops, appending them to the schedule
+    auto deliver_it = _queued_deliveries.cbegin();
+    auto loop_it = _queued_loops.cbegin();
+    QTime ref_time;
+    
+    // Initialize reference time
+    if(loop_it == _queued_loops.cend())
+    {
+      ref_time = deliver_it->first;
+    } 
+    else if (deliver_it == _queued_deliveries.cend()) {
+      ref_time = loop_it->first;
+    }
+    else if (deliver_it->first <= loop_it->first)
+    {
+      ref_time = deliver_it->first;
+    }
+    else
+    {
+      ref_time = loop_it->first;
+    }
+
+    while(deliver_it != _queued_deliveries.cend() || loop_it != _queued_loops.cend())
+    {
+      // Iterate over deliveries and loops, appending to schedule list in chronological order
+      bool add_from_del = false;
+      bool add_from_loop = false;
+      if (deliver_it == _queued_deliveries.cend())
+      {
+        // deliveries is empty, add from loops
+        add_from_loop = true;
+      }
+      else if (loop_it == _queued_loops.cend())
+      {
+        add_from_del = true;
+      }
+      else if (deliver_it->first < loop_it->first)
+      {
+        // If delivery time is earlier, queue it first
+        add_from_del = true;
+      }
+      else if (loop_it->first <= deliver_it->first)
+      {
+        // If loop time is earlier, queue it first
+        add_from_loop = true;
+      }
+      
+      // Finally, decide what to do this loop
+      if (add_from_loop)
+      {
+        std::stringstream ss;
+        ss << "\tLoop\t"
+           << "From: " + loop_it->second.start_name + "\t"
+           << "To: " + loop_it->second.finish_name + "\t"
+           << "Repeat: " + std::to_string(loop_it->second.num_loops)
+           << std::endl;
+        _schedule_list_data.append(loop_it->first.toString() 
+            + QString(ss.str().c_str()));
+        loop_it++;
+      } 
+      else if (add_from_del)
+      {
+        std::stringstream ss;
+        ss << "\tDelivery\t"
+           << "From: " + deliver_it->second.pickup_place_name + "\t"
+           << "To: " + deliver_it->second.dropoff_place_name
+           << std::endl;
+        _schedule_list_data.append(deliver_it->first.toString() 
+            + QString(ss.str().c_str()));
+        deliver_it++;
+      }
+    }
+  }
+  for (auto i : _schedule_list_data) {
+      std::cout << i.toStdString() << std::endl;
+  }
+  _schedule_list_model->setStringList(_schedule_list_data);
+}
+
+void RmfPanel::pop_schedule()
+{
+  if (_pause_schedule_checkbox->isChecked())
+  {
+    // If schedule is paused, we will not execute any schedule items.
+    return;
+  }
+
+  for(auto delivery_data : _queued_deliveries)
+  {
+    if (QTime::currentTime() > delivery_data.first)
+    {
+      pop_delivery();
+      Q_EMIT configChanged();
+    } 
+    else 
+    {
+      break;
+    }
+  }
+
+  for(auto loop_data : _queued_loops)
+  {
+    if (QTime::currentTime() > loop_data.first)
+    {
+      pop_loop();
+      Q_EMIT configChanged();
+    } 
+    else 
+    {
+      break;
+    }
+  }
 }
 
 // ROS2 Callbacks

@@ -89,7 +89,14 @@ public:
   virtual void save(rviz_common::Config config) const;
 
 public Q_SLOTS:
-  void send_delivery();
+  void queue_delivery();
+  void queue_loop();
+  void pop_delivery();
+  void pop_schedule();
+  void pop_loop();
+  void delete_schedule_item();
+  void pause_robot();
+  void resume_robot();
 
 protected Q_SLOTS:
   void update_fleet_selector();
@@ -98,6 +105,7 @@ protected Q_SLOTS:
   void update_end_waypoint_selector();
   void update_time_selector();
   void update_task_summary_list();
+  void update_schedule();
 
 protected:
   
@@ -129,6 +137,11 @@ protected:
   QPushButton* _edit_schedule_item_button;
   QPushButton* _delete_schedule_item_button;
 
+  QStringListModel* _schedule_list_model;
+  QStringList _schedule_list_data;
+  std::vector<std::pair<QTime, Delivery>> _queued_deliveries;
+  std::vector<std::pair<QTime, Loop>> _queued_loops;
+
   // Actions - For queuing commands in Schedule
   QPushButton* _send_delivery_button;
   QPushButton* _send_loop_button;
@@ -150,6 +163,8 @@ private:
   rclcpp::Subscription<TaskSummary>::SharedPtr _task_summary_sub;
 
   rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
+  rclcpp::Publisher<Loop>::SharedPtr _loop_pub;
+  rclcpp::Publisher<ModeRequest>::SharedPtr _mode_request_pub;
 
   // Book Keeping
   std::unordered_map<std::string, std::vector<std::string>> _map_fleet_to_robots;
