@@ -46,6 +46,7 @@ public:
   std::string _load_guid;
   std::string _unload_guid;
 
+  Pose3d _initial_pose;
   Pose3d _load_pose;
   Pose3d _unload_pose;
 
@@ -73,6 +74,8 @@ public:
           dispenser_result_cb(std::move(msg));
         });
     
+    // Fixed location for "reloading" payloads
+    _initial_pose = _model->WorldPose();
     _load_complete = true;
   }
 
@@ -92,6 +95,12 @@ public:
     {
       RCLCPP_INFO(_node->get_logger(),  "Unloading object");
       _model->SetWorldPose(_unload_pose);
+      _object_loaded = false;
+
+      // Hard coded: Leave object at goal location for 2.0 second, then
+      // teleport it back to initial ( pre pickup  ) location
+      rclcpp::sleep_for(std::chrono::seconds(2));
+      _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
     else
