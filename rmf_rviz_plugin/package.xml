@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?xml version="1.0" ?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema" ?>
 <package format="3">
   <name>rmf_rviz_plugin</name>
   <version>0.0.0</version>
@@ -22,6 +22,11 @@
   <exec_depend>libqt5-widgets</exec_depend>
 
   <depend>rmf_task_msgs</depend>
+  <depend>rmf_traffic</depend>
+  <depend>rmf_fleet_msgs</depend>
+  <depend>rmf_door_msgs</depend>
+  <depend>rmf_lift_msgs</depend>
+  <depend>rmf_dispenser_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
