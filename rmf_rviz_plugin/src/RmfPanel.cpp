@@ -34,6 +34,25 @@ void RmfPanel::create_layout()
   // Creates the layout for QT GUI
   QGridLayout *control_panel_layout = new QGridLayout(this);
 
+  // Options
+  QGroupBox *options_gb = new QGroupBox("Options");
+  QGridLayout *options_layout = new QGridLayout();
+  options_gb->setLayout(options_layout);
+
+  // Keeps the time selector at current time
+  _update_time_checkbox = new QCheckBox("Keep Time Updated");
+  _update_time_checkbox->setChecked(true);
+  options_layout->addWidget(_update_time_checkbox, 0, 0);
+
+  _pause_schedule_checkbox = new QCheckBox("Pause Schedule");
+  _pause_schedule_checkbox->setChecked(true);
+  options_layout->addWidget(_pause_schedule_checkbox, 0, 1);
+
+  _workcells_only_checkbox = new QCheckBox("Workcells Only");
+  options_layout->addWidget(_workcells_only_checkbox, 0, 2);
+
+  control_panel_layout->addWidget(options_gb, 0, 0);
+
   // Selectors 
   QGroupBox *selector_gb = new QGroupBox("Selectors");
   QGridLayout *selector_layout = new QGridLayout();
@@ -60,14 +79,11 @@ void RmfPanel::create_layout()
   selector_layout->addWidget(_repeat_count_selector, 4, 1, 1, 2);
 
   selector_layout->addWidget(new QLabel("Time: "), 5, 0); 
-  _update_time_checkbox = new QCheckBox("Keep Time Updated");
-  _update_time_checkbox->setChecked(true);
-  selector_layout->addWidget(_update_time_checkbox, 5, 1, 1, 2);
   _time_selector = new QTimeEdit(QTime::currentTime());
   _time_selector->setDisplayFormat(QString("hh:mm:ss ap"));
-  selector_layout->addWidget(_time_selector, 5, 2);
+  selector_layout->addWidget(_time_selector, 5, 1, 1, 2);
 
-  control_panel_layout->addWidget(selector_gb, 0, 0);
+  control_panel_layout->addWidget(selector_gb, 1, 0);
 
   // Status 
   QGroupBox *status_gb = new QGroupBox("Status");
@@ -77,7 +93,7 @@ void RmfPanel::create_layout()
   _fleet_summary_view = new QListView;
   status_layout->addWidget(_fleet_summary_view, 0, 0, 3, 5);
 
-  control_panel_layout->addWidget(status_gb, 1, 0);
+  control_panel_layout->addWidget(status_gb, 2, 0);
 
   // Schedule
   QGroupBox *schedule_gb = new QGroupBox("Schedule");
@@ -85,19 +101,15 @@ void RmfPanel::create_layout()
   schedule_gb->setLayout(schedule_layout);
 
   _schedule_list_view = new QListView;
-  schedule_layout->addWidget(_schedule_list_view, 0, 0, 10, 4);
-
-  _pause_schedule_checkbox = new QCheckBox("Pause Schedule");
-  _pause_schedule_checkbox->setChecked(true);
-  schedule_layout->addWidget(_pause_schedule_checkbox, 0, 5);
+  schedule_layout->addWidget(_schedule_list_view, 0, 0, 9, 2);
 
   _edit_schedule_item_button = new QPushButton("Edit");
-  schedule_layout->addWidget(_edit_schedule_item_button, 5, 5);
+  schedule_layout->addWidget(_edit_schedule_item_button, 10, 0, 1, 1);
 
   _delete_schedule_item_button = new QPushButton("Delete");
-  schedule_layout->addWidget(_delete_schedule_item_button, 6, 5);
+  schedule_layout->addWidget(_delete_schedule_item_button, 10, 1, 1, 1);
 
-  control_panel_layout->addWidget(schedule_gb, 2, 0);
+  control_panel_layout->addWidget(schedule_gb, 3, 0);
 
   // Actions
   QGroupBox *actions_gb = new QGroupBox("Actions");
@@ -116,7 +128,7 @@ void RmfPanel::create_layout()
   _send_loop_button = new QPushButton("Send Loop Request");
   actions_layout->addWidget(_send_loop_button, 2, 0, 1, 2);
 
-  control_panel_layout->addWidget(actions_gb, 3, 0);
+  control_panel_layout->addWidget(actions_gb, 4, 0);
 }
 
 // Initialization Functions
@@ -178,6 +190,11 @@ void RmfPanel::initialize_qt_connections()
   connect(_delete_schedule_item_button, SIGNAL(clicked()), this, SLOT(delete_schedule_item()));
   connect(_pause_robot_button, SIGNAL(clicked()), this, SLOT(pause_robot()));
   connect(_resume_robot_button, SIGNAL(clicked()), this, SLOT(resume_robot()));
+
+  connect(_workcells_only_checkbox, SIGNAL(stateChanged(int)), 
+      this, SLOT(update_start_waypoint_selector()));
+  connect(_workcells_only_checkbox, SIGNAL(stateChanged(int)), 
+      this, SLOT(update_end_waypoint_selector()));
 }
 
 void RmfPanel::initialize_models()
@@ -242,6 +259,26 @@ std::string RmfPanel::generate_task_uuid(int len)
   }
   return ss.str();
 }
+
+bool RmfPanel::waypoint_has_workcell(std::string waypoint_name, GraphInfo& graph_info)
+{
+  auto idx = graph_info.keys.find(waypoint_name);
+  if (idx == graph_info.keys.end())
+  {
+    RCLCPP_ERROR(_node->get_logger(), "Provided graph does not have this waypoint.");
+    return false;
+  }
+  if (graph_info.workcell_names.find(idx->second) == graph_info.workcell_names.end())
+  {
+    // Workcell does not exist at this waypoint
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
+
 
 RmfPanel::RmfPanel(QWidget* parent)
 : rviz_common::Panel(parent)
@@ -479,6 +516,8 @@ void RmfPanel::update_start_waypoint_selector()
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _start_waypoint_selector->clear();
   for (auto waypoint : graph_info.waypoint_names) {
+    if (!_workcells_only_checkbox->isChecked() 
+        || waypoint_has_workcell(waypoint.second, graph_info))
     _start_waypoint_selector->addItem(QString(waypoint.second.c_str()));
   }
 }
@@ -489,6 +528,8 @@ void RmfPanel::update_end_waypoint_selector()
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _end_waypoint_selector->clear();
   for (auto waypoint : graph_info.waypoint_names) {
+    if (!_workcells_only_checkbox->isChecked() 
+        || waypoint_has_workcell(waypoint.second, graph_info))
     _end_waypoint_selector->addItem(QString(waypoint.second.c_str()));
   }
 }

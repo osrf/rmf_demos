@@ -117,6 +117,13 @@ protected:
   void initialize_models();
 
   // Defining GUI QT Components - Focused on Fleets
+  
+  // Options - For configuring certain behaviors in the GUI
+  QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
+  QCheckBox* _pause_schedule_checkbox; // If checked, pause schedule running
+  QCheckBox* _workcells_only_checkbox; // If checked, only, workcell waypoints will be available for selection
+
+
   // Selectors - For targeting agents to accomplish goals
   QComboBox* _fleet_selector; 
   QComboBox* _robot_selector;
@@ -124,7 +131,6 @@ protected:
   QComboBox* _end_waypoint_selector;
   QSpinBox* _repeat_count_selector; // Determines number of times to repeat an action
   QTimeEdit* _time_selector;
-  QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
 
   // Status - For visualizing important inforation on the selected agent
   QListView* _fleet_summary_view; // Displays task summaries from rmf_core
@@ -133,7 +139,6 @@ protected:
 
   // Schedule - For visualizing and planning future schedule actions
   QListView* _schedule_list_view; // Displays [action] by [fleet] at [time]
-  QCheckBox* _pause_schedule_checkbox; // If checked, pause schedule running
   QPushButton* _edit_schedule_item_button;
   QPushButton* _delete_schedule_item_button;
 
@@ -174,6 +179,7 @@ private:
   // Misc Functions
   rmf_utils::optional<GraphInfo> load_fleet_graph_info(std::string fleet_name) const;
   std::string generate_task_uuid(int len);
+  bool waypoint_has_workcell(std::string waypoint_name, GraphInfo& graph_info);
 
   // ROS2 callbacks
   void _fleet_state_callback(const FleetState::SharedPtr msg);
