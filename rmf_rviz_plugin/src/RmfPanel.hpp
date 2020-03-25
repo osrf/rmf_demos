@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
 #ifndef RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
 #define RMF_RVIZ__PLUGIN__SRC__CONTROL_HPP
 
-#include <rviz_common/panel.hpp>
 #include <rcl_interfaces/srv/get_parameters.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <rviz_common/panel.hpp>
 #include <rviz_default_plugins/tools/point/point_tool.hpp>
 
 #include <geometry_msgs/msg/point_stamped.hpp>
@@ -40,22 +40,24 @@
 #include <rmf_task_msgs/msg/loop.hpp>
 #include <rmf_task_msgs/msg/tasks.hpp>
 
-#include <QLineEdit>
-#include <QComboBox>
-#include <QTimeEdit>
-#include <QPushButton>
 #include <QCheckBox>
-#include <QTextEdit>
+#include <QComboBox>
+#include <QFileDialog>
+#include <QLineEdit>
 #include <QListView>
+#include <QPushButton>
 #include <QSpinBox>
-#include <QTimer>
 #include <QStringListModel>
+#include <QTextEdit>
+#include <QTimeEdit>
+#include <QTimer>
 
 #include <memory>
-#include <thread>
 #include <mutex>
+#include <thread>
 
 #include "ParseGraph.hpp"
+#include "ParseActionPlan.hpp"
 
 namespace rmf_rviz_plugin {
 
@@ -79,25 +81,26 @@ using TaskSummary = rmf_task_msgs::msg::TaskSummary;
 using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
 using Graph = rmf_traffic::agv::Graph;
 
-class RmfPanel : public rviz_common::Panel
-{
-Q_OBJECT
+class RmfPanel : public rviz_common::Panel {
+  Q_OBJECT
 public:
-  RmfPanel(QWidget* parent = 0);
+  RmfPanel(QWidget *parent = 0);
   ~RmfPanel();
 
-  virtual void load(const rviz_common::Config& config);
+  virtual void load(const rviz_common::Config &config);
   virtual void save(rviz_common::Config config) const;
 
 public Q_SLOTS:
   void queue_delivery();
   void queue_loop();
   void pop_delivery();
-  void pop_schedule();
+  void pop_plan();
   void pop_loop();
-  void delete_schedule_item();
+  void delete_plan_item();
   void pause_robot();
   void resume_robot();
+  void load_plan_from_file(const QString& file);
+  void open_load_file_dialog();
 
 protected Q_SLOTS:
   void update_fleet_selector();
@@ -106,10 +109,9 @@ protected Q_SLOTS:
   void update_end_waypoint_selector();
   void update_time_selector();
   void update_task_summary_list();
-  void update_schedule();
+  void update_plan();
 
 protected:
-  
   void create_layout();
   void initialize_publishers(rclcpp::Node::SharedPtr _node);
   void initialize_subscribers(rclcpp::Node::SharedPtr _node);
@@ -118,50 +120,54 @@ protected:
   void initialize_models();
 
   // Defining GUI QT Components - Focused on Fleets
-  
-  // Options - For configuring certain behaviors in the GUI
-  QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
-  QCheckBox* _pause_schedule_checkbox; // If checked, pause schedule running
-  QCheckBox* _workcells_only_checkbox; // If checked, only, workcell waypoints will be available for selection
 
+  // Options - For configuring certain behaviors in the GUI
+  QCheckBox *_update_time_checkbox; // If checked, update time in _time_selector
+  QCheckBox *_pause_plan_checkbox;  // If checked, pause plan running
+  QCheckBox *_workcells_only_checkbox; // If checked, only, workcell waypoints
+                                       // will be available for selection
 
   // Selectors - For targeting agents to accomplish goals
-  QComboBox* _fleet_selector; 
-  QComboBox* _robot_selector;
-  QComboBox* _start_waypoint_selector;
-  QComboBox* _end_waypoint_selector;
-  QSpinBox* _repeat_count_selector; // Determines number of times to repeat an action
-  QTimeEdit* _time_selector;
+  QComboBox *_fleet_selector;
+  QComboBox *_robot_selector;
+  QComboBox *_start_waypoint_selector;
+  QComboBox *_end_waypoint_selector;
+  QSpinBox
+      *_repeat_count_selector; // Determines number of times to repeat an action
+  QTimeEdit *_time_selector;
 
   // Status - For visualizing important inforation on the selected agent
-  QListView* _fleet_summary_view; // Displays task summaries from rmf_core
-  QStringListModel* _fleet_summary_model;
+  QListView *_fleet_summary_view; // Displays task summaries from rmf_core
+  QStringListModel *_fleet_summary_model;
   QStringList _fleet_summary_data;
 
-  // Schedule - For visualizing and planning future schedule actions
-  QListView* _schedule_list_view; // Displays [action] by [fleet] at [time]
-  QPushButton* _edit_schedule_item_button;
-  QPushButton* _delete_schedule_item_button;
+  // Plans - For visualizing and planning future actions
+  QListView *_plan_list_view; // Displays [action] by [fleet] at [time]
+  QPushButton *_load_action_plan_button;
+  QPushButton *_delete_plan_item_button;
 
-  QStringListModel* _schedule_list_model;
-  QStringList _schedule_list_data;
+  QStringListModel *_plan_list_model;
+  QStringList _plan_list_data;
   std::vector<std::pair<QTime, Delivery>> _queued_deliveries;
   std::vector<std::pair<QTime, Loop>> _queued_loops;
 
-  // Actions - For queuing commands in Schedule
-  QPushButton* _send_delivery_button;
-  QPushButton* _send_loop_button;
-  QPushButton* _pause_robot_button;
-  QPushButton* _resume_robot_button;
+  // Actions - For queuing commands in Plan
+  QPushButton *_send_delivery_button;
+  QPushButton *_send_loop_button;
+  QPushButton *_pause_robot_button;
+  QPushButton *_resume_robot_button;
 
   // QTimer to update fields
-  QTimer* _update_timer;
+  QTimer *_update_timer;
 
   bool _has_loaded = false;
-  
+
   std::thread _thread;
   std::mutex _mutex;
   rclcpp::Node::SharedPtr _node;
+
+  // File Dialog to load yaml config files for planned actions
+  QFileDialog *_load_file_dialog;
 
 private:
   // ROS2 Plumbing
@@ -173,19 +179,20 @@ private:
   rclcpp::Publisher<ModeRequest>::SharedPtr _mode_request_pub;
 
   // Book Keeping
-  std::unordered_map<std::string, std::vector<std::string>> _map_fleet_to_robots;
+  std::unordered_map<std::string, std::vector<std::string>>
+      _map_fleet_to_robots;
   std::unordered_map<std::string, GraphInfo> _map_fleet_to_graph_info;
   std::unordered_map<std::string, RobotState> _map_robot_to_state;
 
   // Misc Functions
-  rmf_utils::optional<GraphInfo> load_fleet_graph_info(std::string fleet_name) const;
+  rmf_utils::optional<GraphInfo>
+  load_fleet_graph_info(std::string fleet_name) const;
   std::string generate_task_uuid(int len);
-  bool waypoint_has_workcell(std::string waypoint_name, GraphInfo& graph_info);
+  bool waypoint_has_workcell(std::string waypoint_name, GraphInfo &graph_info);
 
   // ROS2 callbacks
   void _fleet_state_callback(const FleetState::SharedPtr msg);
   void _task_summary_callback(const TaskSummary::SharedPtr msg);
-
 };
 } // namespace rmf_rviz_plugin
 
