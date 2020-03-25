@@ -68,10 +68,12 @@ void RmfPanel::create_layout()
 
   selector_layout->addWidget(new QLabel("Start Waypoint: "), 2, 0); 
   _start_waypoint_selector = new QComboBox;
+  _start_waypoint_selector->setEditable(true);
   selector_layout->addWidget(_start_waypoint_selector, 2, 1, 1, 2);
   
   selector_layout->addWidget(new QLabel("End Waypoint: "), 3, 0); 
   _end_waypoint_selector = new QComboBox;
+  _end_waypoint_selector->setEditable(true);
   selector_layout->addWidget(_end_waypoint_selector, 3, 1, 1, 2);
 
   selector_layout->addWidget(new QLabel("Repeat Count: "), 4, 0); 

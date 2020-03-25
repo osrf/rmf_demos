@@ -21,6 +21,7 @@
 #include <rviz_common/panel.hpp>
 #include <rcl_interfaces/srv/get_parameters.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <rviz_default_plugins/tools/point/point_tool.hpp>
 
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
