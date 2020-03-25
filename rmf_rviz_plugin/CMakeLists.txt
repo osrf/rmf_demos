@@ -28,6 +28,7 @@ find_package(rmf_lift_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
 find_package(rmf_task_msgs REQUIRED)
 find_package(rmf_traffic REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Test)
 
 add_definitions(-DQT_NO_KEYWORDS)
@@ -43,6 +44,7 @@ target_link_libraries(${PROJECT_NAME}
     ${rmf_door_msgs_LIBRARIES}
     ${rmf_lift_msgs_LIBRARIES}
     ${rmf_dispenser_msgs_LIBRARIES}
+    ${std_msgs_LIBRARIES}
     rviz_common::rviz_common
     rviz_default_plugins::rviz_default_plugins
     rmf_traffic::rmf_traffic
@@ -62,6 +64,7 @@ target_include_directories(${PROJECT_NAME}
     ${rmf_door_msgs_INCLUDE_DIRS}
     ${rmf_lift_msgs_INCLUDE_DIRS}
     ${rmf_traffic_INCLUDE_DIRS}
+    ${std_msgs_INCLUDE_DIRS}
     ${rmf_dispenser_msgs_INCLUDE_DIRS}
     ${rviz_common_INCLUDE_DIRS}
     ${rviz_rendering_INCLUDE_DIRS}

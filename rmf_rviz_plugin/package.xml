@@ -28,6 +28,7 @@
   <depend>rmf_door_msgs</depend>
   <depend>rmf_lift_msgs</depend>
   <depend>rmf_dispenser_msgs</depend>
+  <depend>std_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

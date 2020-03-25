@@ -39,6 +39,7 @@
 #include <rmf_task_msgs/msg/delivery.hpp>
 #include <rmf_task_msgs/msg/loop.hpp>
 #include <rmf_task_msgs/msg/tasks.hpp>
+#include <std_msgs/msg/bool.hpp>
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -78,6 +79,7 @@ using DoorRequest = rmf_door_msgs::msg::DoorRequest;
 using TaskSummary = rmf_task_msgs::msg::TaskSummary;
 using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
 using Graph = rmf_traffic::agv::Graph;
+using Bool = std_msgs::msg::Bool;
 
 class RmfPanel : public rviz_common::Panel
 {
@@ -98,6 +100,7 @@ public Q_SLOTS:
   void delete_schedule_item();
   void pause_robot();
   void resume_robot();
+  void publish_emergency_signal();
 
 protected Q_SLOTS:
   void update_fleet_selector();
@@ -123,7 +126,7 @@ protected:
   QCheckBox* _update_time_checkbox; // If checked, update time in _time_selector
   QCheckBox* _pause_schedule_checkbox; // If checked, pause schedule running
   QCheckBox* _workcells_only_checkbox; // If checked, only, workcell waypoints will be available for selection
-
+  QCheckBox* _emergency_state_checkbox; // If checked, all robots to the choppa
 
   // Selectors - For targeting agents to accomplish goals
   QComboBox* _fleet_selector; 
@@ -171,6 +174,7 @@ private:
   rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
   rclcpp::Publisher<Loop>::SharedPtr _loop_pub;
   rclcpp::Publisher<ModeRequest>::SharedPtr _mode_request_pub;
+  rclcpp::Publisher<Bool>::SharedPtr _emergency_state_pub;
 
   // Book Keeping
   std::unordered_map<std::string, std::vector<std::string>> _map_fleet_to_robots;

@@ -51,6 +51,9 @@ void RmfPanel::create_layout()
   _workcells_only_checkbox = new QCheckBox("Workcells Only");
   options_layout->addWidget(_workcells_only_checkbox, 0, 2);
 
+  _emergency_state_checkbox = new QCheckBox("Emergency State");
+  options_layout->addWidget(_emergency_state_checkbox, 0, 3);
+
   control_panel_layout->addWidget(options_gb, 0, 0);
 
   // Selectors 
@@ -145,6 +148,9 @@ void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node)
   // TODO: Simulation robots do not seem to respond?
   _mode_request_pub = _node->create_publisher<ModeRequest>(
       rmf_rviz_plugin::ModeRequestTopicName, rclcpp::QoS(10));
+
+  _emergency_state_pub = _node->create_publisher<Bool>(
+      rmf_rviz_plugin::EmergencyStateTopicName, rclcpp::QoS(10));
 }
 
 void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node)
@@ -186,6 +192,7 @@ void RmfPanel::initialize_qt_connections()
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(update_time_selector()));
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(update_task_summary_list()));
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(pop_schedule()));
+  connect(_update_timer, SIGNAL(timeout()), this, SLOT(publish_emergency_signal()));
 
   connect(_send_delivery_button, SIGNAL(clicked()), this, SLOT(queue_delivery()));
   connect(_send_loop_button, SIGNAL(clicked()), this, SLOT(queue_loop()));
@@ -497,6 +504,22 @@ void RmfPanel::resume_robot()
   msg.mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_MOVING;
   _mode_request_pub->publish(msg);
   RCLCPP_INFO(_node->get_logger(), "Resuming robot..");
+}
+
+void RmfPanel::publish_emergency_signal()
+{
+  Bool msg = Bool();
+  if (_emergency_state_checkbox->isChecked())
+  {
+    msg.data = true;
+    _emergency_state_pub->publish(msg);
+    RCLCPP_INFO(_node->get_logger(), "GIT TO DA CHOPPA");
+  }
+  else
+  {
+    msg.data = false;
+    _emergency_state_pub->publish(msg);
+  }
 }
 
 void RmfPanel::update_robot_selector()
