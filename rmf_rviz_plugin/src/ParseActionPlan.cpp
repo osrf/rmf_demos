@@ -166,7 +166,7 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(std::string path_name)
     std::cout << action["task_id"] << " verified." << std::endl;
     Loop loop = Loop();
     loop.task_id = action["task_id"].as<std::string>();
-    loop.robot_type = action["fleet"].as<std::string>()
+    loop.robot_type = action["fleet"].as<std::string>();
     loop.start_name = action["start"].as<std::string>();
     loop.finish_name = action["end"].as<std::string>();
     loop.num_loops = action["count"].as<int>();
