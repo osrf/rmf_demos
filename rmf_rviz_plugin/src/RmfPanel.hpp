@@ -83,7 +83,8 @@ using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
 using Graph = rmf_traffic::agv::Graph;
 using Bool = std_msgs::msg::Bool;
 
-class RmfPanel : public rviz_common::Panel {
+class RmfPanel : public rviz_common::Panel 
+  {
   Q_OBJECT
 public:
   RmfPanel(QWidget *parent = 0);

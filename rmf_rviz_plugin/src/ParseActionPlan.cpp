@@ -166,7 +166,7 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(std::string path_name)
     std::cout << action["task_id"] << " verified." << std::endl;
     Loop loop = Loop();
     loop.task_id = action["task_id"].as<std::string>();
-    loop.robot_type = action["fleet"].as<std::string>();
+    loop.robot_type = action["fleet"].as<std::string>()
     loop.start_name = action["start"].as<std::string>();
     loop.finish_name = action["end"].as<std::string>();
     loop.num_loops = action["count"].as<int>();
@@ -176,11 +176,13 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(std::string path_name)
 
   std::cout << "YAML contents verified, sorting.." << std::endl;
 
-  std::sort(_sorted_deliveries.begin(), _sorted_deliveries.end(), [](auto &left, auto &right) {
+  std::sort(_sorted_deliveries.begin(), _sorted_deliveries.end(), [](auto &left, auto &right) 
+      {
       return left.first < right.first;
       });
 
-  std::sort(_sorted_loops.begin(), _sorted_loops.end(), [](auto &left, auto &right) {
+  std::sort(_sorted_loops.begin(), _sorted_loops.end(), [](auto &left, auto &right) 
+      {
       return left.first < right.first;
       });
 

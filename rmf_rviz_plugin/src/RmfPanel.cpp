@@ -30,7 +30,8 @@
 
 namespace rmf_rviz_plugin {
 
-void RmfPanel::create_layout() {
+void RmfPanel::create_layout() 
+{
   // Creates the layout for QT GUI
   QGridLayout *control_panel_layout = new QGridLayout(this);
 
@@ -140,7 +141,8 @@ void RmfPanel::create_layout() {
 }
 
 // Initialization Functions
-void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node) {
+void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node) 
+{
   _delivery_pub = _node->create_publisher<Delivery>(
       rmf_rviz_plugin::DeliveryTopicName, rclcpp::QoS(10));
 
@@ -155,7 +157,8 @@ void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node) {
       rmf_rviz_plugin::EmergencyStateTopicName, rclcpp::QoS(10));
 }
 
-void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node) {
+void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node) 
+{
   _fleet_state_sub = _node->create_subscription<FleetState>(
       rmf_rviz_plugin::FleetStateTopicName, 10,
       std::bind(&RmfPanel::_fleet_state_callback, this, std::placeholders::_1));
@@ -165,14 +168,16 @@ void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node) {
       std::bind(&RmfPanel::_task_summary_callback, this,
                 std::placeholders::_1));
 }
-void RmfPanel::initialize_state_record() {
+void RmfPanel::initialize_state_record() 
+{
   // These data structures allow lookup of states of various important agents
   _map_fleet_to_robots =
       std::unordered_map<std::string, std::vector<std::string>>();
   _map_fleet_to_graph_info = std::unordered_map<std::string, GraphInfo>();
   _map_robot_to_state = std::unordered_map<std::string, RobotState>();
 }
-void RmfPanel::initialize_qt_connections() {
+void RmfPanel::initialize_qt_connections() 
+{
   connect(this, SIGNAL(configChanged()), this, SLOT(update_fleet_selector()));
   connect(this, SIGNAL(configChanged()), this, SLOT(update_robot_selector()));
   connect(this, SIGNAL(configChanged()), this, SLOT(update_plan()));
@@ -208,7 +213,8 @@ void RmfPanel::initialize_qt_connections() {
       this, SLOT(load_plan_from_file(const QString&)));
 }
 
-void RmfPanel::initialize_models() {
+void RmfPanel::initialize_models() 
+{
   _fleet_summary_model = new QStringListModel();
   _fleet_summary_data = QStringList();
   _fleet_summary_view->setModel(_fleet_summary_model);
@@ -223,7 +229,8 @@ void RmfPanel::initialize_models() {
 
 // Misc Functions
 rmf_utils::optional<GraphInfo>
-RmfPanel::load_fleet_graph_info(std::string fleet_name) const {
+RmfPanel::load_fleet_graph_info(std::string fleet_name) const 
+{
   // TODO(BH): Currently mocking up VehicleTraits, potential to give more
   // accurate values
   rclcpp::Node::SharedPtr _param_node =
@@ -231,7 +238,8 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const {
   auto parameters_client = std::make_shared<rclcpp::SyncParametersClient>(
       _param_node, fleet_name + "_fleet_adapter");
 
-  while (!parameters_client->wait_for_service(std::chrono::seconds(2))) {
+  while (!parameters_client->wait_for_service(std::chrono::seconds(2))) 
+  {
     std::cout << "Waiting for parameter service.." << std::endl;
   }
   auto nav_graph_path_parameters =
@@ -239,26 +247,28 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const {
   std::string nav_file_path = nav_graph_path_parameters[0].as_string();
   std::cout << "Nav File Path Found: " + nav_file_path << std::endl;
 
-  auto traits = rmf_traffic::agv::VehicleTraits{
+  auto traits = rmf_traffic::agv::VehicleTraits
+  {
       {1.0, 1.0},
       {1.0, 1.0},
       rmf_traffic::Trajectory::Profile::make_guided(
-          rmf_traffic::geometry::make_final_convex<
-              rmf_traffic::geometry::Circle>(1.0))};
+          rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0))};
 
   rmf_utils::optional<GraphInfo> graph_info =
       parse_graph(nav_file_path, traits, *_node);
   return graph_info;
 }
 
-unsigned int random_char() {
+unsigned int random_char() 
+{
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(0, 255);
   return dis(gen);
 }
 
-std::string RmfPanel::generate_task_uuid(int len) {
+std::string RmfPanel::generate_task_uuid(int len) 
+{
   std::stringstream ss;
   for (auto i = 0; i < len; i++) {
     const auto rc = random_char();
@@ -271,15 +281,18 @@ std::string RmfPanel::generate_task_uuid(int len) {
 }
 
 bool RmfPanel::waypoint_has_workcell(std::string waypoint_name,
-                                     GraphInfo &graph_info) {
+                                     GraphInfo &graph_info) 
+{
   auto idx = graph_info.keys.find(waypoint_name);
-  if (idx == graph_info.keys.end()) {
+  if (idx == graph_info.keys.end()) 
+  {
     RCLCPP_ERROR(_node->get_logger(),
                  "Provided graph does not have this waypoint.");
     return false;
   }
   if (graph_info.workcell_names.find(idx->second) ==
-      graph_info.workcell_names.end()) {
+      graph_info.workcell_names.end()) \
+  {
     // Workcell does not exist at this waypoint
     return false;
   } else {
@@ -287,7 +300,8 @@ bool RmfPanel::waypoint_has_workcell(std::string waypoint_name,
   }
 }
 
-RmfPanel::RmfPanel(QWidget *parent) : rviz_common::Panel(parent) {
+RmfPanel::RmfPanel(QWidget *parent) : rviz_common::Panel(parent) 
+{
   _node = std::make_shared<rclcpp::Node>("rmf_panel");
   _update_timer = new QTimer(this);
   _update_timer->start(1000); // Update clock running at 1Hz
@@ -303,26 +317,31 @@ RmfPanel::RmfPanel(QWidget *parent) : rviz_common::Panel(parent) {
   _has_loaded = true;
 }
 
-RmfPanel::~RmfPanel() {
-  if (_has_loaded) {
+RmfPanel::~RmfPanel() 
+{
+  if (_has_loaded) 
+  {
     _thread.join();
     rclcpp::shutdown();
   }
 }
 
 // Load config
-void RmfPanel::load(const rviz_common::Config &config) {
+void RmfPanel::load(const rviz_common::Config &config) 
+{
   rviz_common::Panel::load(config);
 }
 
 // Save config
-void RmfPanel::save(rviz_common::Config config) const {
+void RmfPanel::save(rviz_common::Config config) const 
+{
   rviz_common::Panel::save(config);
 }
 
 // Q_SLOTS
 // Actions
-void RmfPanel::queue_delivery() {
+void RmfPanel::queue_delivery() 
+{
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
   Delivery delivery;
@@ -336,7 +355,8 @@ void RmfPanel::queue_delivery() {
   int insertPos = 0;
   for (auto it = _queued_deliveries.begin(); it != _queued_deliveries.end();
        it++) {
-    if (delivery_time <= it->first) {
+    if (delivery_time <= it->first) 
+    {
       break;
     } else {
       insertPos++;
@@ -351,7 +371,8 @@ void RmfPanel::queue_delivery() {
   Q_EMIT configChanged();
 }
 
-void RmfPanel::queue_loop() {
+void RmfPanel::queue_loop() 
+{
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
   Loop loop;
@@ -365,10 +386,13 @@ void RmfPanel::queue_loop() {
   auto loop_time = _time_selector->time();
 
   int insertPos = 0;
-  for (auto it = _queued_loops.begin(); it != _queued_loops.end(); it++) {
-    if (loop_time <= it->first) {
+  for (auto it = _queued_loops.begin(); it != _queued_loops.end(); it++) 
+  {
+    if (loop_time <= it->first) 
+    {
       break;
-    } else {
+    } else 
+    {
       insertPos++;
     }
   }
@@ -380,22 +404,26 @@ void RmfPanel::queue_loop() {
   Q_EMIT configChanged();
 }
 
-void RmfPanel::pop_delivery() {
+void RmfPanel::pop_delivery() 
+{
   auto msg = _queued_deliveries.begin()->second;
   std::lock_guard<std::mutex> lock(_mutex);
   _delivery_pub->publish(msg);
   _queued_deliveries.erase(_queued_deliveries.begin());
 }
 
-void RmfPanel::pop_loop() {
+void RmfPanel::pop_loop() 
+{
   auto msg = _queued_loops.begin()->second;
   std::lock_guard<std::mutex> lock(_mutex);
   _loop_pub->publish(msg);
   _queued_loops.erase(_queued_loops.begin());
 }
 
-void RmfPanel::delete_plan_item() {
-  if (_plan_list_data.count() == 0) {
+void RmfPanel::delete_plan_item() 
+{
+  if (_plan_list_data.count() == 0) 
+  {
     return;
   }
 
@@ -416,19 +444,24 @@ void RmfPanel::delete_plan_item() {
   {
     // Iterate through the selection index from the listview, pointing to the
     // corresponding element in the right vector according to increasing time
-    if (_queued_deliveries.begin() + d_idx == _queued_deliveries.end()) {
+    if (_queued_deliveries.begin() + d_idx == _queued_deliveries.end()) 
+    {
       // deliveries is empty, increment loops
       l_idx++;
       is_loop = true;
-    } else if (_queued_loops.begin() + l_idx == _queued_loops.end()) {
+    } 
+    else if (_queued_loops.begin() + l_idx == _queued_loops.end()) 
+    {
       // loops is empty ,increment deliveries
       d_idx++;
       is_loop = false;
-    } else if (_queued_loops[l_idx].first <= _queued_deliveries[d_idx].first) {
+    } else if (_queued_loops[l_idx].first <= _queued_deliveries[d_idx].first) 
+    {
       // Loops has earlier timestamp, increment loops
       l_idx++;
       is_loop = true;
-    } else {
+    } else 
+    {
       // Deliveries has earlier timestamp, increment deliveries
       d_idx++;
       is_loop = false;
@@ -436,22 +469,28 @@ void RmfPanel::delete_plan_item() {
   }
 
   // Once we iterate through all i, we know what to delete
-  if (is_loop) {
+  if (is_loop) 
+  {
     _queued_loops.erase(_queued_loops.begin() + l_idx - 1);
-  } else {
+  } 
+  else 
+  {
     _queued_deliveries.erase(_queued_deliveries.begin() + d_idx - 1);
   }
   Q_EMIT configChanged();
 }
 
 // Updates
-void RmfPanel::update_fleet_selector() {
+void RmfPanel::update_fleet_selector() 
+{
   bool new_fleet_found =
       (_fleet_selector->count() != (int)_map_fleet_to_robots.size());
-  if (new_fleet_found) {
+  if (new_fleet_found) 
+  {
     RCLCPP_INFO(_node->get_logger(), "New Fleet found, refreshing...");
     _fleet_selector->clear();
-    for (auto it : _map_fleet_to_robots) {
+    for (auto it : _map_fleet_to_robots) 
+    {
       _fleet_selector->addItem(QString(it.first.c_str()));
     }
   }
@@ -467,7 +506,8 @@ void RmfPanel::pause_robot() {
   RCLCPP_INFO(_node->get_logger(), "Pausing robot..");
 }
 
-void RmfPanel::resume_robot() {
+void RmfPanel::resume_robot() 
+{
   ModeRequest msg = ModeRequest();
   msg.fleet_name = _fleet_selector->currentText().toStdString();
   msg.robot_name = _robot_selector->currentText().toStdString();
@@ -477,12 +517,14 @@ void RmfPanel::resume_robot() {
   RCLCPP_INFO(_node->get_logger(), "Resuming robot..");
 }
 
-void RmfPanel::open_load_file_dialog(){
+void RmfPanel::open_load_file_dialog()
+{
   RCLCPP_INFO(_node->get_logger(), "Opening Load File Dialog for Yaml Action Plan..");
   _load_file_dialog->show();
 }
 
-void RmfPanel::load_plan_from_file(const QString& path_name){
+void RmfPanel::load_plan_from_file(const QString& path_name)
+{
   RCLCPP_INFO(_node->get_logger(), "Loading File...");
   _load_file_dialog->hide();
   auto action_plan = parse_yaml_config(path_name.toStdString());
@@ -515,52 +557,63 @@ void RmfPanel::publish_emergency_signal()
   }
 }
 
-void RmfPanel::update_robot_selector() {
+void RmfPanel::update_robot_selector() 
+{
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto robots = _map_fleet_to_robots[fleet_name];
   bool new_robot_found = (_robot_selector->count() != (int)robots.size());
-  if (new_robot_found) {
+  if (new_robot_found) 
+  {
     _robot_selector->clear();
-    for (auto robot_name : robots) {
+    for (auto robot_name : robots) 
+    {
       _robot_selector->addItem(QString(robot_name.c_str()));
     }
   }
 }
 
-void RmfPanel::update_start_waypoint_selector() {
+void RmfPanel::update_start_waypoint_selector() 
+{
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _start_waypoint_selector->clear();
-  for (auto waypoint : graph_info.waypoint_names) {
+  for (auto waypoint : graph_info.waypoint_names) 
+  {
     if (!_workcells_only_checkbox->isChecked() ||
         waypoint_has_workcell(waypoint.second, graph_info))
       _start_waypoint_selector->addItem(QString(waypoint.second.c_str()));
   }
 }
 
-void RmfPanel::update_end_waypoint_selector() {
+void RmfPanel::update_end_waypoint_selector() 
+{
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _end_waypoint_selector->clear();
-  for (auto waypoint : graph_info.waypoint_names) {
+  for (auto waypoint : graph_info.waypoint_names) 
+  {
     if (!_workcells_only_checkbox->isChecked() ||
         waypoint_has_workcell(waypoint.second, graph_info))
       _end_waypoint_selector->addItem(QString(waypoint.second.c_str()));
   }
 }
 
-void RmfPanel::update_time_selector() {
-  if (_update_time_checkbox->isChecked()) {
+void RmfPanel::update_time_selector() 
+{
+  if (_update_time_checkbox->isChecked()) 
+  {
     _time_selector->setTime(QTime::currentTime());
   }
 }
 
-void RmfPanel::update_task_summary_list() {
+void RmfPanel::update_task_summary_list() 
+{
   _fleet_summary_model->setStringList(_fleet_summary_data);
   _fleet_summary_view->scrollToBottom();
 }
 
-void RmfPanel::update_plan() {
+void RmfPanel::update_plan() 
+{
   int queued_deliveries_count = _queued_deliveries.size();
   int queued_loops_count = _queued_loops.size();
   int plan_count = _plan_list_data.size();
@@ -570,8 +623,11 @@ void RmfPanel::update_plan() {
 
   _plan_list_data = QStringList();
 
-  if (plan_empty) {
-  } else if (plan_changed) {
+  if (plan_empty) 
+  {
+  } 
+  else if (plan_changed) 
+  {
     // First clear all data
 
     // Iterate down _queued_deliveries and _queued_loops, appending them to the
@@ -581,37 +637,50 @@ void RmfPanel::update_plan() {
     QTime ref_time;
 
     // Initialize reference time
-    if (loop_it == _queued_loops.cend()) {
+    if (loop_it == _queued_loops.cend()) 
+    {
       ref_time = deliver_it->first;
-    } else if (deliver_it == _queued_deliveries.cend()) {
+    } else if (deliver_it == _queued_deliveries.cend()) 
+    {
       ref_time = loop_it->first;
-    } else if (deliver_it->first <= loop_it->first) {
+    } else if (deliver_it->first <= loop_it->first) 
+    {
       ref_time = deliver_it->first;
-    } else {
+    } else 
+    {
       ref_time = loop_it->first;
     }
 
     while (deliver_it != _queued_deliveries.cend() ||
-           loop_it != _queued_loops.cend()) {
+           loop_it != _queued_loops.cend()) 
+    {
       // Iterate over deliveries and loops, appending to Plan list in
       // chronological order
       bool add_from_del = false;
       bool add_from_loop = false;
-      if (deliver_it == _queued_deliveries.cend()) {
+      if (deliver_it == _queued_deliveries.cend()) 
+      {
         // deliveries is empty, add from loops
         add_from_loop = true;
-      } else if (loop_it == _queued_loops.cend()) {
+      } 
+      else if (loop_it == _queued_loops.cend()) 
+      {
         add_from_del = true;
-      } else if (deliver_it->first < loop_it->first) {
+      } 
+      else if (deliver_it->first < loop_it->first) 
+      {
         // If delivery time is earlier, queue it first
         add_from_del = true;
-      } else if (loop_it->first <= deliver_it->first) {
+      } 
+      else if (loop_it->first <= deliver_it->first) 
+      {
         // If loop time is earlier, queue it first
         add_from_loop = true;
       }
 
       // Finally, decide what to do this loop
-      if (add_from_loop) {
+      if (add_from_loop) 
+      {
         std::stringstream ss;
         ss << "\tLoop\t"
            << "From: " + loop_it->second.start_name + "\t"
@@ -621,7 +690,9 @@ void RmfPanel::update_plan() {
         _plan_list_data.append(loop_it->first.toString() +
                                QString(ss.str().c_str()));
         loop_it++;
-      } else if (add_from_del) {
+      } 
+      else if (add_from_del) 
+      {
         std::stringstream ss;
         ss << "\tDelivery\t"
            << "From: " + deliver_it->second.pickup_place_name + "\t"
@@ -632,46 +703,58 @@ void RmfPanel::update_plan() {
       }
     }
   }
-  for (auto i : _plan_list_data) {
+  for (auto i : _plan_list_data) 
+  {
     std::cout << i.toStdString() << std::endl;
   }
   _plan_list_model->setStringList(_plan_list_data);
 }
 
-void RmfPanel::pop_plan() {
-  if (_pause_plan_checkbox->isChecked()) {
+void RmfPanel::pop_plan() 
+{
+  if (_pause_plan_checkbox->isChecked()) 
+  {
     // If Plan is paused, we will not execute any Plan items.
     return;
   }
 
-  for (auto delivery_data : _queued_deliveries) {
-    if (QTime::currentTime() > delivery_data.first) {
+  for (auto delivery_data : _queued_deliveries) 
+  {
+    if (QTime::currentTime() > delivery_data.first) 
+    {
       pop_delivery();
       Q_EMIT configChanged();
-    } else {
+    } else 
+    {
       break;
     }
   }
 
-  for (auto loop_data : _queued_loops) {
-    if (QTime::currentTime() > loop_data.first) {
+  for (auto loop_data : _queued_loops) 
+  {
+    if (QTime::currentTime() > loop_data.first) 
+    {
       pop_loop();
       Q_EMIT configChanged();
-    } else {
+    } else 
+    {
       break;
     }
   }
 }
 
 // ROS2 Callbacks
-void RmfPanel::_fleet_state_callback(const FleetState::SharedPtr msg) {
+void RmfPanel::_fleet_state_callback(const FleetState::SharedPtr msg) 
+{
   // RCLCPP_INFO(_node->get_logger(), "Received FleetState!");
   bool should_update = false;
   auto fleet_name = msg->name;
-  if (_map_fleet_to_robots.find(fleet_name) == _map_fleet_to_robots.end()) {
+  if (_map_fleet_to_robots.find(fleet_name) == _map_fleet_to_robots.end()) 
+  {
     // Fleet is new, load parameters from parameter service
     auto graph_info = load_fleet_graph_info(fleet_name);
-    if (graph_info) {
+    if (graph_info) 
+    {
       // Update Fleet Graph
       _map_fleet_to_graph_info.insert(
           std::pair<std::string, GraphInfo>(fleet_name, graph_info.value()));
@@ -680,25 +763,28 @@ void RmfPanel::_fleet_state_callback(const FleetState::SharedPtr msg) {
   }
 
   // Update robot states locally
-  for (auto robot_state : msg->robots) {
+  for (auto robot_state : msg->robots) 
+  {
     _map_robot_to_state[robot_state.name] = robot_state;
     // TODO(BH): Figure out why make_shared doesn't work?
     // auto robots =
     // std::make_shared<std::vector<std::string>>(_map_fleet_to_robots[fleet_name]);
     auto robots = &_map_fleet_to_robots[fleet_name];
-    if (std::find(robots->begin(), robots->end(), robot_state.name) ==
-        robots->end()) {
+    if (std::find(robots->begin(), robots->end(), robot_state.name) == robots->end()) 
+    {
       robots->emplace_back(robot_state.name);
       should_update = true;
     }
   }
 
-  if (should_update) {
+  if (should_update) 
+  {
     Q_EMIT configChanged();
   }
 }
 
-void RmfPanel::_task_summary_callback(const TaskSummary::SharedPtr msg) {
+void RmfPanel::_task_summary_callback(const TaskSummary::SharedPtr msg) 
+{
   _fleet_summary_data.append(QTime::currentTime().toString() + QString("\t") +
                              QString(msg->status.c_str()));
 }
