@@ -16,6 +16,7 @@
  */
 #include "RmfPanel.hpp"
 #include "StandardNames.hpp"
+#include "ParseActionPlan.hpp"
 
 #include <QGridLayout>
 #include <QGroupBox>
@@ -465,12 +466,14 @@ void RmfPanel::resume_robot() {
 }
 
 void RmfPanel::open_load_file_dialog(){
+  RCLCPP_INFO(_node->get_logger(), "Opening Load File Dialog for Yaml Action Plan..");
   _load_file_dialog->show();
 }
 
 void RmfPanel::load_plan_from_file(const QString& path_name){
-  std::cout << "Load File" << path_name.toStdString() << std::endl;
+  RCLCPP_INFO(_node->get_logger(), "Loading File...");
   _load_file_dialog->hide();
+  auto action_plan = parse_yaml_config(path_name.toStdString());
   Q_EMIT configChanged();
 }
 
