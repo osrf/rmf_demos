@@ -33,7 +33,7 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets Test)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-add_library(${PROJECT_NAME} SHARED src/RmfPanel.cpp src/ParseGraph.cpp)
+add_library(${PROJECT_NAME} SHARED src/RmfPanel.cpp src/ParseGraph.cpp src/ParseActionPlan.cpp)
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
