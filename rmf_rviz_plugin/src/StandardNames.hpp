@@ -47,7 +47,7 @@ const std::string NavGoalTopicName = "goal_pose";
 const std::string ClickedPointTopicName = "clicked_point";
 const std::string WaypointSelectorTopicName = "initial_pose";
 
-const std::string TaskSummariesTopicName = "task_summaries";
+const std::string EmergencyStateTopicName = "fire_alarm_trigger";
 } // namespace rmf_rviz_plugin
 
 #endif // RMF_RVIZ_PLUGIN__SRC__STANDARDNAMES_HPP

@@ -51,6 +51,9 @@ void RmfPanel::create_layout() {
   _workcells_only_checkbox = new QCheckBox("Workcells Only");
   options_layout->addWidget(_workcells_only_checkbox, 0, 2);
 
+  _emergency_state_checkbox = new QCheckBox("Emergency State");
+  options_layout->addWidget(_emergency_state_checkbox, 0, 3);
+
   control_panel_layout->addWidget(options_gb, 0, 0);
 
   // Selectors
@@ -147,6 +150,9 @@ void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node) {
   // TODO: Simulation robots do not seem to respond?
   _mode_request_pub = _node->create_publisher<ModeRequest>(
       rmf_rviz_plugin::ModeRequestTopicName, rclcpp::QoS(10));
+
+  _emergency_state_pub = _node->create_publisher<Bool>(
+      rmf_rviz_plugin::EmergencyStateTopicName, rclcpp::QoS(10));
 }
 
 void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node) {
@@ -179,9 +185,9 @@ void RmfPanel::initialize_qt_connections() {
           SLOT(update_end_waypoint_selector()));
 
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(update_time_selector()));
-  connect(_update_timer, SIGNAL(timeout()), this,
-          SLOT(update_task_summary_list()));
+  connect(_update_timer, SIGNAL(timeout()), this, SLOT(update_task_summary_list()));
   connect(_update_timer, SIGNAL(timeout()), this, SLOT(pop_plan()));
+  connect(_update_timer, SIGNAL(timeout()), this, SLOT(publish_emergency_signal()));
 
   connect(_send_delivery_button, SIGNAL(clicked()), this,
           SLOT(queue_delivery()));
@@ -395,6 +401,12 @@ void RmfPanel::delete_plan_item() {
 
   int idx = _plan_list_view->currentIndex().row();
 
+  if (idx == -1)
+  {
+    RCLCPP_INFO(_node->get_logger(), "You have to select a task to delete!");
+    return;
+  }
+
   // These index the offset into the respective vectors we are aiming to delete
   int d_idx = 0;
   int l_idx = 0;
@@ -474,7 +486,33 @@ void RmfPanel::load_plan_from_file(const QString& path_name){
   RCLCPP_INFO(_node->get_logger(), "Loading File...");
   _load_file_dialog->hide();
   auto action_plan = parse_yaml_config(path_name.toStdString());
-  Q_EMIT configChanged();
+  if (!action_plan)
+  {
+    RCLCPP_ERROR(_node->get_logger(), "Something went wrong with loading the action plan file.");
+  }
+  else
+  {
+    RCLCPP_INFO(_node->get_logger(), "Action File successfully loaded.");
+    _queued_deliveries = action_plan->first;
+    _queued_loops = action_plan->second;
+    Q_EMIT configChanged();
+  }
+}
+
+void RmfPanel::publish_emergency_signal()
+{
+  Bool msg = Bool();
+  if (_emergency_state_checkbox->isChecked())
+  {
+    msg.data = true;
+    _emergency_state_pub->publish(msg);
+    RCLCPP_INFO(_node->get_logger(), "GIT TO DA CHOPPA");
+  }
+  else
+  {
+    msg.data = false;
+    _emergency_state_pub->publish(msg);
+  }
 }
 
 void RmfPanel::update_robot_selector() {

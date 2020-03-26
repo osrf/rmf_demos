@@ -1,8 +1,0 @@
-action_plan:
-  start_time: "2020-03-25 15:03"
-  actions:
-    deliveries:
-      - {sec_from_start_time: 2, uuid: "coke_delivery_1", fleet: "magni", count: 1, start: "pantry", end: "hardware_2"}
-    loops:
-      - {sec_from_start_time: 2, uuid: "loop_1", fleet: "magni", count: 1, start: "pantry", end: "hardware_2"}
-

@@ -1,0 +1,8 @@
+action_plan:
+  start_time: "16:00:00"
+  actions:
+    deliveries:
+      - {sec_from_start_time: 30, task_id: "coke_delivery_1", fleet: "magni", count: 1, start: "pantry", end: "hardware_2"}
+    loops:
+      - {sec_from_start_time: 7, task_id: "loop_1", fleet: "magni", count: 5, start: "magni2_charger", end: "supplies"}
+
