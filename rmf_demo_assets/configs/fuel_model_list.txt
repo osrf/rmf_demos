@@ -1,0 +1,13 @@
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/WhiteChipChair
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/StorageRack
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/PotatoChipChair
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/ParkingTrolleyMax
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/MainTable
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/ElectronicsRecycling
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cafe table
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Pine Tree
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Standing person
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Bookshelf
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Oak tree
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fountain
+https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Postbox
