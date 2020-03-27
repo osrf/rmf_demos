@@ -15,3 +15,7 @@ repositories:
     type: git
     url: https://github.com/osrf/rmf_demos.git
     version: master
+  thirdparty/ros_ign:
+    type: git
+    url: https://github.com/osrf/ros_ign.git
+    version: dashing

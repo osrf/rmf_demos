@@ -58,4 +58,9 @@
     </node>
   </group>
 
+  <!-- ros_ign bridge for simulation clock -->
+  <node pkg="ros_ign_bridge" exec="parameter_bridge"
+    args="/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"
+    />
+
 </launch>
