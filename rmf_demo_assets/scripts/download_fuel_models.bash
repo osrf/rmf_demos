@@ -12,8 +12,9 @@ echo "Downloading Ignition Models listed on file: [$INPUT_FILE]"
 NUM_MODELS=$(cat $INPUT_FILE | wc -l)
 echo "Found [$NUM_MODELS] models"
 
-while IFS= read -r line
+while IFS= read -r url
 do
-  ign fuel download -u "$line" -v 4
+  spaced_url=${url//%20/ }
+  ign fuel download -u "$spaced_url" -v 4
   echo "----------------------------------------"
 done < $INPUT_FILE

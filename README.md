@@ -28,7 +28,8 @@ sudo apt update && sudo apt install \
   qt5-default libeigen3-dev \
   libwebsocketpp-dev \
   libboost-all-dev curl \
-  python3-shapely python3-yaml
+  python3-shapely python3-yaml \
+  ignition-tools
 ```
 
 Setup a new ROS 2 workspace and pull in all the required repositories using `vcs`,
@@ -46,6 +47,22 @@ Ensure all ROS prerequisites are fulfilled,
 cd ~/rmf_demos_ws
 rosdep install --from-paths src --ignore-src --rosdistro eloquent \
     -y --skip-keys "websocketpp ament_python"
+```
+
+To avoid any race conditions and errors where `gazebo` downloads all models when launched, optionally, a local copy of all the open source models can be downloaded and saved manually like so,
+
+```bash
+cd ~/.
+hg clone https://bitbucket.org/osrf/gazebo_models
+cd gazebo_models
+cp -r ./* ~/.gazebo/models/.
+```
+
+Download all the necessary models from `fuel`,
+
+```bash
+cd ~/rmf_demos_ws/src/rmf/rmf_demos/rmf_demo_assets
+./scripts/download_fuel_models.bash configs/fuel_model_list.txt
 ```
 
 ## Compiling Instructions
