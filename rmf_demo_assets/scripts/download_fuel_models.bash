@@ -11,10 +11,24 @@ echo "Downloading Ignition Models listed on file: [$INPUT_FILE]"
 
 NUM_MODELS=$(cat $INPUT_FILE | wc -l)
 echo "Found [$NUM_MODELS] models"
+echo "----------------------------------------"
+
+RAW_FUEL_MODELS_DIR=$HOME/.gazebo/fuel_models
+
+function download_extract_rm {
+  zip_filename=$(basename "$1")
+  filename="${zip_filename%.*}"
+  spaced_filename=${filename//%20/ }
+
+  wget $1 -O /tmp/tmp.zip
+  unzip /tmp/tmp.zip -d $RAW_FUEL_MODELS_DIR/"$spaced_filename"
+  rm /tmp/tmp.zip
+}
+
+mkdir -p $RAW_FUEL_MODELS_DIR
 
 while IFS= read -r url
 do
-  spaced_url=${url//%20/ }
-  ign fuel download -u "$spaced_url" -v 4
+  download_extract_rm $url
   echo "----------------------------------------"
 done < $INPUT_FILE
