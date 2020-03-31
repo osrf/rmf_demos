@@ -78,11 +78,6 @@ private:
   rmf_fleet_msgs::msg::RobotMode _current_mode;
 
   Path _path;
-  // These are currently unused but may be needed if the Planner api is used
-  double _v_n = 0.7;
-  double _a_n = 0.5;
-  double _w_n = 0.6;
-  double _alpha_n = 1.5;
 
   bool _found_level = false;
   bool _found_graph = false;
@@ -109,7 +104,7 @@ private:
   double _waypoint_threshold = 2.0;
   
   bool _merge_lane = false;
-  double _lane_tolerance = 0.1; // radians
+  double _lane_threshold = 0.2; // meters
 
   int _update_count = 0;
   std::string _name;
@@ -168,23 +163,11 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 
   if (sdf->HasElement("merge_lane"))
     _merge_lane = sdf->Get<bool>("merge_lane");
-  RCLCPP_INFO(logger(), "Setting merge_lane: " + std::to_string(_merge_lane));
+  RCLCPP_INFO(logger(), "Setting merge lane: " + std::to_string(_merge_lane));
 
-  if (sdf->HasElement("nominal_drive_speed"))
-    _v_n = sdf->Get<double>("nominal_drive_speed");
-  RCLCPP_INFO(logger(), "Setting nominal drive speed to: " + std::to_string(_v_n));
-
-  if (sdf->HasElement("nominal_drive_acceleration"))
-    _a_n = sdf->Get<double>("nominal_drive_acceleration");
-  RCLCPP_INFO(logger(), "Setting nominal drive acceleration to: " + std::to_string(_a_n));
-
-  if (sdf->HasElement("nominal_turn_speed"))
-    _w_n = sdf->Get<double>("nominal_turn_speed");
-  RCLCPP_INFO(logger(), "Setting nominal turn speed to:" + std::to_string(_w_n));
-
-  if (sdf->HasElement("nominal_turn_acceleration"))
-    _alpha_n = sdf->Get<double>("nominal_turn_acceleration");
-  RCLCPP_INFO(logger(), "Setting nominal turn acceleration to:" + std::to_string(_alpha_n));
+  if (sdf->HasElement("lane_threshold"))
+    _lane_threshold = sdf->Get<double>("lane_threshold");
+  RCLCPP_INFO(logger(), "Setting lane threshold: " + std::to_string(_lane_threshold));
 
   RCLCPP_INFO(logger(), "hello i am " + model->GetName());
 
@@ -449,18 +432,27 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
     // Angle between lane_vector and disp_vector
     double theta = std::atan2(lane_vector.Y(), lane_vector.X()) -
       std::atan2(disp_vector.Y(), disp_vector.X());
+    
+    // Compute the perpendicualr distance of robot from its lane
+    double lane_error = std::pow(disp_vector.Length(), 2) -
+        std::pow(disp_vector.Dot(lane_vector.Normalize()), 2);
+    
+    RCLCPP_ERROR(logger(), "Disp: [%f] lane: [%f], Lane error: [%f]",
+      disp_vector.Length(), disp_vector.Dot(lane_vector.Normalize()),lane_error);
 
-    double lane_error = std::sqrt()
-    // TODO use tranformation matrices
-    // Rotate position of robot about target by theta
-    auto robot_x = pose.Pos().X() - _graph.vertices[target].x;
-    auto robot_y = pose.Pos().Y() - _graph.vertices[target].y;
-    robot_x = robot_x * std::cos(theta) - robot_y * std::sin(theta);
-    robot_y = robot_x * std::sin(theta) + robot_y * std::cos(theta);
-    robot_x += _graph.vertices[target].x;
-    robot_y += _graph.vertices[target].y;
+    if (lane_error > _lane_threshold)
+    {
+      // TODO use tranformation matrices
+      // Rotate position of robot about target by theta
+      auto robot_x = pose.Pos().X() - _graph.vertices[target].x;
+      auto robot_y = pose.Pos().Y() - _graph.vertices[target].y;
+      robot_x = robot_x * std::cos(theta) - robot_y * std::sin(theta);
+      robot_y = robot_x * std::sin(theta) + robot_y * std::cos(theta);
+      robot_x += _graph.vertices[target].x;
+      robot_y += _graph.vertices[target].y;
 
-    path.insert(path.begin(), make_location(robot_x, robot_y));
+      path.insert(path.begin(), make_location(robot_x, robot_y));
+    }
   }
 
   return path;
