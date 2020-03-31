@@ -49,14 +49,7 @@ rosdep install --from-paths src --ignore-src --rosdistro eloquent \
     -y --skip-keys "websocketpp ament_python"
 ```
 
-Download all the necessary models from `fuel` to the path `~/.gazebo/fuel_models`,
-
-```bash
-cd ~/rmf_demos_ws/src/rmf/rmf_demos/rmf_demo_assets
-./scripts/download_fuel_models.bash configs/fuel_model_list.txt
-```
-
-To avoid any race conditions and errors where `gazebo` downloads all models when launched, optionally, a local copy of all the open source models can be downloaded and saved manually like so,
+Some of the demos might refer to open source gazebo models hosted [here](https://bitbucket.org/osrf/gazebo_models). To avoid any race conditions and errors where `gazebo` downloads all models when launched, optionally, a local copy of all the open source models can be downloaded and saved manually like so,
 
 ```bash
 cd ~/.
