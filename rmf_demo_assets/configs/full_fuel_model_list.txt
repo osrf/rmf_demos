@@ -454,3 +454,13 @@ https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Table%20Marble
 https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Collapsed%20House
 https://fuel.ignitionrobotics.org/1.0/openrobotics/models/FRC%202016%20Draw%20bridge
 https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Kuka%20YouBot
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/VisitorKidSit
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/OfficeChairGrey
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/OfficeChairBlue
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/OfficeChairBlack
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/MiniSofa
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/MaleVisitorSit
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/LampAndStand
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/FemaleVisitorSit
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/FemaleVisitor
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/Chair

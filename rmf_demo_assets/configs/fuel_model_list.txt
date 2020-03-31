@@ -5,3 +5,13 @@ https://fuel.ignitionrobotics.org/1.0/openrobotics/models/ParkingTrolleyMax.zip
 https://fuel.ignitionrobotics.org/1.0/openrobotics/models/MainTable.zip
 https://fuel.ignitionrobotics.org/1.0/openrobotics/models/ElectronicsRecycling.zip
 https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Standing%20person.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/VisitorKidSit.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/OfficeChairGrey.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/OfficeChairBlue.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/OfficeChairBlack.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/MiniSofa.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/MaleVisitorSit.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/LampAndStand.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/FemaleVisitorSit.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/FemaleVisitor.zip
+https://fuel.ignitionrobotics.org/1.0/Aaron/models/Chair.zip
