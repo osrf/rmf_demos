@@ -437,8 +437,8 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
     double lane_error = std::pow(disp_vector.Length(), 2) -
         std::pow(disp_vector.Dot(lane_vector.Normalize()), 2);
     
-    RCLCPP_ERROR(logger(), "Disp: [%f] lane: [%f], Lane error: [%f]",
-      disp_vector.Length(), disp_vector.Dot(lane_vector.Normalize()),lane_error);
+    // RCLCPP_ERROR(logger(), "Disp: [%f] lane: [%f], Lane error: [%f]",
+    //   disp_vector.Length(), disp_vector.Dot(lane_vector.Normalize()),lane_error);
 
     if (lane_error > _lane_threshold)
     {
