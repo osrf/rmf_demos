@@ -438,18 +438,19 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
     auto lane_vector = ignition::math::Vector3d{
       _graph.vertices[target].x - _graph.vertices[_start_wp].x,
       _graph.vertices[target].y - _graph.vertices[_start_wp].y,
-      0}.Normalize();
+      0};
 
     // Vector from target to robot
     auto disp_vector = ignition::math::Vector3d{
       _graph.vertices[target].x - pose.Pos().X(),
       _graph.vertices[target].y - pose.Pos().Y(),
-      0}.Normalize();
+      0};
 
     // Angle between lane_vector and disp_vector
     double theta = std::atan2(lane_vector.Y(), lane_vector.X()) -
       std::atan2(disp_vector.Y(), disp_vector.X());
 
+    double lane_error = std::sqrt()
     // TODO use tranformation matrices
     // Rotate position of robot about target by theta
     auto robot_x = pose.Pos().X() - _graph.vertices[target].x;
