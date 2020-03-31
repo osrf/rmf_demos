@@ -338,6 +338,17 @@ levels:
       {}
     measurements:
       - [0, 1, {distance: [3, 3]}]
+    models:
+      - {model_name: VisitorKidSit, name: VisitorKidSit, static: true, x: 1625.833, y: 439.619, yaw: 0, z: 0}
+      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 1627.71, y: 429.036, yaw: 0, z: 0}
+      - {model_name: OfficeChairBlue, name: OfficeChairBlue, static: true, x: 1641.708, y: 429.548, yaw: 0, z: 0}
+      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1642.561, y: 441.325, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1654.36, y: 429.526, yaw: 0, z: 0}
+      - {model_name: MaleVisitorSit, name: MaleVisitorSit, static: true, x: 1653.462, y: 442.608, yaw: 0, z: 0}
+      - {model_name: LampAndStand, name: LampAndStand, static: true, x: 1668.211, y: 429.783, yaw: 0, z: 0}
+      - {model_name: FemaleVisitorSit, name: FemaleVisitorSit, static: true, x: 1667.057, y: 440.428, yaw: 0, z: 0}
+      - {model_name: FemaleVisitor, name: FemaleVisitor, static: true, x: 1681.805, y: 429.783, yaw: 0, z: 0}
+      - {model_name: Chair, name: Chair, static: true, x: 1682.96, y: 440.556, yaw: 0, z: 0}
     vertices:
       - [1911.731, 141.469, 0, ""]
       - [1911.342, 177.998, 0, ""]
