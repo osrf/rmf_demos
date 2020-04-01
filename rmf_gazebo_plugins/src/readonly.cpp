@@ -78,11 +78,6 @@ private:
   rmf_fleet_msgs::msg::RobotMode _current_mode;
 
   Path _path;
-  // These are currently unused but may be needed if the Planner api is used
-  double _v_n = 0.7;
-  double _a_n = 0.5;
-  double _w_n = 0.6;
-  double _alpha_n = 1.5;
 
   bool _found_level = false;
   bool _found_graph = false;
@@ -105,6 +100,12 @@ private:
   std::unordered_map<std::size_t, std::unordered_set<std::size_t>> _neighbor_map;
 
   double _last_update_time = 0.0;
+  double _update_threshold = 0.5; // Update every 0.5s
+  double _waypoint_threshold = 2.0;
+  
+  bool _merge_lane = false;
+  double _lane_threshold = 0.2; // meters
+
   int _update_count = 0;
   std::string _name;
   std::string _current_task_id;
@@ -152,21 +153,21 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
   _path.resize(_lookahead);
   RCLCPP_INFO(logger(), "Setting lookahead: " + std::to_string(_lookahead));
 
-  if (sdf->HasElement("nominal_drive_speed"))
-    _v_n = sdf->Get<double>("nominal_drive_speed");
-  RCLCPP_INFO(logger(), "Setting nominal drive speed to: " + std::to_string(_v_n));
+  if (sdf->HasElement("update_rate"))
+    _update_threshold = 1.0 / sdf->Get<double>("update_rate");
+  RCLCPP_INFO(logger(), "Setting update threshold: " + std::to_string(_update_threshold));
 
-  if (sdf->HasElement("nominal_drive_acceleration"))
-    _a_n = sdf->Get<double>("nominal_drive_acceleration");
-  RCLCPP_INFO(logger(), "Setting nominal drive acceleration to: " + std::to_string(_a_n));
+  if (sdf->HasElement("waypoint_threshold"))
+    _waypoint_threshold = sdf->Get<double>("waypoint_threshold");
+  RCLCPP_INFO(logger(), "Setting waypoint threshold: " + std::to_string(_waypoint_threshold));
 
-  if (sdf->HasElement("nominal_turn_speed"))
-    _w_n = sdf->Get<double>("nominal_turn_speed");
-  RCLCPP_INFO(logger(), "Setting nominal turn speed to:" + std::to_string(_w_n));
+  if (sdf->HasElement("merge_lane"))
+    _merge_lane = sdf->Get<bool>("merge_lane");
+  RCLCPP_INFO(logger(), "Setting merge lane: " + std::to_string(_merge_lane));
 
-  if (sdf->HasElement("nominal_turn_acceleration"))
-    _alpha_n = sdf->Get<double>("nominal_turn_acceleration");
-  RCLCPP_INFO(logger(), "Setting nominal turn acceleration to:" + std::to_string(_alpha_n));
+  if (sdf->HasElement("lane_threshold"))
+    _lane_threshold = sdf->Get<double>("lane_threshold");
+  RCLCPP_INFO(logger(), "Setting lane threshold: " + std::to_string(_lane_threshold));
 
   RCLCPP_INFO(logger(), "hello i am " + model->GetName());
 
@@ -386,17 +387,24 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
   ignition::math::Vector3d heading{
       std::cos(current_yaw), std::sin(current_yaw), 0.0};
   
+  auto make_location =
+  [=](double x, double y) -> Location
+  {
+    Location location;
+    location.x = x;
+    location.y = y;
+    location.level_name = _level_name;
+
+    return location;
+  };
+
   for (std::size_t i = 0; i < _lookahead; i++)
   {
     std::lock_guard<std::mutex> lock(_mutex);
     auto wp = get_next_waypoint(start_wp, heading);
     _next_wp[i] = wp;
     // Add to path here
-    Location location;
-    location.x = _graph.vertices[wp].x;
-    location.y = _graph.vertices[wp].y;
-    location.level_name = _level_name;
-    path[i] = location;
+    path[i] = make_location(_graph.vertices[wp].x, _graph.vertices[wp].y);
     // Update heading for next iteration
     auto next_heading = ignition::math::Vector3d{
       _graph.vertices[wp].x - _graph.vertices[start_wp].x,
@@ -404,6 +412,47 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
       0};
     heading = next_heading.Normalize();
     start_wp = wp;
+  }
+
+  if (_merge_lane)
+  {
+    auto target = _next_wp[0];
+    // Vector from target to start_wp
+    auto lane_vector = ignition::math::Vector3d{
+      _graph.vertices[target].x - _graph.vertices[_start_wp].x,
+      _graph.vertices[target].y - _graph.vertices[_start_wp].y,
+      0};
+
+    // Vector from target to robot
+    auto disp_vector = ignition::math::Vector3d{
+      _graph.vertices[target].x - pose.Pos().X(),
+      _graph.vertices[target].y - pose.Pos().Y(),
+      0};
+
+    // Angle between lane_vector and disp_vector
+    double theta = std::atan2(lane_vector.Y(), lane_vector.X()) -
+      std::atan2(disp_vector.Y(), disp_vector.X());
+    
+    // Compute the perpendicualr distance of robot from its lane
+    double lane_error = std::pow(disp_vector.Length(), 2) -
+        std::pow(disp_vector.Dot(lane_vector.Normalize()), 2);
+    
+    // RCLCPP_ERROR(logger(), "Disp: [%f] lane: [%f], Lane error: [%f]",
+    //   disp_vector.Length(), disp_vector.Dot(lane_vector.Normalize()),lane_error);
+
+    if (lane_error > _lane_threshold)
+    {
+      // TODO use tranformation matrices
+      // Rotate position of robot about target by theta
+      auto robot_x = pose.Pos().X() - _graph.vertices[target].x;
+      auto robot_y = pose.Pos().Y() - _graph.vertices[target].y;
+      robot_x = robot_x * std::cos(theta) - robot_y * std::sin(theta);
+      robot_y = robot_x * std::sin(theta) + robot_y * std::cos(theta);
+      robot_x += _graph.vertices[target].x;
+      robot_y += _graph.vertices[target].y;
+
+      path.insert(path.begin(), make_location(robot_x, robot_y));
+    }
   }
 
   return path;
@@ -415,12 +464,12 @@ void ReadonlyPlugin::OnUpdate()
   _update_count++;
   const auto& world = _model->GetWorld();
   auto pose = _model->WorldPose();
+  const double time = world->SimTime().Double();
 
-  if (_update_count % 100 == 0) // todo: be smarter, use elapsed sim time
+  if (time - _last_update_time > _update_threshold) // todo: be smarter, use elapsed sim time
   {
     initialize_start(pose);
 
-    const double time = world->SimTime().Double();
     _last_update_time = time;
     const int32_t t_sec = static_cast<int32_t>(time);
     const uint32_t t_nsec =
@@ -441,7 +490,7 @@ void ReadonlyPlugin::OnUpdate()
     
     if (_initialized_start)
     {
-      if (compute_ds(pose, _next_wp[0]) <= 2.0)
+      if (compute_ds(pose, _next_wp[0]) <= _waypoint_threshold)
       {
         _start_wp = _next_wp[0];
         RCLCPP_INFO(logger(), "Reached waypoint [%d,%s]",
