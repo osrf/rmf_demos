@@ -15,6 +15,9 @@
  *
 */
 
+#include <mutex>
+#include <unordered_map>
+
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
 #include <gazebo_ros/node.hpp>
@@ -25,6 +28,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include <rmf_fleet_msgs/msg/fleet_state.hpp>
+
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
 
 namespace rmf_gazebo_plugins {
@@ -33,13 +38,27 @@ class TeleportPlugin : public gazebo::ModelPlugin
 {
 public: 
 
+  gazebo::event::ConnectionPtr _update_connection;
+
+  using FleetState = rmf_fleet_msgs::msg::FleetState;
+  using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
+  using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
   using Pose3d = ignition::math::Pose3d;
 
   // Pointer to the model
   gazebo::physics::ModelPtr _model;
   gazebo_ros::Node::SharedPtr _node;
-  rclcpp::Subscription<DispenserResult>::SharedPtr _result_sub;
+  rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
+  rclcpp::Publisher<DispenserState>::SharedPtr _state_pub;
+  rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
+  rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
+
+  std::mutex _fleet_states_mutex;
+  std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
+
+  double _last_pub_time = 0.0;
+
   bool _load_complete = false;
 
   // The guid of the loading and unloading dispensers
@@ -66,47 +85,109 @@ public:
     _node = gazebo_ros::Node::Get(_sdf);
     std::cout << "Started teleport_plugin node..." <<std::endl;
 
-    _result_sub = _node->create_subscription<DispenserResult>(
-        "/dispenser_results",
+    _fleet_state_sub = _node->create_subscription<FleetState>(
+        "/fleet_states",
         rclcpp::SystemDefaultsQoS(),
-        [&](DispenserResult::UniquePtr msg)
+        [&](FleetState::UniquePtr msg)
         {
-          dispenser_result_cb(std::move(msg));
+          fleet_state_cb(std::move(msg));
         });
+
+    _state_pub = _node->create_publisher<DispenserState>(
+        "/dispenser_states", 10);
+
+    _request_sub = _node->create_subscription<DispenserRequest>(
+        "/dispenser_requests",
+        rclcpp::SystemDefaultsQoS(),
+        [&](DispenserRequest::UniquePtr msg)
+        {
+          dispenser_request_cb(std::move(msg));
+        });
+
+    _result_pub = _node->create_publisher<DispenserResult>(
+      "/dispenser_results", 10);
     
+    _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
+        std::bind(&TeleportPlugin::on_update, this));
+
     // Fixed location for "reloading" payloads
     _initial_pose = _model->WorldPose();
     _load_complete = true;
   }
 
-  // Called by the world update start event
-  void dispenser_result_cb(DispenserResult::UniquePtr msg)
+  void fleet_state_cb(FleetState::UniquePtr msg)
   {
-    auto status = msg->status;
-    std::string source_guid = msg->source_guid.c_str();
+    std::unique_lock fleet_states_lock(_fleet_states_mutex);
+    _fleet_states[msg->name] = std::move(msg);
+  }
 
-    if (source_guid == _load_guid && !_object_loaded)
+  void dispenser_request_cb(DispenserRequest::UniquePtr msg)
+  {
+    auto dispenser_guid = msg->target_guid;
+    if (dispenser_guid == _load_guid && !_object_loaded)
     {
-      RCLCPP_INFO(_node->get_logger(),  "Loading object");
-      _model->SetWorldPose(_load_pose);
       _object_loaded = true;
     }
-    else if (source_guid == _unload_guid && _object_loaded)
+    else if (dispenser_guid == _unload_guid && _object_loaded)
     {
-      RCLCPP_INFO(_node->get_logger(),  "Unloading object");
-      _model->SetWorldPose(_unload_pose);
-      _object_loaded = false;
-
-      // Hard coded: Leave object at goal location for 2.0 second, then
-      // teleport it back to initial ( pre pickup  ) location
-      rclcpp::sleep_for(std::chrono::seconds(2));
-      _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
-    else
-    {
+    
+    
+    // TODO: the message field should use fleet name instead
+    auto transporter_type = msg->transporter_type;
+
+
+    auto status = msg->status;
+    std::string source_guid = msg->source_guid.c_str();
+  }
+
+  // Called by the world update start event
+  // void dispenser_result_cb(DispenserResult::UniquePtr msg)
+  // {
+  //   auto status = msg->status;
+  //   std::string source_guid = msg->source_guid.c_str();
+
+  //   if (source_guid == _load_guid && !_object_loaded)
+  //   {
+  //     RCLCPP_INFO(_node->get_logger(),  "Loading object");
+  //     _model->SetWorldPose(_load_pose);
+  //     _object_loaded = true;
+  //   }
+  //   else if (source_guid == _unload_guid && _object_loaded)
+  //   {
+  //     RCLCPP_INFO(_node->get_logger(),  "Unloading object");
+  //     _model->SetWorldPose(_unload_pose);
+  //     _object_loaded = false;
+
+  //     // Hard coded: Leave object at goal location for 2.0 second, then
+  //     // teleport it back to initial ( pre pickup  ) location
+  //     rclcpp::sleep_for(std::chrono::seconds(2));
+  //     _model->SetWorldPose(_initial_pose);
+  //     _object_loaded = false;
+  //   }
+  //   else
+  //   {
+  //     return;
+  //   } 
+  // }
+
+  void on_update()
+  {
+    if (!_load_complete)
       return;
-    } 
+
+    const double t = _model->GetWorld()->SimTime().Double();
+    if (t - _last_pub_time >= 2.0)
+    {
+      _last_pub_time = t;
+
+      // do stuff
+
+      _state_pub->publish(_state);
+    }
+
+
   }
 
   ~TeleportPlugin()
