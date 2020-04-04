@@ -33,6 +33,7 @@
     <plugin name="teleport" filename="libteleport.so">
       <load_guid>beverage_dispenser</load_guid>
       <unload_guid>beverage_collector</unload_guid>
+      <unload_model_prefix>RobotPlaceholder</unload_model_prefix>
     </plugin>
 
   </model>

@@ -69,7 +69,7 @@ public:
   // The guid of the loading and unloading dispensers
   std::string _load_guid;
   std::string _unload_guid;
-  std::vector<std::string> _unload_model_names;
+  std::vector<gazebo::physics::ModelPtr> _unload_models;
 
   Pose3d _initial_pose;
 
@@ -81,15 +81,33 @@ public:
     _model = _parent;
     _world = _model->GetWorld();
 
-    // Get the required sdf parameters
-    get_sdf_param_required<std::string>(_sdf, "load_guid", _load_guid);
-    get_sdf_param_required<std::string>(_sdf, "unload_guid", _unload_guid);
-    _unload_model_names = 
-        get_sdf_params_if_available<std::string>(_sdf, "unload_model");
-
     _node = gazebo_ros::Node::Get(_sdf);
     std::cout << "Started teleport_plugin node..." <<std::endl;
 
+    // Get the required sdf parameters
+    get_sdf_param_required<std::string>(_sdf, "load_guid", _load_guid);
+    get_sdf_param_required<std::string>(_sdf, "unload_guid", _unload_guid);
+    
+    std::string prefix = "RobotPlaceholder";
+    get_sdf_param_if_available<std::string>(
+        _sdf, "unload_model_prefix", prefix);
+
+    // Get all the RobotPlaceholder model names
+    auto model_list = _world->Models();
+    for (const auto& m : model_list)
+    {
+      std::string m_name = m->GetName();
+      if (std::mismatch(prefix.begin(), prefix.end(), 
+          m_name.begin(), m_name.end()).first == prefix.end())
+      {
+        _unload_models.push_back(m);
+        RCLCPP_INFO(
+            _node->get_logger(), "Added unloading model: [%s]", 
+            m_name.c_str());
+      }
+    }
+
+    // All the ROS items
     _fleet_state_sub = _node->create_subscription<FleetState>(
         "/fleet_states",
         rclcpp::SystemDefaultsQoS(),
@@ -170,75 +188,76 @@ public:
       _result_pub->publish(response);
       
       // TODO(Aaron): do this in a separate thread so state publishing continues
-      // Hard coded: Leave object at goal location for 2.0 second, then
+      // Hard coded: Leave object at goal location for 5.0 second, then
       // teleport it back to initial ( pre pickup  ) location
-      rclcpp::sleep_for(std::chrono::seconds(2));
+      rclcpp::sleep_for(std::chrono::seconds(5));
       _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
   }
 
+  bool find_nearest_model_name(
+      const std::vector<gazebo::physics::ModelPtr>& models,
+      std::string& nearest_model_name)
+  {
+    double nearest_dist = 1e6;
+    bool found = false;
+
+    for (const auto& m : models)
+    {
+      if (!m)
+        continue;
+      
+      double dist =
+          m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
+      if (dist < nearest_dist)
+      {
+        nearest_dist = dist;
+        nearest_model_name = m->GetName();
+        found = true;
+      }
+    }
+
+    return found;
+  }
+
   void load_on_nearest_robot(const std::string& fleet_name)
   {    
-    auto fleet_state = _fleet_states.find(fleet_name);
-    if (fleet_state == _fleet_states.end())
+    auto fleet_state_it = _fleet_states.find(fleet_name);
+    if (fleet_state_it == _fleet_states.end())
     {
       RCLCPP_WARN(_node->get_logger(), 
           "No such fleet: [%s]", fleet_name.c_str());
       return;
     }
 
-    double nearest_robot_distance = 1e6;
-    std::string nearest_robot_name;
-    for (auto rs : fleet_state->second->robots)
+    std::vector<gazebo::physics::ModelPtr> robot_models;
+    for (const auto& rs : fleet_state_it->second->robots)
     {
-      auto rmodel = _world->ModelByName(rs.name);
-      if (!rmodel)
-        return;
-      double dist = 
-          rmodel->WorldPose().Pos().Distance(_model->WorldPose().Pos());
-      if (dist < nearest_robot_distance)
-      {
-        nearest_robot_distance = dist;
-        nearest_robot_name = rs.name;
-      }
+      auto r_model = _world->ModelByName(rs.name);
+      if (r_model)
+        robot_models.push_back(r_model);
     }
-    
-    if (nearest_robot_name.empty())
+
+    std::string nearest_robot_model_name;
+    if (!find_nearest_model_name(robot_models, nearest_robot_model_name))
     {
       RCLCPP_WARN(_node->get_logger(),
           "No near robots of fleet [%s] found.", fleet_name.c_str());
       return;
     }
-
-    _model->PlaceOnEntity(nearest_robot_name);
+    _model->PlaceOnEntity(nearest_robot_model_name);
   }
 
   void unload_on_nearest_target()
   {
-    double nearest_unload_model_distance = 1e6;
-    std::string nearest_unload_model_name;
-    for (auto umodel_name : _unload_model_names)
-    {
-      auto umodel = _world->ModelByName(umodel_name);
-      if (!umodel)
-        return;
-      double dist = 
-          umodel->WorldPose().Pos().Distance(_model->WorldPose().Pos());
-      if (dist < nearest_unload_model_distance)
-      {
-        nearest_unload_model_distance = dist;
-        nearest_unload_model_name = umodel_name;
-      }
-    }
-
-    if (nearest_unload_model_name.empty())
+    std::string nearest_model_name;
+    if (!find_nearest_model_name(_unload_models, nearest_model_name))
     {
       RCLCPP_WARN(_node->get_logger(), "No near unloading model found.");
       return;
     }
-
-    _model->PlaceOnEntity(nearest_unload_model_name);
+    _model->SetWorldPose(_world->ModelByName(nearest_model_name)->WorldPose());
   }
 
   void on_update()

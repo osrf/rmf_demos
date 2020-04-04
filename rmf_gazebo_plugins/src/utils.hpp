@@ -112,39 +112,6 @@ void get_sdf_param_if_available(const sdf::ElementPtr& sdf, const std::string& p
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename T>
-std::vector<T> get_sdf_params_if_available(
-    const sdf::ElementPtr& sdf,
-    const std::string& parameter_name)
-{
-  std::vector<T> values;
-  if (sdf->HasElement(parameter_name))
-  {
-    auto element = sdf->GetElement(parameter_name);
-    
-    // TODO: not use a while loop
-    while (element)
-    {
-      T single_value;
-      if (element->GetValue()->Get(single_value))
-      {
-        std::cout << "Got specified value [" << single_value 
-            << "] for property [" << parameter_name << "]" << std::endl;
-        values.push_back(single_value);
-      }
-      else
-      {
-        std::cerr << "Failed to parse sdf value for [" << parameter_name
-            << "]" << std::endl;
-      }
-
-      element = element->GetNextElement(parameter_name);
-    }
-  }
-  return values;
-}
-
 } // namespace rmf_gazebo_plugins
 
 #endif // SRC__RMF_GAZEBO_PLUGINS__UTILS_HPP
