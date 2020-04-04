@@ -17,6 +17,7 @@
 
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
@@ -58,6 +59,9 @@ public:
   rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
 
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
+
+  std::unordered_set<std::string> _load_request_guids;
+  std::unordered_set<std::string> _unload_request_guids;
 
   DispenserState _load_dispenser_state;
   DispenserState _unload_dispenser_state;
@@ -153,12 +157,16 @@ public:
     // TODO: the message field should use fleet name instead
     auto transporter_type = msg->transporter_type;
     auto dispenser_guid = msg->target_guid;
+    auto request_guid = msg->request_guid;
     
     DispenserResult response;
     response.request_guid = msg->request_guid;
 
     if (dispenser_guid == _load_guid && !_object_loaded)
     {
+      if (!_load_request_guids.insert(request_guid).second)
+        return;
+
       response.time = _node->now();
       response.source_guid = _load_guid;
       response.status = DispenserResult::ACKNOWLEDGED;
@@ -174,6 +182,9 @@ public:
     }
     else if (dispenser_guid == _unload_guid && _object_loaded)
     {
+      if (!_unload_request_guids.insert(request_guid).second)
+        return;
+
       response.time = _node->now();
       response.source_guid = _unload_guid;
       response.status = DispenserResult::ACKNOWLEDGED;
