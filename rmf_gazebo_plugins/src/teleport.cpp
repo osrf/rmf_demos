@@ -74,6 +74,7 @@ public:
   std::string _load_guid;
   std::string _unload_guid;
   std::vector<gazebo::physics::ModelPtr> _unload_models;
+  int _respawn_seconds = 5.0;
 
   Pose3d _initial_pose;
 
@@ -91,10 +92,10 @@ public:
     // Get the required sdf parameters
     get_sdf_param_required<std::string>(_sdf, "load_guid", _load_guid);
     get_sdf_param_required<std::string>(_sdf, "unload_guid", _unload_guid);
-    
     std::string prefix = "RobotPlaceholder";
     get_sdf_param_if_available<std::string>(
         _sdf, "unload_model_prefix", prefix);
+    get_sdf_param_if_available<int>(_sdf, "respawn_seconds", _respawn_seconds);
 
     // Get all the RobotPlaceholder model names
     auto model_list = _world->Models();
@@ -167,16 +168,17 @@ public:
       if (!_load_request_guids.insert(request_guid).second)
         return;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.source_guid = _load_guid;
       response.status = DispenserResult::ACKNOWLEDGED;
       _result_pub->publish(response);
 
       RCLCPP_INFO(_node->get_logger(), "Loading object");
       load_on_nearest_robot(transporter_type);
+      rclcpp::sleep_for(std::chrono::seconds(5));
       _object_loaded = true;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.status = DispenserResult::SUCCESS;
       _result_pub->publish(response);
     }
@@ -185,23 +187,24 @@ public:
       if (!_unload_request_guids.insert(request_guid).second)
         return;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.source_guid = _unload_guid;
       response.status = DispenserResult::ACKNOWLEDGED;
       _result_pub->publish(response);
 
       RCLCPP_INFO(_node->get_logger(), "Unloading object");
+      rclcpp::sleep_for(std::chrono::seconds(5));
       unload_on_nearest_target();
       _object_loaded = false;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.status = DispenserResult::SUCCESS;
       _result_pub->publish(response);
       
       // TODO(Aaron): do this in a separate thread so state publishing continues
       // Hard coded: Leave object at goal location for 5.0 second, then
       // teleport it back to initial ( pre pickup  ) location
-      rclcpp::sleep_for(std::chrono::seconds(5));
+      rclcpp::sleep_for(std::chrono::seconds(_respawn_seconds));
       _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
@@ -271,6 +274,15 @@ public:
     _model->SetWorldPose(_world->ModelByName(nearest_model_name)->WorldPose());
   }
 
+  rclcpp::Time simulation_now()
+  {
+    const double t = _model->GetWorld()->SimTime().Double();
+    const int32_t t_sec = static_cast<int32_t>(t);
+    const uint32_t t_nsec =
+      static_cast<uint32_t>((t-static_cast<double>(t_sec)) *1e9);
+    return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
+  }
+
   void on_update()
   {
     if (!_load_complete)
@@ -280,14 +292,15 @@ public:
     if (t - _last_pub_time >= 2.0)
     {
       _last_pub_time = t;
+      const auto now = simulation_now();
 
-      _load_dispenser_state.time = _node->now();
+      _load_dispenser_state.time = now;
       _load_dispenser_state.mode = 
           _load_dispenser_state.request_guid_queue.empty() ?
           DispenserState::IDLE : DispenserState::BUSY;
       _state_pub->publish(_load_dispenser_state);
 
-      _unload_dispenser_state.time = _node->now();
+      _unload_dispenser_state.time = now;
       _unload_dispenser_state.mode =
           _unload_dispenser_state.request_guid_queue.empty() ?
           DispenserState::IDLE : DispenserState::BUSY;
