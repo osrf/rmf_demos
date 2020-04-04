@@ -168,16 +168,17 @@ public:
       if (!_load_request_guids.insert(request_guid).second)
         return;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.source_guid = _load_guid;
       response.status = DispenserResult::ACKNOWLEDGED;
       _result_pub->publish(response);
 
       RCLCPP_INFO(_node->get_logger(), "Loading object");
       load_on_nearest_robot(transporter_type);
+      rclcpp::sleep_for(std::chrono::seconds(5));
       _object_loaded = true;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.status = DispenserResult::SUCCESS;
       _result_pub->publish(response);
     }
@@ -186,16 +187,17 @@ public:
       if (!_unload_request_guids.insert(request_guid).second)
         return;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.source_guid = _unload_guid;
       response.status = DispenserResult::ACKNOWLEDGED;
       _result_pub->publish(response);
 
       RCLCPP_INFO(_node->get_logger(), "Unloading object");
+      rclcpp::sleep_for(std::chrono::seconds(5));
       unload_on_nearest_target();
       _object_loaded = false;
 
-      response.time = _node->now();
+      response.time = simulation_now();
       response.status = DispenserResult::SUCCESS;
       _result_pub->publish(response);
       
@@ -272,6 +274,15 @@ public:
     _model->SetWorldPose(_world->ModelByName(nearest_model_name)->WorldPose());
   }
 
+  rclcpp::Time simulation_now()
+  {
+    const double t = _model->GetWorld()->SimTime().Double();
+    const int32_t t_sec = static_cast<int32_t>(t);
+    const uint32_t t_nsec =
+      static_cast<uint32_t>((t-static_cast<double>(t_sec)) *1e9);
+    return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
+  }
+
   void on_update()
   {
     if (!_load_complete)
@@ -281,14 +292,15 @@ public:
     if (t - _last_pub_time >= 2.0)
     {
       _last_pub_time = t;
+      const auto now = simulation_now();
 
-      _load_dispenser_state.time = _node->now();
+      _load_dispenser_state.time = now;
       _load_dispenser_state.mode = 
           _load_dispenser_state.request_guid_queue.empty() ?
           DispenserState::IDLE : DispenserState::BUSY;
       _state_pub->publish(_load_dispenser_state);
 
-      _unload_dispenser_state.time = _node->now();
+      _unload_dispenser_state.time = now;
       _unload_dispenser_state.mode =
           _unload_dispenser_state.request_guid_queue.empty() ?
           DispenserState::IDLE : DispenserState::BUSY;
