@@ -21,34 +21,24 @@ function send_loop_job {
 
 echo "Spawning and sending job to robot mir100_0."
 spawn_robot MiR100 mir100_0
-send_loop_job junction_central_west junction_north_west mir100
-
-
-echo "Spawning and sending job to robot mir100_1."
-spawn_robot MiR100 mir100_1
-send_loop_job junction_central_east junction_north_east mir100
-
+send_loop_job junction_south_west junction_north_west mir100
 
 echo "Spawning and sending job to robot mir100_2."
 spawn_robot MiR100 mir100_2
 send_loop_job west_koi_pond junction_n01 mir100
 
-
 echo "Spawning and sending job to robot magni_0."
 spawn_robot Magni magni_0
-send_loop_job junction_s10 junction_n18 magni
-
+send_loop_job s06 koi_pond magni
 
 echo "Spawning and sending job to robot magni_1."
 spawn_robot Magni magni_1
-send_loop_job junction_s11 junction_n20 magni
-
+send_loop_job junction_s07 junction_n11 magni
 
 echo "Spawning and sending job to robot magni_2."
 spawn_robot Magni magni_2
-send_loop_job junction_s16 junction_n28 magni
+send_loop_job n13 junction_s07 magni
 
-
-echo "Spawning and sending job to robot magni_3."
-spawn_robot Magni magni_3
-send_loop_job junction_s24 junction_n32 magni
+# echo "Spawning and sending job to robot magni_3."
+# spawn_robot Magni magni_3
+# send_loop_job junction_s24 junction_n32 magni
