@@ -74,6 +74,7 @@ public:
   std::string _load_guid;
   std::string _unload_guid;
   std::vector<gazebo::physics::ModelPtr> _unload_models;
+  int _respawn_seconds = 5.0;
 
   Pose3d _initial_pose;
 
@@ -91,10 +92,10 @@ public:
     // Get the required sdf parameters
     get_sdf_param_required<std::string>(_sdf, "load_guid", _load_guid);
     get_sdf_param_required<std::string>(_sdf, "unload_guid", _unload_guid);
-    
     std::string prefix = "RobotPlaceholder";
     get_sdf_param_if_available<std::string>(
         _sdf, "unload_model_prefix", prefix);
+    get_sdf_param_if_available<int>(_sdf, "respawn_seconds", _respawn_seconds);
 
     // Get all the RobotPlaceholder model names
     auto model_list = _world->Models();
@@ -201,7 +202,7 @@ public:
       // TODO(Aaron): do this in a separate thread so state publishing continues
       // Hard coded: Leave object at goal location for 5.0 second, then
       // teleport it back to initial ( pre pickup  ) location
-      rclcpp::sleep_for(std::chrono::seconds(5));
+      rclcpp::sleep_for(std::chrono::seconds(_respawn_seconds));
       _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
