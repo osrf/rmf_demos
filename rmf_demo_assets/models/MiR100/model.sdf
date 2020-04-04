@@ -359,26 +359,6 @@
       </axis>
     </joint>
 
-    <link name='payload_frame'>
-      <pose>0.0 0.0 0.36 0.0 0.0 0.0</pose>
-      <visual name='visual'>
-        <geometry>
-          <box>
-            <size>0.1 0.1 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>128 192 210 0.05</ambient>
-          <diffuse>128 192 210 0.05</diffuse>
-        </material>
-      </visual>
-    </link> 
-
-    <joint name='payload_frame_joint' type='fixed'>
-      <parent>body</parent>
-      <child>payload_frame</child>
-    </joint>
-
   </model>
 </sdf>
 

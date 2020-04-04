@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <sdf version="1.6">
-  <model name="robot_frame">
+  <model name="RobotPlaceholder">
     <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
     <static>true</static>
     

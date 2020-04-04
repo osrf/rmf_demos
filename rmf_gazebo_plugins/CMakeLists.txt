@@ -49,6 +49,7 @@ target_link_libraries(teleport
     ${rclcpp_LIBRARIES}
     ${GAZEBO_LIBRARIES}
     ${gazebo_ros_LIBRARIES}
+    ${rmf_fleet_msgs_LIBRARIES}
     ${rmf_dispenser_msgs_LIBRARIES}
     ${std_msgs_LIBRARIES}
 )
@@ -59,6 +60,7 @@ target_include_directories(teleport
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${rclcpp_INCLUDE_DIRS}
     ${GAZEBO_INCLUDE_DIRS}
+    ${rmf_fleet_msgs_INCLUDE_DIRS}
     ${rmf_dispenser_msgs_INCLUDE_DIRS}
     ${std_msgs_INCLUDE_DIRS}
 )

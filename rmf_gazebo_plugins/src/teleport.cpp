@@ -20,6 +20,7 @@
 
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
+#include <gazebo/physics/World.hh>
 #include <gazebo_ros/node.hpp>
 
 #include <ignition/math/Vector3.hh>
@@ -29,8 +30,9 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
-
+#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
+#include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
 
 namespace rmf_gazebo_plugins {
 
@@ -48,6 +50,7 @@ public:
 
   // Pointer to the model
   gazebo::physics::ModelPtr _model;
+  gazebo::physics::WorldPtr _world;
   gazebo_ros::Node::SharedPtr _node;
   rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
   rclcpp::Publisher<DispenserState>::SharedPtr _state_pub;
@@ -56,6 +59,9 @@ public:
 
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
 
+  DispenserState _load_dispenser_state;
+  DispenserState _unload_dispenser_state;
+
   double _last_pub_time = 0.0;
 
   bool _load_complete = false;
@@ -63,10 +69,9 @@ public:
   // The guid of the loading and unloading dispensers
   std::string _load_guid;
   std::string _unload_guid;
+  std::vector<std::string> _unload_model_names;
 
   Pose3d _initial_pose;
-  Pose3d _load_pose;
-  Pose3d _unload_pose;
 
   bool _object_loaded = false;
 
@@ -74,12 +79,13 @@ public:
   {
     // Store the pointer to the model
     _model = _parent;
+    _world = _model->GetWorld();
 
     // Get the required sdf parameters
     get_sdf_param_required<std::string>(_sdf, "load_guid", _load_guid);
     get_sdf_param_required<std::string>(_sdf, "unload_guid", _unload_guid);
-    get_sdf_param_required<Pose3d>(_sdf, "load_pose", _load_pose);
-    get_sdf_param_required<Pose3d>(_sdf, "unload_pose", _unload_pose);
+    _unload_model_names = 
+        get_sdf_params_if_available<std::string>(_sdf, "unload_model");
 
     _node = gazebo_ros::Node::Get(_sdf);
     std::cout << "Started teleport_plugin node..." <<std::endl;
@@ -106,6 +112,11 @@ public:
     _result_pub = _node->create_publisher<DispenserResult>(
       "/dispenser_results", 10);
     
+    _load_dispenser_state.guid = _load_guid;
+    _load_dispenser_state.mode = DispenserState::IDLE;
+    _unload_dispenser_state.guid = _unload_guid;
+    _unload_dispenser_state.mode = DispenserState::IDLE;
+
     _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
         std::bind(&TeleportPlugin::on_update, this));
 
@@ -121,54 +132,114 @@ public:
 
   void dispenser_request_cb(DispenserRequest::UniquePtr msg)
   {
+    // TODO: the message field should use fleet name instead
+    auto transporter_type = msg->transporter_type;
     auto dispenser_guid = msg->target_guid;
+    
+    DispenserResult response;
+    response.request_guid = msg->request_guid;
+
     if (dispenser_guid == _load_guid && !_object_loaded)
     {
+      response.time = _node->now();
+      response.source_guid = _load_guid;
+      response.status = DispenserResult::ACKNOWLEDGED;
+      _result_pub->publish(response);
+
+      RCLCPP_INFO(_node->get_logger(), "Loading object");
+      load_on_nearest_robot(transporter_type);
       _object_loaded = true;
+
+      response.time = _node->now();
+      response.status = DispenserResult::SUCCESS;
+      _result_pub->publish(response);
     }
     else if (dispenser_guid == _unload_guid && _object_loaded)
     {
+      response.time = _node->now();
+      response.source_guid = _unload_guid;
+      response.status = DispenserResult::ACKNOWLEDGED;
+      _result_pub->publish(response);
+
+      RCLCPP_INFO(_node->get_logger(), "Unloading object");
+      unload_on_nearest_target();
+      _object_loaded = false;
+
+      response.time = _node->now();
+      response.status = DispenserResult::SUCCESS;
+      _result_pub->publish(response);
+      
+      // TODO(Aaron): do this in a separate thread so state publishing continues
+      // Hard coded: Leave object at goal location for 2.0 second, then
+      // teleport it back to initial ( pre pickup  ) location
+      rclcpp::sleep_for(std::chrono::seconds(2));
+      _model->SetWorldPose(_initial_pose);
       _object_loaded = false;
     }
-    
-    
-    // TODO: the message field should use fleet name instead
-    auto transporter_type = msg->transporter_type;
-
-
-    auto status = msg->status;
-    std::string source_guid = msg->source_guid.c_str();
   }
 
-  // Called by the world update start event
-  // void dispenser_result_cb(DispenserResult::UniquePtr msg)
-  // {
-  //   auto status = msg->status;
-  //   std::string source_guid = msg->source_guid.c_str();
+  void load_on_nearest_robot(const std::string& fleet_name)
+  {    
+    auto fleet_state = _fleet_states.find(fleet_name);
+    if (fleet_state == _fleet_states.end())
+    {
+      RCLCPP_WARN(_node->get_logger(), 
+          "No such fleet: [%s]", fleet_name.c_str());
+      return;
+    }
 
-  //   if (source_guid == _load_guid && !_object_loaded)
-  //   {
-  //     RCLCPP_INFO(_node->get_logger(),  "Loading object");
-  //     _model->SetWorldPose(_load_pose);
-  //     _object_loaded = true;
-  //   }
-  //   else if (source_guid == _unload_guid && _object_loaded)
-  //   {
-  //     RCLCPP_INFO(_node->get_logger(),  "Unloading object");
-  //     _model->SetWorldPose(_unload_pose);
-  //     _object_loaded = false;
+    double nearest_robot_distance = 1e6;
+    std::string nearest_robot_name;
+    for (auto rs : fleet_state->second->robots)
+    {
+      auto rmodel = _world->ModelByName(rs.name);
+      if (!rmodel)
+        return;
+      double dist = 
+          rmodel->WorldPose().Pos().Distance(_model->WorldPose().Pos());
+      if (dist < nearest_robot_distance)
+      {
+        nearest_robot_distance = dist;
+        nearest_robot_name = rs.name;
+      }
+    }
+    
+    if (nearest_robot_name.empty())
+    {
+      RCLCPP_WARN(_node->get_logger(),
+          "No near robots of fleet [%s] found.", fleet_name.c_str());
+      return;
+    }
 
-  //     // Hard coded: Leave object at goal location for 2.0 second, then
-  //     // teleport it back to initial ( pre pickup  ) location
-  //     rclcpp::sleep_for(std::chrono::seconds(2));
-  //     _model->SetWorldPose(_initial_pose);
-  //     _object_loaded = false;
-  //   }
-  //   else
-  //   {
-  //     return;
-  //   } 
-  // }
+    _model->PlaceOnEntity(nearest_robot_name);
+  }
+
+  void unload_on_nearest_target()
+  {
+    double nearest_unload_model_distance = 1e6;
+    std::string nearest_unload_model_name;
+    for (auto umodel_name : _unload_model_names)
+    {
+      auto umodel = _world->ModelByName(umodel_name);
+      if (!umodel)
+        return;
+      double dist = 
+          umodel->WorldPose().Pos().Distance(_model->WorldPose().Pos());
+      if (dist < nearest_unload_model_distance)
+      {
+        nearest_unload_model_distance = dist;
+        nearest_unload_model_name = umodel_name;
+      }
+    }
+
+    if (nearest_unload_model_name.empty())
+    {
+      RCLCPP_WARN(_node->get_logger(), "No near unloading model found.");
+      return;
+    }
+
+    _model->PlaceOnEntity(nearest_unload_model_name);
+  }
 
   void on_update()
   {
@@ -180,12 +251,18 @@ public:
     {
       _last_pub_time = t;
 
-      // do stuff
+      _load_dispenser_state.time = _node->now();
+      _load_dispenser_state.mode = 
+          _load_dispenser_state.request_guid_queue.empty() ?
+          DispenserState::IDLE : DispenserState::BUSY;
+      _state_pub->publish(_load_dispenser_state);
 
-      _state_pub->publish(_state);
+      _unload_dispenser_state.time = _node->now();
+      _unload_dispenser_state.mode =
+          _unload_dispenser_state.request_guid_queue.empty() ?
+          DispenserState::IDLE : DispenserState::BUSY;
+      _state_pub->publish(_unload_dispenser_state);
     }
-
-
   }
 
   ~TeleportPlugin()
