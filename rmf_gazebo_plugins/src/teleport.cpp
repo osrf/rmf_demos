@@ -54,7 +54,6 @@ public:
   rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
   rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
 
-  std::mutex _fleet_states_mutex;
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
 
   double _last_pub_time = 0.0;
@@ -117,7 +116,6 @@ public:
 
   void fleet_state_cb(FleetState::UniquePtr msg)
   {
-    std::unique_lock fleet_states_lock(_fleet_states_mutex);
     _fleet_states[msg->name] = std::move(msg);
   }
 
