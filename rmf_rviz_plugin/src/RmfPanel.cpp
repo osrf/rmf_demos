@@ -100,9 +100,17 @@ void RmfPanel::create_layout()
   QGroupBox* loop_box = new QGroupBox("Loop Request");
   loop_box->setLayout(layout_loop);
 
+  // Creating HLayout for emergency checkbox
+  QHBoxLayout* emergency_layout = new QHBoxLayout;
+  emergency_layout->addStretch();
+  _emergency_box = new QCheckBox("Emergency Stop");
+  emergency_layout->addWidget(_emergency_box);
+  emergency_layout->addStretch();
+
   // Combining layouts into a single vertical layout
   QVBoxLayout* layout = new QVBoxLayout;
   layout->addStretch();
+  layout->addLayout(emergency_layout);
   layout->addWidget(loop_box);
   layout->addWidget(delivery_box);
   setLayout(layout);
@@ -143,6 +151,10 @@ void RmfPanel::create_layout()
       SIGNAL(editingFinished()), this, SLOT(update_loop_num()));
   connect(_loop_button,
       SIGNAL(clicked()), this, SLOT(request_loop()));
+  
+  connect(_timer, SIGNAL(timeout()), this, SLOT(publish_emergency()));
+  connect(_emergency_box, SIGNAL(stateChanged(int)), this, SLOT(update_emergency()));
+
 }
 
 RmfPanel::RmfPanel(QWidget* parent)
@@ -167,6 +179,14 @@ RmfPanel::RmfPanel(QWidget* parent)
     "/loop_requests",
     rclcpp::QoS(10));
 
+  _emergency_pub = _node->create_publisher<Bool>(
+    "/fire_alarm_trigger",
+    rclcpp::QoS(10));
+
+  _timer = new QTimer(this);
+  _timer->start(1000);
+  _emergency.data = false;
+
   _thread = std::thread([&](){rclcpp::spin(_node);});
   
   create_layout();
@@ -180,6 +200,19 @@ RmfPanel::~RmfPanel()
     _thread.join();
     rclcpp::shutdown();
   }
+}
+
+// Emergency Stop
+void RmfPanel::publish_emergency()
+{
+  _emergency_pub->publish(_emergency);
+}
+
+// Update Emergency state
+void RmfPanel::update_emergency()
+{
+  std::lock_guard<std::mutex> lock(_mutex);
+  _emergency.data = _emergency_box->isChecked();
 }
 
 // Delivery set functions 
