@@ -225,21 +225,37 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const
     return rmf_utils::nullopt;
   }
 
-  auto nav_graph_path_parameters =
-      parameters_client->get_parameters({"nav_graph_file"});
-  std::string nav_file_path = nav_graph_path_parameters[0].as_string();
-  std::cout << "Nav File Path Found: " + nav_file_path << std::endl;
-
-  auto traits = rmf_traffic::agv::VehicleTraits
+  // Try to load nav graph
+  try 
   {
-      {1.0, 1.0},
-      {1.0, 1.0},
-      rmf_traffic::Trajectory::Profile::make_guided(
-          rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0))};
+    auto nav_graph_path_parameters =
+        parameters_client->get_parameters({"nav_graph_file"});
+    std::string nav_file_path = nav_graph_path_parameters[0].as_string();
+    std::cout << "Nav File Path Found: " + nav_file_path << std::endl;
 
-  rmf_utils::optional<GraphInfo> graph_info =
-      parse_graph(nav_file_path, traits, *_node);
-  return graph_info;
+
+    auto traits = rmf_traffic::agv::VehicleTraits
+    {
+        {1.0, 1.0},
+        {1.0, 1.0},
+        rmf_traffic::Trajectory::Profile::make_guided(
+            rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0))
+    };
+
+    rmf_utils::optional<GraphInfo> graph_info =
+        parse_graph(nav_file_path, traits, *_node);
+    return graph_info;
+  } 
+
+  // If the nav graph is not available, these should help debug.
+  catch (rclcpp::ParameterTypeException& e)
+  {
+    RCLCPP_INFO(_node->get_logger(), "Nav File not found. \n");
+    RCLCPP_INFO(_node->get_logger(), "If this adapter is Read Only, this is fine. \n");
+    RCLCPP_INFO(_node->get_logger(), "If this adapter is Full Control, this should not happen. \n");
+    RCLCPP_INFO(_node->get_logger(), "Check that the launch file parameter 'nav_graph_file' is correct. \n");
+    return rmf_utils::nullopt;
+  }
 }
 
 unsigned int random_char() 
