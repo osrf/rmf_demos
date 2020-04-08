@@ -46,7 +46,7 @@ void RmfPanel::create_layout()
   options_layout->addWidget(_update_time_checkbox, 0, 0);
 
   _pause_plan_checkbox = new QCheckBox("Pause Plan");
-  _pause_plan_checkbox->setChecked(true);
+  _pause_plan_checkbox->setChecked(false);
   options_layout->addWidget(_pause_plan_checkbox, 0, 1);
 
   _workcells_only_checkbox = new QCheckBox("Workcells Only");
