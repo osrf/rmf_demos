@@ -69,7 +69,6 @@ using RobotState = rmf_fleet_msgs::msg::RobotState;
 using DoorState = rmf_door_msgs::msg::DoorState;
 using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
 using Location = rmf_fleet_msgs::msg::Location;
-using RobotMode = rmf_fleet_msgs::msg::RobotMode;
 using DoorMode = rmf_door_msgs::msg::DoorMode;
 using PoseStamped = geometry_msgs::msg::PoseStamped;
 using PointStamped = geometry_msgs::msg::PointStamped;

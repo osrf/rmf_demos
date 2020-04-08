@@ -52,9 +52,6 @@ void RmfPanel::create_layout()
   _workcells_only_checkbox = new QCheckBox("Workcells Only");
   options_layout->addWidget(_workcells_only_checkbox, 0, 2);
 
-  _emergency_state_checkbox = new QCheckBox("Emergency State");
-  options_layout->addWidget(_emergency_state_checkbox, 0, 3);
-
   control_panel_layout->addWidget(options_gb, 0, 0);
 
   // Selectors
@@ -128,6 +125,9 @@ void RmfPanel::create_layout()
 
   _send_loop_button = new QPushButton("Send Loop Request");
   actions_layout->addWidget(_send_loop_button, 2, 0, 1, 2);
+
+  _emergency_state_checkbox = new QCheckBox("Emergency State");
+  actions_layout->addWidget(_emergency_state_checkbox, 3, 1);
 
   // Load File Dialog
   _load_file_dialog = new QFileDialog();
@@ -498,6 +498,7 @@ void RmfPanel::load_plan_from_file(const QString& path_name)
   auto action_plan = parse_yaml_config(path_name.toStdString());
   if (!action_plan)
   {
+using RobotMode = rmf_fleet_msgs::msg::RobotMode;
     RCLCPP_ERROR(_node->get_logger(), "Something went wrong with loading the action plan file.");
   }
   else
