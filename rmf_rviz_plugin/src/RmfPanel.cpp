@@ -483,7 +483,6 @@ void RmfPanel::load_plan_from_file(const QString& path_name)
   auto action_plan = parse_yaml_config(path_name.toStdString());
   if (!action_plan)
   {
-using RobotMode = rmf_fleet_msgs::msg::RobotMode;
     RCLCPP_ERROR(_node->get_logger(), "Something went wrong with loading the action plan file.");
   }
   else
@@ -622,9 +621,10 @@ void RmfPanel::update_plan()
       {
         std::stringstream ss;
         ss << "\tLoop\t"
+           << "Fleet: "  + loop_it->second.robot_type + "\t"
            << "From: " + loop_it->second.start_name + "\t"
            << "To: " + loop_it->second.finish_name + "\t"
-           << "Repeat: " + std::to_string(loop_it->second.num_loops)
+           << "Repeat: " + std::to_string(loop_it->second.num_loops) + "\t"
            << std::endl;
         _plan_list_data.append(loop_it->first.toString() +
                                QString(ss.str().c_str()));
