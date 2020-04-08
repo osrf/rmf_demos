@@ -158,11 +158,8 @@ void RmfPanel::initialize_state_record()
 void RmfPanel::initialize_qt_connections() 
 {
   connect(this, SIGNAL(configChanged()), this, SLOT(update_fleet_selector()));
-  connect(this, SIGNAL(configChanged()), this, SLOT(update_robot_selector()));
   connect(this, SIGNAL(configChanged()), this, SLOT(update_plan()));
 
-  connect(_fleet_selector, SIGNAL(currentTextChanged(const QString &)), this,
-          SLOT(update_robot_selector()));
   connect(_fleet_selector, SIGNAL(currentTextChanged(const QString &)), this,
           SLOT(update_start_waypoint_selector()));
   connect(_fleet_selector, SIGNAL(currentTextChanged(const QString &)), this,
