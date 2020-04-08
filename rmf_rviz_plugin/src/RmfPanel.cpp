@@ -82,6 +82,7 @@ void RmfPanel::create_layout()
 
   selector_layout->addWidget(new QLabel("Repeat Count: "), 4, 0);
   _repeat_count_selector = new QSpinBox;
+  _repeat_count_selector->setValue(1);
   selector_layout->addWidget(_repeat_count_selector, 4, 1, 1, 2);
 
   selector_layout->addWidget(new QLabel("Time: "), 5, 0);
