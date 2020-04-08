@@ -123,12 +123,6 @@ void RmfPanel::create_layout()
   QGridLayout *actions_layout = new QGridLayout();
   actions_gb->setLayout(actions_layout);
 
-  _pause_robot_button = new QPushButton("Pause Robot");
-  actions_layout->addWidget(_pause_robot_button, 0, 0, 1, 1);
-
-  _resume_robot_button = new QPushButton("Resume Robot");
-  actions_layout->addWidget(_resume_robot_button, 0, 1, 1, 1);
-
   _send_delivery_button = new QPushButton("Send Delivery Request");
   actions_layout->addWidget(_send_delivery_button, 1, 0, 1, 2);
 
@@ -149,10 +143,6 @@ void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node)
 
   _loop_pub = _node->create_publisher<Loop>(
       rmf_rviz_plugin::LoopRequestTopicName, rclcpp::QoS(10));
-
-  // TODO: Simulation robots do not seem to respond?
-  _mode_request_pub = _node->create_publisher<ModeRequest>(
-      rmf_rviz_plugin::ModeRequestTopicName, rclcpp::QoS(10));
 
   _emergency_state_pub = _node->create_publisher<Bool>(
       rmf_rviz_plugin::EmergencyStateTopicName, rclcpp::QoS(10));
@@ -200,8 +190,6 @@ void RmfPanel::initialize_qt_connections()
   connect(_send_loop_button, SIGNAL(clicked()), this, SLOT(queue_loop()));
   connect(_delete_plan_item_button, SIGNAL(clicked()), this,
           SLOT(delete_plan_item()));
-  connect(_pause_robot_button, SIGNAL(clicked()), this, SLOT(pause_robot()));
-  connect(_resume_robot_button, SIGNAL(clicked()), this, SLOT(resume_robot()));
 
   connect(_workcells_only_checkbox, SIGNAL(stateChanged(int)), this,
           SLOT(update_start_waypoint_selector()));
@@ -495,27 +483,6 @@ void RmfPanel::update_fleet_selector()
       _fleet_selector->addItem(QString(it.first.c_str()));
     }
   }
-}
-
-void RmfPanel::pause_robot() {
-  ModeRequest msg = ModeRequest();
-  msg.fleet_name = _fleet_selector->currentText().toStdString();
-  msg.robot_name = _robot_selector->currentText().toStdString();
-  msg.task_id = generate_task_uuid(2);
-  msg.mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_PAUSED;
-  _mode_request_pub->publish(msg);
-  RCLCPP_INFO(_node->get_logger(), "Pausing robot..");
-}
-
-void RmfPanel::resume_robot() 
-{
-  ModeRequest msg = ModeRequest();
-  msg.fleet_name = _fleet_selector->currentText().toStdString();
-  msg.robot_name = _robot_selector->currentText().toStdString();
-  msg.task_id = generate_task_uuid(2);
-  msg.mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_MOVING;
-  _mode_request_pub->publish(msg);
-  RCLCPP_INFO(_node->get_logger(), "Resuming robot..");
 }
 
 void RmfPanel::open_load_file_dialog()

@@ -100,8 +100,6 @@ public Q_SLOTS:
   void pop_plan();
   void pop_loop();
   void delete_plan_item();
-  void pause_robot();
-  void resume_robot();
   void load_plan_from_file(const QString& file);
   void open_load_file_dialog();
   void publish_emergency_signal();
@@ -157,8 +155,6 @@ protected:
   // Actions - For queuing commands in Plan
   QPushButton *_send_delivery_button;
   QPushButton *_send_loop_button;
-  QPushButton *_pause_robot_button;
-  QPushButton *_resume_robot_button;
 
   // QTimer to update fields
   QTimer *_update_timer;
@@ -179,7 +175,6 @@ private:
 
   rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
   rclcpp::Publisher<Loop>::SharedPtr _loop_pub;
-  rclcpp::Publisher<ModeRequest>::SharedPtr _mode_request_pub;
   rclcpp::Publisher<Bool>::SharedPtr _emergency_state_pub;
 
   // Book Keeping
