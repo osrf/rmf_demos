@@ -105,7 +105,6 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
   void update_fleet_selector();
-  void update_robot_selector();
   void update_start_waypoint_selector();
   void update_end_waypoint_selector();
   void update_time_selector();
@@ -129,7 +128,6 @@ protected:
 
   // Selectors - For targeting agents to accomplish goals
   QComboBox *_fleet_selector;
-  QComboBox *_robot_selector;
   QComboBox *_start_waypoint_selector;
   QComboBox *_end_waypoint_selector;
   QSpinBox

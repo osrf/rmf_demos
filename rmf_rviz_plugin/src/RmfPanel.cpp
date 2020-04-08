@@ -44,38 +44,34 @@ void RmfPanel::create_layout()
   _fleet_selector = new QComboBox;
   selector_layout->addWidget(_fleet_selector, 0, 1, 1, 2);
 
-  selector_layout->addWidget(new QLabel("Robot: "), 1, 0);
-  _robot_selector = new QComboBox;
-  selector_layout->addWidget(_robot_selector, 1, 1, 1, 2);
-
-  selector_layout->addWidget(new QLabel("Start Waypoint: "), 2, 0);
+  selector_layout->addWidget(new QLabel("Start Waypoint: "), 1, 0);
   _start_waypoint_selector = new QComboBox;
   _start_waypoint_selector->setEditable(true);
-  selector_layout->addWidget(_start_waypoint_selector, 2, 1, 1, 2);
+  selector_layout->addWidget(_start_waypoint_selector, 1, 1, 1, 2);
 
   _workcells_only_checkbox = new QCheckBox("Workcells Only");
-  selector_layout->addWidget(_workcells_only_checkbox, 2, 3);
+  selector_layout->addWidget(_workcells_only_checkbox, 1, 3);
 
-  selector_layout->addWidget(new QLabel("End Waypoint: "), 3, 0);
+  selector_layout->addWidget(new QLabel("End Waypoint: "), 2, 0);
   _end_waypoint_selector = new QComboBox;
   _end_waypoint_selector->setEditable(true);
-  selector_layout->addWidget(_end_waypoint_selector, 3, 1, 1, 2);
+  selector_layout->addWidget(_end_waypoint_selector, 2, 1, 1, 2);
 
-  selector_layout->addWidget(new QLabel("Repeat Count: "), 4, 0);
+  selector_layout->addWidget(new QLabel("Repeat Count: "), 3, 0);
   _repeat_count_selector = new QSpinBox;
   _repeat_count_selector->setValue(1);
-  selector_layout->addWidget(_repeat_count_selector, 4, 1, 1, 2);
+  selector_layout->addWidget(_repeat_count_selector, 3, 1, 1, 2);
 
-  selector_layout->addWidget(new QLabel("Time: "), 5, 0);
+  selector_layout->addWidget(new QLabel("Time: "), 4, 0);
   _time_selector = new QTimeEdit(QTime::currentTime());
   _time_selector->setDisplayFormat(QString("hh:mm:ss ap"));
-  selector_layout->addWidget(_time_selector, 5, 1, 1, 2);
+  selector_layout->addWidget(_time_selector, 4, 1, 1, 2);
 
   control_panel_layout->addWidget(selector_gb, 1, 0);
 
   _update_time_checkbox = new QCheckBox("Keep Time Updated");
   _update_time_checkbox->setChecked(true);
-  selector_layout->addWidget(_update_time_checkbox, 5, 3);
+  selector_layout->addWidget(_update_time_checkbox, 4, 3);
 
   // Status
   QGroupBox *status_gb = new QGroupBox("Status");
@@ -515,21 +511,6 @@ void RmfPanel::publish_emergency_signal()
   {
     msg.data = false;
     _emergency_state_pub->publish(msg);
-  }
-}
-
-void RmfPanel::update_robot_selector() 
-{
-  std::string fleet_name = _fleet_selector->currentText().toStdString();
-  auto robots = _map_fleet_to_robots[fleet_name];
-  bool new_robot_found = (_robot_selector->count() != (int)robots.size());
-  if (new_robot_found) 
-  {
-    _robot_selector->clear();
-    for (auto robot_name : robots) 
-    {
-      _robot_selector->addItem(QString(robot_name.c_str()));
-    }
   }
 }
 
