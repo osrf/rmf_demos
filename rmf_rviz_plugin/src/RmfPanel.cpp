@@ -40,17 +40,9 @@ void RmfPanel::create_layout()
   QGridLayout *options_layout = new QGridLayout();
   options_gb->setLayout(options_layout);
 
-  // Keeps the time selector at current time
-  _update_time_checkbox = new QCheckBox("Keep Time Updated");
-  _update_time_checkbox->setChecked(true);
-  options_layout->addWidget(_update_time_checkbox, 0, 0);
-
   _pause_plan_checkbox = new QCheckBox("Pause Plan");
   _pause_plan_checkbox->setChecked(false);
   options_layout->addWidget(_pause_plan_checkbox, 0, 1);
-
-  _workcells_only_checkbox = new QCheckBox("Workcells Only");
-  options_layout->addWidget(_workcells_only_checkbox, 0, 2);
 
   control_panel_layout->addWidget(options_gb, 0, 0);
 
@@ -72,6 +64,9 @@ void RmfPanel::create_layout()
   _start_waypoint_selector->setEditable(true);
   selector_layout->addWidget(_start_waypoint_selector, 2, 1, 1, 2);
 
+  _workcells_only_checkbox = new QCheckBox("Workcells Only");
+  selector_layout->addWidget(_workcells_only_checkbox, 2, 3);
+
   selector_layout->addWidget(new QLabel("End Waypoint: "), 3, 0);
   _end_waypoint_selector = new QComboBox;
   _end_waypoint_selector->setEditable(true);
@@ -88,6 +83,10 @@ void RmfPanel::create_layout()
   selector_layout->addWidget(_time_selector, 5, 1, 1, 2);
 
   control_panel_layout->addWidget(selector_gb, 1, 0);
+
+  _update_time_checkbox = new QCheckBox("Keep Time Updated");
+  _update_time_checkbox->setChecked(true);
+  selector_layout->addWidget(_update_time_checkbox, 5, 3);
 
   // Status
   QGroupBox *status_gb = new QGroupBox("Status");
