@@ -207,15 +207,24 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const
 {
   // TODO(BH): Currently mocking up VehicleTraits, potential to give more
   // accurate values
+
+  RCLCPP_INFO(_node->get_logger(), "Loading " + fleet_name + "..");
+
   rclcpp::Node::SharedPtr _param_node =
       std::make_shared<rclcpp::Node>("nav_graph_param_loader");
   auto parameters_client = std::make_shared<rclcpp::SyncParametersClient>(
       _param_node, fleet_name + "_fleet_adapter");
 
-  while (!parameters_client->wait_for_service(std::chrono::seconds(2))) 
+  // Wait for service to be available. After a cutoff duration, we can
+  // conclude that the fleet_adapter was named wrongly
+  if (!parameters_client->wait_for_service(std::chrono::seconds(5)))
   {
-    std::cout << "Waiting for parameter service.." << std::endl;
+    RCLCPP_ERROR(_node->get_logger(), "Parameter service not found for " + fleet_name + ".");
+    RCLCPP_ERROR(_node->get_logger(), "Please check that the fleet adapter is named " 
+        + fleet_name + "_fleet_adapter");
+    return rmf_utils::nullopt;
   }
+
   auto nav_graph_path_parameters =
       parameters_client->get_parameters({"nav_graph_file"});
   std::string nav_file_path = nav_graph_path_parameters[0].as_string();
