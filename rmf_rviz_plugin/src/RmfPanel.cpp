@@ -35,17 +35,6 @@ void RmfPanel::create_layout()
   // Creates the layout for QT GUI
   QGridLayout *control_panel_layout = new QGridLayout(this);
 
-  // Options
-  QGroupBox *options_gb = new QGroupBox("Options");
-  QGridLayout *options_layout = new QGridLayout();
-  options_gb->setLayout(options_layout);
-
-  _pause_plan_checkbox = new QCheckBox("Pause Plan");
-  _pause_plan_checkbox->setChecked(false);
-  options_layout->addWidget(_pause_plan_checkbox, 0, 1);
-
-  control_panel_layout->addWidget(options_gb, 0, 0);
-
   // Selectors
   QGroupBox *selector_gb = new QGroupBox("Selectors");
   QGridLayout *selector_layout = new QGridLayout();
@@ -103,14 +92,18 @@ void RmfPanel::create_layout()
   QGridLayout *plan_layout = new QGridLayout();
   plan_gb->setLayout(plan_layout);
 
+  _pause_plan_checkbox = new QCheckBox("Pause Plan");
+  _pause_plan_checkbox->setChecked(false);
+  plan_layout->addWidget(_pause_plan_checkbox, 0, 1);
+
   _plan_list_view = new QListView;
-  plan_layout->addWidget(_plan_list_view, 0, 0, 9, 2);
+  plan_layout->addWidget(_plan_list_view, 1, 0, 9, 2);
 
   _load_action_plan_button = new QPushButton("Load");
-  plan_layout->addWidget(_load_action_plan_button, 10, 0, 1, 1);
+  plan_layout->addWidget(_load_action_plan_button, 11, 0, 1, 1);
 
   _delete_plan_item_button = new QPushButton("Delete");
-  plan_layout->addWidget(_delete_plan_item_button, 10, 1, 1, 1);
+  plan_layout->addWidget(_delete_plan_item_button, 11, 1, 1, 1);
 
   control_panel_layout->addWidget(plan_gb, 3, 0);
 
