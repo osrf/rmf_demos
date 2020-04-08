@@ -345,6 +345,13 @@ void RmfPanel::queue_delivery()
   std::string end = _end_waypoint_selector->currentText().toStdString();
   Delivery delivery;
 
+  // If either start or end are empty, the delivery should probably not be queued
+  if (start.empty() || end.empty())
+  {
+    RCLCPP_INFO(_node->get_logger(), "Waypoint input is empty string; Delivery not queued in plan.");
+    return;
+  }
+
   delivery.task_id = generate_task_uuid(3);
   delivery.pickup_place_name = start;
   delivery.dropoff_place_name = end;
@@ -375,6 +382,13 @@ void RmfPanel::queue_loop()
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
   Loop loop;
+
+  // If either start or end are empty, the delivery should probably not be queued
+  if (start.empty() || end.empty())
+  {
+    RCLCPP_INFO(_node->get_logger(), "Waypoint input is empty string; Delivery not queued in plan.");
+    return;
+  }
 
   loop.task_id = generate_task_uuid(4);
   loop.robot_type = _fleet_selector->currentText().toStdString();
