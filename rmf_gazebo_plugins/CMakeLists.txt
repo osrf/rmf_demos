@@ -38,12 +38,12 @@ target_include_directories(rmf_sim_utils
 )
 
 ###############################
-# Teleport Plugin
+# TeleportDispenser Plugin
 ###############################
 
-add_library(teleport SHARED src/teleport.cpp)
+add_library(teleport_dispenser SHARED src/TeleportDispenser.cpp)
 
-target_link_libraries(teleport
+target_link_libraries(teleport_dispenser
   PUBLIC
     rmf_sim_utils
     ${rclcpp_LIBRARIES}
@@ -54,7 +54,7 @@ target_link_libraries(teleport
     ${std_msgs_LIBRARIES}
 )
 
-target_include_directories(teleport
+target_include_directories(teleport_dispenser
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
@@ -96,7 +96,7 @@ target_include_directories(readonly
 ###############################
 
 install(
-  TARGETS rmf_sim_utils teleport readonly
+  TARGETS rmf_sim_utils teleport_dispenser readonly
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
