@@ -20,5 +20,8 @@
       </visual>
     </link>
 
+    <plugin name="teleport_ingestor" filename="libteleport_ingestor.so">
+    </plugin>
+
   </model>
 </sdf>

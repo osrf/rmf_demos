@@ -51,7 +51,6 @@ target_link_libraries(teleport_dispenser
     ${gazebo_ros_LIBRARIES}
     ${rmf_fleet_msgs_LIBRARIES}
     ${rmf_dispenser_msgs_LIBRARIES}
-    ${std_msgs_LIBRARIES}
 )
 
 target_include_directories(teleport_dispenser
@@ -62,7 +61,32 @@ target_include_directories(teleport_dispenser
     ${GAZEBO_INCLUDE_DIRS}
     ${rmf_fleet_msgs_INCLUDE_DIRS}
     ${rmf_dispenser_msgs_INCLUDE_DIRS}
-    ${std_msgs_INCLUDE_DIRS}
+)
+
+###############################
+# TeleportIngestor Plugin
+###############################
+
+add_library(teleport_ingestor SHARED src/TeleportIngestor.cpp)
+
+target_link_libraries(teleport_ingestor
+  PUBLIC
+    rmf_sim_utils
+    ${rclcpp_LIBRARIES}
+    ${GAZEBO_LIBRARIES}
+    ${gazebo_ros_LIBRARIES}
+    ${rmf_fleet_msgs_LIBRARIES}
+    ${rmf_dispenser_msgs_LIBRARIES}
+)
+
+target_include_directories(teleport_ingestor
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${rclcpp_INCLUDE_DIRS}
+    ${GAZEBO_INCLUDE_DIRS}
+    ${rmf_fleet_msgs_INCLUDE_DIRS}
+    ${rmf_dispenser_msgs_INCLUDE_DIRS}
 )
 
 ###############################
@@ -96,7 +120,11 @@ target_include_directories(readonly
 ###############################
 
 install(
-  TARGETS rmf_sim_utils teleport_dispenser readonly
+  TARGETS 
+    rmf_sim_utils
+    teleport_dispenser
+    teleport_ingestor
+    readonly
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
