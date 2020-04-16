@@ -265,7 +265,7 @@ unsigned int random_char()
   return dis(gen);
 }
 
-std::string RmfPanel::generate_task_uuid(int len) 
+std::string RmfPanel::generate_task_uuid(const int len) 
 {
   std::stringstream ss;
   for (auto i = 0; i < len; i++) {
