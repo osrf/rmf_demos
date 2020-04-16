@@ -4,7 +4,7 @@
 
 namespace rmf_rviz_plugin {
 
-rmf_utils::optional<ActionPlan> parse_yaml_config(std::string path_name)
+rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
 {
   std::cout << "Enter ParseActionPlan: Loading YAML file" << std::endl;
 
