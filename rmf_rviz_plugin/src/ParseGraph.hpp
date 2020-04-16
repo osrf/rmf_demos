@@ -60,4 +60,4 @@ rmf_utils::optional<GraphInfo> parse_graph(
 
 } // namespace rmf_rviz_plugin
 
-#endif // SRC__RMF_FLEET_ADAPTER__PARSEGRAPH_HPP
+#endif // SRC__RMF_RVIZ_PLIGIN__PARSEGRAPH_HPP
