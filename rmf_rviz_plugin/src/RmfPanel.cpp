@@ -124,7 +124,7 @@ void RmfPanel::create_layout()
 }
 
 // Initialization Functions
-void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node) 
+void RmfPanel::initialize_publishers() 
 {
   _delivery_pub = _node->create_publisher<Delivery>(
       rmf_rviz_plugin::DeliveryTopicName, rclcpp::QoS(10));
@@ -136,7 +136,7 @@ void RmfPanel::initialize_publishers(rclcpp::Node::SharedPtr _node)
       rmf_rviz_plugin::EmergencyStateTopicName, rclcpp::QoS(10));
 }
 
-void RmfPanel::initialize_subscribers(rclcpp::Node::SharedPtr _node) 
+void RmfPanel::initialize_subscribers() 
 {
   _fleet_state_sub = _node->create_subscription<FleetState>(
       rmf_rviz_plugin::FleetStateTopicName, 10,
@@ -305,8 +305,8 @@ RmfPanel::RmfPanel(QWidget *parent) : rviz_common::Panel(parent)
   _update_timer->start(1000); // Update clock running at 1Hz
 
   create_layout();
-  initialize_subscribers(_node);
-  initialize_publishers(_node);
+  initialize_subscribers();
+  initialize_publishers();
   initialize_qt_connections();
   initialize_models();
 

@@ -113,8 +113,8 @@ protected Q_SLOTS:
 
 protected:
   void create_layout();
-  void initialize_publishers(rclcpp::Node::SharedPtr _node);
-  void initialize_subscribers(rclcpp::Node::SharedPtr _node);
+  void initialize_publishers();
+  void initialize_subscribers();
   void initialize_state_record();
   void initialize_qt_connections();
   void initialize_models();
