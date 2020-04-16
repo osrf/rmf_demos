@@ -357,6 +357,10 @@ void RmfPanel::queue_delivery()
 
   auto delivery_time = _time_selector->time();
 
+  // _queued_deliveries may be mutated asynchronously by functions like pop_delivery
+  // Thus a mutex will help prevent issues
+
+
   int insertPos = 0;
   for (auto it = _queued_deliveries.begin(); it != _queued_deliveries.end();
        it++) {
@@ -419,7 +423,11 @@ void RmfPanel::queue_loop()
 void RmfPanel::pop_delivery() 
 {
   auto msg = _queued_deliveries.begin()->second;
+  
+  // _queued_deliveries may be mutated asynchronously by functions like queue_delivery
+  // Thus a mutex will help prevent issues
   std::lock_guard<std::mutex> lock(_mutex);
+
   _delivery_pub->publish(msg);
   _queued_deliveries.erase(_queued_deliveries.begin());
 }
