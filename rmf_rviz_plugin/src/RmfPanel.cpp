@@ -278,8 +278,8 @@ std::string RmfPanel::generate_task_uuid(const int len)
   return ss.str();
 }
 
-bool RmfPanel::waypoint_has_workcell(std::string waypoint_name,
-                                     GraphInfo &graph_info) 
+bool RmfPanel::waypoint_has_workcell(const std::string waypoint_name,
+                                     const GraphInfo &graph_info) 
 {
   auto idx = graph_info.keys.find(waypoint_name);
   if (idx == graph_info.keys.end()) 

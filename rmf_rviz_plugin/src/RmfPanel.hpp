@@ -184,7 +184,7 @@ private:
   rmf_utils::optional<GraphInfo>
   load_fleet_graph_info(std::string fleet_name) const;
   std::string generate_task_uuid(const int len);
-  bool waypoint_has_workcell(std::string waypoint_name, GraphInfo &graph_info);
+  bool waypoint_has_workcell(const std::string waypoint_name, const GraphInfo &graph_info);
 
   // ROS2 callbacks
   void _fleet_state_callback(const FleetState::SharedPtr msg);
