@@ -238,7 +238,9 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const
     {
         {1.0, 1.0},
         {1.0, 1.0},
-        {rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0)}
+        //{rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0)}
+        rmf_traffic::Trajectory::Profile::make_guided(
+            rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0))
     };
 
     rmf_utils::optional<GraphInfo> graph_info =
