@@ -17,7 +17,7 @@ using ActionPlan = std::pair<DeliveryQueue, LoopQueue>;
 
 }
 
-rmf_utils::optional<utils::ActionPlan> parse_yaml_config(std::string path_name);
+rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path_name);
 
 } // namespace rmf_rviz_plugin
 #endif

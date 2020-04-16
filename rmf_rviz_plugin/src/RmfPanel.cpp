@@ -361,7 +361,7 @@ void RmfPanel::queue_delivery()
 
   // _queued_deliveries may be mutated asynchronously by functions like pop_delivery
   // Thus a mutex will help prevent issues
-  std::lock_guard<std::mutex> lock(_mutex);
+  std::unique_lock<std::mutex> lock(_mutex);
 
 
   int insertPos = 0;
@@ -380,6 +380,8 @@ void RmfPanel::queue_delivery()
   _queued_deliveries.insert(_queued_deliveries.begin() + insertPos, data);
 
   RCLCPP_INFO(_node->get_logger(), "Queued delivery request");
+  lock.unlock();
+
   Q_EMIT configChanged();
 }
 
@@ -406,7 +408,7 @@ void RmfPanel::queue_loop()
 
   // _queued_loops may be mutated asynchronously by functions like pop_loop
   // Thus a mutex will help prevent issues
-  std::lock_guard<std::mutex> lock(_mutex);
+  std::unique_lock<std::mutex> lock(_mutex);
 
   int insertPos = 0;
   for (auto it = _queued_loops.begin(); it != _queued_loops.end(); it++) 
@@ -424,6 +426,8 @@ void RmfPanel::queue_loop()
   _queued_loops.insert(_queued_loops.begin() + insertPos, data);
 
   RCLCPP_INFO(_node->get_logger(), "Queued loop request");
+  lock.unlock();
+
   Q_EMIT configChanged();
 }
 
@@ -467,7 +471,7 @@ void RmfPanel::delete_plan_item()
   }
 
   // Data structures can possibly be mutated and we should use a lock
-  std::lock_guard<std::mutex> lock(_mutex);
+  std::unique_lock<std::mutex> lock(_mutex);
 
   // These index the offset into the respective vectors we are aiming to delete
   int d_idx = 0;
@@ -512,6 +516,9 @@ void RmfPanel::delete_plan_item()
   {
     _queued_deliveries.erase(_queued_deliveries.begin() + d_idx - 1);
   }
+
+  lock.unlock();
+
   Q_EMIT configChanged();
 }
 
@@ -550,9 +557,11 @@ void RmfPanel::load_plan_from_file(const QString& path_name)
   {
     RCLCPP_INFO(_node->get_logger(), "Action File successfully loaded.");
 
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::unique_lock<std::mutex> lock(_mutex);
     _queued_deliveries = action_plan->first;
     _queued_loops = action_plan->second;
+    lock.unlock();
+
     Q_EMIT configChanged();
   }
 }
