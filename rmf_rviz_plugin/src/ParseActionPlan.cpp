@@ -4,7 +4,13 @@
 
 namespace rmf_rviz_plugin {
 
-rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path_name)
+using Delivery = rmf_task_msgs::msg::Delivery;
+using Loop = rmf_task_msgs::msg::Loop;
+using DeliveryQueue = std::vector<std::pair<QTime, Delivery>>;
+using LoopQueue = std::vector<std::pair<QTime, Loop>>;
+using ActionPlan = std::pair<DeliveryQueue, LoopQueue>;
+
+rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
 {
   std::cout << "Enter ParseActionPlan: Loading YAML file" << std::endl;
 
@@ -64,11 +70,11 @@ rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path
   std::cout << "Input checks successful." << std::endl;
 
   // Populate an ActionPlan
-  utils::ActionPlan _action_plan;
+  ActionPlan _action_plan;
 
   // Sort contents of ActionPlan by increasing sec_from_start_time
-  std::vector<std::pair<int, utils::Delivery>> _sorted_deliveries;
-  std::vector<std::pair<int, utils::Loop>> _sorted_loops;
+  std::vector<std::pair<int, Delivery>> _sorted_deliveries;
+  std::vector<std::pair<int, Loop>> _sorted_loops;
 
   // In the meantime, check contents of each input action as well
   std::cout << "Verifying Deliveries." << std::endl;
@@ -116,7 +122,7 @@ rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path
 
     std::cout << action["task_id"] << " verified." << std::endl;
 
-    utils::Delivery delivery = utils::Delivery();
+    Delivery delivery = Delivery();
     delivery.task_id = action["task_id"].as<std::string>();
     delivery.pickup_place_name = action["start"].as<std::string>();
     delivery.dropoff_place_name = action["end"].as<std::string>();
@@ -164,7 +170,7 @@ rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path
     }
 
     std::cout << action["task_id"] << " verified." << std::endl;
-    utils::Loop loop = utils::Loop();
+    Loop loop = Loop();
     loop.task_id = action["task_id"].as<std::string>();
     loop.robot_type = action["fleet"].as<std::string>();
     loop.start_name = action["start"].as<std::string>();
@@ -191,7 +197,7 @@ rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path
   std::cout << "Populating ActionPlan" << std::endl;
 
   std::cout << "Generating Deliveries." << std::endl;
-  utils::DeliveryQueue _queued_deliveries;
+  DeliveryQueue _queued_deliveries;
   QTime delivery_start_time = start_time;
   for(auto it = _sorted_deliveries.begin(); it != _sorted_deliveries.end(); it++)
   {
@@ -199,14 +205,14 @@ rmf_utils::optional<utils::ActionPlan> parse_yaml_config(const std::string& path
   }
 
   std::cout << "Generating Loops." << std::endl;
-  utils::LoopQueue _queued_loops;
+  LoopQueue _queued_loops;
   QTime loops_start_time = start_time;
   for(auto it = _sorted_loops.begin(); it != _sorted_loops.end(); it++)
   {
     _queued_loops.emplace_back(loops_start_time.addSecs(it->first), it->second);
   }
 
-  _action_plan = std::pair<utils::DeliveryQueue, utils::LoopQueue>(_queued_deliveries, _queued_loops);
+  _action_plan = std::pair<DeliveryQueue, LoopQueue>(_queued_deliveries, _queued_loops);
 
   std::cout << "Action Plan complete." << std::endl;
   
