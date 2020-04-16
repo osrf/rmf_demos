@@ -404,6 +404,10 @@ void RmfPanel::queue_loop()
 
   auto loop_time = _time_selector->time();
 
+  // _queued_loops may be mutated asynchronously by functions like pop_loop
+  // Thus a mutex will help prevent issues
+  std::lock_guard<std::mutex> lock(_mutex);
+
   int insertPos = 0;
   for (auto it = _queued_loops.begin(); it != _queued_loops.end(); it++) 
   {
@@ -438,7 +442,11 @@ void RmfPanel::pop_delivery()
 void RmfPanel::pop_loop() 
 {
   auto msg = _queued_loops.begin()->second;
+
+  // _pop_loop may be mutated asynchronously by functions like queue_loop
+  // Thus a mutex will help prevent issues
   std::lock_guard<std::mutex> lock(_mutex);
+
   _loop_pub->publish(msg);
   _queued_loops.erase(_queued_loops.begin());
 }
@@ -458,6 +466,9 @@ void RmfPanel::delete_plan_item()
     return;
   }
 
+  // Data structures can possibly be mutated and we should use a lock
+  std::lock_guard<std::mutex> lock(_mutex);
+
   // These index the offset into the respective vectors we are aiming to delete
   int d_idx = 0;
   int l_idx = 0;
@@ -467,6 +478,7 @@ void RmfPanel::delete_plan_item()
   {
     // Iterate through the selection index from the listview, pointing to the
     // corresponding element in the right vector according to increasing time
+
     if (_queued_deliveries.begin() + d_idx == _queued_deliveries.end()) 
     {
       // deliveries is empty, increment loops
@@ -537,6 +549,8 @@ void RmfPanel::load_plan_from_file(const QString& path_name)
   else
   {
     RCLCPP_INFO(_node->get_logger(), "Action File successfully loaded.");
+
+    std::lock_guard<std::mutex> lock(_mutex);
     _queued_deliveries = action_plan->first;
     _queued_loops = action_plan->second;
     Q_EMIT configChanged();
@@ -601,6 +615,8 @@ void RmfPanel::update_task_summary_list()
 
 void RmfPanel::update_plan() 
 {
+  std::lock_guard<std::mutex> lock(_mutex);
+
   int queued_deliveries_count = _queued_deliveries.size();
   int queued_loops_count = _queued_loops.size();
   int plan_count = _plan_list_data.size();
