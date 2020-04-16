@@ -7,6 +7,7 @@
 #include <QTimeEdit>
 
 namespace rmf_rviz_plugin {
+namespace utils {
 
 using Delivery = rmf_task_msgs::msg::Delivery;
 using Loop = rmf_task_msgs::msg::Loop;
@@ -14,7 +15,9 @@ using DeliveryQueue = std::vector<std::pair<QTime, Delivery>>;
 using LoopQueue = std::vector<std::pair<QTime, Loop>>;
 using ActionPlan = std::pair<DeliveryQueue, LoopQueue>;
 
-rmf_utils::optional<ActionPlan> parse_yaml_config(std::string path_name);
+}
+
+rmf_utils::optional<utils::ActionPlan> parse_yaml_config(std::string path_name);
 
 } // namespace rmf_rviz_plugin
 #endif

@@ -126,23 +126,23 @@ void RmfPanel::create_layout()
 // Initialization Functions
 void RmfPanel::initialize_publishers() 
 {
-  _delivery_pub = _node->create_publisher<Delivery>(
+  _delivery_pub = _node->create_publisher<utils::Delivery>(
       rmf_rviz_plugin::DeliveryTopicName, rclcpp::QoS(10));
 
-  _loop_pub = _node->create_publisher<Loop>(
+  _loop_pub = _node->create_publisher<utils::Loop>(
       rmf_rviz_plugin::LoopRequestTopicName, rclcpp::QoS(10));
 
-  _emergency_state_pub = _node->create_publisher<Bool>(
+  _emergency_state_pub = _node->create_publisher<utils::Bool>(
       rmf_rviz_plugin::EmergencyStateTopicName, rclcpp::QoS(10));
 }
 
 void RmfPanel::initialize_subscribers() 
 {
-  _fleet_state_sub = _node->create_subscription<FleetState>(
+  _fleet_state_sub = _node->create_subscription<utils::FleetState>(
       rmf_rviz_plugin::FleetStateTopicName, 10,
       std::bind(&RmfPanel::_fleet_state_callback, this, std::placeholders::_1));
 
-  _task_summary_sub = _node->create_subscription<TaskSummary>(
+  _task_summary_sub = _node->create_subscription<utils::TaskSummary>(
       rmf_rviz_plugin::TaskSummaryTopicName, 10,
       std::bind(&RmfPanel::_task_summary_callback, this,
                 std::placeholders::_1));
@@ -153,7 +153,7 @@ void RmfPanel::initialize_state_record()
   _map_fleet_to_robots =
       std::unordered_map<std::string, std::vector<std::string>>();
   _map_fleet_to_graph_info = std::unordered_map<std::string, GraphInfo>();
-  _map_robot_to_state = std::unordered_map<std::string, RobotState>();
+  _map_robot_to_state = std::unordered_map<std::string, utils::RobotState>();
 }
 void RmfPanel::initialize_qt_connections() 
 {
@@ -197,8 +197,8 @@ void RmfPanel::initialize_models()
   _plan_list_data = QStringList();
   _plan_list_view->setModel(_plan_list_model);
 
-  _queued_deliveries = std::vector<std::pair<QTime, Delivery>>();
-  _queued_loops = std::vector<std::pair<QTime, Loop>>();
+  _queued_deliveries = std::vector<std::pair<QTime, utils::Delivery>>();
+  _queued_loops = std::vector<std::pair<QTime, utils::Loop>>();
 }
 
 // Misc Functions
@@ -342,7 +342,7 @@ void RmfPanel::queue_delivery()
 {
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
-  Delivery delivery;
+  utils::Delivery delivery;
 
   // If either start or end are empty, the delivery should probably not be queued
   if (start.empty() || end.empty())
@@ -359,6 +359,7 @@ void RmfPanel::queue_delivery()
 
   // _queued_deliveries may be mutated asynchronously by functions like pop_delivery
   // Thus a mutex will help prevent issues
+  std::lock_guard<std::mutex> lock(_mutex);
 
 
   int insertPos = 0;
@@ -372,8 +373,8 @@ void RmfPanel::queue_delivery()
     }
   }
 
-  std::pair<QTime, Delivery> data =
-      std::pair<QTime, Delivery>(delivery_time, delivery);
+  std::pair<QTime, utils::Delivery> data =
+      std::pair<QTime, utils::Delivery>(delivery_time, delivery);
   _queued_deliveries.insert(_queued_deliveries.begin() + insertPos, data);
 
   RCLCPP_INFO(_node->get_logger(), "Queued delivery request");
@@ -384,7 +385,7 @@ void RmfPanel::queue_loop()
 {
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
-  Loop loop;
+  utils::Loop loop;
 
   // If either start or end are empty, the delivery should probably not be queued
   if (start.empty() || end.empty())
@@ -413,7 +414,7 @@ void RmfPanel::queue_loop()
     }
   }
 
-  std::pair<QTime, Loop> data = std::pair<QTime, Loop>(loop_time, loop);
+  std::pair<QTime, utils::Loop> data = std::pair<QTime, utils::Loop>(loop_time, loop);
   _queued_loops.insert(_queued_loops.begin() + insertPos, data);
 
   RCLCPP_INFO(_node->get_logger(), "Queued loop request");
@@ -542,7 +543,7 @@ void RmfPanel::load_plan_from_file(const QString& path_name)
 
 void RmfPanel::publish_emergency_signal()
 {
-  Bool msg = Bool();
+  utils::Bool msg = utils::Bool();
   if (_emergency_state_checkbox->isChecked())
   {
     msg.data = true;
@@ -729,7 +730,7 @@ void RmfPanel::pop_plan()
 }
 
 // ROS2 Callbacks
-void RmfPanel::_fleet_state_callback(const FleetState::SharedPtr msg) 
+void RmfPanel::_fleet_state_callback(const utils::FleetState::SharedPtr msg) 
 {
   // RCLCPP_INFO(_node->get_logger(), "Received FleetState!");
   bool should_update = false;
@@ -768,7 +769,7 @@ void RmfPanel::_fleet_state_callback(const FleetState::SharedPtr msg)
   }
 }
 
-void RmfPanel::_task_summary_callback(const TaskSummary::SharedPtr msg) 
+void RmfPanel::_task_summary_callback(const utils::TaskSummary::SharedPtr msg) 
 {
   _fleet_summary_data.append(QTime::currentTime().toString() + QString("\t") +
                              QString(msg->status.c_str()));
