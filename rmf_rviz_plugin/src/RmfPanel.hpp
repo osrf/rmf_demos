@@ -62,30 +62,6 @@
 
 namespace rmf_rviz_plugin {
 
-namespace utils {
-
-using Delivery = rmf_task_msgs::msg::Delivery;
-using Loop = rmf_task_msgs::msg::Loop;
-using FleetState = rmf_fleet_msgs::msg::FleetState;
-using RobotState = rmf_fleet_msgs::msg::RobotState;
-using DoorState = rmf_door_msgs::msg::DoorState;
-using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-using Location = rmf_fleet_msgs::msg::Location;
-using DoorMode = rmf_door_msgs::msg::DoorMode;
-using PoseStamped = geometry_msgs::msg::PoseStamped;
-using PointStamped = geometry_msgs::msg::PointStamped;
-using PoseWithCovarianceStamped = geometry_msgs::msg::PoseWithCovarianceStamped;
-using GetParameters = rcl_interfaces::srv::GetParameters;
-using PathRequest = rmf_fleet_msgs::msg::PathRequest;
-using ModeRequest = rmf_fleet_msgs::msg::ModeRequest;
-using DoorRequest = rmf_door_msgs::msg::DoorRequest;
-using TaskSummary = rmf_task_msgs::msg::TaskSummary;
-using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
-using Graph = rmf_traffic::agv::Graph;
-using Bool = std_msgs::msg::Bool;
-
-}
-
 class RmfPanel : public rviz_common::Panel 
   {
   Q_OBJECT
@@ -150,8 +126,8 @@ protected:
 
   QStringListModel *_plan_list_model;
   QStringList _plan_list_data;
-  std::vector<std::pair<QTime, utils::Delivery>> _queued_deliveries;
-  std::vector<std::pair<QTime, utils::Loop>> _queued_loops;
+  std::vector<std::pair<QTime, rmf_task_msgs::msg::Delivery>> _queued_deliveries;
+  std::vector<std::pair<QTime, rmf_task_msgs::msg::Loop>> _queued_loops;
 
   // Actions - For queuing commands in Plan
   QPushButton *_send_delivery_button;
@@ -171,18 +147,18 @@ protected:
 
 private:
   // ROS2 Plumbing
-  rclcpp::Subscription<utils::FleetState>::SharedPtr _fleet_state_sub;
-  rclcpp::Subscription<utils::TaskSummary>::SharedPtr _task_summary_sub;
+  rclcpp::Subscription<rmf_fleet_msgs::msg::FleetState>::SharedPtr _fleet_state_sub;
+  rclcpp::Subscription<rmf_task_msgs::msg::TaskSummary>::SharedPtr _task_summary_sub;
 
-  rclcpp::Publisher<utils::Delivery>::SharedPtr _delivery_pub;
-  rclcpp::Publisher<utils::Loop>::SharedPtr _loop_pub;
-  rclcpp::Publisher<utils::Bool>::SharedPtr _emergency_state_pub;
+  rclcpp::Publisher<rmf_task_msgs::msg::Delivery>::SharedPtr _delivery_pub;
+  rclcpp::Publisher<rmf_task_msgs::msg::Loop>::SharedPtr _loop_pub;
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr _emergency_state_pub;
 
   // Book Keeping
   std::unordered_map<std::string, std::vector<std::string>>
       _map_fleet_to_robots;
   std::unordered_map<std::string, GraphInfo> _map_fleet_to_graph_info;
-  std::unordered_map<std::string, utils::RobotState> _map_robot_to_state;
+  std::unordered_map<std::string, rmf_fleet_msgs::msg::RobotState> _map_robot_to_state;
 
   // Misc Functions
   rmf_utils::optional<GraphInfo>
@@ -191,8 +167,8 @@ private:
   bool waypoint_has_workcell(const std::string waypoint_name, const GraphInfo &graph_info);
 
   // ROS2 callbacks
-  void _fleet_state_callback(const utils::FleetState::SharedPtr msg);
-  void _task_summary_callback(const utils::TaskSummary::SharedPtr msg);
+  void _fleet_state_callback(const rmf_fleet_msgs::msg::FleetState::SharedPtr msg);
+  void _task_summary_callback(const rmf_task_msgs::msg::TaskSummary::SharedPtr msg);
 };
 } // namespace rmf_rviz_plugin
 
