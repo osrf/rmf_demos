@@ -67,6 +67,10 @@ private:
   rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
   rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
 
+  std::unordered_map<std::string, ignition::math::Pose3d> 
+      _non_static_models_init_poses;
+  int _respawn_seconds = 5;
+
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
 
   std::unordered_set<std::string> _request_guids;
@@ -120,14 +124,19 @@ private:
     max_corner.Z(max_corner.Z() + 0.1);
     ignition::math::Box vicinity_box(robot_collision_bb.Min(), max_corner);
 
-    // TODO: find a better way than to do loop through all the models
+    // There might not be a better way to loop through all the models, as we
+    // might consider delivering items that were spawned during run time,
+    // instead of spawning.
     auto robot_model_pos = robot_model->WorldPose().Pos();
     double nearest_dist = 1.0;
     auto model_list = _world->Models();
     bool found = false;
     for (const auto& m : model_list)
     {
-      if (!m || m->IsStatic() || m->GetName() == _model->GetName())
+      if (!m || 
+          m->IsStatic() || 
+          m->GetName() == _model->GetName() ||
+          m->GetName() == robot_model->GetName())
         continue;
 
       double dist = m->WorldPose().Pos().Distance(robot_model_pos);
@@ -163,7 +172,7 @@ private:
     if (!find_nearest_model(robot_models, robot_model) || !robot_model)
     {
       RCLCPP_WARN(_node->get_logger(),
-          "No near robots of fleet [%s] found.", fleet_name.c_str());
+          "No nearby robots of fleet [%s] found.", fleet_name.c_str());
       return;
     }
 
@@ -176,6 +185,20 @@ private:
       return;
     }
     _item_model->SetWorldPose(_model->WorldPose());
+  }
+
+  void send_ingested_item_home()
+  {
+    if (_item_model)
+    {
+      auto it = _non_static_models_init_poses.find(_item_model->GetName());
+      if (it == _non_static_models_init_poses.end())
+        _world->RemoveModel(_item_model);
+      else
+        _item_model->SetWorldPose(it->second);
+      
+      _item_model = nullptr;
+    }
   }
 
   void fleet_state_cb(FleetState::UniquePtr msg)
@@ -208,11 +231,13 @@ private:
 
       RCLCPP_INFO(_node->get_logger(), "Ingesting item");
       ingest_from_nearest_robot(transporter_type);
-      rclcpp::sleep_for(std::chrono::seconds(5));
 
       response.time = simulation_now();
       response.status = DispenserResult::SUCCESS;
       _result_pub->publish(response);
+
+      rclcpp::sleep_for(std::chrono::seconds(_respawn_seconds));
+      send_ingested_item_home();
     }
   }
 
@@ -232,12 +257,6 @@ private:
           _current_state.request_guid_queue.empty()?
           DispenserState::IDLE : DispenserState::BUSY;
       _state_pub->publish(_current_state);
-
-      if (_item_model &&
-          _model->BoundingBox().Intersects(_item_model->BoundingBox()))
-      {
-        // do something to teleport it back
-      }
     }
   }
 
@@ -253,6 +272,15 @@ public:
     RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
 
     _guid = _model->GetName();
+
+    // Keep track of all the non-static models
+    auto model_list = _world->Models();
+    for (const auto& m : model_list)
+    {
+      std::string m_name = m->GetName();
+      if (m && !(m->IsStatic()) && m_name != _model->GetName())
+        _non_static_models_init_poses[m_name] = m->WorldPose();
+    }
 
     _fleet_state_sub = _node->create_subscription<FleetState>(
         "/fleet_states",
