@@ -24,8 +24,12 @@
 #include <rmf_task_msgs/msg/delivery.hpp>
 #include <rmf_task_msgs/msg/loop.hpp>
 
+#include <std_msgs/msg/bool.hpp>
+
 #include <QLineEdit>
 #include <QPushButton>
+#include <QCheckBox>
+#include <QTimer>
 
 #include <memory>
 #include <thread>
@@ -35,6 +39,7 @@ namespace rmf_rviz_plugin {
 
 using Delivery = rmf_task_msgs::msg::Delivery;
 using Loop = rmf_task_msgs::msg::Loop;
+using Bool = std_msgs::msg::Bool;
 
 class RmfPanel : public rviz_common::Panel
 {
@@ -57,6 +62,9 @@ public Q_SLOTS:
   void set_loop_finish(const QString& value);
   void set_loop_robot(const QString& value);
   void set_loop_num(const QString& value);
+
+  void publish_emergency();
+  void update_emergency();
 
 protected Q_SLOTS:
   void update_delivery_task_id();
@@ -90,6 +98,9 @@ protected:
   QPushButton* _delivery_button;
   QPushButton* _loop_button;
 
+  QTimer* _timer;
+  QCheckBox* _emergency_box;
+
   QString _delivery_task_id;
   QString _delivery_robot;
   QString _delivery_pickup;
@@ -104,8 +115,10 @@ protected:
   rclcpp::Node::SharedPtr _node;
   rclcpp::Publisher<Delivery>::SharedPtr _delivery_pub;
   rclcpp::Publisher<Loop>::SharedPtr _loop_pub;
+  rclcpp::Publisher<Bool>::SharedPtr _emergency_pub;
 
   bool _has_loaded = false;
+  Bool _emergency;
   
   std::thread _thread;
   std::mutex _mutex;
