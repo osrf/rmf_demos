@@ -186,7 +186,6 @@ private:
       send_dispenser_response(request_guid, DispenserResult::ACKNOWLEDGED);
 
       RCLCPP_INFO(_node->get_logger(), "Dispensing item");
-      rclcpp::sleep_for(std::chrono::seconds(2));
       dispense_on_nearest_robot(transporter_type);
       rclcpp::sleep_for(std::chrono::seconds(5));
       _item_dispensed = true;

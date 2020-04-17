@@ -69,7 +69,6 @@ private:
 
   std::unordered_map<std::string, ignition::math::Pose3d> 
       _non_static_models_init_poses;
-  int _respawn_seconds = 5;
 
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
 
@@ -253,7 +252,7 @@ private:
 
       send_ingestor_response(request_guid, DispenserResult::SUCCESS);
 
-      rclcpp::sleep_for(std::chrono::seconds(_respawn_seconds));
+      rclcpp::sleep_for(std::chrono::seconds(10));
       send_ingested_item_home();
 
       // There are currently no cases to publish a FAILED result yet
