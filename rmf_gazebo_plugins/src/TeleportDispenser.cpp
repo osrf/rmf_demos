@@ -72,11 +72,11 @@ private:
 
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
 
-  std::unordered_set<std::string> _request_guids;
+  std::unordered_map<std::string, bool> _past_request_guids;
 
   DispenserState _current_state;
 
-  rclcpp::Time simulation_now()
+  rclcpp::Time simulation_now() const
   {
     const double t = _model->GetWorld()->SimTime().Double();
     const int32_t t_sec = static_cast<int32_t>(t);
@@ -87,17 +87,17 @@ private:
 
   bool find_nearest_non_static_model_name(
       const std::vector<gazebo::physics::ModelPtr>& models,
-      std::string& nearest_model_name)
+      std::string& nearest_model_name) const
   {
     double nearest_dist = 1e6;
     bool found = false;
 
     for (const auto& m : models)
     {
-      if (!m || m->GetName() == _model->GetName())
+      if (!m || m->IsStatic() || m->GetName() == _model->GetName())
         continue;
       
-      double dist =
+      const double dist =
           m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
       if (dist < nearest_dist)
       {
@@ -109,12 +109,12 @@ private:
     return found;
   }
 
-  void dispense_on_nearest_robot(const std::string& fleet_name)
+  void dispense_on_nearest_robot(const std::string& fleet_name) const
   {
     if (!_item_model)
       return;
 
-    auto fleet_state_it = _fleet_states.find(fleet_name);
+    const auto fleet_state_it = _fleet_states.find(fleet_name);
     if (fleet_state_it == _fleet_states.end())
     {
       RCLCPP_WARN(_node->get_logger(),
@@ -125,7 +125,7 @@ private:
     std::vector<gazebo::physics::ModelPtr> robot_models;
     for (const auto& rs : fleet_state_it->second->robots)
     {
-      auto r_model = _world->ModelByName(rs.name);
+      const auto r_model = _world->ModelByName(rs.name);
       if (r_model)
         robot_models.push_back(r_model);
     }
@@ -146,37 +146,54 @@ private:
     _fleet_states[msg->name] = std::move(msg);
   }
 
+  void send_dispenser_response(
+      const std::string& request_guid, uint8_t status) const
+  {
+    DispenserResult response;
+    response.time = simulation_now();
+    response.request_guid = request_guid;
+    response.source_guid = _guid;
+    response.status = status;
+    _result_pub->publish(response);
+  }
+
   void dispenser_request_cb(DispenserRequest::UniquePtr msg)
   {
     // TODO: the message field should use fleet name instead
-    auto transporter_type = msg->transporter_type;
-    auto request_guid = msg->request_guid;
-    
-    DispenserResult response;
-    response.request_guid = request_guid;
+    const auto transporter_type = msg->transporter_type;
+    const auto request_guid = msg->request_guid;
 
-    if (_guid == msg->target_guid && !_item_dispensed)
+    if (msg->target_guid == _guid && !_item_dispensed)
     {
-      if (!_request_guids.insert(request_guid).second)
+      const auto it = _past_request_guids.find(request_guid);
+      if (it != _past_request_guids.end())
       {
-        RCLCPP_WARN(_node->get_logger(),
-            "Ignoring duplicate request: [%s]", request_guid);
+        if (it->second)
+        {
+          RCLCPP_WARN(_node->get_logger(),
+              "Request already succeeded: [%s]", request_guid);
+          send_dispenser_response(request_guid, DispenserResult::SUCCESS);
+        }
+        else
+        {
+          RCLCPP_WARN(_node->get_logger(),
+              "Request already failed: [%s]", request_guid);
+          send_dispenser_response(request_guid, DispenserResult::FAILED);
+        }
         return;
       }
 
-      response.time = simulation_now();
-      response.source_guid = _guid;
-      response.status = DispenserResult::ACKNOWLEDGED;
-      _result_pub->publish(response);
+      send_dispenser_response(request_guid, DispenserResult::ACKNOWLEDGED);
 
       RCLCPP_INFO(_node->get_logger(), "Dispensing item");
+      rclcpp::sleep_for(std::chrono::seconds(2));
       dispense_on_nearest_robot(transporter_type);
       rclcpp::sleep_for(std::chrono::seconds(5));
       _item_dispensed = true;
 
-      response.time = simulation_now();
-      response.status = DispenserResult::SUCCESS;
-      _result_pub->publish(response);
+      send_dispenser_response(request_guid, DispenserResult::SUCCESS);
+
+      // There are currently no cases to publish a FAILED result yet
     }
   }
 

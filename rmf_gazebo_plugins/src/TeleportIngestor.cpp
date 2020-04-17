@@ -58,7 +58,7 @@ private:
 
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
-  gazebo::physics::ModelPtr _item_model;
+  gazebo::physics::ModelPtr _ingested_model;
   gazebo::physics::WorldPtr _world;
 
   gazebo_ros::Node::SharedPtr _node;
@@ -73,11 +73,11 @@ private:
 
   std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
 
-  std::unordered_set<std::string> _request_guids;
+  std::unordered_map<std::string, bool> _past_request_guids;
 
   DispenserState _current_state;
 
-  rclcpp::Time simulation_now()
+  rclcpp::Time simulation_now() const
   {
     const double t = _model->GetWorld()->SimTime().Double();
     const int32_t t_sec = static_cast<int32_t>(t);
@@ -86,19 +86,19 @@ private:
     return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
   }
 
-  bool find_nearest_model(
+  bool find_nearest_non_static_model(
       const std::vector<gazebo::physics::ModelPtr>& models,
-      gazebo::physics::ModelPtr& nearest_model)
+      gazebo::physics::ModelPtr& nearest_model) const
   {
     double nearest_dist = 1e6;
     bool found = false;
 
     for (const auto& m : models)
     {
-      if (!m || m->GetName() == _model->GetName())
+      if (!m || m->IsStatic() || m->GetName() == _model->GetName())
         continue;
       
-      double dist =
+      const double dist =
           m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
       if (dist < nearest_dist)
       {
@@ -112,7 +112,7 @@ private:
 
   bool get_robot_delivery_content(
       const gazebo::physics::ModelPtr& robot_model,
-      gazebo::physics::ModelPtr& delivery_content_model)
+      gazebo::physics::ModelPtr& delivery_content_model) const
   {
     if (!robot_model)
       return false;
@@ -122,14 +122,15 @@ private:
 
     // create a new bounding box extended slightly in the Z direction
     max_corner.Z(max_corner.Z() + 0.1);
-    ignition::math::Box vicinity_box(robot_collision_bb.Min(), max_corner);
+    const ignition::math::Box vicinity_box(
+        robot_collision_bb.Min(), max_corner);
 
     // There might not be a better way to loop through all the models, as we
     // might consider delivering items that were spawned during run time,
-    // instead of spawning.
-    auto robot_model_pos = robot_model->WorldPose().Pos();
+    // instead of during launch.
+    const auto robot_model_pos = robot_model->WorldPose().Pos();
     double nearest_dist = 1.0;
-    auto model_list = _world->Models();
+    const auto model_list = _world->Models();
     bool found = false;
     for (const auto& m : model_list)
     {
@@ -139,7 +140,7 @@ private:
           m->GetName() == robot_model->GetName())
         continue;
 
-      double dist = m->WorldPose().Pos().Distance(robot_model_pos);
+      const double dist = m->WorldPose().Pos().Distance(robot_model_pos);
       if (dist < nearest_dist && vicinity_box.Intersects(m->BoundingBox()))
       {
         delivery_content_model = m;
@@ -152,7 +153,7 @@ private:
 
   void ingest_from_nearest_robot(const std::string& fleet_name)
   {
-    auto fleet_state_it = _fleet_states.find(fleet_name);
+    const auto fleet_state_it = _fleet_states.find(fleet_name);
     if (fleet_state_it == _fleet_states.end())
     {
       RCLCPP_WARN(_node->get_logger(),
@@ -160,44 +161,46 @@ private:
       return;
     }
 
-    std::vector<gazebo::physics::ModelPtr> robot_models;
+    std::vector<gazebo::physics::ModelPtr> robot_model_list;
     for (const auto& rs : fleet_state_it->second->robots)
     {
-      auto r_model = _world->ModelByName(rs.name);
+      const auto r_model = _world->ModelByName(rs.name);
       if (r_model)
-        robot_models.push_back(r_model);
+        robot_model_list.push_back(r_model);
     }
 
     gazebo::physics::ModelPtr robot_model;
-    if (!find_nearest_model(robot_models, robot_model) || !robot_model)
+    if (!find_nearest_non_static_model(robot_model_list, robot_model) || 
+        !robot_model)
     {
       RCLCPP_WARN(_node->get_logger(),
           "No nearby robots of fleet [%s] found.", fleet_name.c_str());
       return;
     }
 
-    if (!get_robot_delivery_content(robot_model, _item_model))
+    if (!get_robot_delivery_content(robot_model, _ingested_model))
     {
       RCLCPP_WARN(_node->get_logger(),
           "No delivery item found on the robot: [%s]",
           robot_model->GetName());
-      _item_model = nullptr;
+      _ingested_model = nullptr;
       return;
     }
-    _item_model->SetWorldPose(_model->WorldPose());
+    _ingested_model->SetWorldPose(_model->WorldPose());
   }
 
   void send_ingested_item_home()
   {
-    if (_item_model)
+    if (_ingested_model)
     {
-      auto it = _non_static_models_init_poses.find(_item_model->GetName());
+      const auto it = 
+          _non_static_models_init_poses.find(_ingested_model->GetName());
       if (it == _non_static_models_init_poses.end())
-        _world->RemoveModel(_item_model);
+        _world->RemoveModel(_ingested_model);
       else
-        _item_model->SetWorldPose(it->second);
+        _ingested_model->SetWorldPose(it->second);
       
-      _item_model = nullptr;
+      _ingested_model = nullptr;
     }
   }
 
@@ -206,38 +209,54 @@ private:
     _fleet_states[msg->name] = std::move(msg);
   }
 
+  void send_ingestor_response(
+      const std::string& request_guid, uint8_t status) const
+  {
+    DispenserResult response;
+    response.time = simulation_now();
+    response.request_guid = request_guid;
+    response.source_guid = _guid;
+    response.status = status;
+    _result_pub->publish(response);
+  }
+
   void dispenser_request_cb(DispenserRequest::UniquePtr msg)
   {
     // TODO: the message field should use fleet name instead
-    auto transporter_type = msg->transporter_type;
-    auto request_guid = msg->request_guid;
+    const auto transporter_type = msg->transporter_type;
+    const auto request_guid = msg->request_guid;
 
-    DispenserResult response;
-    response.request_guid = request_guid;
-
-    if (_guid == msg->target_guid && !_item_model)
+    if (_guid == msg->target_guid && !_ingested_model)
     {
-      if (!_request_guids.insert(request_guid).second)
+      const auto it = _past_request_guids.find(request_guid);
+      if (it != _past_request_guids.end())
       {
-        RCLCPP_WARN(_node->get_logger(),
-            "Ignoring duplicate request: [%s]", request_guid);
+        if (it->second)
+        {
+          RCLCPP_WARN(_node->get_logger(),
+              "Request already succeeded: [%s]", request_guid);
+          send_ingestor_response(request_guid, DispenserResult::SUCCESS);
+        }
+        else
+        {
+          RCLCPP_WARN(_node->get_logger(),
+              "Request already failed: [%s]", request_guid);
+          send_ingestor_response(request_guid, DispenserResult::FAILED);
+        }
         return;
       }
 
-      response.time = simulation_now();
-      response.source_guid = _guid;
-      response.status = DispenserResult::ACKNOWLEDGED;
-      _result_pub->publish(response);
+      send_ingestor_response(request_guid, DispenserResult::ACKNOWLEDGED);
 
       RCLCPP_INFO(_node->get_logger(), "Ingesting item");
       ingest_from_nearest_robot(transporter_type);
 
-      response.time = simulation_now();
-      response.status = DispenserResult::SUCCESS;
-      _result_pub->publish(response);
+      send_ingestor_response(request_guid, DispenserResult::SUCCESS);
 
       rclcpp::sleep_for(std::chrono::seconds(_respawn_seconds));
       send_ingested_item_home();
+
+      // There are currently no cases to publish a FAILED result yet
     }
   }
 
@@ -266,7 +285,7 @@ public:
   {
     _model = _parent;
     _world = _model->GetWorld();
-    _item_model = nullptr;
+    _ingested_model = nullptr;
 
     _node = gazebo_ros::Node::Get(_sdf);
     RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
