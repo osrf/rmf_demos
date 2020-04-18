@@ -30,6 +30,7 @@ find_package(rmf_task_msgs REQUIRED)
 find_package(rmf_traffic REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Test)
+find_package(std_msgs REQUIRED)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -52,6 +53,7 @@ target_link_libraries(${PROJECT_NAME}
     ${rviz_default_plugins_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Core_LIBRARIES}
+    ${std_msgs_LIBRARIES}
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -72,6 +74,7 @@ target_include_directories(${PROJECT_NAME}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${QT5_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
+    ${std_msgs_INCLUDE_DIRS}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")

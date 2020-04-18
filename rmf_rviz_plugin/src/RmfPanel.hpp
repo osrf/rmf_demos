@@ -83,6 +83,9 @@ public Q_SLOTS:
   void open_load_file_dialog();
   void publish_emergency_signal();
 
+  void publish_emergency();
+  void update_emergency();
+
 protected Q_SLOTS:
   void update_fleet_selector();
   void update_start_waypoint_selector();
