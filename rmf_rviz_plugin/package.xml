@@ -12,6 +12,7 @@
   <depend>rclcpp</depend>
 
   <depend>rviz_common</depend>
+  <depend>rviz_default_plugins</depend>
   <depend>rviz_rendering</depend>
   <depend>pluginlib</depend>
   <depend>resource_retriever</depend>
@@ -22,6 +23,11 @@
   <exec_depend>libqt5-widgets</exec_depend>
 
   <depend>rmf_task_msgs</depend>
+  <depend>rmf_traffic</depend>
+  <depend>rmf_fleet_msgs</depend>
+  <depend>rmf_door_msgs</depend>
+  <depend>rmf_lift_msgs</depend>
+  <depend>rmf_dispenser_msgs</depend>
   <depend>std_msgs</depend>
 
   <export>
