@@ -109,9 +109,9 @@ private:
     return found;
   }
 
-  bool get_robot_delivery_content(
+  bool get_payload_model(
       const gazebo::physics::ModelPtr& robot_model,
-      gazebo::physics::ModelPtr& delivery_content_model) const
+      gazebo::physics::ModelPtr& payload_model) const
   {
     if (!robot_model)
       return false;
@@ -142,7 +142,7 @@ private:
       const double dist = m->WorldPose().Pos().Distance(robot_model_pos);
       if (dist < nearest_dist && vicinity_box.Intersects(m->BoundingBox()))
       {
-        delivery_content_model = m;
+        payload_model = m;
         nearest_dist = dist;
         found = true;
       }
@@ -177,7 +177,7 @@ private:
       return;
     }
 
-    if (!get_robot_delivery_content(robot_model, _ingested_model))
+    if (!get_payload_model(robot_model, _ingested_model))
     {
       RCLCPP_WARN(_node->get_logger(),
           "No delivery item found on the robot: [%s]",
@@ -271,9 +271,7 @@ private:
       const auto now = simulation_now();
 
       _current_state.time = now;
-      _current_state.mode =
-          _current_state.request_guid_queue.empty()?
-          DispenserState::IDLE : DispenserState::BUSY;
+      _current_state.mode = DispenserState::IDLE;
       _state_pub->publish(_current_state);
     }
   }

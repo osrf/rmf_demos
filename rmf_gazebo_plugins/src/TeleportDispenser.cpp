@@ -48,7 +48,6 @@ public:
   using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
   using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
-  using Pose3d = ignition::math::Pose3d;
 
 private:
 
@@ -208,9 +207,7 @@ private:
       const auto now = simulation_now();
 
       _current_state.time = now;
-      _current_state.mode =
-          _current_state.request_guid_queue.empty()?
-          DispenserState::IDLE : DispenserState::BUSY;
+      _current_state.mode = DispenserState::IDLE;
       _state_pub->publish(_current_state);
 
       if (_item_dispensed &&
@@ -250,7 +247,7 @@ public:
       if (!m || m->IsStatic() || m->GetName() == _model->GetName())
         continue;
 
-      double dist = m->WorldPose().Pos().Distance(dispenser_pos);
+      const double dist = m->WorldPose().Pos().Distance(dispenser_pos);
       if (dist < nearest_dist && 
           _dispenser_vicinity_box.Intersects(m->BoundingBox()))
       {
