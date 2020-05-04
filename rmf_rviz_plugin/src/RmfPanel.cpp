@@ -253,15 +253,12 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const
     std::string nav_file_path = nav_graph_path_parameters[0].as_string();
     std::cout << "Nav File Path Found: " + nav_file_path << std::endl;
 
-
-    auto traits = rmf_traffic::agv::VehicleTraits
-    {
+    const auto footprint = rmf_traffic::geometry::make_final_convex<
+      rmf_traffic::geometry::Circle>(1.0);
+    auto traits = rmf_traffic::agv::VehicleTraits{
         {1.0, 1.0},
         {1.0, 1.0},
-        //{rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0)}
-        rmf_traffic::Trajectory::Profile::make_guided(
-            rmf_traffic::geometry::make_final_convex<rmf_traffic::geometry::Circle>(1.0))
-    };
+        {footprint}};
 
     rmf_utils::optional<GraphInfo> graph_info =
         parse_graph(nav_file_path, traits, *_node);
