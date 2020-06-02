@@ -10,7 +10,7 @@ To do so:
     wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
     sudo apt-get update
     
-    sudo apt install git mercurial python3-pip g++-8
+    sudo apt install git python3-pip g++-8
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
     
     pip3 install vcstool
