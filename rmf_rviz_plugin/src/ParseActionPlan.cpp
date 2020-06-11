@@ -99,7 +99,7 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
     {
       action["sec_from_start_time"].as<int>();
     }
-    catch (YAML::TypedBadConversion<int>)
+    catch (const YAML::TypedBadConversion<int>&)
     {
       std::cout <<
         "'sec_from_start_time' is of an incorrect format from delivery " <<
