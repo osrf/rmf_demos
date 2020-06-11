@@ -80,13 +80,13 @@ private:
     const double t = _model->GetWorld()->SimTime().Double();
     const int32_t t_sec = static_cast<int32_t>(t);
     const uint32_t t_nsec =
-        static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
+      static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
     return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
   }
 
   bool find_nearest_non_static_model_name(
-      const std::vector<gazebo::physics::ModelPtr>& models,
-      std::string& nearest_model_name) const
+    const std::vector<gazebo::physics::ModelPtr>& models,
+    std::string& nearest_model_name) const
   {
     double nearest_dist = 1e6;
     bool found = false;
@@ -95,9 +95,9 @@ private:
     {
       if (!m || m->IsStatic() || m->GetName() == _model->GetName())
         continue;
-      
+
       const double dist =
-          m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
+        m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
       if (dist < nearest_dist)
       {
         nearest_dist = dist;
@@ -117,7 +117,7 @@ private:
     if (fleet_state_it == _fleet_states.end())
     {
       RCLCPP_WARN(_node->get_logger(),
-          "No such fleet: [%s]", fleet_name.c_str());
+        "No such fleet: [%s]", fleet_name.c_str());
       return;
     }
 
@@ -131,10 +131,10 @@ private:
 
     std::string nearest_robot_model_name;
     if (!find_nearest_non_static_model_name(
-            robot_models, nearest_robot_model_name))
+        robot_models, nearest_robot_model_name))
     {
       RCLCPP_WARN(_node->get_logger(),
-          "No near robots of fleet [%s] found.", fleet_name.c_str());
+        "No near robots of fleet [%s] found.", fleet_name.c_str());
       return;
     }
     _item_model->PlaceOnEntity(nearest_robot_model_name);
@@ -146,7 +146,7 @@ private:
   }
 
   void send_dispenser_response(
-      const std::string& request_guid, uint8_t status) const
+    const std::string& request_guid, uint8_t status) const
   {
     DispenserResult response;
     response.time = simulation_now();
@@ -170,13 +170,13 @@ private:
         if (it->second)
         {
           RCLCPP_WARN(_node->get_logger(),
-              "Request already succeeded: [%s]", request_guid);
+            "Request already succeeded: [%s]", request_guid);
           send_dispenser_response(request_guid, DispenserResult::SUCCESS);
         }
         else
         {
           RCLCPP_WARN(_node->get_logger(),
-              "Request already failed: [%s]", request_guid);
+            "Request already failed: [%s]", request_guid);
           send_dispenser_response(request_guid, DispenserResult::FAILED);
         }
         return;
@@ -211,9 +211,9 @@ private:
       _state_pub->publish(_current_state);
 
       if (_item_dispensed &&
-          _item_model &&
-          _model->BoundingBox().Intersects(
-              _item_model->BoundingBox()))
+        _item_model &&
+        _model->BoundingBox().Intersects(
+          _item_model->BoundingBox()))
         _item_dispensed = false;
     }
   }
@@ -248,8 +248,8 @@ public:
         continue;
 
       const double dist = m->WorldPose().Pos().Distance(dispenser_pos);
-      if (dist < nearest_dist && 
-          _dispenser_vicinity_box.Intersects(m->BoundingBox()))
+      if (dist < nearest_dist &&
+        _dispenser_vicinity_box.Intersects(m->BoundingBox()))
       {
         _item_model = m;
         nearest_dist = dist;
@@ -258,44 +258,44 @@ public:
 
     if (!_item_model)
     {
-      RCLCPP_WARN(_node->get_logger(), 
-          "Could not find dispenser item model within 1 meter, "
-          "this dispenser will not be operational");
+      RCLCPP_WARN(_node->get_logger(),
+        "Could not find dispenser item model within 1 meter, "
+        "this dispenser will not be operational");
       return;
     }
 
     RCLCPP_INFO(_node->get_logger(),
-        "Found dispenser item: [%s]", _item_model->GetName().c_str());
+      "Found dispenser item: [%s]", _item_model->GetName().c_str());
 
     _guid = _model->GetName();
 
     _fleet_state_sub = _node->create_subscription<FleetState>(
-        "/fleet_states",
-        rclcpp::SystemDefaultsQoS(),
-        [&](FleetState::UniquePtr msg)
-        {
-          fleet_state_cb(std::move(msg));
-        });
+      "/fleet_states",
+      rclcpp::SystemDefaultsQoS(),
+      [&](FleetState::UniquePtr msg)
+      {
+        fleet_state_cb(std::move(msg));
+      });
 
     _state_pub = _node->create_publisher<DispenserState>(
-        "/dispenser_states", 10);
+      "/dispenser_states", 10);
 
     _request_sub = _node->create_subscription<DispenserRequest>(
-        "/dispenser_requests",
-        rclcpp::SystemDefaultsQoS(),
-        [&](DispenserRequest::UniquePtr msg)
-        {
-          dispenser_request_cb(std::move(msg));
-        });
+      "/dispenser_requests",
+      rclcpp::SystemDefaultsQoS(),
+      [&](DispenserRequest::UniquePtr msg)
+      {
+        dispenser_request_cb(std::move(msg));
+      });
 
     _result_pub = _node->create_publisher<DispenserResult>(
-        "/dispenser_results", 10);
-    
+      "/dispenser_results", 10);
+
     _current_state.guid = _guid;
     _current_state.mode = DispenserState::IDLE;
 
     _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
-        std::bind(&TeleportDispenserPlugin::on_update, this));
+      std::bind(&TeleportDispenserPlugin::on_update, this));
     _load_complete = true;
   }
 

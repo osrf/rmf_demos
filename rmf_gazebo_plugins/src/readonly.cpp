@@ -64,7 +64,7 @@ private:
   void initialize_start(const ignition::math::Pose3d& pose);
   double compute_ds(const ignition::math::Pose3d& pose, const std::size_t& wp);
   std::size_t get_next_waypoint(const std::size_t start_wp,
-      const ignition::math::Vector3d& heading);
+    const ignition::math::Vector3d& heading);
   Path compute_path(const ignition::math::Pose3d& pose);
 
   gazebo::event::ConnectionPtr _update_connection;
@@ -97,12 +97,13 @@ private:
   std::size_t _start_wp;
   std::vector<std::size_t> _next_wp;
 
-  std::unordered_map<std::size_t, std::unordered_set<std::size_t>> _neighbor_map;
+  std::unordered_map<std::size_t,
+    std::unordered_set<std::size_t>> _neighbor_map;
 
   double _last_update_time = 0.0;
   double _update_threshold = 0.5; // Update every 0.5s
   double _waypoint_threshold = 2.0;
-  
+
   bool _merge_lane = false;
   double _lane_threshold = 0.2; // meters
 
@@ -155,11 +156,13 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 
   if (sdf->HasElement("update_rate"))
     _update_threshold = 1.0 / sdf->Get<double>("update_rate");
-  RCLCPP_INFO(logger(), "Setting update threshold: " + std::to_string(_update_threshold));
+  RCLCPP_INFO(logger(),
+    "Setting update threshold: " + std::to_string(_update_threshold));
 
   if (sdf->HasElement("waypoint_threshold"))
     _waypoint_threshold = sdf->Get<double>("waypoint_threshold");
-  RCLCPP_INFO(logger(), "Setting waypoint threshold: " + std::to_string(_waypoint_threshold));
+  RCLCPP_INFO(logger(),
+    "Setting waypoint threshold: " + std::to_string(_waypoint_threshold));
 
   if (sdf->HasElement("merge_lane"))
     _merge_lane = sdf->Get<bool>("merge_lane");
@@ -167,27 +170,29 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 
   if (sdf->HasElement("lane_threshold"))
     _lane_threshold = sdf->Get<double>("lane_threshold");
-  RCLCPP_INFO(logger(), "Setting lane threshold: " + std::to_string(_lane_threshold));
+  RCLCPP_INFO(logger(),
+    "Setting lane threshold: " + std::to_string(_lane_threshold));
 
   RCLCPP_INFO(logger(), "hello i am " + model->GetName());
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
-      std::bind(&ReadonlyPlugin::OnUpdate, this));
+    std::bind(&ReadonlyPlugin::OnUpdate, this));
 
-  _robot_state_pub = _ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
-      "/robot_state", 10);
+  _robot_state_pub =
+    _ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
+    "/robot_state", 10);
 
   // Subscription to /map
   auto qos_profile = rclcpp::QoS(10);
   qos_profile.transient_local();
   _building_map_sub = _ros_node->create_subscription<BuildingMap>(
-        "/map",
-        qos_profile,
-        std::bind(&ReadonlyPlugin::map_cb, this, std::placeholders::_1));
+    "/map",
+    qos_profile,
+    std::bind(&ReadonlyPlugin::map_cb, this, std::placeholders::_1));
 
   _current_task_id = "demo";
   if (model->GetName().c_str())
-  _name = _model->GetName().c_str();
+    _name = _model->GetName().c_str();
   RCLCPP_INFO(logger(), "Setting name to: " + _name);
 
 }
@@ -200,7 +205,8 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
     return;
   }
 
-  RCLCPP_INFO(logger(), "Received building map with %d levels", msg->levels.size());
+  RCLCPP_INFO(logger(), "Received building map with %d levels",
+    msg->levels.size());
   _found_level = false;
   _found_graph = false;
   for (const auto& level: msg->levels)
@@ -211,21 +217,21 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
       _level = level;
       _found_level = true;
       RCLCPP_INFO(logger(), "Found level [%s] with %d nav_graphs",
-          level.name.c_str(), level.nav_graphs.size());
+        level.name.c_str(), level.nav_graphs.size());
 
       if (_nav_graph_index < level.nav_graphs.size())
       {
         _found_graph = true;
         RCLCPP_INFO(logger(), "Graph index [%d] containts [%d] waypoints",
-            _nav_graph_index,
-            level.nav_graphs[_nav_graph_index].vertices.size());
+          _nav_graph_index,
+          level.nav_graphs[_nav_graph_index].vertices.size());
         initialize_graph();
       }
       else
       {
         RCLCPP_ERROR(logger(),
-            "Specified nav_graph index [%d] does not exist in level [%s]",
-            _nav_graph_index, _level_name.c_str());
+          "Specified nav_graph index [%d] does not exist in level [%s]",
+          _nav_graph_index, _level_name.c_str());
       }
       break;
     }
@@ -233,21 +239,21 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
 
   if (!_found_level)
     RCLCPP_ERROR(logger(),
-        "Did not find level [%s] in building map. Path will not be published.",
-        _level_name.c_str());
+      "Did not find level [%s] in building map. Path will not be published.",
+      _level_name.c_str());
 }
 
 void ReadonlyPlugin::initialize_graph()
 {
   if (!_found_graph)
     return;
-  
+
   std::lock_guard<std::mutex> lock(_mutex);
 
   _initialized_graph = false;
 
   _graph = _level.nav_graphs[_nav_graph_index];
-  RCLCPP_INFO(logger(), "Nav graph contains [%d] lanes" , _graph.edges.size());
+  RCLCPP_INFO(logger(), "Nav graph contains [%d] lanes", _graph.edges.size());
   for (const auto& edge : _graph.edges)
   {
     // Inserting entry for v1_idx
@@ -288,13 +294,13 @@ void ReadonlyPlugin::initialize_graph()
 }
 
 double ReadonlyPlugin::compute_ds(
-    const ignition::math::Pose3d& pose,
-    const std::size_t& wp)
+  const ignition::math::Pose3d& pose,
+  const std::size_t& wp)
 {
   // TODO consider returning a nullptr instead
   assert(_found_graph);
   assert(wp < _graph.vertices.size());
-  
+
   ignition::math::Vector3d world_position{pose.Pos().X(), pose.Pos().Y(), 0};
   ignition::math::Vector3d graph_position{
     _graph.vertices[wp].x,
@@ -337,7 +343,7 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
     RCLCPP_ERROR(
       logger(),
       "Spawn coordinates [%f,%f,%f] differs from that of waypoint [%s] in nav_graph [%f, %f, %f]",
-       pose.Pos().X(), pose.Pos().Y(),0,
+      pose.Pos().X(), pose.Pos().Y(), 0,
       _start_wp_name.c_str(),
       _graph.vertices[_start_wp].x, _graph.vertices[_start_wp].y, 0);
   }
@@ -350,7 +356,7 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
   }
 }
 std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
-    const ignition::math::Vector3d& heading)
+  const ignition::math::Vector3d& heading)
 {
   // Return the waypoint closest to the robot in the direction of its heading
   const auto& neighbors = _neighbor_map.find(start_wp)->second;
@@ -362,9 +368,9 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
   {
     const auto& waypoint = _graph.vertices[*it];
     ignition::math::Vector3d disp_vector{
-        waypoint.x - _graph.vertices[start_wp].x,
-        waypoint.y - _graph.vertices[start_wp].y,
-        0};
+      waypoint.x - _graph.vertices[start_wp].x,
+      waypoint.y - _graph.vertices[start_wp].y,
+      0};
     const double dist = heading.Dot(disp_vector.Normalize());
     // Consider the waypoints with largest projected distance
     if (dist > max_dist)
@@ -377,26 +383,27 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
   return *wp_it;
 }
 
-ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& pose)
+ReadonlyPlugin::Path ReadonlyPlugin::compute_path(
+  const ignition::math::Pose3d& pose)
 {
   Path path;
   path.resize(_lookahead);
-  
+
   auto start_wp = _start_wp;
   const double current_yaw = pose.Rot().Euler().Z();
   ignition::math::Vector3d heading{
-      std::cos(current_yaw), std::sin(current_yaw), 0.0};
-  
-  auto make_location =
-  [=](double x, double y) -> Location
-  {
-    Location location;
-    location.x = x;
-    location.y = y;
-    location.level_name = _level_name;
+    std::cos(current_yaw), std::sin(current_yaw), 0.0};
 
-    return location;
-  };
+  auto make_location =
+    [=](double x, double y) -> Location
+    {
+      Location location;
+      location.x = x;
+      location.y = y;
+      location.level_name = _level_name;
+
+      return location;
+    };
 
   for (std::size_t i = 0; i < _lookahead; i++)
   {
@@ -432,11 +439,11 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(const ignition::math::Pose3d& 
     // Angle between lane_vector and disp_vector
     double theta = std::atan2(lane_vector.Y(), lane_vector.X()) -
       std::atan2(disp_vector.Y(), disp_vector.X());
-    
+
     // Compute the perpendicualr distance of robot from its lane
     double lane_error = std::pow(disp_vector.Length(), 2) -
-        std::pow(disp_vector.Dot(lane_vector.Normalize()), 2);
-    
+      std::pow(disp_vector.Dot(lane_vector.Normalize()), 2);
+
     // RCLCPP_ERROR(logger(), "Disp: [%f] lane: [%f], Lane error: [%f]",
     //   disp_vector.Length(), disp_vector.Dot(lane_vector.Normalize()),lane_error);
 
@@ -473,7 +480,7 @@ void ReadonlyPlugin::OnUpdate()
     _last_update_time = time;
     const int32_t t_sec = static_cast<int32_t>(time);
     const uint32_t t_nsec =
-        static_cast<uint32_t>((time-static_cast<double>(t_sec)) *1e9);
+      static_cast<uint32_t>((time-static_cast<double>(t_sec)) *1e9);
     const rclcpp::Time now{t_sec, t_nsec, RCL_ROS_TIME};
 
     _robot_state_msg.name = _model->GetName();
@@ -487,14 +494,14 @@ void ReadonlyPlugin::OnUpdate()
     _robot_state_msg.location.yaw = pose.Rot().Yaw();
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
-    
+
     if (_initialized_start)
     {
       if (compute_ds(pose, _next_wp[0]) <= _waypoint_threshold)
       {
         _start_wp = _next_wp[0];
         RCLCPP_INFO(logger(), "Reached waypoint [%d,%s]",
-            _next_wp[0], _graph.vertices[_next_wp[0]].name.c_str());
+          _next_wp[0], _graph.vertices[_next_wp[0]].name.c_str());
       }
       _robot_state_msg.path = compute_path(pose);
     }
