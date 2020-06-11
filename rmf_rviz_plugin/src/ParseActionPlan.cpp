@@ -18,7 +18,8 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
 
   if (!action_plan_file)
   {
-    std::cout << "Failed to find a action plan file at " << path_name << std::endl;
+    std::cout << "Failed to find a action plan file at " << path_name <<
+      std::endl;
     return rmf_utils::nullopt;
   }
 
@@ -27,7 +28,8 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
 
   if (!action_plan_node)
   {
-    std::cout << "Improperly formatted yaml: missing 'action_plan'" << std::endl;
+    std::cout << "Improperly formatted yaml: missing 'action_plan'" <<
+      std::endl;
   }
 
   //// Can be unspecified, of which we will set time to current time
@@ -36,15 +38,19 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
   QTime start_time = QTime::currentTime();
   if (!start_time_node)
   {
-    std::cout << "'start_time' not found. Defaulting to current time.." << std::endl;
-  } 
+    std::cout << "'start_time' not found. Defaulting to current time.." <<
+      std::endl;
+  }
   else
   {
     // Check if the time is in correct format for QTime
-    start_time = QTime::fromString(QString(start_time_node.as<std::string>().c_str()), "hh:mm:ss");
+    start_time =
+      QTime::fromString(QString(
+          start_time_node.as<std::string>().c_str()), "hh:mm:ss");
     if (!start_time.isValid())
     {
-      std:: cout << "'start_time' is invalid. Defaulting to current time.." << std::endl;
+      std::cout << "'start_time' is invalid. Defaulting to current time.." <<
+        std::endl;
       start_time = QTime::currentTime();
     }
     else
@@ -83,40 +89,52 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
     int idx = 0; // Number of clean inputs
     if (!action["sec_from_start_time"])
     {
-      std::cout << "'sec_from_start_time' parameter is missing from delivery " << idx << std::endl;
+      std::cout <<
+        "'sec_from_start_time' parameter is missing from delivery " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
 
-    try {
+    try
+    {
       action["sec_from_start_time"].as<int>();
-    } catch (YAML::TypedBadConversion<int>) {
-      std::cout << "'sec_from_start_time' is of an incorrect format from delivery " << idx << std::endl;
+    }
+    catch (YAML::TypedBadConversion<int>)
+    {
+      std::cout <<
+        "'sec_from_start_time' is of an incorrect format from delivery " <<
+        idx << std::endl;
       return rmf_utils::nullopt;
     }
 
     if (!action["task_id"])
     {
-      std::cout << "'task_id' parameter is missing from delivery " << idx << std::endl;
+      std::cout << "'task_id' parameter is missing from delivery " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["fleet"])
     {
-      std::cout << "'fleet' parameter is missing from delivery " << idx << std::endl;
+      std::cout << "'fleet' parameter is missing from delivery " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["count"])
     {
-      std::cout << "'count' parameter is missing from delivery " << idx << std::endl;
+      std::cout << "'count' parameter is missing from delivery " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["start"])
     {
-      std::cout << "'start' parameter is missing from delivery " << idx << std::endl;
+      std::cout << "'start' parameter is missing from delivery " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["end"])
     {
-      std::cout << "'end' parameter is missing from delivery " << idx << std::endl;
+      std::cout << "'end' parameter is missing from delivery " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
 
@@ -127,9 +145,10 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
     delivery.pickup_place_name = action["start"].as<std::string>();
     delivery.dropoff_place_name = action["end"].as<std::string>();
 
-    for(int i =0; i < action["count"].as<int>(); i++)
+    for (int i = 0; i < action["count"].as<int>(); i++)
     {
-      _sorted_deliveries.emplace_back(action["sec_from_start_time"].as<int>(), delivery);
+      _sorted_deliveries.emplace_back(
+        action["sec_from_start_time"].as<int>(), delivery);
     }
     std::cout << action["task_id"] << " ROS2 message generated." << std::endl;
   }
@@ -140,27 +159,32 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
     int idx = 0; // Number of clean inputs
     if (!action["sec_from_start_time"])
     {
-      std::cout << "'sec_from_start_time' parameter is missing from loop " << idx << std::endl;
+      std::cout << "'sec_from_start_time' parameter is missing from loop " <<
+        idx << std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["task_id"])
     {
-      std::cout << "'task_id' parameter is missing from loop " << idx << std::endl;
+      std::cout << "'task_id' parameter is missing from loop " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["fleet"])
     {
-      std::cout << "'fleet' parameter is missing from loop " << idx << std::endl;
+      std::cout << "'fleet' parameter is missing from loop " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["count"])
     {
-      std::cout << "'count' parameter is missing from loop " << idx << std::endl;
+      std::cout << "'count' parameter is missing from loop " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["start"])
     {
-      std::cout << "'start' parameter is missing from loop " << idx << std::endl;
+      std::cout << "'start' parameter is missing from loop " << idx <<
+        std::endl;
       return rmf_utils::nullopt;
     }
     if (!action["end"])
@@ -182,15 +206,17 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
 
   std::cout << "YAML contents verified, sorting.." << std::endl;
 
-  std::sort(_sorted_deliveries.begin(), _sorted_deliveries.end(), [](auto &left, auto &right) 
-      {
+  std::sort(_sorted_deliveries.begin(), _sorted_deliveries.end(),
+    [](auto& left, auto& right)
+    {
       return left.first < right.first;
-      });
+    });
 
-  std::sort(_sorted_loops.begin(), _sorted_loops.end(), [](auto &left, auto &right) 
-      {
+  std::sort(_sorted_loops.begin(), _sorted_loops.end(),
+    [](auto& left, auto& right)
+    {
       return left.first < right.first;
-      });
+    });
 
   std::cout << "Actions sorted in increasing time from start." << std::endl;
 
@@ -199,24 +225,27 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
   std::cout << "Generating Deliveries." << std::endl;
   DeliveryQueue _queued_deliveries;
   QTime delivery_start_time = start_time;
-  for(auto it = _sorted_deliveries.begin(); it != _sorted_deliveries.end(); it++)
+  for (auto it = _sorted_deliveries.begin(); it != _sorted_deliveries.end();
+    it++)
   {
-    _queued_deliveries.emplace_back(delivery_start_time.addSecs(it->first), it->second);
+    _queued_deliveries.emplace_back(delivery_start_time.addSecs(
+        it->first), it->second);
   }
 
   std::cout << "Generating Loops." << std::endl;
   LoopQueue _queued_loops;
   QTime loops_start_time = start_time;
-  for(auto it = _sorted_loops.begin(); it != _sorted_loops.end(); it++)
+  for (auto it = _sorted_loops.begin(); it != _sorted_loops.end(); it++)
   {
     _queued_loops.emplace_back(loops_start_time.addSecs(it->first), it->second);
   }
 
-  _action_plan = std::pair<DeliveryQueue, LoopQueue>(_queued_deliveries, _queued_loops);
+  _action_plan = std::pair<DeliveryQueue, LoopQueue>(_queued_deliveries,
+      _queued_loops);
 
   std::cout << "Action Plan complete." << std::endl;
-  
+
   return std::move(_action_plan);
 
 }
-} // namespace rmf_rviz_plugin 
+} // namespace rmf_rviz_plugin
