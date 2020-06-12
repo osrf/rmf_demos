@@ -1,5 +1,7 @@
 # Install ignition from source
 
+Note! ROS2 Foxy is recommended since it includes a fix in urdfdom that breaks builds
+
 Until ignition-dome gets released (Estimated end of 2020) it is needed to build it from source.
 To do so:
 
