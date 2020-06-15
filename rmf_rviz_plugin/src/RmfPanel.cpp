@@ -308,8 +308,8 @@ std::string RmfPanel::generate_task_uuid(const int len)
 bool RmfPanel::waypoint_has_workcell(const std::string waypoint_name,
   const GraphInfo& graph_info)
 {
-  auto idx = graph_info.keys.find(waypoint_name);
-  if (idx == graph_info.keys.end())
+  auto idx = graph_info.graph.keys().find(waypoint_name);
+  if (idx == graph_info.graph.keys().end())
   {
     RCLCPP_ERROR(_node->get_logger(),
       "Provided graph does not have this waypoint.");
@@ -627,11 +627,11 @@ void RmfPanel::update_start_waypoint_selector()
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _start_waypoint_selector->clear();
-  for (auto waypoint : graph_info.waypoint_names)
+  for (const auto& waypoint : graph_info.graph.keys())
   {
     if (!_workcells_only_checkbox->isChecked() ||
-      waypoint_has_workcell(waypoint.second, graph_info))
-      _start_waypoint_selector->addItem(QString(waypoint.second.c_str()));
+      waypoint_has_workcell(waypoint.first, graph_info))
+      _start_waypoint_selector->addItem(QString(waypoint.first.c_str()));
   }
 }
 
@@ -640,11 +640,11 @@ void RmfPanel::update_end_waypoint_selector()
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _end_waypoint_selector->clear();
-  for (auto waypoint : graph_info.waypoint_names)
+  for (const auto& waypoint : graph_info.graph.keys())
   {
     if (!_workcells_only_checkbox->isChecked() ||
-      waypoint_has_workcell(waypoint.second, graph_info))
-      _end_waypoint_selector->addItem(QString(waypoint.second.c_str()));
+      waypoint_has_workcell(waypoint.first, graph_info))
+      _end_waypoint_selector->addItem(QString(waypoint.first.c_str()));
   }
 }
 
