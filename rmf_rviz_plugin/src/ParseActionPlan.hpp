@@ -10,9 +10,9 @@ namespace rmf_rviz_plugin {
 
 rmf_utils::optional<
   std::pair<
-  std::vector<std::pair<QTime, rmf_task_msgs::msg::Delivery>>,
-  std::vector<std::pair<QTime, rmf_task_msgs::msg::Loop>>
-    >> parse_yaml_config(const std::string& path_name);
+    std::vector<std::pair<QTime, rmf_task_msgs::msg::Delivery>>,
+    std::vector<std::pair<QTime, rmf_task_msgs::msg::Loop>>
+  >> parse_yaml_config(const std::string& path_name);
 
 } // namespace rmf_rviz_plugin
 #endif
