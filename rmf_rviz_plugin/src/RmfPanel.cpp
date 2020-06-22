@@ -115,7 +115,7 @@ void RmfPanel::create_layout()
   delivery_layout->addWidget(new QLabel("Dropoff dispenser: "), 1, 0);
   _dropoff_dispenser_editor = new QLineEdit;
   delivery_layout->addWidget(_dropoff_dispenser_editor, 1, 1, 1, 2);
-  
+
   _send_delivery_button = new QPushButton("Send Delivery Request");
   delivery_layout->addWidget(_send_delivery_button, 2, 0, 1, -1);
 
