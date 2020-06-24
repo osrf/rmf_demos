@@ -1,6 +1,6 @@
 <package format="3">
   <name>rmf_gazebo_plugins</name>
-  <version>0.0.0</version>
+  <version>1.0.0</version>
   <description>
     ROS 2 slotcar plugin and payload handlers for Gazebo simulated robots
   </description>
