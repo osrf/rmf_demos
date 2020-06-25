@@ -113,7 +113,6 @@ protected:
   QComboBox* _fleet_selector;
   QComboBox* _start_waypoint_selector;
   QComboBox* _end_waypoint_selector;
-  QSpinBox* _repeat_count_selector; // Determines number of times to repeat an action
   QTimeEdit* _time_selector;
 
   // Status - For visualizing important inforation on the selected agent
@@ -133,7 +132,13 @@ protected:
   std::vector<std::pair<QTime, rmf_task_msgs::msg::Loop>> _queued_loops;
 
   // Actions - For queuing commands in Plan
+  QLineEdit* _pickup_dispenser_editor;
+  QString _pickup_dispenser;
+  QLineEdit* _dropoff_dispenser_editor;
+  QString _dropoff_dispenser;
   QPushButton* _send_delivery_button;
+
+  QSpinBox* _repeat_count_selector; // Number of loops in Loop task
   QPushButton* _send_loop_button;
 
   // QTimer to update fields
