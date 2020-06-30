@@ -68,7 +68,7 @@ rmf_utils::optional<GraphInfo> parse_graph(
       const Eigen::Vector2d location{
         vertex[0].as<double>(), vertex[1].as<double>()};
 
-      const auto& wp = info.graph.add_waypoint(map_name, location, true);
+      auto& wp = info.graph.add_waypoint(map_name, location);
 
       const YAML::Node& options = vertex[2];
       const YAML::Node& name_option = options["name"];
@@ -77,8 +77,7 @@ rmf_utils::optional<GraphInfo> parse_graph(
         const std::string& name = name_option.as<std::string>();
         if (!name.empty())
         {
-          const auto ins = info.keys.insert(std::make_pair(name, wp.index()));
-          if (!ins.second)
+          if (!info.graph.add_key(name, wp.index()))
           {
             RCLCPP_ERROR(
               node.get_logger(),
@@ -86,8 +85,6 @@ rmf_utils::optional<GraphInfo> parse_graph(
               + graph_file + "]");
             return rmf_utils::nullopt;
           }
-
-          info.waypoint_names.insert(std::make_pair(wp.index(), name));
         }
       }
 
@@ -107,6 +104,7 @@ rmf_utils::optional<GraphInfo> parse_graph(
           std::cout << "Adding waypoint [" << wp.index() <<
             "] as a parking spot" << std::endl;
           info.parking_spots.push_back(wp.index());
+          wp.set_parking_spot(true);
         }
       }
     }
@@ -225,13 +223,8 @@ rmf_utils::optional<GraphInfo> parse_graph(
   for (const auto& workcell_wp : info.workcell_names)
     generic_waypoint.erase(workcell_wp.first);
 
-  // All of the waypoints that don't serve any particular purpose can be used
-  // as holding points during planning.
-  for (const std::size_t wp : generic_waypoint)
-    info.graph.get_waypoint(wp).set_holding_point(true);
-
   std::cout << "Named waypoints:";
-  for (const auto& key : info.keys)
+  for (const auto& key : info.graph.keys())
     std::cout << "\n -- [" << key.first << "]";
   std::cout << std::endl;
 

@@ -77,21 +77,59 @@ void RmfPanel::create_layout()
   _end_waypoint_selector->setEditable(true);
   selector_layout->addWidget(_end_waypoint_selector, 2, 1, 1, 2);
 
-  selector_layout->addWidget(new QLabel("Repeat Count: "), 3, 0);
-  _repeat_count_selector = new QSpinBox;
-  _repeat_count_selector->setValue(1);
-  selector_layout->addWidget(_repeat_count_selector, 3, 1, 1, 2);
-
-  selector_layout->addWidget(new QLabel("Time: "), 4, 0);
+  selector_layout->addWidget(new QLabel("Time: "), 3, 0);
   _time_selector = new QTimeEdit(QTime::currentTime());
   _time_selector->setDisplayFormat(QString("hh:mm:ss ap"));
-  selector_layout->addWidget(_time_selector, 4, 1, 1, 2);
+  selector_layout->addWidget(_time_selector, 3, 1, 1, 2);
 
   control_panel_layout->addWidget(selector_gb, 1, 0);
 
   _update_time_checkbox = new QCheckBox("Keep Time Updated");
   _update_time_checkbox->setChecked(true);
-  selector_layout->addWidget(_update_time_checkbox, 4, 3);
+  selector_layout->addWidget(_update_time_checkbox, 3, 3);
+
+  // Loop Action
+  QGroupBox* loop_gb = new QGroupBox("Loop Request");
+  QGridLayout* loop_layout = new QGridLayout();
+  loop_gb->setLayout(loop_layout);
+  loop_layout->addWidget(new QLabel("# loops: "), 0, 0);
+
+  _repeat_count_selector = new QSpinBox;
+  _repeat_count_selector->setValue(1);
+  loop_layout->addWidget(_repeat_count_selector, 0, 1, 1, 2);
+
+  _send_loop_button = new QPushButton("Send Loop Request");
+  loop_layout->addWidget(_send_loop_button, 1, 0, 1, -1);
+
+  control_panel_layout->addWidget(loop_gb, 2, 0);
+
+  // Delivery Action
+  QGroupBox* delivery_gb = new QGroupBox("Delivery Request");
+  QGridLayout* delivery_layout = new QGridLayout();
+  delivery_gb->setLayout(delivery_layout);
+
+  delivery_layout->addWidget(new QLabel("Pickup dispenser: "), 0, 0);
+  _pickup_dispenser_editor = new QLineEdit;
+  delivery_layout->addWidget(_pickup_dispenser_editor, 0, 1, 1, 2);
+
+  delivery_layout->addWidget(new QLabel("Dropoff dispenser: "), 1, 0);
+  _dropoff_dispenser_editor = new QLineEdit;
+  delivery_layout->addWidget(_dropoff_dispenser_editor, 1, 1, 1, 2);
+
+  _send_delivery_button = new QPushButton("Send Delivery Request");
+  delivery_layout->addWidget(_send_delivery_button, 2, 0, 1, -1);
+
+  control_panel_layout->addWidget(delivery_gb, 3, 0);
+
+  // Emergency Alarm
+  QGroupBox* emergency_gb = new QGroupBox("Emergency Alarm");
+  QGridLayout* emergency_layout = new QGridLayout();
+  emergency_gb->setLayout(emergency_layout);
+
+  _emergency_state_checkbox = new QCheckBox("Activate Alarm");
+  emergency_layout->addWidget(_emergency_state_checkbox, 0, 1, 1, 3);
+
+  control_panel_layout->addWidget(emergency_gb, 4, 0);
 
   // Status
   QGroupBox* status_gb = new QGroupBox("Status");
@@ -101,7 +139,7 @@ void RmfPanel::create_layout()
   _fleet_summary_view = new QListView;
   status_layout->addWidget(_fleet_summary_view, 0, 0, 3, 5);
 
-  control_panel_layout->addWidget(status_gb, 2, 0);
+  control_panel_layout->addWidget(status_gb, 5, 0);
 
   // Plan
   QGroupBox* plan_gb = new QGroupBox("Plan");
@@ -121,26 +159,11 @@ void RmfPanel::create_layout()
   _delete_plan_item_button = new QPushButton("Delete");
   plan_layout->addWidget(_delete_plan_item_button, 11, 1, 1, 1);
 
-  control_panel_layout->addWidget(plan_gb, 3, 0);
-
-  // Actions
-  QGroupBox* actions_gb = new QGroupBox("Actions");
-  QGridLayout* actions_layout = new QGridLayout();
-  actions_gb->setLayout(actions_layout);
-
-  _send_delivery_button = new QPushButton("Send Delivery Request");
-  actions_layout->addWidget(_send_delivery_button, 1, 0, 1, 2);
-
-  _send_loop_button = new QPushButton("Send Loop Request");
-  actions_layout->addWidget(_send_loop_button, 2, 0, 1, 2);
-
-  _emergency_state_checkbox = new QCheckBox("Emergency State");
-  actions_layout->addWidget(_emergency_state_checkbox, 3, 1);
+  control_panel_layout->addWidget(plan_gb, 6, 0);
 
   // Load File Dialog
   _load_file_dialog = new QFileDialog();
 
-  control_panel_layout->addWidget(actions_gb, 4, 0);
 }
 
 // Initialization Functions
@@ -206,6 +229,7 @@ void RmfPanel::initialize_qt_connections()
     this, SLOT(open_load_file_dialog()));
   connect(_load_file_dialog, SIGNAL(fileSelected(const QString&)),
     this, SLOT(load_plan_from_file(const QString&)));
+
 }
 
 void RmfPanel::initialize_models()
@@ -308,8 +332,8 @@ std::string RmfPanel::generate_task_uuid(const int len)
 bool RmfPanel::waypoint_has_workcell(const std::string waypoint_name,
   const GraphInfo& graph_info)
 {
-  auto idx = graph_info.keys.find(waypoint_name);
-  if (idx == graph_info.keys.end())
+  auto idx = graph_info.graph.keys().find(waypoint_name);
+  if (idx == graph_info.graph.keys().end())
   {
     RCLCPP_ERROR(_node->get_logger(),
       "Provided graph does not have this waypoint.");
@@ -358,12 +382,20 @@ RmfPanel::~RmfPanel()
 void RmfPanel::load(const rviz_common::Config& config)
 {
   rviz_common::Panel::load(config);
+  QString pickup_dispenser;
+  QString dropoff_dispenser;
+  if (config.mapGetString("pickup_dispenser", &pickup_dispenser))
+    _pickup_dispenser_editor->setText(pickup_dispenser);
+  if (config.mapGetString("dropoff_dispenser", &dropoff_dispenser))
+    _dropoff_dispenser_editor->setText(dropoff_dispenser);
 }
 
 // Save config
 void RmfPanel::save(rviz_common::Config config) const
 {
   rviz_common::Panel::save(config);
+  config.mapSetValue("pickup_dispenser", _pickup_dispenser_editor->text());
+  config.mapSetValue("dropoff_dispenser", _dropoff_dispenser_editor->text());
 }
 
 // Q_SLOTS
@@ -372,10 +404,15 @@ void RmfPanel::queue_delivery()
 {
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
+  std::string pickup_dispenser = _pickup_dispenser_editor->text().toStdString();
+  std::string dropoff_dispenser =
+    _dropoff_dispenser_editor->text().toStdString();
+
   Delivery delivery;
 
   // If either start or end are empty, the delivery should probably not be queued
-  if (start.empty() || end.empty())
+  if (start.empty() || end.empty() || pickup_dispenser.empty()
+    || dropoff_dispenser.empty())
   {
     RCLCPP_INFO(_node->get_logger(),
       "Waypoint input is empty string; Delivery not queued in plan.");
@@ -385,6 +422,8 @@ void RmfPanel::queue_delivery()
   delivery.task_id = generate_task_uuid(3);
   delivery.pickup_place_name = start;
   delivery.dropoff_place_name = end;
+  delivery.pickup_dispenser = pickup_dispenser;
+  delivery.dropoff_dispenser = dropoff_dispenser;
 
   auto delivery_time = _time_selector->time();
 
@@ -627,11 +666,11 @@ void RmfPanel::update_start_waypoint_selector()
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _start_waypoint_selector->clear();
-  for (auto waypoint : graph_info.waypoint_names)
+  for (const auto& waypoint : graph_info.graph.keys())
   {
     if (!_workcells_only_checkbox->isChecked() ||
-      waypoint_has_workcell(waypoint.second, graph_info))
-      _start_waypoint_selector->addItem(QString(waypoint.second.c_str()));
+      waypoint_has_workcell(waypoint.first, graph_info))
+      _start_waypoint_selector->addItem(QString(waypoint.first.c_str()));
   }
 }
 
@@ -640,11 +679,11 @@ void RmfPanel::update_end_waypoint_selector()
   std::string fleet_name = _fleet_selector->currentText().toStdString();
   auto graph_info = _map_fleet_to_graph_info[fleet_name];
   _end_waypoint_selector->clear();
-  for (auto waypoint : graph_info.waypoint_names)
+  for (const auto& waypoint : graph_info.graph.keys())
   {
     if (!_workcells_only_checkbox->isChecked() ||
-      waypoint_has_workcell(waypoint.second, graph_info))
-      _end_waypoint_selector->addItem(QString(waypoint.second.c_str()));
+      waypoint_has_workcell(waypoint.first, graph_info))
+      _end_waypoint_selector->addItem(QString(waypoint.first.c_str()));
   }
 }
 

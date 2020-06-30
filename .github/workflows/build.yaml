@@ -9,14 +9,18 @@ jobs:
     steps:
     - name: non-ros-deps
       run: |
+        sudo apt update
+        sudo apt install -y wget
+        echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
+        wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add -
+        
         sudo apt update && sudo apt install \
-          git cmake wget python3-vcstool \
-          qt5-default libeigen3-dev \
-          libccd-dev libfcl-dev \
-          libyaml-cpp-dev libwebsocketpp-dev \
-          libboost-all-dev curl \
-          python3-shapely python3-yaml \
-          python3-requests \
+          git cmake python3-vcstool curl \
+          qt5-default \
+          libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-random-dev \
+          python3-shapely python3-yaml python3-requests \
+          libignition-common3-dev libignition-plugin-dev \
+          g++-8 \
           -y
     - name: workspace
       run: |
@@ -29,8 +33,7 @@ jobs:
       run: |
         cd /home/rmf_demos_ws
         rosdep update
-        rosdep install --from-paths src --ignore-src --rosdistro eloquent \
-          -y --skip-keys "websocketpp ament_python"
+        rosdep install --from-paths src --ignore-src --rosdistro eloquent -yr
     - name: checkout
       shell: bash
       run: |
@@ -41,4 +44,10 @@ jobs:
       run: |
         cd /home/rmf_demos_ws
         source /opt/ros/eloquent/setup.bash
-        colcon build
+        CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE -DNO_DOWNLOAD_MODELS=True --packages-up-to \
+          demos \
+          rmf_demo_assets \
+          rmf_demo_maps \
+          rmf_demo_tasks \
+          rmf_gazebo_plugins \
+          rmf_rviz_plugin 
