@@ -116,12 +116,12 @@ private:
     if (!robot_model)
       return false;
 
-    const ignition::math::Box robot_collision_bb = robot_model->BoundingBox();
+    const auto robot_collision_bb = robot_model->BoundingBox();
     ignition::math::Vector3d max_corner = robot_collision_bb.Max();
 
     // create a new bounding box extended slightly in the Z direction
     max_corner.Z(max_corner.Z() + 0.1);
-    const ignition::math::Box vicinity_box(
+    const ignition::math::AxisAlignedBox vicinity_box(
       robot_collision_bb.Min(), max_corner);
 
     // There might not be a better way to loop through all the models, as we
