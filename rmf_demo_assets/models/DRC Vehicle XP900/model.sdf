@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<sdf version='1.4'>
+  <model name='drc_vehicle_xp900'>
+
+    <include>
+      <uri>model://polaris_ranger_xp900</uri>
+    </include>
+
+    <plugin name='vehicle' filename='libDRCVehicleROSPlugin.so'>
+      <front_left_wheel>polaris_ranger_xp900::front_left_wheel_joint</front_left_wheel>
+      <front_right_wheel>polaris_ranger_xp900::front_right_wheel_joint</front_right_wheel>
+      <front_left_wheel_steering>polaris_ranger_xp900::front_left_steering_joint</front_left_wheel_steering>
+      <front_right_wheel_steering>polaris_ranger_xp900::front_right_steering_joint</front_right_wheel_steering>
+      <back_left_wheel>polaris_ranger_xp900::rear_left_wheel_joint</back_left_wheel>
+      <back_right_wheel>polaris_ranger_xp900::rear_right_wheel_joint</back_right_wheel>
+      <gas_pedal>polaris_ranger_xp900::gas_joint</gas_pedal>
+      <brake_pedal>polaris_ranger_xp900::brake_joint</brake_pedal>
+      <steering_wheel>polaris_ranger_xp900::steering_joint</steering_wheel>
+      <hand_brake>polaris_ranger_xp900::hand_brake_joint</hand_brake>
+      <fnr_switch>polaris_ranger_xp900::FNR_switch_joint</fnr_switch>
+      <fnr_switch_f>polaris_ranger_xp900::FNR_switch::FNR_switch_F</fnr_switch_f>
+      <fnr_switch_r>polaris_ranger_xp900::FNR_switch::FNR_switch_R</fnr_switch_r>
+      <front_torque>1000</front_torque>
+      <back_torque>1000</back_torque>
+      <front_brake_torque>2000</front_brake_torque>
+      <back_brake_torque>2000</back_brake_torque>
+      <!-- 16 km/hr ~= 4.5 m/s -->
+      <max_speed>4.5</max_speed>
+      <!-- 37 deg ~= 0.6458 rad -->
+      <max_steer>0.6458</max_steer>
+      <aero_load>0.1</aero_load>
+      <min_brake_percent>0.04</min_brake_percent>
+      <flwheel_steering_p_gain>30000</flwheel_steering_p_gain>
+      <frwheel_steering_p_gain>30000</frwheel_steering_p_gain>
+      <flwheel_steering_i_gain>0</flwheel_steering_i_gain>
+      <frwheel_steering_i_gain>0</frwheel_steering_i_gain>
+      <flwheel_steering_d_gain>50</flwheel_steering_d_gain>
+      <frwheel_steering_d_gain>50</frwheel_steering_d_gain>
+    </plugin>
+    <plugin name="seat_mud" filename="libMudPlugin.so">
+      <contact_sensor_name>polaris_ranger_xp900/chassis/seat_contact</contact_sensor_name>
+      <stiffness>0.0</stiffness>
+      <damping>100.0</damping>
+      <link_name>atlas::pelvis</link_name>
+      <link_name>atlas::r_uleg</link_name>
+      <link_name>atlas::l_uleg</link_name>
+    </plugin>
+  </model>
+</sdf>

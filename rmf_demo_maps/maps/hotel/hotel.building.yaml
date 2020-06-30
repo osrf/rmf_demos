@@ -1,0 +1,2533 @@
+levels:
+  guest_level:
+    doors:
+      - [167, 168, {motion_axis: [1, start], motion_degrees: [3, 180], motion_direction: [2, 1], name: [1, room8_door2], type: [1, hinged]}]
+      - [230, 194, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room1_door], type: [1, hinged]}]
+      - [231, 189, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room2_door], type: [1, hinged]}]
+      - [228, 190, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room3_door], type: [1, hinged]}]
+      - [229, 191, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room4_door], type: [1, hinged]}]
+      - [227, 192, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room5_door], type: [1, hinged]}]
+      - [226, 193, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room6_door], type: [1, hinged]}]
+      - [220, 196, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room7_door], type: [1, hinged]}]
+      - [219, 197, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room8_door], type: [1, hinged]}]
+      - [225, 224, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room9_door], type: [1, hinged]}]
+      - [222, 223, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, door2], type: [1, hinged]}]
+      - [221, 217, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room10_door], type: [1, hinged]}]
+      - [232, 233, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, door1], type: [1, double_hinged]}]
+      - [236, 177, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room9_door2], type: [1, hinged]}]
+      - [238, 240, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room11_door], type: [1, hinged]}]
+      - [257, 255, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, stair1_door], type: [1, hinged]}]
+      - [274, 275, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room12_door], type: [1, hinged]}]
+      - [289, 286, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room13_door], type: [1, hinged]}]
+      - [290, 291, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room14_door], type: [1, hinged]}]
+      - [305, 304, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room15_door], type: [1, hinged]}]
+      - [312, 313, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room16_door], type: [1, hinged]}]
+      - [335, 332, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room17_door], type: [1, hinged]}]
+      - [356, 355, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, door6], type: [1, hinged]}]
+      - [341, 339, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, door5], type: [1, hinged]}]
+      - [340, 342, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, door4], type: [1, double_hinged]}]
+      - [396, 397, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room18_door], type: [1, hinged]}]
+      - [423, 422, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room19_door], type: [1, hinged]}]
+      - [442, 443, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, door7], type: [1, hinged]}]
+      - [440, 417, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room20_door2], type: [1, hinged]}]
+      - [444, 445, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room20_door], type: [1, hinged]}]
+      - [454, 455, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room23_door], type: [1, hinged]}]
+      - [488, 492, {motion_axis: [1, start], motion_degrees: [3, 180], motion_direction: [2, -1], name: [1, room21_door2], type: [1, hinged]}]
+      - [491, 477, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room21_door], type: [1, hinged]}]
+      - [509, 508, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room24_door], type: [1, hinged]}]
+      - [518, 517, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room25_door], type: [1, hinged]}]
+      - [525, 526, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room26_door], type: [1, hinged]}]
+      - [546, 539, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room27_door], type: [1, hinged]}]
+      - [547, 548, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room28_door], type: [1, hinged]}]
+      - [568, 567, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room29_door], type: [1, hinged]}]
+      - [600, 601, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, stair2_door], type: [1, hinged]}]
+      - [606, 604, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, door9], type: [1, hinged]}]
+      - [582, 581, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room30_door], type: [1, hinged]}]
+      - [615, 616, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room31_door], type: [1, hinged]}]
+      - [614, 613, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, door8], type: [1, double_hinged]}]
+      - [634, 633, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room32_door], type: [1, hinged]}]
+      - [643, 644, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room33_door], type: [1, hinged]}]
+      - [662, 661, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room34_door], type: [1, hinged]}]
+      - [671, 672, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room35_door], type: [1, hinged]}]
+      - [694, 695, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room40_door], type: [1, hinged]}]
+      - [713, 714, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room22_door], type: [1, hinged]}]
+      - [721, 720, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room36_door], type: [1, hinged]}]
+      - [739, 740, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, door10], type: [1, hinged]}]
+      - [744, 743, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room39_door], type: [1, hinged]}]
+      - [736, 752, {motion_axis: [1, start], motion_degrees: [3, 180], motion_direction: [2, -1], name: [1, room37_door2], type: [1, hinged]}]
+      - [751, 725, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room37_door], type: [1, hinged]}]
+      - [762, 763, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, room38_door], type: [1, hinged]}]
+      - [768, 767, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, room38_door2], type: [1, hinged]}]
+      - [348, 349, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, cargo_elevator1_slide], type: [1, double_sliding]}]
+      - [350, 351, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, cargo_elevator2_slide], type: [1, double_sliding]}]
+      - [792, 251, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, door3], type: [1, hinged]}]
+      - [373, 374, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, guest_elevator1_slide], type: [1, double_sliding]}]
+      - [375, 376, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, guest_elevator2_slide], type: [1, double_sliding]}]
+      - [380, 381, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, guest_elevator3_slide], type: [1, double_sliding]}]
+      - [382, 383, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, guest_elevator4_slide], type: [1, double_sliding]}]
+    elevation: 0
+    flattened_x_offset: 0
+    flattened_y_offset: 0
+    floors:
+      - parameters: {texture_name: [1, concrete], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [251, 254, 241, 18, 17]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [76, 88, 90, 79, 83, 84, 68, 77]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [69, 242, 256, 201, 237, 239, 202, 169, 157, 164, 188, 158, 142, 141, 139, 143, 125, 124, 127, 116, 113, 112, 111, 115, 104, 101, 102, 91]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [84, 69, 271, 273, 276, 268, 269, 285, 311, 328, 330, 334, 333, 32, 5]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [243, 245, 246, 28]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [269, 264, 283, 285]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [279, 278, 281, 282]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [292, 293, 299, 300]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [306, 307, 310, 311]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [5, 32, 45, 7]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [65, 64, 70, 71, 75, 76]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [314, 315, 324, 326]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [88, 89, 86, 85, 78, 66]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [88, 90, 80, 81, 82, 2, 78, 66]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [63, 93, 91, 92, 96, 94]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [362, 363, 366, 365]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [360, 368, 369, 7]
+      - parameters: {texture_name: [1, concrete], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [5, 6, 359, 362]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [33, 385, 386, 372, 387, 388, 379, 390, 389, 44, 43, 42, 41, 448, 449, 450, 456, 457, 459, 715, 475, 427, 428, 429, 430, 416, 421, 409, 399, 398, 395, 391, 441, 36, 35, 34]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [107, 120, 116, 117, 118, 108, 110, 111]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [131, 139, 137, 134, 135, 138, 140, 132]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [165, 234, 235, 1]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [150, 161, 159, 151]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [161, 165, 234, 235, 154, 155, 156, 164, 163, 153, 152, 159]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [176, 180, 183, 174]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [175, 170, 171, 172, 173, 154, 4, 183, 180, 176]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [203, 218, 176, 195]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [205, 209, 211, 210, 208, 204, 215, 214]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [216, 186, 187, 174, 213, 198, 199, 200, 237, 239, 215, 214, 218]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [266, 260, 261, 262, 264, 265]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [259, 258, 799, 287]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [800, 297, 302, 801]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [802, 317, 319, 320]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [321, 322, 323, 329, 325, 324]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [273, 270, 272, 30, 258, 259, 260, 276]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [285, 284, 287, 799, 800, 297, 294, 292, 282, 281, 278, 279]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [300, 301, 302, 801, 802, 317, 316, 314, 311, 310, 307, 306]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [320, 31, 337, 336, 334, 330, 323, 319]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [408, 411, 410, 405, 402, 401, 400, 407]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [458, 469, 470, 465, 463, 464, 461, 462]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [439, 416, 412, 436]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [480, 482, 485, 479]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [489, 486, 39, 490]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [394, 412, 413, 418, 419, 421, 408, 407, 398, 395, 392, 393]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [450, 456, 469, 470, 715, 474, 473, 472, 471, 451, 452, 453]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [38, 436, 439, 416, 431, 432, 433, 434, 435, 424]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [425, 424, 490, 489, 486, 485, 482, 481, 478, 476, 427, 426]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [7, 45, 493, 510, 507, 505, 504, 501, 515, 516, 519, 520, 522, 524, 527, 528, 535, 538, 544, 542, 543, 545, 549, 550, 559, 562, 565, 564, 569, 570, 49, 589, 594, 595, 597, 692, 693, 696, 697, 698, 742, 761, 747, 741, 746, 750, 723, 719, 676, 675, 673, 670, 665, 664, 663, 648, 660, 646, 645, 642, 637, 636, 635, 626, 625, 612]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [499, 506, 503, 501, 500, 498]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [497, 513, 803, 496]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [552, 555, 558, 806]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [804, 805, 536, 530]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [495, 494, 510, 507, 499, 497, 496, 46]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [803, 804, 530, 529, 527, 524, 522, 520, 519, 516, 512, 513]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [805, 806, 552, 551, 549, 545, 543, 542, 544, 538, 534, 536]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [555, 556, 559, 561, 563, 557]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [564, 569, 571, 572, 47, 558, 555, 557]
+      - parameters: {texture_name: [1, concrete], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [599, 605, 604, 60, 59]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [574, 579, 578, 576, 575, 573]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [617, 619, 620, 622, 623, 624]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [626, 627, 628, 630, 608, 631]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [645, 649, 650, 654, 656, 648, 659, 658]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [673, 685, 681, 683, 686, 677, 688, 687]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [730, 733, 727, 728]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [738, 12, 734, 737]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [748, 761, 769, 772]
+      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [711, 699, 703, 706, 708, 704, 701, 712]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [10, 573, 574, 579, 583, 584, 585, 586]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [617, 610, 609, 608, 607, 11, 623, 624]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [626, 635, 638, 639, 641, 607, 608, 631]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [642, 645, 658, 659, 648, 663, 666, 667, 669, 641, 639, 640]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [670, 668, 667, 669, 716, 717, 718, 722, 719, 688, 687, 673]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [749, 764, 745, 742, 712, 711, 696, 693, 691, 690, 689, 748]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [772, 13, 755, 756, 757, 758, 759, 760, 761, 769]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [734, 733, 730, 729, 726, 724, 750, 753, 754, 755, 738, 737]
+      - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [0, 146, 147, 148, 149, 158, 132, 131, 139, 143, 126, 123, 127, 116, 120, 107, 111, 115, 103, 100, 102, 91, 93, 67, 77, 76, 65, 64]
+    holes:
+      - parameters: {}
+        vertices: [809, 807, 808, 810]
+      - parameters: {}
+        vertices: [811, 812, 814, 813]
+      - parameters: {}
+        vertices: [815, 816, 817, 818]
+      - parameters: {}
+        vertices: [819, 820, 821, 822]
+    lanes:
+      - [775, 778, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [778, 777, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [776, 779, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [779, 780, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [780, 781, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [779, 782, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [782, 783, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [776, 784, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [784, 785, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [785, 786, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [778, 787, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [788, 789, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [789, 790, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [784, 788, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [776, 793, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [793, 794, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [794, 795, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [795, 796, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [796, 797, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [797, 798, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [798, 777, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [775, 827, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [827, 828, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [828, 829, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [787, 830, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [830, 831, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [831, 832, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [788, 833, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [833, 834, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [834, 835, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [833, 838, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [838, 839, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [839, 840, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [838, 841, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [841, 842, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [838, 843, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [843, 844, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [844, 845, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [845, 846, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [844, 847, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [843, 849, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [849, 850, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [849, 852, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [852, 853, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [793, 854, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [854, 855, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [794, 856, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [856, 857, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [795, 858, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [858, 859, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [796, 860, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [860, 861, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [797, 862, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [862, 863, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [798, 864, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [864, 865, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [777, 866, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [866, 867, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [867, 868, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [868, 869, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [867, 870, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [870, 871, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [867, 872, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [872, 873, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [873, 874, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [874, 875, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [872, 876, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [876, 877, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [877, 878, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [878, 879, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [873, 880, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [880, 881, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [850, 851, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [847, 882, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [882, 848, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [876, 883, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [883, 884, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [866, 885, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [885, 886, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [886, 887, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [885, 888, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [888, 889, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [889, 890, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [888, 891, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [891, 892, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [892, 893, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [891, 894, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [894, 895, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [895, 896, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [894, 897, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [897, 898, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [898, 899, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [897, 900, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [900, 901, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [901, 902, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [900, 903, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [903, 904, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [904, 905, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [905, 906, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [904, 907, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [907, 908, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [903, 909, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [909, 910, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [910, 911, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [909, 912, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [912, 913, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [912, 914, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [914, 915, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [915, 916, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [912, 917, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [917, 918, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [918, 919, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [917, 920, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [920, 921, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [921, 922, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [920, 923, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [923, 924, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [920, 925, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [925, 926, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [926, 927, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [927, 928, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [926, 929, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [929, 930, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [930, 931, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [925, 932, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [932, 933, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [932, 934, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [934, 935, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [933, 936, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [936, 937, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [791, 788, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+    layers:
+      {}
+    measurements:
+      - [0, 1, {distance: [3, 34.5]}]
+      - [0, 11, {distance: [3, 124]}]
+    models:
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 275.764, y: 79.187, yaw: 1.57, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 144, y: 78, yaw: -1.57, z: 0}
+      - {model_name: MiniSofa, name: Sofa, static: true, x: 355.108, y: 121.932, yaw: -3.1391, z: 0}
+      - {model_name: MiniSofa, name: Sofa, static: true, x: 72.7, y: 121.558, yaw: -3.127, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 380.624, y: 84.53400000000001, yaw: 3.14, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 379.613, y: 52.396, yaw: 3.14, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 300.721, y: 123.593, yaw: 1.5821, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 122.198, y: 126.154, yaw: 1.57, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.069, y: 81.922, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.149, y: 51.093, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.313, y: 145.096, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.493, y: 177.523, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 49.815, y: 315.146, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 49.042, y: 283.061, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 379.209, y: 103.13, yaw: -3.1375, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 50.06, y: 99.19, yaw: 0.0113, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 122.509, y: 66.68000000000001, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 297.62, y: 66.464, yaw: -3.1388, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 122.264, y: 161.53, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 74.33, y: 242.528, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 75.14400000000001, y: 217.275, yaw: 3.1345, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 50.344, y: 195.521, yaw: -0.0072, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 50.008, y: 260.833, yaw: 0.0074, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 119.489, y: 220.235, yaw: 1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 119.489, y: 241.44, yaw: -1.5688, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 144.358, y: 174.255, yaw: -1.5853, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 144.198, y: 287.941, yaw: -1.5815, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 122.63, y: 298.268, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 49.203, y: 629.9059999999999, yaw: -1.5803, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 80.92400000000001, y: 714.225, yaw: 1.5819, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 200.866, y: 687.088, yaw: 3.1346, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 200.866, y: 716.989, yaw: -3.1353, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 302.721, y: 701.231, yaw: 3.1294, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 103.35, y: 699.091, yaw: 3.1361, z: 0}
+      - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 315.51, y: 620.352, yaw: 3.1409, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 144.099, y: 363.17, yaw: -1.5861, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.17, y: 119.899, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.6, y: 217.14, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.511, y: 243.871, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 122.232, y: 351.526, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.315, y: 335.61, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.179, y: 367.05, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.903, y: 405.513, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 120.38, y: 410.788, yaw: 1.5779, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 49.676, y: 387.601, yaw: 0.0058, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 75.04600000000001, y: 405.743, yaw: -3.1322, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 143.166, y: 642.271, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 162.316, y: 643.128, yaw: -1.5895, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 123.157, y: 642.842, yaw: 1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 259.644, y: 701.15, yaw: -1.5512, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 220.39, y: 699.35, yaw: 1.5646, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 278.191, y: 721.318, yaw: 1.5717, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 101.661, y: 639.856, yaw: -1.5671, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 193.025, y: 660.586, yaw: -3.1377, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 218.055, y: 657.547, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 380.112, y: 686.36, yaw: 3.1274, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 380.415, y: 716.414, yaw: -3.1259, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 285.929, y: 476.821, yaw: 1.5858, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 285.929, y: 551.104, yaw: 1.5836, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 144.262, y: 475.901, yaw: -1.5654, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 144.262, y: 551.3339999999999, yaw: -1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 120.898, y: 428.892, yaw: -1.5776, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 121.248, y: 599.597, yaw: 1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 310.18, y: 429.243, yaw: -1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 308.427, y: 601.349, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 48.12, y: 504.97, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 47.989, y: 473.408, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 49.391, y: 525.2859999999999, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 49.391, y: 557.534, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 121.326, y: 487.777, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 121.326, y: 543.324, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 52.401, y: 434.259, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 52.401, y: 596.843, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 375.136, y: 596.032, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 374.73, y: 433.042, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 380.047, y: 505.822, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 379.576, y: 472.876, yaw: -3.1353, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 379.576, y: 527.002, yaw: -3.1297, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 379.576, y: 558.771, yaw: 3.1307, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 309.025, y: 488.166, yaw: -3.1308, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 309.25, y: 542.957, yaw: -3.1416, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 378.4, y: 451.226, yaw: 3.1416, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 377.929, y: 577.127, yaw: -3.1347, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 50.135, y: 456.666, yaw: 0.0083, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 50.135, y: 574.766, yaw: 0.0048, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 74.56, y: 433.42, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 353.643, y: 431.916, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 356.11, y: 595.551, yaw: -3.1301, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 71.52, y: 596.903, yaw: -3.1244, z: 0}
+      - {model_name: StorageRack, name: StorageRack, static: true, x: 1111.328, y: 62.126, yaw: 0, z: 0}
+      - {model_name: StorageRack, name: StorageRack, static: true, x: 1111.059, y: 93.30200000000001, yaw: 0, z: 0}
+      - {model_name: StorageRack, name: StorageRack, static: true, x: 1111.059, y: 125.552, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 446.076, y: 236.076, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 460.873, y: 258.316, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 478.845, y: 321.862, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 443.894, y: 321.862, yaw: 1.564, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 408.185, y: 316.992, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 429.137, y: 320.934, yaw: 1.5685, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 407.663, y: 298.644, yaw: 1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 402.782, y: 257.447, yaw: 0.0026, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 406.994, y: 284.036, yaw: 0.007, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 91.538, y: 217.226, yaw: 1.5729, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 90.962, y: 243.146, yaw: -1.5777, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 92.777, y: 406.33, yaw: 1.5648, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 92.315, y: 432.849, yaw: -1.5652, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 91.09099999999999, y: 121.432, yaw: 1.5739, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 338.879, y: 121.432, yaw: 1.5765, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 336.432, y: 432.237, yaw: -1.5681, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 337.945, y: 594.947, yaw: 1.5781, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 237.856, y: 682.063, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 142.321, y: 659.949, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 88.373, y: 596.9690000000001, yaw: 1.5643, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 305.008, y: 196.146, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 518.0940000000001, y: 211.156, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 652.029, y: 211.03, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 767.676, y: 211.144, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 903.679, y: 211.061, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 994.242, y: 210.954, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1193.269, y: 201.362, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1364.655, y: 201.515, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1597.065, y: 211.253, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1731.912, y: 211.45, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1845.976, y: 211.204, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1983.224, y: 211.348, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 2074.612, y: 211.042, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 2249.351, y: 196.242, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 515.617, y: 321.042, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 537.127, y: 233.507, yaw: -0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 606.057, y: 320.932, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 573.921, y: 321.379, yaw: 1.5708, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 549.389, y: 261.78, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 550.692, y: 275.457, yaw: 1.5708, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 552.984, y: 294.743, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 587.352, y: 229.033, yaw: 1.5708, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 607.162, y: 269.96, yaw: -3.1342, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 642.139, y: 228.165, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 627.361, y: 321.114, yaw: 1.5629, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 658.668, y: 321.337, yaw: 1.577, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 622.753, y: 270.46, yaw: 0.004, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 680.427, y: 277.179, yaw: -1.5777, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 692.732, y: 233.306, yaw: -3.1416, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 678.139, y: 294.668, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 680.263, y: 263.122, yaw: -3.1416, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 714.811, y: 320.984, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 765.05, y: 320.984, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 786.904, y: 233.453, yaw: -0.0065, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 837.938, y: 229.051, yaw: 1.5708, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 893.168, y: 228.657, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 823.429, y: 322.51, yaw: 1.5875, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 854.4160000000001, y: 322.51, yaw: 1.5603, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 875.433, y: 321.971, yaw: 1.5815, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 908.0359999999999, y: 322.241, yaw: 1.5708, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 855.764, y: 268.014, yaw: -3.1322, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 874.073, y: 268.335, yaw: 0.002, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 799.8, y: 276.538, yaw: 1.589, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 799.095, y: 262.26, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 928.7, y: 263.468, yaw: -3.1297, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 942.405, y: 232.146, yaw: -3.1416, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 928.7, y: 276.958, yaw: -1.5708, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 801.386, y: 294.341, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 927.688, y: 294.494, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 965.107, y: 320.708, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1033.098, y: 235.769, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1087.116, y: 257.498, yaw: -3.1416, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1019.84, y: 258.852, yaw: 1.5688, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1004.115, y: 321.816, yaw: 1.5645, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1036.025, y: 321.529, yaw: 1.5708, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1057.632, y: 320.528, yaw: 1.5635, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1080.245, y: 316.717, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1080.903, y: 298.306, yaw: -1.5708, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1081.542, y: 283.734, yaw: -3.1416, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1343.128, y: 138.978, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1417.983, y: 123.815, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1208.965, y: 476.054, yaw: -1.5775, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1187.531, y: 428.357, yaw: -1.5708, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1118.604, y: 433.373, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1118.677, y: 596.953, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1440.525, y: 433.986, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1441.036, y: 596.953, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1138.601, y: 432.453, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1421.623, y: 432.453, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1422.645, y: 598.997, yaw: -3.1389, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1137.579, y: 596.442, yaw: -3.1358, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1154.95, y: 431.909, yaw: -1.5556, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1404.37, y: 432.263, yaw: -1.5708, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1408.177, y: 598.761, yaw: 1.5766, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1153.533, y: 597.3630000000001, yaw: 1.5621, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1372.603, y: 600.952, yaw: 1.5745, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1372.965, y: 427.743, yaw: -1.5773, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1187.66, y: 601.175, yaw: 1.5754, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1186.299, y: 487.882, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1186.407, y: 542.289, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1374.088, y: 488.228, yaw: -3.1416, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1374.088, y: 541.7430000000001, yaw: -3.1347, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1113.583, y: 526.338, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1113.583, y: 557.064, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1113.159, y: 502.18, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1113.583, y: 471.666, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1445.015, y: 472.011, yaw: -3.1357, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1444.989, y: 504.501, yaw: 3.1408, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1444.881, y: 526.098, yaw: 3.1403, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1445.107, y: 557.752, yaw: 3.1351, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1114.381, y: 457.119, yaw: 0.0047, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1114.598, y: 572.4640000000001, yaw: 0.0066, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1444.081, y: 573.628, yaw: -3.1357, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1442.336, y: 456.124, yaw: 3.1376, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1208.576, y: 554.216, yaw: -1.5955, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1350.931, y: 555.096, yaw: 1.5772, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1350.739, y: 475.473, yaw: 1.5665, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1301.987, y: 658.126, yaw: -0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1277.103, y: 657.856, yaw: -3.1402, z: 0}
+      - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 1179.756, y: 620.319, yaw: -3.1416, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1445.846, y: 630.048, yaw: 1.5733, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1413.918, y: 716.722, yaw: -1.5736, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1392.15, y: 699.136, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1191.85, y: 703.1130000000001, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1113.795, y: 718.7, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1113.337, y: 687.678, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1293.271, y: 714.772, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1293.026, y: 683.345, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1358.99, y: 642.357, yaw: 0, z: 0}
+      - {model_name: RecTable, name: RecTable, static: true, x: 1255.501, y: 707.677, yaw: 0, z: 0}
+      - {model_name: RecTable, name: RecTable, static: true, x: 240.197, y: 708.173, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 258.924, y: 719.157, yaw: -1.5809, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 220.57, y: 718.617, yaw: 1.5636, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1274.754, y: 698.395, yaw: -1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1274.582, y: 716.616, yaw: -1.5691, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1235.389, y: 698.051, yaw: 1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1235.045, y: 716.616, yaw: 1.5708, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1254.47, y: 682.064, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1216.964, y: 721.737, yaw: 1.5682, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1340.844, y: 641.559, yaw: 1.5882, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1376.932, y: 641.351, yaw: -1.555, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1397.558, y: 639.842, yaw: -1.5831, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1358.061, y: 657.896, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1525.857, y: 235.722, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1541.52, y: 258.567, yaw: 1.5763, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1557.888, y: 321.602, yaw: 1.5749, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1526.605, y: 321.602, yaw: 3.1408, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1478.449, y: 316.537, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1477.395, y: 296.722, yaw: 1.566, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1476.131, y: 281.755, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1501.638, y: 320.542, yaw: 1.5686, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1473.03, y: 257.205, yaw: -0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1596.38, y: 320.9, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1617.276, y: 232.664, yaw: -0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1668.076, y: 228.477, yaw: 1.5688, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1721.882, y: 227.987, yaw: 1.5694, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1917.963, y: 227.419, yaw: 3.1363, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 1971.955, y: 228.074, yaw: -3.1351, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2102.092, y: 257.686, yaw: 1.5697, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1683.195, y: 322.087, yaw: 1.5842, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1651.713, y: 322.087, yaw: 1.5721, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1705.739, y: 321.42, yaw: 1.5672, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1738.022, y: 321.554, yaw: 1.5738, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1903.799, y: 322.261, yaw: 1.5704, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1933.762, y: 322.389, yaw: 3.1398, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1956.111, y: 322.393, yaw: -3.1414, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 1986.711, y: 322.389, yaw: -3.1414, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2085.916, y: 322.344, yaw: 1.5671, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2117.621, y: 322.811, yaw: 1.5772, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1794.665, y: 320.735, yaw: 0, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 1844.292, y: 320.978, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1686.755, y: 272.529, yaw: -3.1342, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1703.673, y: 272.952, yaw: 0.012, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1632.509, y: 294.387, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1631.529, y: 276.582, yaw: 1.5673, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1630.223, y: 262.045, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1758.352, y: 277.806, yaw: -1.591, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1881.307, y: 276.279, yaw: 3.1318, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1757.331, y: 295.843, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 1883.079, y: 294.983, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1878.748, y: 262.3, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 1759.032, y: 263.513, yaw: -3.1416, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1772.697, y: 232.727, yaw: 3.1398, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1867.238, y: 232.727, yaw: 0.0106, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2022.918, y: 232.626, yaw: 1.5641, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1936.271, y: 275.336, yaw: -1.5727, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 1953.037, y: 275.609, yaw: 1.5695, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2006.866, y: 296.522, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2152.509, y: 318.073, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2008.323, y: 278.833, yaw: -1.5712, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2151.84, y: 300.157, yaw: -1.5652, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2010.195, y: 264.058, yaw: 3.127, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2152.471, y: 285.646, yaw: -3.1302, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2048.066, y: 320.787, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2157.582, y: 258.342, yaw: 3.1302, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2133.494, y: 321.753, yaw: 1.5707, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2415.713, y: 79.384, yaw: 1.5708, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2284.071, y: 78.395, yaw: -1.5708, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2262.428, y: 66.48399999999999, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2251.963, y: 488.006, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2251.721, y: 542.1079999999999, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2177.985, y: 49.49, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2178.131, y: 80.495, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2177.817, y: 503.729, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2177.608, y: 473.013, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2178.075, y: 526.048, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2177.901, y: 557.0410000000001, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2182.358, y: 122.616, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2183.544, y: 432.503, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2182.916, y: 597.022, yaw: 0, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2262.641, y: 126.754, yaw: 1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2200.664, y: 123.607, yaw: -3.1352, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2179.629, y: 103.612, yaw: 0.0029, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2216.4, y: 124.817, yaw: 1.5852, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2178.826, y: 452.793, yaw: -0.0028, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2201.71, y: 431.523, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2216.807, y: 430.873, yaw: -1.5708, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2274.133, y: 475.213, yaw: -1.579, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2252.822, y: 428.013, yaw: -1.5696, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2274.199, y: 553.92, yaw: -1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2201.558, y: 597.851, yaw: 3.1348, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2217.104, y: 598.11, yaw: 1.5708, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2179.632, y: 575.337, yaw: 0.001, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2252.673, y: 601.467, yaw: 1.5708, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.863, y: 84.065, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2511.203, y: 52.573, yaw: -3.1416, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2437.976, y: 66.693, yaw: 3.1381, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.376, y: 126.817, yaw: 1.5749, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2510.242, y: 103.109, yaw: -3.1366, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.304, y: 122.216, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2488.612, y: 122.354, yaw: -3.1416, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2473.769, y: 123.591, yaw: 1.5743, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2438.79, y: 161.942, yaw: -3.1416, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.257, y: 221.311, yaw: 1.5708, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2415.757, y: 174.684, yaw: 1.5659, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2511.136, y: 146.43, yaw: -3.1346, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2511.136, y: 177.237, yaw: -3.1416, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2510.229, y: 197.061, yaw: -3.1412, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2508.422, y: 218.056, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2491.146, y: 218.579, yaw: 3.131, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2476.3, y: 218.568, yaw: 1.5708, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2415.796, y: 285.59, yaw: 1.5708, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2438.18, y: 298.231, yaw: 3.1323, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2438.587, y: 352.239, yaw: -3.136, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.151, y: 313.518, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.151, y: 281.942, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.645, y: 335.967, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2511.138, y: 366.062, yaw: -3.1416, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2508.159, y: 242.034, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2490.292, y: 241.612, yaw: 0, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2476.553, y: 241.511, yaw: -1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.188, y: 238.54, yaw: -1.5676, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2415.874, y: 363.907, yaw: 1.5659, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2506.882, y: 407.35, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.065, y: 432.696, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2489.196, y: 431.818, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2488.425, y: 407.654, yaw: -3.1416, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.504, y: 408.161, yaw: 1.5761, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.443, y: 411.637, yaw: 1.5764, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.219, y: 428.513, yaw: -1.5699, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.453, y: 431.504, yaw: -1.5708, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2437.451, y: 488.027, yaw: -3.1416, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2415.905, y: 475.325, yaw: 1.575, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.05, y: 473.768, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.291, y: 506.051, yaw: -3.1416, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2415.713, y: 553.576, yaw: 1.5708, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2437.624, y: 541.596, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2510.887, y: 525.999, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2511.709, y: 557.428, yaw: 3.1369, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.6, y: 597.654, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2489.987, y: 597.38, yaw: -3.1416, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.667, y: 597.283, yaw: 1.5708, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2509.934, y: 383.825, yaw: -3.1351, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2510.198, y: 456.862, yaw: 3.1336, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2509.937, y: 575.773, yaw: 3.1398, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.206, y: 601.503, yaw: 1.5708, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2510.567, y: 629.832, yaw: 1.5708, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2479.294, y: 717.486, yaw: -1.5708, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2457.7, y: 697.909, yaw: 0, z: 0}
+      - {model_name: MainTable, name: MainTable, static: true, x: 2256.458, y: 702.898, yaw: 0, z: 0}
+      - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 2244.521, y: 620.159, yaw: -3.1416, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2178.62, y: 718.938, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2178.46, y: 687.438, yaw: 0, z: 0}
+      - {model_name: Desk, name: Desk, static: true, x: 1151.812, y: 662.568, yaw: 3.1405, z: 0}
+      - {model_name: Desk, name: Desk, static: true, x: 342.526, y: 663.744, yaw: -3.1416, z: 0}
+      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 342.949, y: 674.169, yaw: 1.5708, z: 0}
+      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1150.989, y: 673.306, yaw: 1.5661, z: 0}
+      - {model_name: bookshelf, name: bookshelf, static: true, x: 1117.867, y: 658.335, yaw: -1.5708, z: 0}
+      - {model_name: bookshelf, name: bookshelf, static: true, x: 376.479, y: 659.236, yaw: -1.5708, z: 0}
+      - {model_name: Desk, name: Desk, static: true, x: 2214.355, y: 662.982, yaw: -3.1416, z: 0}
+      - {model_name: LampAndStand, name: LampAndStand, static: true, x: 1136.259, y: 663.024, yaw: 0, z: 0}
+      - {model_name: LampAndStand, name: LampAndStand, static: true, x: 359.15, y: 663.744, yaw: 0, z: 0}
+      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2213.134, y: 673.311, yaw: 1.5708, z: 0}
+      - {model_name: LampAndStand, name: LampAndStand, static: true, x: 2198.695, y: 662.982, yaw: 0, z: 0}
+      - {model_name: bookshelf, name: bookshelf, static: true, x: 2182.075, y: 658.691, yaw: -1.5708, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2342.865, y: 656.676, yaw: -3.1404, z: 0}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2366.87, y: 658.144, yaw: -0, z: 0}
+      - {model_name: RecTable, name: RecTable, static: true, x: 2319.839, y: 709.552, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2299.511, y: 700.4640000000001, yaw: 1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2299.989, y: 719.1180000000001, yaw: 1.5754, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2338.4, y: 700.1319999999999, yaw: -1.5708, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2339.17, y: 718.62, yaw: -1.5708, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2319.361, y: 683.723, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2281.179, y: 721.638, yaw: 1.5597, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 2424.066, y: 642.0940000000001, yaw: 0, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2405.292, y: 640.682, yaw: 1.5797, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2442.981, y: 641.106, yaw: -1.5708, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 2424.066, y: 658.045, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2461.189, y: 640.627, yaw: -1.5585, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2357.811, y: 714.366, yaw: 0, z: 0}
+      - {model_name: Drawer, name: Drawer, static: true, x: 2357.53, y: 683.857, yaw: 0, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 235.999, y: 229.682, yaw: 1.5705, z: 0}
+      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 2323.951, y: 230.69, yaw: -1.5721, z: 0}
+      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 2113.48, y: 235.709, yaw: 0, z: 0}
+      - {model_name: cafe_table, name: cafe_table, static: true, x: 375.954, y: 121.141, yaw: 0, z: 0}
+      - {model_name: Fridge, name: Fridge, static: true, x: 2510.022, y: 260.585, yaw: -3.1403, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 169.886, y: 66.09, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 146.666, y: 43.865, yaw: -3.1404, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 249.056, y: 65.79300000000001, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 272.099, y: 43.914, yaw: -3.1416, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 170.369, y: 161.341, yaw: -3.1416, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 170.28, y: 299.191, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 146.83, y: 321.148, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 146.654, y: 328.701, yaw: -3.1352, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 169.791, y: 350.753, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 147.52, y: 138.898, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 63.163, y: 66.66800000000001, yaw: -1.578, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 365.262, y: 68.364, yaw: 1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 63.626, y: 161.129, yaw: -1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 63.925, y: 299.103, yaw: -1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 63.151, y: 351.126, yaw: -1.5639, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 146.869, y: 511.142, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 146.623, y: 518.745, yaw: -3.1416, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 169.979, y: 489.016, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 169.748, y: 540.929, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 63.395, y: 488.622, yaw: -1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 64.467, y: 541.953, yaw: -1.578, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 285.513, y: 511.149, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 285.363, y: 518.725, yaw: 3.1304, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 264.474, y: 488.996, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 265.057, y: 540.869, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 365.221, y: 489.82, yaw: 1.5786, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 364.515, y: 543.004, yaw: 1.575, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 279.986, y: 621.663, yaw: 3.1234, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 370.428, y: 651.465, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 365.341, y: 701.548, yaw: 1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 73.56699999999999, y: 630, yaw: 1.5822, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 51.07, y: 726.4640000000001, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 185.186, y: 701.779, yaw: 1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 458.54, y: 204.24, yaw: 1.5876, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 481.113, y: 229.998, yaw: 1.5774, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 461.761, y: 306.847, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 589.832, y: 307.153, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 501.098, y: 294.854, yaw: -1.5708, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 515.625, y: 248.687, yaw: 3.1109, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 643.181, y: 306.416, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 728.6799999999999, y: 295.309, yaw: 1.5661, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 751.252, y: 295.422, yaw: -1.5708, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 715.814, y: 248.811, yaw: -3.1349, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 766.95, y: 248.758, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 838.816, y: 306.739, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 891.146, y: 306.739, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1020.262, y: 307.038, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1021.255, y: 204.774, yaw: -1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 978.804, y: 293.556, yaw: 1.5695, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 966.658, y: 248.785, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 998.837, y: 229.616, yaw: -1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1230.05, y: 488.708, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1329.884, y: 489.089, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1329.694, y: 540.9109999999999, yaw: 3.1336, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1229.669, y: 541.102, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1209.502, y: 511.014, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1209.482, y: 518.85, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1349.736, y: 511.237, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1349.736, y: 518.658, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1429.633, y: 488.388, yaw: 1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1429.733, y: 541.473, yaw: 1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1128.417, y: 486.499, yaw: -1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1128.629, y: 541.595, yaw: -1.5776, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1214.077, y: 621.3200000000001, yaw: 3.1378, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1122.992, y: 651.343, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1128.735, y: 703.076, yaw: -1.5708, z: 0}
+      - {model_name: MopCart1, name: MopCart1, static: true, x: 1314.477, y: 54.51, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1308.248, y: 698.813, yaw: -1.5702, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1421.504, y: 630.3150000000001, yaw: -1.5708, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1439.631, y: 726.139, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1542.49, y: 306.689, yaw: 1.572, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1538.567, y: 204.536, yaw: 1.5784, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1561.15, y: 229.728, yaw: 1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1581.451, y: 293.749, yaw: -1.5708, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1596.338, y: 248.777, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1667.616, y: 307.107, yaw: 0, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1721.846, y: 306.603, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1808.898, y: 294.073, yaw: 1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 1831.198, y: 294.346, yaw: -1.5708, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1795.49, y: 248.787, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 1844.88, y: 248.65, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1918.76, y: 307.07, yaw: 1.5611, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 1971.708, y: 307.344, yaw: 1.5712, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2063.875, y: 293.125, yaw: 3.1414, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2048.584, y: 248.774, yaw: -3.1377, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2102, y: 307.846, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2101.162, y: 205.579, yaw: -1.5671, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2078.575, y: 229.036, yaw: -1.5704, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2309.966, y: 65.895, yaw: -3.1415, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2286.942, y: 43.863, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2192.776, y: 64.863, yaw: -1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2390.119, y: 66.077, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2412.835, y: 43.69, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2495.545, y: 68.333, yaw: 1.5771, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2389.403, y: 161.301, yaw: 3.1366, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2412.834, y: 138.796, yaw: 3.1304, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2496.454, y: 161.592, yaw: 1.5749, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2389.131, y: 298.856, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2389.805, y: 351.143, yaw: -3.1364, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2412.372, y: 321.203, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2412.372, y: 328.873, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2495.31, y: 297.486, yaw: 1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2495.063, y: 351.07, yaw: 1.5708, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2389.339, y: 488.96, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2389.838, y: 541.134, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2412.827, y: 511.357, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2412.64, y: 518.579, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2495.354, y: 489.909, yaw: 1.5749, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2496.318, y: 541.708, yaw: 1.5777, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2294.599, y: 489.149, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2295.61, y: 541.023, yaw: -3.1416, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2274.542, y: 511.252, yaw: 0, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2274.542, y: 518.735, yaw: 3.138, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2192.428, y: 488.425, yaw: -1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2193.139, y: 541.112, yaw: -1.5708, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2193.566, y: 651.367, yaw: 0, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2279.526, y: 621.071, yaw: -3.1416, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2193.567, y: 703.027, yaw: -1.5708, z: 0}
+      - {model_name: NormalBed, name: NormalBed, static: true, x: 2372.804, y: 699.278, yaw: -1.5697, z: 0}
+      - {model_name: Toilet, name: Toilet, static: true, x: 2486.412, y: 630.163, yaw: -1.5647, z: 0}
+      - {model_name: Shower, name: Shower, static: true, x: 2505.725, y: 726.149, yaw: 0, z: 0}
+    vertices:
+      - [40, 40, 0, ""]
+      - [40, 730, 0, ""]
+      - [390, 40, 0, ""]
+      - [390, 150, 0, ""]
+      - [390, 730, 0, ""]
+      - [1100, 150, 0, ""]
+      - [1100, 40, 0, ""]
+      - [1460, 150, 0, ""]
+      - [1460, 40, 0, ""]
+      - [2170, 150, 0, ""]
+      - [2170, 40, 0, ""]
+      - [2520, 40, 0, ""]
+      - [2520, 730, 0, ""]
+      - [2170, 730, 0, ""]
+      - [2170, 410, 0, ""]
+      - [390, 410, 0, ""]
+      - [240, 410, 0, ""]
+      - [240, 270, 0, ""]
+      - [280, 270, 0, ""]
+      - [285.359, 290, 0, ""]
+      - [300, 304.641, 0, ""]
+      - [320, 310, 0, ""]
+      - [340, 304.641, 0, ""]
+      - [354.641, 290, 0, ""]
+      - [360, 270, 0, ""]
+      - [340, 235.359, 0, ""]
+      - [354.641, 250, 0, ""]
+      - [320, 230, 0, ""]
+      - [320, 185, 0, ""]
+      - [395, 185, 0, ""]
+      - [395, 330, 0, ""]
+      - [1095, 330, 0, ""]
+      - [1095, 185, 0, ""]
+      - [1185, 185, 0, ""]
+      - [1185, 335, 0, ""]
+      - [1250, 335, 0, ""]
+      - [1250, 410, 0, ""]
+      - [1105, 410, 0, ""]
+      - [1105, 730, 0, ""]
+      - [1455, 730, 0, ""]
+      - [1455, 410, 0, ""]
+      - [1310, 410, 0, ""]
+      - [1310, 335, 0, ""]
+      - [1375, 335, 0, ""]
+      - [1375, 185, 0, ""]
+      - [1465, 185, 0, ""]
+      - [1465, 330, 0, ""]
+      - [2165, 330, 0, ""]
+      - [2165, 185, 0, ""]
+      - [2240, 185, 0, ""]
+      - [2240, 230, 0, ""]
+      - [2220, 235.539, 0, ""]
+      - [2205.359, 250, 0, ""]
+      - [2200, 270, 0, ""]
+      - [2205.359, 290, 0, ""]
+      - [2220, 304.641, 0, ""]
+      - [2240, 310, 0, ""]
+      - [2260, 304.641, 0, ""]
+      - [2274.641, 290, 0, ""]
+      - [2280, 270, 0, ""]
+      - [2320, 270, 0, ""]
+      - [2320, 410, 0, ""]
+      - [40, 135, 0, ""]
+      - [135, 135, 0, ""]
+      - [135, 40, 0, ""]
+      - [135, 90, 0, ""]
+      - [285, 90, 0, ""]
+      - [135, 120, 0, ""]
+      - [195, 120, 0, ""]
+      - [195, 185, 0, ""]
+      - [160, 40, 0, ""]
+      - [160, 55, 0, ""]
+      - [160, 70, 0, ""]
+      - [157.5, 90, 0, ""]
+      - [262.5, 90, 0, ""]
+      - [180, 55, 0, ""]
+      - [180, 90, 0, ""]
+      - [180, 120, 0, ""]
+      - [285, 40, 0, ""]
+      - [230, 120, 0, ""]
+      - [285, 120, 0, ""]
+      - [285, 135, 0, ""]
+      - [390, 135, 0, ""]
+      - [230, 150, 0, ""]
+      - [195, 150, 0, ""]
+      - [260, 40, 0, ""]
+      - [260, 55, 0, ""]
+      - [260, 70, 0, ""]
+      - [240, 90, 0, ""]
+      - [240, 55, 0, ""]
+      - [240, 120, 0, ""]
+      - [180, 185, 0, ""]
+      - [180, 150, 0, ""]
+      - [135, 185, 0, ""]
+      - [160, 135, 0, ""]
+      - [160, 165, 0, ""]
+      - [160, 150, 0, ""]
+      - [157.5, 185, 0, ""]
+      - [40, 230, 0, ""]
+      - [135, 230, 0, ""]
+      - [135, 215, 0, ""]
+      - [195, 215, 0, ""]
+      - [180, 215, 0, ""]
+      - [135, 245, 0, ""]
+      - [195, 245, 0, ""]
+      - [40, 325, 0, ""]
+      - [160, 325, 0, ""]
+      - [135, 275, 0, ""]
+      - [160, 310, 0, ""]
+      - [160, 295, 0, ""]
+      - [180, 310, 0, ""]
+      - [180, 275, 0, ""]
+      - [195, 275, 0, ""]
+      - [195, 375, 0, ""]
+      - [157.5, 275, 0, ""]
+      - [180, 245, 0, ""]
+      - [180, 375, 0, ""]
+      - [180, 340, 0, ""]
+      - [160, 340, 0, ""]
+      - [160, 355, 0, ""]
+      - [135, 375, 0, ""]
+      - [40, 420, 0, ""]
+      - [135, 420, 0, ""]
+      - [135, 405, 0, ""]
+      - [195, 405, 0, ""]
+      - [195, 435, 0, ""]
+      - [135, 435, 0, ""]
+      - [180, 405, 0, ""]
+      - [157.5, 375, 0, ""]
+      - [40, 515, 0, ""]
+      - [160, 515, 0, ""]
+      - [135, 465, 0, ""]
+      - [135, 565, 0, ""]
+      - [160, 485, 0, ""]
+      - [160, 500, 0, ""]
+      - [160, 530, 0, ""]
+      - [160, 545, 0, ""]
+      - [180, 500, 0, ""]
+      - [180, 530, 0, ""]
+      - [180, 465, 0, ""]
+      - [180, 565, 0, ""]
+      - [195, 465, 0, ""]
+      - [195, 565, 0, ""]
+      - [180, 435, 0, ""]
+      - [157.5, 465, 0, ""]
+      - [157.5, 565, 0, ""]
+      - [40, 610, 0, ""]
+      - [135, 610, 0, ""]
+      - [135, 595, 0, ""]
+      - [165, 595, 0, ""]
+      - [40, 620, 0, ""]
+      - [85, 620, 0, ""]
+      - [85, 630, 0, ""]
+      - [170, 630, 0, ""]
+      - [210, 730, 0, ""]
+      - [210, 670, 0, ""]
+      - [200, 670, 0, ""]
+      - [200, 595, 0, ""]
+      - [165, 565, 0, ""]
+      - [85, 640, 0, ""]
+      - [70, 640, 0, ""]
+      - [40, 640, 0, ""]
+      - [55, 640, 0, ""]
+      - [170, 610, 0, ""]
+      - [200, 610, 0, ""]
+      - [40, 670, 0, ""]
+      - [65, 670, 0, ""]
+      - [85, 670, 0, ""]
+      - [85, 690, 0, ""]
+      - [240, 595, 0, ""]
+      - [230, 635, 0, ""]
+      - [220, 635, 0, ""]
+      - [220, 645, 0, ""]
+      - [210, 645, 0, ""]
+      - [390, 610, 0, ""]
+      - [230, 610, 0, ""]
+      - [270, 610, 0, ""]
+      - [270, 630, 0, ""]
+      - [290, 610, 0, ""]
+      - [290, 630, 0, ""]
+      - [270, 655, 0, ""]
+      - [290, 655, 0, ""]
+      - [315, 655, 0, ""]
+      - [390, 655, 0, ""]
+      - [290, 680, 0, ""]
+      - [290, 730, 0, ""]
+      - [295, 595, 0, ""]
+      - [295, 610, 0, ""]
+      - [165, 610, 0, ""]
+      - [180, 95, 0, ""]
+      - [180, 190, 0, ""]
+      - [180, 270, 0, ""]
+      - [180, 380, 0, ""]
+      - [180, 460, 0, ""]
+      - [240, 95, 0, ""]
+      - [240, 610, 0, ""]
+      - [165, 570, 0, ""]
+      - [175, 610, 0, ""]
+      - [390, 420, 0, ""]
+      - [295, 420, 0, ""]
+      - [295, 435, 0, ""]
+      - [240, 435, 0, ""]
+      - [240, 465, 0, ""]
+      - [240, 565, 0, ""]
+      - [255, 465, 0, ""]
+      - [255, 565, 0, ""]
+      - [275, 565, 0, ""]
+      - [275, 465, 0, ""]
+      - [255, 500, 0, ""]
+      - [255, 530, 0, ""]
+      - [275, 500, 0, ""]
+      - [275, 530, 0, ""]
+      - [275, 515, 0, ""]
+      - [390, 515, 0, ""]
+      - [295, 565, 0, ""]
+      - [295, 465, 0, ""]
+      - [270, 595, 0, ""]
+      - [270, 570, 0, ""]
+      - [270, 565, 0, ""]
+      - [195, 610, 0, ""]
+      - [165, 590, 0, ""]
+      - [270, 590, 0, ""]
+      - [240, 570, 0, ""]
+      - [240, 590, 0, ""]
+      - [245, 610, 0, ""]
+      - [265, 610, 0, ""]
+      - [180, 440, 0, ""]
+      - [180, 400, 0, ""]
+      - [180, 210, 0, ""]
+      - [180, 250, 0, ""]
+      - [240, 115, 0, ""]
+      - [180, 115, 0, ""]
+      - [200, 150, 0, ""]
+      - [225, 150, 0, ""]
+      - [90, 670, 0, ""]
+      - [90, 730, 0, ""]
+      - [270, 650, 0, ""]
+      - [245, 435, 0, ""]
+      - [245, 440, 0, ""]
+      - [245, 465, 0, ""]
+      - [245, 460, 0, ""]
+      - [285.4, 250, 0, ""]
+      - [230, 185, 0, ""]
+      - [270, 185, 0, ""]
+      - [280, 185, 0, ""]
+      - [270, 200, 0, ""]
+      - [320, 200, 0, ""]
+      - [300, 210, 0, ""]
+      - [290, 200, 0, ""]
+      - [290, 220, 0, ""]
+      - [302.9, 232.9, 0, ""]
+      - [240, 245, 0, ""]
+      - [240, 215, 0, ""]
+      - [250, 215, 0, ""]
+      - [280, 245, 0, ""]
+      - [240, 210, 0, ""]
+      - [240, 185, 0, ""]
+      - [240, 190, 0, ""]
+      - [490, 330, 0, ""]
+      - [490, 245, 0, ""]
+      - [435, 245, 0, ""]
+      - [485, 245, 0, ""]
+      - [485, 215, 0, ""]
+      - [455, 215, 0, ""]
+      - [470, 215, 0, ""]
+      - [470, 195, 0, ""]
+      - [435, 195, 0, ""]
+      - [435, 220, 0, ""]
+      - [435, 185, 0, ""]
+      - [470, 185, 0, ""]
+      - [405, 245, 0, ""]
+      - [405, 185, 0, ""]
+      - [395, 245, 0, ""]
+      - [405, 190, 0, ""]
+      - [410, 190, 0, ""]
+      - [430, 190, 0, ""]
+      - [435, 190, 0, ""]
+      - [615, 330, 0, ""]
+      - [565, 215, 0, ""]
+      - [565, 185, 0, ""]
+      - [615, 215, 0, ""]
+      - [665, 215, 0, ""]
+      - [665, 185, 0, ""]
+      - [530, 215, 0, ""]
+      - [530, 245, 0, ""]
+      - [530, 185, 0, ""]
+      - [540, 185, 0, ""]
+      - [540, 245, 0, ""]
+      - [540, 305, 0, ""]
+      - [560, 185, 0, ""]
+      - [670, 185, 0, ""]
+      - [690, 185, 0, ""]
+      - [700, 185, 0, ""]
+      - [700, 215, 0, ""]
+      - [700, 245, 0, ""]
+      - [740, 245, 0, ""]
+      - [740, 330, 0, ""]
+      - [690, 245, 0, ""]
+      - [690, 305, 0, ""]
+      - [780, 215, 0, ""]
+      - [780, 185, 0, ""]
+      - [780, 245, 0, ""]
+      - [790, 245, 0, ""]
+      - [790, 305, 0, ""]
+      - [790, 185, 0, ""]
+      - [810, 185, 0, ""]
+      - [815, 185, 0, ""]
+      - [815, 215, 0, ""]
+      - [865, 215, 0, ""]
+      - [865, 330, 0, ""]
+      - [915, 215, 0, ""]
+      - [915, 185, 0, ""]
+      - [920, 185, 0, ""]
+      - [940, 185, 0, ""]
+      - [950, 185, 0, ""]
+      - [950, 215, 0, ""]
+      - [950, 245, 0, ""]
+      - [940, 245, 0, ""]
+      - [940, 305, 0, ""]
+      - [990, 245, 0, ""]
+      - [990, 330, 0, ""]
+      - [995, 215, 0, ""]
+      - [995, 245, 0, ""]
+      - [1045, 245, 0, ""]
+      - [1010, 215, 0, ""]
+      - [1010, 195, 0, ""]
+      - [1010, 185, 0, ""]
+      - [1025, 215, 0, ""]
+      - [1045, 185, 0, ""]
+      - [1045, 195, 0, ""]
+      - [1045, 190, 0, ""]
+      - [1045, 220, 0, ""]
+      - [1055, 190, 0, ""]
+      - [1080, 185, 0, ""]
+      - [1080, 190, 0, ""]
+      - [1075, 190, 0, ""]
+      - [1080, 245, 0, ""]
+      - [1095, 245, 0, ""]
+      - [1150, 40, 0, ""]
+      - [1150, 125, 0, ""]
+      - [1195, 150, 0, ""]
+      - [1150, 145, 0, ""]
+      - [1230, 150, 0, ""]
+      - [1340, 150, 0, ""]
+      - [1150, 95, 0, ""]
+      - [1215, 40, 0, ""]
+      - [1215, 95, 0, ""]
+      - [1150, 150, 0, ""]
+      - [1170, 95, 0, ""]
+      - [1195, 95, 0, ""]
+      - [1235, 95, 0, ""]
+      - [1260, 95, 0, ""]
+      - [1280, 40, 0, ""]
+      - [1280, 95, 0, ""]
+      - [1305, 40, 0, ""]
+      - [1305, 70, 0, ""]
+      - [1305, 90, 0, ""]
+      - [1305, 95, 0, ""]
+      - [1335, 95, 0, ""]
+      - [1335, 40, 0, ""]
+      - [1410, 150, 0, ""]
+      - [1365, 150, 0, ""]
+      - [1335, 150, 0, ""]
+      - [1335, 135, 0, ""]
+      - [1270, 150, 0, ""]
+      - [1385, 150, 0, ""]
+      - [1385, 135, 0, ""]
+      - [1385, 120, 0, ""]
+      - [1410, 120, 0, ""]
+      - [1460, 120, 0, ""]
+      - [1460, 95, 0, ""]
+      - [1185, 205, 0, ""]
+      - [1245, 205, 0, ""]
+      - [1245, 225, 0, ""]
+      - [1245, 250, 0, ""]
+      - [1245, 290, 0, ""]
+      - [1245, 315, 0, ""]
+      - [1245, 335, 0, ""]
+      - [1375, 205, 0, ""]
+      - [1315, 205, 0, ""]
+      - [1315, 225, 0, ""]
+      - [1315, 250, 0, ""]
+      - [1315, 290, 0, ""]
+      - [1315, 315, 0, ""]
+      - [1315, 335, 0, ""]
+      - [1205, 185, 0, ""]
+      - [1205, 205, 0, ""]
+      - [1245, 185, 0, ""]
+      - [1315, 185, 0, ""]
+      - [1355, 185, 0, ""]
+      - [1355, 205, 0, ""]
+      - [1255, 435, 0, ""]
+      - [1200, 435, 0, ""]
+      - [1200, 420, 0, ""]
+      - [1105, 420, 0, ""]
+      - [1250, 435, 0, ""]
+      - [1250, 440, 0, ""]
+      - [1250, 460, 0, ""]
+      - [1250, 465, 0, ""]
+      - [1255, 465, 0, ""]
+      - [1240, 465, 0, ""]
+      - [1240, 500, 0, ""]
+      - [1220, 500, 0, ""]
+      - [1105, 515, 0, ""]
+      - [1220, 515, 0, ""]
+      - [1220, 530, 0, ""]
+      - [1220, 465, 0, ""]
+      - [1200, 465, 0, ""]
+      - [1200, 565, 0, ""]
+      - [1255, 565, 0, ""]
+      - [1240, 530, 0, ""]
+      - [1240, 565, 0, ""]
+      - [1105, 610, 0, ""]
+      - [1200, 610, 0, ""]
+      - [1205, 610, 0, ""]
+      - [1205, 630, 0, ""]
+      - [1225, 610, 0, ""]
+      - [1225, 630, 0, ""]
+      - [1200, 595, 0, ""]
+      - [1225, 595, 0, ""]
+      - [1220, 565, 0, ""]
+      - [1225, 565, 0, ""]
+      - [1225, 570, 0, ""]
+      - [1225, 590, 0, ""]
+      - [1285, 730, 0, ""]
+      - [1285, 670, 0, ""]
+      - [1295, 670, 0, ""]
+      - [1295, 610, 0, ""]
+      - [1295, 595, 0, ""]
+      - [1255, 595, 0, ""]
+      - [1255, 610, 0, ""]
+      - [1265, 610, 0, ""]
+      - [1265, 635, 0, ""]
+      - [1275, 635, 0, ""]
+      - [1275, 645, 0, ""]
+      - [1285, 645, 0, ""]
+      - [1105, 655, 0, ""]
+      - [1180, 655, 0, ""]
+      - [1205, 655, 0, ""]
+      - [1225, 655, 0, ""]
+      - [1225, 650, 0, ""]
+      - [1255, 410, 0, ""]
+      - [1255, 570, 0, ""]
+      - [1255, 590, 0, ""]
+      - [1230, 610, 0, ""]
+      - [1250, 610, 0, ""]
+      - [1205, 680, 0, ""]
+      - [1205, 730, 0, ""]
+      - [1305, 410, 0, ""]
+      - [1305, 435, 0, ""]
+      - [1310, 435, 0, ""]
+      - [1455, 420, 0, ""]
+      - [1360, 420, 0, ""]
+      - [1360, 435, 0, ""]
+      - [1310, 440, 0, ""]
+      - [1310, 460, 0, ""]
+      - [1310, 465, 0, ""]
+      - [1305, 465, 0, ""]
+      - [1320, 465, 0, ""]
+      - [1305, 565, 0, ""]
+      - [1340, 465, 0, ""]
+      - [1340, 500, 0, ""]
+      - [1320, 500, 0, ""]
+      - [1320, 530, 0, ""]
+      - [1340, 530, 0, ""]
+      - [1320, 565, 0, ""]
+      - [1340, 565, 0, ""]
+      - [1340, 515, 0, ""]
+      - [1455, 515, 0, ""]
+      - [1360, 465, 0, ""]
+      - [1360, 565, 0, ""]
+      - [1455, 610, 0, ""]
+      - [1360, 610, 0, ""]
+      - [1360, 595, 0, ""]
+      - [1330, 595, 0, ""]
+      - [1330, 610, 0, ""]
+      - [1325, 610, 0, ""]
+      - [1320, 610, 0, ""]
+      - [1325, 630, 0, ""]
+      - [1455, 620, 0, ""]
+      - [1410, 620, 0, ""]
+      - [1410, 630, 0, ""]
+      - [1410, 640, 0, ""]
+      - [1425, 640, 0, ""]
+      - [1440, 640, 0, ""]
+      - [1455, 640, 0, ""]
+      - [1455, 670, 0, ""]
+      - [1430, 670, 0, ""]
+      - [1410, 670, 0, ""]
+      - [1405, 670, 0, ""]
+      - [1405, 730, 0, ""]
+      - [1300, 610, 0, ""]
+      - [1410, 690, 0, ""]
+      - [1480, 185, 0, ""]
+      - [1480, 245, 0, ""]
+      - [1465, 245, 0, ""]
+      - [1570, 330, 0, ""]
+      - [1570, 245, 0, ""]
+      - [1565, 245, 0, ""]
+      - [1515, 245, 0, ""]
+      - [1565, 215, 0, ""]
+      - [1550, 215, 0, ""]
+      - [1535, 215, 0, ""]
+      - [1550, 195, 0, ""]
+      - [1550, 185, 0, ""]
+      - [1515, 185, 0, ""]
+      - [1515, 195, 0, ""]
+      - [1515, 190, 0, ""]
+      - [1505, 190, 0, ""]
+      - [1485, 190, 0, ""]
+      - [1480, 190, 0, ""]
+      - [1515, 220, 0, ""]
+      - [1610, 245, 0, ""]
+      - [1620, 245, 0, ""]
+      - [1620, 305, 0, ""]
+      - [1610, 215, 0, ""]
+      - [1610, 185, 0, ""]
+      - [1620, 185, 0, ""]
+      - [1640, 185, 0, ""]
+      - [1645, 185, 0, ""]
+      - [1645, 215, 0, ""]
+      - [1695, 215, 0, ""]
+      - [1745, 215, 0, ""]
+      - [1695, 330, 0, ""]
+      - [1745, 185, 0, ""]
+      - [1750, 185, 0, ""]
+      - [1770, 185, 0, ""]
+      - [1780, 185, 0, ""]
+      - [1780, 215, 0, ""]
+      - [1780, 245, 0, ""]
+      - [1770, 245, 0, ""]
+      - [1770, 305, 0, ""]
+      - [1820, 245, 0, ""]
+      - [1820, 330, 0, ""]
+      - [1860, 245, 0, ""]
+      - [1860, 215, 0, ""]
+      - [1870, 245, 0, ""]
+      - [1870, 305, 0, ""]
+      - [1860, 185, 0, ""]
+      - [1870, 185, 0, ""]
+      - [1945, 330, 0, ""]
+      - [1945, 215, 0, ""]
+      - [1895, 215, 0, ""]
+      - [1995, 215, 0, ""]
+      - [1895, 185, 0, ""]
+      - [1995, 185, 0, ""]
+      - [1890, 185, 0, ""]
+      - [2000, 185, 0, ""]
+      - [2020, 185, 0, ""]
+      - [2030, 185, 0, ""]
+      - [2030, 215, 0, ""]
+      - [2030, 245, 0, ""]
+      - [2020, 245, 0, ""]
+      - [2020, 305, 0, ""]
+      - [2070, 245, 0, ""]
+      - [2075, 245, 0, ""]
+      - [2075, 215, 0, ""]
+      - [2125, 245, 0, ""]
+      - [2075, 330, 0, ""]
+      - [2090, 215, 0, ""]
+      - [2105, 215, 0, ""]
+      - [2090, 195, 0, ""]
+      - [2090, 185, 0, ""]
+      - [2125, 195, 0, ""]
+      - [2125, 190, 0, ""]
+      - [2125, 185, 0, ""]
+      - [2125, 220, 0, ""]
+      - [2130, 190, 0, ""]
+      - [2150, 190, 0, ""]
+      - [2155, 190, 0, ""]
+      - [2155, 185, 0, ""]
+      - [2155, 245, 0, ""]
+      - [2165, 245, 0, ""]
+      - [2275, 40, 0, ""]
+      - [2275, 90, 0, ""]
+      - [2300, 40, 0, ""]
+      - [2300, 55, 0, ""]
+      - [2300, 70, 0, ""]
+      - [2320, 55, 0, ""]
+      - [2320, 90, 0, ""]
+      - [2297.5, 90, 0, ""]
+      - [2320, 95, 0, ""]
+      - [2320, 115, 0, ""]
+      - [2320, 120, 0, ""]
+      - [2275, 120, 0, ""]
+      - [2275, 135, 0, ""]
+      - [2170, 135, 0, ""]
+      - [2330, 120, 0, ""]
+      - [2330, 150, 0, ""]
+      - [2240, 200, 0, ""]
+      - [2270, 200, 0, ""]
+      - [2260, 210, 0, ""]
+      - [2270, 220, 0, ""]
+      - [2257.2, 232.8, 0, ""]
+      - [2290, 200, 0, ""]
+      - [2290, 185, 0, ""]
+      - [2280, 185, 0, ""]
+      - [2320, 185, 0, ""]
+      - [2330, 185, 0, ""]
+      - [2274.641, 250, 0, ""]
+      - [2320, 190, 0, ""]
+      - [2320, 210, 0, ""]
+      - [2320, 215, 0, ""]
+      - [2310, 215, 0, ""]
+      - [2320, 245, 0, ""]
+      - [2280, 245, 0, ""]
+      - [2320, 265, 0, ""]
+      - [2520, 135, 0, ""]
+      - [2425, 135, 0, ""]
+      - [2425, 120, 0, ""]
+      - [2380, 120, 0, ""]
+      - [2365, 120, 0, ""]
+      - [2365, 150, 0, ""]
+      - [2360, 150, 0, ""]
+      - [2335, 150, 0, ""]
+      - [2380, 115, 0, ""]
+      - [2380, 95, 0, ""]
+      - [2380, 90, 0, ""]
+      - [2402.5, 90, 0, ""]
+      - [2380, 55, 0, ""]
+      - [2400, 55, 0, ""]
+      - [2400, 70, 0, ""]
+      - [2400, 40, 0, ""]
+      - [2425, 40, 0, ""]
+      - [2425, 90, 0, ""]
+      - [2365, 185, 0, ""]
+      - [2380, 185, 0, ""]
+      - [2380, 150, 0, ""]
+      - [2400, 150, 0, ""]
+      - [2400, 165, 0, ""]
+      - [2400, 135, 0, ""]
+      - [2425, 185, 0, ""]
+      - [2402.5, 185, 0, ""]
+      - [2380, 190, 0, ""]
+      - [2380, 210, 0, ""]
+      - [2380, 215, 0, ""]
+      - [2365, 215, 0, ""]
+      - [2365, 245, 0, ""]
+      - [2425, 215, 0, ""]
+      - [2425, 230, 0, ""]
+      - [2425, 245, 0, ""]
+      - [2520, 230, 0, ""]
+      - [2380, 245, 0, ""]
+      - [2380, 250, 0, ""]
+      - [2380, 270, 0, ""]
+      - [2380, 275, 0, ""]
+      - [2365, 275, 0, ""]
+      - [2402.5, 275, 0, ""]
+      - [2380, 375, 0, ""]
+      - [2380, 310, 0, ""]
+      - [2400, 310, 0, ""]
+      - [2400, 325, 0, ""]
+      - [2400, 295, 0, ""]
+      - [2520, 325, 0, ""]
+      - [2400, 340, 0, ""]
+      - [2400, 355, 0, ""]
+      - [2380, 340, 0, ""]
+      - [2402.5, 375, 0, ""]
+      - [2425, 275, 0, ""]
+      - [2425, 375, 0, ""]
+      - [2365, 375, 0, ""]
+      - [2380, 380, 0, ""]
+      - [2380, 400, 0, ""]
+      - [2380, 405, 0, ""]
+      - [2365, 405, 0, ""]
+      - [2365, 435, 0, ""]
+      - [2425, 405, 0, ""]
+      - [2425, 420, 0, ""]
+      - [2425, 435, 0, ""]
+      - [2520, 420, 0, ""]
+      - [2380, 435, 0, ""]
+      - [2380, 440, 0, ""]
+      - [2380, 460, 0, ""]
+      - [2380, 465, 0, ""]
+      - [2402.5, 465, 0, ""]
+      - [2365, 465, 0, ""]
+      - [2365, 565, 0, ""]
+      - [2380, 565, 0, ""]
+      - [2402.5, 565, 0, ""]
+      - [2520, 515, 0, ""]
+      - [2400, 515, 0, ""]
+      - [2400, 500, 0, ""]
+      - [2400, 485, 0, ""]
+      - [2400, 530, 0, ""]
+      - [2400, 545, 0, ""]
+      - [2380, 500, 0, ""]
+      - [2380, 530, 0, ""]
+      - [2425, 465, 0, ""]
+      - [2425, 565, 0, ""]
+      - [2170, 420, 0, ""]
+      - [2265, 420, 0, ""]
+      - [2265, 435, 0, ""]
+      - [2320, 435, 0, ""]
+      - [2315, 435, 0, ""]
+      - [2315, 440, 0, ""]
+      - [2315, 460, 0, ""]
+      - [2315, 465, 0, ""]
+      - [2320, 465, 0, ""]
+      - [2320, 565, 0, ""]
+      - [2305, 465, 0, ""]
+      - [2285, 465, 0, ""]
+      - [2305, 565, 0, ""]
+      - [2285, 565, 0, ""]
+      - [2305, 500, 0, ""]
+      - [2305, 530, 0, ""]
+      - [2285, 485, 0, ""]
+      - [2285, 500, 0, ""]
+      - [2285, 515, 0, ""]
+      - [2285, 530, 0, ""]
+      - [2285, 545, 0, ""]
+      - [2170, 515, 0, ""]
+      - [2265, 465, 0, ""]
+      - [2265, 565, 0, ""]
+      - [1330, 590, 0, ""]
+      - [1330, 570, 0, ""]
+      - [1330, 565, 0, ""]
+      - [2520, 610, 0, ""]
+      - [2425, 610, 0, ""]
+      - [2425, 595, 0, ""]
+      - [2395, 565, 0, ""]
+      - [2395, 570, 0, ""]
+      - [2395, 590, 0, ""]
+      - [2395, 595, 0, ""]
+      - [2395, 610, 0, ""]
+      - [2390, 610, 0, ""]
+      - [2385, 610, 0, ""]
+      - [2390, 630, 0, ""]
+      - [2520, 620, 0, ""]
+      - [2475, 620, 0, ""]
+      - [2475, 630, 0, ""]
+      - [2475, 640, 0, ""]
+      - [2490, 640, 0, ""]
+      - [2505, 640, 0, ""]
+      - [2520, 640, 0, ""]
+      - [2520, 670, 0, ""]
+      - [2495, 670, 0, ""]
+      - [2475, 670, 0, ""]
+      - [2470, 670, 0, ""]
+      - [2470, 730, 0, ""]
+      - [2320, 570, 0, ""]
+      - [2320, 590, 0, ""]
+      - [2320, 595, 0, ""]
+      - [2290, 565, 0, ""]
+      - [2290, 570, 0, ""]
+      - [2290, 590, 0, ""]
+      - [2290, 595, 0, ""]
+      - [2360, 595, 0, ""]
+      - [2320, 610, 0, ""]
+      - [2170, 610, 0, ""]
+      - [2265, 610, 0, ""]
+      - [2360, 610, 0, ""]
+      - [2365, 610, 0, ""]
+      - [2475, 690, 0, ""]
+      - [2360, 670, 0, ""]
+      - [2350, 670, 0, ""]
+      - [2350, 730, 0, ""]
+      - [2350, 645, 0, ""]
+      - [2340, 645, 0, ""]
+      - [2340, 635, 0, ""]
+      - [2330, 635, 0, ""]
+      - [2330, 610, 0, ""]
+      - [2290, 610, 0, ""]
+      - [2295, 610, 0, ""]
+      - [2315, 610, 0, ""]
+      - [2265, 595, 0, ""]
+      - [2270, 610, 0, ""]
+      - [2270, 630, 0, ""]
+      - [2290, 630, 0, ""]
+      - [2290, 650, 0, ""]
+      - [2290, 655, 0, ""]
+      - [2270, 655, 0, ""]
+      - [2245, 655, 0, ""]
+      - [2170, 655, 0, ""]
+      - [2270, 680, 0, ""]
+      - [2270, 730, 0, ""]
+      - [1182.5, 110, 0, cargo_elevator1, {is_parking_spot: [4, true], workcell_name: [1, cargo1]}]
+      - [212.5, 165.596, 0, ""]
+      - [1212.5, 166.63, 0, ""]
+      - [1212.5, 110, 0, ""]
+      - [212.851, 105, 0, ""]
+      - [304.108, 105, 0, ""]
+      - [357.844, 85.31999999999999, 0, room1, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [117.018, 105.049, 0, ""]
+      - [72.56100000000001, 89.791, 0, room2, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [212.078, 200.398, 0, ""]
+      - [113.997, 200.398, 0, ""]
+      - [74.092, 185.734, 0, room3, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1246.228, 109.835, 0, cargo_elevator2, {is_parking_spot: [4, true], workcell_name: [1, cargo2]}]
+      - [211.554, 259.617, 0, ""]
+      - [113.701, 259.904, 0, ""]
+      - [74.38800000000001, 274.252, 0, room4, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [267.958, 257.036, 0, closet1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni1], spawn_robot_type: [1, Magni]}]
+      - [240, 265, 0, ""]
+      - [420.18, 165.987, 0, ""]
+      - [548.929, 167.335, 0, ""]
+      - [680.783, 167.493, 0, ""]
+      - [799.369, 167.894, 0, ""]
+      - [931.451, 168.227, 0, ""]
+      - [1065.193, 168.227, 0, ""]
+      - [540, 330, 0, ""]
+      - [690, 330, 0, ""]
+      - [790, 330, 0, ""]
+      - [940, 330, 0, ""]
+      - [1620, 330, 0, ""]
+      - [1770, 330, 0, ""]
+      - [1870, 330, 0, ""]
+      - [2020, 330, 0, ""]
+      - [1160, 95, 0, ""]
+      - [1205, 95, 0, ""]
+      - [1160, 45, 0, ""]
+      - [1205, 45, 0, ""]
+      - [1225, 95, 0, ""]
+      - [1270, 95, 0, ""]
+      - [1225, 45, 0, ""]
+      - [1270, 45, 0, ""]
+      - [1245, 215, 0, ""]
+      - [1190, 215, 0, ""]
+      - [1190, 325, 0, ""]
+      - [1245, 325, 0, ""]
+      - [1315, 215, 0, ""]
+      - [1370, 215, 0, ""]
+      - [1370, 325, 0, ""]
+      - [1315, 325, 0, ""]
+      - [1220, 485, 0, ""]
+      - [1220, 545, 0, ""]
+      - [1340, 485, 0, ""]
+      - [1340, 545, 0, ""]
+      - [1182.549, 135.765, 0, ""]
+      - [1131.485, 135.496, 0, ""]
+      - [1131.754, 59.707, 0, storage]
+      - [1292.692, 109.847, 0, ""]
+      - [1292.692, 79.929, 0, ""]
+      - [1321.327, 79.929, 0, cleaning]
+      - [211.716, 390.422, 0, ""]
+      - [102.862, 389.367, 0, ""]
+      - [72.458, 372.295, 0, room5, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [275, 485, 0, ""]
+      - [275, 545, 0, ""]
+      - [211.98, 450.341, 0, ""]
+      - [319.588, 450.069, 0, ""]
+      - [358.313, 469.22, 0, room11, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [112.524, 449.798, 0, ""]
+      - [73.557, 465.096, 0, room6, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [212.428, 579.883, 0, ""]
+      - [255.436, 580.359, 0, ""]
+      - [313.831, 580.926, 0, ""]
+      - [355.261, 564.919, 0, room10, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [255.614, 666.747, 0, ""]
+      - [324.436, 713.343, 0, room9, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [185.054, 579.956, 0, ""]
+      - [184.578, 634.398, 0, ""]
+      - [168.285, 681.332, 0, room8, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [113.451, 580.312, 0, ""]
+      - [68.22199999999999, 560.628, 0, room7, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [419.955, 265.526, 0, ""]
+      - [439.953, 301.252, 0, room12, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [552.524, 240.81, 0, ""]
+      - [582.173, 276.76, 0, room13, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [677.236, 244.196, 0, ""]
+      - [643.011, 275.508, 0, room14, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [803.163, 246.537, 0, ""]
+      - [837.467, 270.121, 0, room15, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [926.936, 246.612, 0, ""]
+      - [891.326, 270.45, 0, room16, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1064.094, 279.829, 0, ""]
+      - [1040.363, 301.509, 0, room17, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1275.034, 166.385, 0, ""]
+      - [1275.929, 450.1, 0, ""]
+      - [1388.235, 449.284, 0, ""]
+      - [1423.712, 466.687, 0, room23, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1169.617, 449.502, 0, ""]
+      - [1140.877, 466.699, 0, room18, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1275.737, 579.181, 0, ""]
+      - [1308.434, 579.585, 0, ""]
+      - [1391.346, 579.295, 0, ""]
+      - [1425.965, 561.548, 0, room22, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1239.815, 579.66, 0, ""]
+      - [1240.858, 667.783, 0, ""]
+      - [1170.443, 666.966, 0, ""]
+      - [1170.352, 703.672, 0, room20, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1311.118, 636.924, 0, ""]
+      - [1338.108, 685.247, 0, room21, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [324.068, 667.247, 0, ""]
+      - [1162.696, 579.739, 0, ""]
+      - [1136.649, 562.563, 0, room19, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1494.553, 167.642, 0, ""]
+      - [1495.586, 276.564, 0, ""]
+      - [1522.067, 300.374, 0, room24, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1628.866, 167.415, 0, ""]
+      - [1633.426, 241.228, 0, ""]
+      - [1661.925, 273.717, 0, room25, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1760.367, 167.423, 0, ""]
+      - [1758.16, 242.892, 0, ""]
+      - [1722.619, 271, 0, room26, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [1878.994, 167.618, 0, ""]
+      - [1883.079, 244.218, 0, ""]
+      - [1916.273, 273.836, 0, room27, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2010.786, 167.085, 0, ""]
+      - [2007.739, 243.498, 0, ""]
+      - [1973.56, 273.54, 0, room28, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2140.165, 166.477, 0, ""]
+      - [2141.096, 272.443, 0, ""]
+      - [2122.437, 289.547, 0, room29, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2347.035, 167.39, 0, ""]
+      - [2349.789, 104.602, 0, ""]
+      - [2245.897, 104.498, 0, ""]
+      - [2202.552, 87.925, 0, room30, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2450.647, 105.299, 0, ""]
+      - [2485.366, 87.20999999999999, 0, room31, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2347.069, 200.074, 0, ""]
+      - [2460.213, 200.566, 0, ""]
+      - [2488.581, 182.857, 0, room32, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2345.524, 255.489, 0, ""]
+      - [2292.015, 257.266, 0, closet2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni2], spawn_robot_type: [1, Magni]}]
+      - [2412.459, 263.19, 0, ""]
+      - [2459.764, 263.473, 0, ""]
+      - [2488.053, 276.113, 0, room33, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2345.075, 389.394, 0, ""]
+      - [2452.591, 390.544, 0, ""]
+      - [2489.334, 373.04, 0, room34, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2345.303, 450.319, 0, ""]
+      - [2437.415, 449.522, 0, ""]
+      - [2488.853, 464.276, 0, room35, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2249.098, 449.376, 0, ""]
+      - [2200.029, 468.958, 0, room40, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2345.472, 579.443, 0, ""]
+      - [2374.557, 581.386, 0, ""]
+      - [2458.206, 579.59, 0, ""]
+      - [2490.242, 565.724, 0, room36, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2374.716, 634.741, 0, ""]
+      - [2388.876, 652.61, 0, ""]
+      - [2388.876, 679.799, 0, room37, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2304.758, 580.424, 0, ""]
+      - [2305.362, 667.907, 0, ""]
+      - [2233.954, 580.8049999999999, 0, ""]
+      - [2201.782, 563.454, 0, room39, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+      - [2233.896, 667.468, 0, ""]
+      - [2234.042, 702.322, 0, room38, {is_parking_spot: [4, true], workcell_name: [1, guest]}]
+    walls:
+      - [0, 1, {}]
+      - [1, 4, {}]
+      - [4, 15, {}]
+      - [15, 16, {}]
+      - [16, 17, {}]
+      - [17, 18, {}]
+      - [18, 19, {}]
+      - [19, 20, {}]
+      - [20, 21, {}]
+      - [21, 22, {}]
+      - [22, 23, {}]
+      - [23, 24, {}]
+      - [24, 26, {}]
+      - [26, 25, {}]
+      - [25, 27, {}]
+      - [27, 28, {}]
+      - [28, 29, {}]
+      - [29, 30, {}]
+      - [30, 31, {}]
+      - [31, 32, {}]
+      - [32, 33, {}]
+      - [33, 34, {}]
+      - [34, 35, {}]
+      - [35, 36, {}]
+      - [36, 37, {}]
+      - [37, 38, {}]
+      - [38, 39, {}]
+      - [39, 40, {}]
+      - [40, 41, {}]
+      - [41, 42, {}]
+      - [42, 43, {}]
+      - [43, 44, {}]
+      - [44, 45, {}]
+      - [45, 46, {}]
+      - [46, 47, {}]
+      - [47, 48, {}]
+      - [48, 49, {}]
+      - [49, 50, {}]
+      - [50, 51, {}]
+      - [51, 52, {}]
+      - [52, 53, {}]
+      - [53, 54, {}]
+      - [54, 55, {}]
+      - [55, 56, {}]
+      - [56, 57, {}]
+      - [57, 58, {}]
+      - [58, 59, {}]
+      - [59, 60, {}]
+      - [60, 61, {}]
+      - [61, 14, {}]
+      - [14, 13, {}]
+      - [13, 12, {}]
+      - [12, 11, {}]
+      - [11, 10, {}]
+      - [10, 9, {}]
+      - [9, 7, {}]
+      - [7, 8, {}]
+      - [8, 6, {}]
+      - [6, 5, {}]
+      - [5, 3, {}]
+      - [3, 2, {}]
+      - [2, 0, {}]
+      - [62, 63, {}]
+      - [64, 65, {}]
+      - [63, 67, {}]
+      - [67, 68, {}]
+      - [68, 69, {}]
+      - [70, 72, {}]
+      - [73, 74, {}]
+      - [71, 75, {}]
+      - [75, 76, {}]
+      - [78, 66, {}]
+      - [81, 80, {}]
+      - [79, 80, {}]
+      - [81, 82, {}]
+      - [79, 83, {}]
+      - [83, 3, {}]
+      - [85, 87, {}]
+      - [89, 88, {}]
+      - [89, 86, {}]
+      - [69, 91, {}]
+      - [91, 92, {}]
+      - [63, 93, {}]
+      - [63, 94, {}]
+      - [94, 95, {}]
+      - [96, 92, {}]
+      - [97, 91, {}]
+      - [98, 99, {}]
+      - [99, 100, {}]
+      - [100, 101, {}]
+      - [99, 103, {}]
+      - [103, 104, {}]
+      - [104, 101, {}]
+      - [105, 106, {}]
+      - [109, 106, {}]
+      - [108, 110, {}]
+      - [110, 111, {}]
+      - [111, 112, {}]
+      - [112, 113, {}]
+      - [114, 111, {}]
+      - [113, 116, {}]
+      - [116, 117, {}]
+      - [117, 118, {}]
+      - [119, 106, {}]
+      - [121, 122, {}]
+      - [123, 124, {}]
+      - [124, 125, {}]
+      - [125, 126, {}]
+      - [126, 123, {}]
+      - [128, 116, {}]
+      - [129, 130, {}]
+      - [131, 132, {}]
+      - [133, 136, {}]
+      - [134, 137, {}]
+      - [137, 139, {}]
+      - [135, 138, {}]
+      - [138, 140, {}]
+      - [139, 141, {}]
+      - [141, 142, {}]
+      - [142, 140, {}]
+      - [144, 139, {}]
+      - [145, 140, {}]
+      - [146, 147, {}]
+      - [147, 148, {}]
+      - [148, 149, {}]
+      - [150, 151, {}]
+      - [151, 152, {}]
+      - [152, 153, {}]
+      - [154, 155, {}]
+      - [155, 156, {}]
+      - [156, 157, {}]
+      - [161, 162, {}]
+      - [152, 159, {}]
+      - [159, 160, {}]
+      - [165, 166, {}]
+      - [157, 169, {}]
+      - [170, 171, {}]
+      - [171, 172, {}]
+      - [172, 173, {}]
+      - [173, 155, {}]
+      - [176, 177, {}]
+      - [178, 179, {}]
+      - [182, 183, {}]
+      - [181, 180, {}]
+      - [184, 185, {}]
+      - [186, 187, {}]
+      - [149, 188, {}]
+      - [188, 163, {}]
+      - [163, 153, {}]
+      - [76, 189, {}]
+      - [91, 190, {}]
+      - [191, 111, {}]
+      - [192, 116, {}]
+      - [193, 139, {}]
+      - [196, 158, {}]
+      - [163, 197, {}]
+      - [195, 175, {}]
+      - [88, 194, {}]
+      - [16, 201, {}]
+      - [201, 200, {}]
+      - [200, 199, {}]
+      - [199, 198, {}]
+      - [204, 202, {}]
+      - [202, 203, {}]
+      - [203, 205, {}]
+      - [205, 206, {}]
+      - [207, 204, {}]
+      - [204, 208, {}]
+      - [208, 210, {}]
+      - [210, 211, {}]
+      - [211, 209, {}]
+      - [209, 205, {}]
+      - [212, 213, {}]
+      - [215, 214, {}]
+      - [218, 217, {}]
+      - [170, 175, {}]
+      - [176, 174, {}]
+      - [169, 195, {}]
+      - [220, 149, {}]
+      - [219, 164, {}]
+      - [203, 222, {}]
+      - [221, 216, {}]
+      - [223, 169, {}]
+      - [195, 224, {}]
+      - [225, 176, {}]
+      - [186, 216, {}]
+      - [216, 176, {}]
+      - [231, 77, {}]
+      - [230, 90, {}]
+      - [228, 102, {}]
+      - [229, 115, {}]
+      - [227, 127, {}]
+      - [226, 143, {}]
+      - [84, 232, {}]
+      - [83, 233, {}]
+      - [236, 180, {}]
+      - [167, 234, {}]
+      - [234, 235, {}]
+      - [238, 237, {}]
+      - [239, 240, {}]
+      - [241, 18, {}]
+      - [242, 244, {}]
+      - [243, 245, {}]
+      - [245, 246, {}]
+      - [248, 247, {}]
+      - [247, 249, {}]
+      - [249, 250, {}]
+      - [250, 27, {}]
+      - [253, 252, {}]
+      - [252, 251, {}]
+      - [251, 254, {}]
+      - [254, 253, {}]
+      - [241, 254, {}]
+      - [257, 256, {}]
+      - [255, 252, {}]
+      - [259, 258, {}]
+      - [263, 262, {}]
+      - [262, 261, {}]
+      - [260, 259, {}]
+      - [266, 265, {}]
+      - [265, 264, {}]
+      - [29, 271, {}]
+      - [271, 270, {}]
+      - [267, 268, {}]
+      - [268, 269, {}]
+      - [269, 265, {}]
+      - [272, 270, {}]
+      - [273, 274, {}]
+      - [275, 276, {}]
+      - [279, 278, {}]
+      - [282, 281, {}]
+      - [262, 283, {}]
+      - [283, 284, {}]
+      - [284, 259, {}]
+      - [285, 283, {}]
+      - [284, 287, {}]
+      - [287, 288, {}]
+      - [285, 286, {}]
+      - [289, 279, {}]
+      - [282, 290, {}]
+      - [291, 292, {}]
+      - [292, 293, {}]
+      - [293, 294, {}]
+      - [298, 297, {}]
+      - [297, 294, {}]
+      - [294, 295, {}]
+      - [295, 296, {}]
+      - [293, 299, {}]
+      - [299, 301, {}]
+      - [301, 302, {}]
+      - [302, 303, {}]
+      - [300, 299, {}]
+      - [295, 301, {}]
+      - [300, 304, {}]
+      - [305, 306, {}]
+      - [306, 307, {}]
+      - [307, 308, {}]
+      - [308, 309, {}]
+      - [308, 310, {}]
+      - [310, 311, {}]
+      - [311, 312, {}]
+      - [313, 314, {}]
+      - [314, 315, {}]
+      - [315, 316, {}]
+      - [316, 317, {}]
+      - [317, 318, {}]
+      - [316, 319, {}]
+      - [319, 320, {}]
+      - [319, 322, {}]
+      - [322, 321, {}]
+      - [321, 315, {}]
+      - [322, 323, {}]
+      - [321, 324, {}]
+      - [324, 327, {}]
+      - [324, 325, {}]
+      - [325, 326, {}]
+      - [326, 328, {}]
+      - [328, 329, {}]
+      - [329, 325, {}]
+      - [332, 330, {}]
+      - [329, 331, {}]
+      - [32, 333, {}]
+      - [333, 334, {}]
+      - [334, 335, {}]
+      - [334, 336, {}]
+      - [336, 337, {}]
+      - [5, 340, {}]
+      - [338, 339, {}]
+      - [345, 346, {}]
+      - [342, 343, {}]
+      - [344, 348, {}]
+      - [349, 346, {}]
+      - [346, 350, {}]
+      - [351, 353, {}]
+      - [353, 352, {}]
+      - [359, 358, {}]
+      - [358, 357, {}]
+      - [357, 356, {}]
+      - [354, 355, {}]
+      - [361, 360, {}]
+      - [362, 363, {}]
+      - [363, 358, {}]
+      - [367, 366, {}]
+      - [366, 365, {}]
+      - [363, 366, {}]
+      - [367, 368, {}]
+      - [368, 360, {}]
+      - [369, 368, {}]
+      - [358, 370, {}]
+      - [371, 372, {}]
+      - [372, 373, {}]
+      - [374, 375, {}]
+      - [376, 377, {}]
+      - [378, 379, {}]
+      - [379, 380, {}]
+      - [381, 382, {}]
+      - [383, 384, {}]
+      - [386, 385, {}]
+      - [385, 387, {}]
+      - [387, 372, {}]
+      - [379, 388, {}]
+      - [388, 389, {}]
+      - [389, 390, {}]
+      - [391, 395, {}]
+      - [395, 392, {}]
+      - [392, 393, {}]
+      - [393, 394, {}]
+      - [396, 395, {}]
+      - [402, 401, {}]
+      - [401, 400, {}]
+      - [400, 398, {}]
+      - [398, 397, {}]
+      - [398, 399, {}]
+      - [403, 404, {}]
+      - [404, 402, {}]
+      - [404, 405, {}]
+      - [407, 408, {}]
+      - [406, 400, {}]
+      - [405, 410, {}]
+      - [410, 411, {}]
+      - [411, 409, {}]
+      - [409, 399, {}]
+      - [412, 413, {}]
+      - [413, 414, {}]
+      - [414, 415, {}]
+      - [414, 416, {}]
+      - [416, 417, {}]
+      - [413, 418, {}]
+      - [418, 419, {}]
+      - [419, 416, {}]
+      - [420, 421, {}]
+      - [421, 422, {}]
+      - [421, 411, {}]
+      - [423, 419, {}]
+      - [424, 425, {}]
+      - [425, 426, {}]
+      - [426, 427, {}]
+      - [427, 428, {}]
+      - [428, 429, {}]
+      - [429, 430, {}]
+      - [430, 431, {}]
+      - [431, 432, {}]
+      - [425, 435, {}]
+      - [435, 434, {}]
+      - [434, 433, {}]
+      - [433, 432, {}]
+      - [436, 437, {}]
+      - [438, 439, {}]
+      - [439, 440, {}]
+      - [36, 441, {}]
+      - [447, 446, {}]
+      - [443, 429, {}]
+      - [409, 442, {}]
+      - [416, 444, {}]
+      - [445, 430, {}]
+      - [441, 391, {}]
+      - [41, 448, {}]
+      - [448, 449, {}]
+      - [449, 450, {}]
+      - [450, 453, {}]
+      - [453, 452, {}]
+      - [452, 451, {}]
+      - [454, 450, {}]
+      - [458, 456, {}]
+      - [456, 455, {}]
+      - [456, 457, {}]
+      - [457, 459, {}]
+      - [466, 465, {}]
+      - [465, 463, {}]
+      - [463, 464, {}]
+      - [464, 461, {}]
+      - [461, 462, {}]
+      - [462, 458, {}]
+      - [458, 460, {}]
+      - [459, 465, {}]
+      - [467, 468, {}]
+      - [469, 470, {}]
+      - [471, 472, {}]
+      - [472, 473, {}]
+      - [473, 474, {}]
+      - [474, 475, {}]
+      - [475, 476, {}]
+      - [476, 477, {}]
+      - [476, 478, {}]
+      - [480, 479, {}]
+      - [478, 481, {}]
+      - [480, 481, {}]
+      - [481, 482, {}]
+      - [482, 483, {}]
+      - [485, 484, {}]
+      - [486, 487, {}]
+      - [488, 489, {}]
+      - [489, 490, {}]
+      - [427, 491, {}]
+      - [45, 493, {}]
+      - [493, 494, {}]
+      - [494, 495, {}]
+      - [496, 497, {}]
+      - [497, 498, {}]
+      - [498, 500, {}]
+      - [498, 499, {}]
+      - [500, 501, {}]
+      - [501, 502, {}]
+      - [501, 503, {}]
+      - [503, 504, {}]
+      - [504, 505, {}]
+      - [505, 507, {}]
+      - [507, 506, {}]
+      - [506, 503, {}]
+      - [510, 509, {}]
+      - [507, 508, {}]
+      - [506, 511, {}]
+      - [497, 512, {}]
+      - [512, 515, {}]
+      - [515, 516, {}]
+      - [516, 517, {}]
+      - [518, 519, {}]
+      - [519, 520, {}]
+      - [520, 521, {}]
+      - [521, 523, {}]
+      - [512, 513, {}]
+      - [513, 514, {}]
+      - [521, 522, {}]
+      - [500, 515, {}]
+      - [522, 524, {}]
+      - [524, 525, {}]
+      - [526, 527, {}]
+      - [527, 528, {}]
+      - [528, 529, {}]
+      - [529, 530, {}]
+      - [530, 531, {}]
+      - [529, 532, {}]
+      - [532, 534, {}]
+      - [534, 535, {}]
+      - [535, 528, {}]
+      - [532, 533, {}]
+      - [537, 536, {}]
+      - [536, 534, {}]
+      - [535, 538, {}]
+      - [538, 539, {}]
+      - [546, 544, {}]
+      - [544, 542, {}]
+      - [542, 541, {}]
+      - [541, 543, {}]
+      - [543, 545, {}]
+      - [545, 547, {}]
+      - [540, 541, {}]
+      - [548, 549, {}]
+      - [549, 550, {}]
+      - [550, 551, {}]
+      - [551, 552, {}]
+      - [552, 553, {}]
+      - [550, 556, {}]
+      - [556, 555, {}]
+      - [555, 554, {}]
+      - [554, 551, {}]
+      - [555, 557, {}]
+      - [558, 555, {}]
+      - [556, 559, {}]
+      - [559, 560, {}]
+      - [559, 561, {}]
+      - [561, 562, {}]
+      - [562, 565, {}]
+      - [565, 564, {}]
+      - [564, 563, {}]
+      - [563, 561, {}]
+      - [572, 571, {}]
+      - [571, 569, {}]
+      - [569, 570, {}]
+      - [570, 48, {}]
+      - [569, 568, {}]
+      - [564, 567, {}]
+      - [563, 566, {}]
+      - [573, 574, {}]
+      - [586, 585, {}]
+      - [585, 584, {}]
+      - [584, 583, {}]
+      - [583, 582, {}]
+      - [581, 579, {}]
+      - [579, 580, {}]
+      - [579, 578, {}]
+      - [578, 576, {}]
+      - [576, 575, {}]
+      - [576, 577, {}]
+      - [589, 590, {}]
+      - [590, 591, {}]
+      - [591, 592, {}]
+      - [592, 593, {}]
+      - [593, 50, {}]
+      - [590, 594, {}]
+      - [594, 595, {}]
+      - [595, 597, {}]
+      - [597, 598, {}]
+      - [595, 596, {}]
+      - [599, 59, {}]
+      - [9, 588, {}]
+      - [588, 587, {}]
+      - [587, 583, {}]
+      - [599, 605, {}]
+      - [605, 604, {}]
+      - [604, 602, {}]
+      - [602, 603, {}]
+      - [605, 603, {}]
+      - [602, 601, {}]
+      - [600, 597, {}]
+      - [60, 606, {}]
+      - [613, 612, {}]
+      - [612, 611, {}]
+      - [611, 610, {}]
+      - [610, 609, {}]
+      - [609, 608, {}]
+      - [608, 607, {}]
+      - [588, 614, {}]
+      - [610, 615, {}]
+      - [616, 617, {}]
+      - [617, 618, {}]
+      - [617, 619, {}]
+      - [619, 620, {}]
+      - [620, 622, {}]
+      - [620, 621, {}]
+      - [623, 624, {}]
+      - [612, 625, {}]
+      - [625, 626, {}]
+      - [626, 627, {}]
+      - [627, 628, {}]
+      - [628, 630, {}]
+      - [628, 629, {}]
+      - [608, 631, {}]
+      - [630, 608, {}]
+      - [626, 632, {}]
+      - [626, 633, {}]
+      - [634, 635, {}]
+      - [635, 636, {}]
+      - [636, 637, {}]
+      - [637, 642, {}]
+      - [642, 643, {}]
+      - [642, 640, {}]
+      - [640, 639, {}]
+      - [639, 638, {}]
+      - [638, 635, {}]
+      - [639, 641, {}]
+      - [646, 645, {}]
+      - [645, 644, {}]
+      - [645, 647, {}]
+      - [645, 649, {}]
+      - [649, 650, {}]
+      - [650, 652, {}]
+      - [650, 651, {}]
+      - [651, 654, {}]
+      - [654, 655, {}]
+      - [656, 654, {}]
+      - [657, 648, {}]
+      - [648, 656, {}]
+      - [651, 653, {}]
+      - [120, 107, {}]
+      - [658, 659, {}]
+      - [660, 646, {}]
+      - [660, 648, {}]
+      - [648, 661, {}]
+      - [662, 663, {}]
+      - [663, 664, {}]
+      - [664, 665, {}]
+      - [665, 668, {}]
+      - [668, 667, {}]
+      - [667, 666, {}]
+      - [666, 663, {}]
+      - [667, 669, {}]
+      - [670, 671, {}]
+      - [674, 673, {}]
+      - [673, 675, {}]
+      - [675, 676, {}]
+      - [676, 677, {}]
+      - [677, 678, {}]
+      - [673, 672, {}]
+      - [679, 680, {}]
+      - [680, 681, {}]
+      - [681, 682, {}]
+      - [681, 685, {}]
+      - [685, 673, {}]
+      - [677, 686, {}]
+      - [686, 683, {}]
+      - [683, 680, {}]
+      - [683, 684, {}]
+      - [689, 690, {}]
+      - [690, 691, {}]
+      - [691, 693, {}]
+      - [693, 692, {}]
+      - [692, 61, {}]
+      - [687, 688, {}]
+      - [694, 693, {}]
+      - [697, 696, {}]
+      - [695, 696, {}]
+      - [697, 698, {}]
+      - [700, 699, {}]
+      - [699, 696, {}]
+      - [699, 703, {}]
+      - [703, 706, {}]
+      - [706, 707, {}]
+      - [707, 708, {}]
+      - [708, 704, {}]
+      - [704, 701, {}]
+      - [701, 698, {}]
+      - [701, 702, {}]
+      - [709, 708, {}]
+      - [706, 705, {}]
+      - [710, 707, {}]
+      - [711, 712, {}]
+      - [474, 713, {}]
+      - [714, 715, {}]
+      - [716, 717, {}]
+      - [717, 718, {}]
+      - [718, 722, {}]
+      - [722, 721, {}]
+      - [719, 720, {}]
+      - [722, 723, {}]
+      - [723, 724, {}]
+      - [724, 725, {}]
+      - [724, 726, {}]
+      - [726, 729, {}]
+      - [729, 728, {}]
+      - [728, 727, {}]
+      - [729, 730, {}]
+      - [730, 731, {}]
+      - [732, 733, {}]
+      - [734, 735, {}]
+      - [736, 737, {}]
+      - [737, 738, {}]
+      - [748, 749, {}]
+      - [742, 743, {}]
+      - [698, 739, {}]
+      - [740, 741, {}]
+      - [741, 746, {}]
+      - [741, 747, {}]
+      - [744, 745, {}]
+      - [751, 750, {}]
+      - [746, 750, {}]
+      - [750, 753, {}]
+      - [753, 754, {}]
+      - [754, 756, {}]
+      - [756, 757, {}]
+      - [757, 758, {}]
+      - [758, 759, {}]
+      - [759, 760, {}]
+      - [760, 747, {}]
+      - [755, 754, {}]
+      - [763, 747, {}]
+      - [745, 761, {}]
+      - [761, 762, {}]
+      - [764, 749, {}]
+      - [749, 765, {}]
+      - [765, 766, {}]
+      - [765, 761, {}]
+      - [761, 767, {}]
+      - [764, 745, {}]
+      - [772, 771, {}]
+      - [770, 769, {}]
+      - [769, 768, {}]
+      - [773, 774, {}]
+      - [579, 617, {}]
+      - [17, 792, {}]
+      - [824, 405, {}]
+      - [402, 823, {}]
+      - [825, 461, {}]
+      - [826, 464, {}]
+      - [210, 836, {}]
+      - [837, 211, {}]
+      - [278, 280, {}]
+      - [280, 281, {}]
+      - [280, 277, {}]
+    x_meters: 130
+    y_meters: 40
+lifts:
+  {}
+name: hotel
