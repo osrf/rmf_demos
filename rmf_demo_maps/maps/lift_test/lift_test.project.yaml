@@ -1,0 +1,4 @@
+building:
+  filename: lift_test.building.yaml
+name: lift_test
+version: 1
