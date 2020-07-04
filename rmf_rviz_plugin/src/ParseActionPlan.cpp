@@ -245,7 +245,7 @@ rmf_utils::optional<ActionPlan> parse_yaml_config(const std::string& path_name)
 
   std::cout << "Action Plan complete." << std::endl;
 
-  return std::move(_action_plan);
+  return _action_plan;
 
 }
 } // namespace rmf_rviz_plugin

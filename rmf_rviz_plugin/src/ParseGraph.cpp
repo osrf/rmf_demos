@@ -228,7 +228,7 @@ rmf_utils::optional<GraphInfo> parse_graph(
     std::cout << "\n -- [" << key.first << "]";
   std::cout << std::endl;
 
-  return std::move(info);
+  return info;
 }
 
 } // namespace rmf_rviz_plugin
