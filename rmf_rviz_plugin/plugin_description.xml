@@ -1,4 +1,4 @@
-<library path="/librmf_rviz_plugin">
+<library path="rmf_rviz_plugin">
   <class name="RMF Panel"
          type="rmf_rviz_plugin::RmfPanel"
          base_class_type="rviz_common::Panel">
