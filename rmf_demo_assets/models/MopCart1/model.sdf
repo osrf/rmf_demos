@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="MopCart1">
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>model://MopCart1/meshes/MopCart1.obj</uri></mesh>
+          </geometry>
+        </visual>
+
+        <collision name="collision">
+          <geometry>
+            <mesh><uri>model://MopCart1/meshes/MopCart1.obj</uri></mesh>
+          </geometry>
+        </collision>
+
+        <inertial>
+          <mass>50</mass>
+        </inertial>
+
+    </link>
+  </model>
+</sdf>
