@@ -260,17 +260,17 @@ levels:
     measurements:
       - [18, 17, {distance: [3, 8.409000000000001]}]
     models:
-      - {model_name: ConfTable, name: ConfTable, static: true, x: 630.806, y: 852.669, yaw: -0.4561, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 602.482, y: 668.324, yaw: -0.5999, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 550.673, y: 746.669, yaw: -0.5733, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 499.286, y: 852.391, yaw: -0.3784, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 463.484, y: 952.217, yaw: -0.2625, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 798.848, y: 751.934, yaw: 2.8337, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 765.4880000000001, y: 845.568, yaw: 2.7791, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 716.966, y: 949.058, yaw: 2.5869, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 662.756, y: 1035.49, yaw: 2.5054, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 742.7430000000001, y: 632.522, yaw: -2.034, z: 20}
-      - {model_name: OfficeChairBlack, name: OfficeChairBlack, static: true, x: 523.716, y: 1075.631, yaw: 1.1153, z: 20}
+      - {model_name: OpenRobotics/ConfTable, name: ConfTable, static: true, x: 630.806, y: 852.669, yaw: -2.024, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 602.482, y: 668.324, yaw: 0.9197, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 550.673, y: 746.669, yaw: 1.0037, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 499.286, y: 852.391, yaw: 1.1886, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 463.484, y: 952.217, yaw: 1.2314, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 798.848, y: 751.934, yaw: -1.8887, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 765.4880000000001, y: 845.568, yaw: -1.933, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 716.966, y: 949.058, yaw: -2.0797, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 662.756, y: 1035.49, yaw: -2.2531, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 742.7430000000001, y: 632.522, yaw: -0.4359, z: 20}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 523.716, y: 1075.631, yaw: 2.7144, z: 20}
     vertices:
       - [1443.323, 301.313, 0, ""]
       - [1387.001, 299.644, 0, ""]
