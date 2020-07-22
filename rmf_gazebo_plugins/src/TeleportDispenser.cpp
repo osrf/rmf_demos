@@ -238,7 +238,8 @@ public:
     corner_2.X(dispenser_pos.X() + 0.05);
     corner_2.Y(dispenser_pos.Y() + 0.05);
     corner_2.Z(dispenser_pos.Z() + 0.05);
-    _dispenser_vicinity_box = ignition::math::AxisAlignedBox(corner_1, corner_2);
+    _dispenser_vicinity_box =
+      ignition::math::AxisAlignedBox(corner_1, corner_2);
 
     auto model_list = _world->Models();
     double nearest_dist = 1.0;
