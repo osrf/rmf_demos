@@ -1,0 +1,11 @@
+{
+    "coke":{
+        "icons":{
+            "coke": "/robots/magni/magni.png"
+        }, 
+        "places": {
+            "pantry":["coke_dispenser"],
+            "hardware_2":["coke_ingestor"]
+        }
+    }
+}
