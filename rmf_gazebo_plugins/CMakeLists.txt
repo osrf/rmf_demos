@@ -43,24 +43,18 @@ target_include_directories(rmf_sim_utils
 
 add_library(teleport_dispenser SHARED src/TeleportDispenser.cpp)
 
-target_link_libraries(teleport_dispenser
-  PUBLIC
-    rmf_sim_utils
-    ${rclcpp_LIBRARIES}
-    ${GAZEBO_LIBRARIES}
-    ${gazebo_ros_LIBRARIES}
-    ${rmf_fleet_msgs_LIBRARIES}
-    ${rmf_dispenser_msgs_LIBRARIES}
+ament_target_dependencies(teleport_dispenser
+  rclcpp
+  gazebo_ros
+  rmf_fleet_msgs
+  rmf_dispenser_msgs
 )
 
 target_include_directories(teleport_dispenser
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${rclcpp_INCLUDE_DIRS}
     ${GAZEBO_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${rmf_dispenser_msgs_INCLUDE_DIRS}
 )
 
 ###############################
@@ -69,24 +63,18 @@ target_include_directories(teleport_dispenser
 
 add_library(teleport_ingestor SHARED src/TeleportIngestor.cpp)
 
-target_link_libraries(teleport_ingestor
-  PUBLIC
-    rmf_sim_utils
-    ${rclcpp_LIBRARIES}
-    ${GAZEBO_LIBRARIES}
-    ${gazebo_ros_LIBRARIES}
-    ${rmf_fleet_msgs_LIBRARIES}
-    ${rmf_dispenser_msgs_LIBRARIES}
+ament_target_dependencies(teleport_ingestor
+  rclcpp
+  gazebo_ros
+  rmf_fleet_msgs
+  rmf_dispenser_msgs
 )
 
 target_include_directories(teleport_ingestor
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${rclcpp_INCLUDE_DIRS}
     ${GAZEBO_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${rmf_dispenser_msgs_INCLUDE_DIRS}
 )
 
 ###############################
@@ -95,14 +83,11 @@ target_include_directories(teleport_ingestor
 
 add_library(readonly SHARED ${PROJECT_SOURCE_DIR}/src/readonly.cpp)
 
-target_link_libraries(readonly
-  PUBLIC
-    rmf_sim_utils
-    ${rmf_fleet_msgs_LIBRARIES}
-    ${building_map_msgs_LIBRARIES}
-    ${rclcpp_LIBRARIES}
-    ${GAZEBO_LIBRARIES}
-    ${gazebo_ros_LIBRARIES}
+ament_target_dependencies(readonly
+    rmf_fleet_msgs
+    building_map_msgs
+    rclcpp
+    gazebo_ros
 )
 
 target_include_directories(readonly
@@ -110,9 +95,6 @@ target_include_directories(readonly
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
-    ${std_msgs_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${building_map_msgs_INCLUDE_DIRS}
 )
 
 ###############################
