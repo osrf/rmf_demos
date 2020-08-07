@@ -112,40 +112,37 @@ levels:
       - [4, 3, {distance: [3, 30]}]
     models:
       - {model_name: OpenRobotics/Fountain, name: Fountain, static: true, x: 407.754, y: 961.057, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 521.018, y: 698.825, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 721.462, y: 729.546, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 722.963, y: 815.077, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 722.963, y: 899.857, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 722.588, y: 1002.644, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 721.462, y: 1085.924, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 523.349, y: 701.655, yaw: 1.56, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 721.462, y: 729.546, yaw: -1.5609, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 721.321, y: 816.6900000000001, yaw: -1.5678, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 721.484, y: 899.301, yaw: -1.571, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 721.647, y: 1001.138, yaw: -1.5738, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 721.732, y: 1084.853, yaw: -1.5747, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 509.787, y: 1089.454, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 598.783, y: 936.02, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 598.912, y: 957.393, yaw: 1.5717, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 598.524, y: 980.449, yaw: 1.5702, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 598.783, y: 936.02, yaw: -1.591, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 598.912, y: 957.393, yaw: -1.5679, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 598.524, y: 980.449, yaw: -1.5545, z: 0}
       - {model_name: OpenRobotics/WhiteChipChair, name: WhiteChipChair, static: true, x: 501.438, y: 1015.602, yaw: 0.0023, z: 0}
       - {model_name: OpenRobotics/WhiteChipChair, name: WhiteChipChair, static: true, x: 533.3579999999999, y: 1044.049, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/WhiteChipChair, name: WhiteChipChair, static: true, x: 500.115, y: 900.328, yaw: -0.0005999999999999999, z: 0}
       - {model_name: OpenRobotics/WhiteChipChair, name: WhiteChipChair, static: true, x: 533.027, y: 870.558, yaw: 4.7097, z: 0}
       - {model_name: OpenRobotics/VisitorKidSit, name: VisitorKidSit, static: true, x: 507.061, y: 1005.348, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/VisitorKidSit, name: VisitorKidSit, static: true, x: 504.746, y: 889.908, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 507.723, y: 1039.583, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 507.723, y: 876.016, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 579.0940000000001, y: 936.409, yaw: 0.0109, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 579.6130000000001, y: 956.745, yaw: 0.0047, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 579.353, y: 980.578, yaw: 0.0068, z: 0}
-      - {model_name: OpenRobotics/FemaleVisitor, name: FemaleVisitor, static: true, x: 532.379, y: 953.79, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/NurseDesk, name: NurseDesk, static: true, x: 570.4160000000001, y: 957.652, yaw: -1.5702, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 521.825, y: 1071.845, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 534.654, y: 1014.603, yaw: -0.4693, z: 0}
-      - {model_name: OpenRobotics/PatientWheelChair, name: PatientWheelChair, static: true, x: 557.61, y: 1037.363, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/CoffeeTable, name: CoffeeTable, static: true, x: 507.723, y: 1039.583, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/CoffeeTable, name: CoffeeTable, static: true, x: 507.723, y: 876.016, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/FemaleVisitor, name: FemaleVisitor, static: true, x: 551.379, y: 960.499, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/NurseDesk, name: NurseDesk, static: true, x: 574.504, y: 957.454, yaw: -1.5702, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 521.825, y: 1071.845, yaw: 2.9821, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 580.204, y: 955.967, yaw: -3.1153, z: 0}
+      - {model_name: OpenRobotics/PatientWheelChair, name: PatientWheelChair, static: true, x: 557.61, y: 1037.363, yaw: -3.1332, z: 0}
       - {model_name: OpenRobotics/FemaleVisitorSit, name: FemaleVisitorSit, static: true, x: 507.186, y: 1015.977, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/FemaleVisitorSit, name: FemaleVisitorSit, static: true, x: 543.091, y: 876.673, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 612.191, y: 927.241, yaw: -1.6313, z: 0}
-      - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 483.25, y: 1008.128, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 551.5599999999999, y: 948.172, yaw: 0.9273, z: 0}
+      - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 494.747, y: 1003.731, yaw: -1.577, z: 0}
       - {model_name: OpenRobotics/Postbox, name: Postbox, static: true, x: 486.389, y: 915.914, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorSit, name: MaleVisitorSit, static: true, x: 523.471, y: 1036.382, yaw: 3.1457, z: 0}
       - {model_name: OpenRobotics/MaleVisitorSit, name: MaleVisitorSit, static: true, x: 506.009, y: 900.61, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/LitterBin, name: LitterBin, static: true, x: 489.18, y: 1023.879, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/LitterBin, name: LitterBin, static: true, x: 489.18, y: 1023.879, yaw: 0.8132, z: 0}
       - {model_name: OpenRobotics/MetalCabinetYellow, name: MetalCabinetYellow, static: true, x: 619.855, y: 922.279, yaw: 4.7098, z: 0}
       - {model_name: OpenRobotics/MetalCabinetYellow, name: MetalCabinetYellow, static: true, x: 619.535, y: 943.6849999999999, yaw: -1.5626, z: 0}
       - {model_name: OpenRobotics/MetalCabinetYellow, name: MetalCabinetYellow, static: true, x: 619.855, y: 965.4109999999999, yaw: 4.7057, z: 0}
@@ -160,52 +157,52 @@ levels:
       - {model_name: OpenRobotics/WhiteCabinet, name: WhiteCabinet, static: true, x: 507.778, y: 1068.988, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 507.45, y: 849.272, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 508.483, y: 767.615, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 510.754, y: 1143.601, yaw: 0.0167, z: 0}
-      - {model_name: OpenRobotics/PatientFSit, name: PatientFSit, static: true, x: 510.997, y: 1143.571, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 509.595, y: 1142.712, yaw: -0.0312, z: 0}
+      - {model_name: OpenRobotics/PatientFSit, name: PatientFSit, static: true, x: 510.362, y: 1142.329, yaw: -0.0025, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 564.049, y: 1071.306, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 516.72, y: 802.509, yaw: 3.1357, z: 0}
-      - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 512.831, y: 727.881, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 512.431, y: 733.099, yaw: 0.008699999999999999, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 509.807, y: 1192.062, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 510.641, y: 1221.276, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 510.641, y: 1252.994, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 542.601, y: 1263.055, yaw: 3.1472, z: 0}
       - {model_name: OpenRobotics/BPCart, name: BPCart, static: true, x: 511.045, y: 1106.163, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/BPCart, name: BPCart, static: true, x: 526.196, y: 853.804, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/BPCart, name: BPCart, static: true, x: 522.0940000000001, y: 852.38, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MopCart3, name: MopCart3, static: true, x: 559.412, y: 1225.801, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MopCart3, name: MopCart3, static: true, x: 559.045, y: 1245.08, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 593.939, y: 680.86, yaw: -0.0051, z: 0}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 658.196, y: 681.1319999999999, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/WhiteCabinet, name: WhiteCabinet, static: true, x: 615.449, y: 684.672, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/WhiteCabinet, name: WhiteCabinet, static: true, x: 637.231, y: 684.944, yaw: 0.0051, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 590.128, y: 700.191, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/HospitalBed, name: HospitalBed, static: true, x: 723.071, y: 1149.926, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 586.776, y: 699.688, yaw: -0.0005, z: 0}
+      - {model_name: OpenRobotics/CGMClassic, name: CGMClassic, static: true, x: 721.582, y: 1148.293, yaw: -1.5765, z: 0}
       - {model_name: OpenRobotics/KitchenCountertop, name: KitchenCountertop, static: true, x: 711.706, y: 1267.923, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 738.191, y: 1242.351, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 739.032, y: 1220.827, yaw: 4.7126, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 738.907, y: 1220.991, yaw: -3.1416, z: 0}
       - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 697.4880000000001, y: 1227.531, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 733.627, y: 1201.908, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Fridge, name: Fridge, static: true, x: 739.4589999999999, y: 1184.98, yaw: 3.1418, z: 0}
+      - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 745.897, y: 1201.229, yaw: -1.5748, z: 0}
+      - {model_name: OpenRobotics/Fridge, name: Fridge, static: true, x: 739.4589999999999, y: 1184.98, yaw: -1.5656, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 736.566, y: 1068.641, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 737.218, y: 985.388, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 737.123, y: 877.0599999999999, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 737.968, y: 797.0700000000001, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 737.218, y: 711.915, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 511.225, y: 710.865, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 507.431, y: 716.351, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 737.683, y: 1133.085, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 736.843, y: 1102.43, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 736.843, y: 1102.43, yaw: 1.5752, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 736.816, y: 1165.9, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 737.218, y: 1018.775, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 738.343, y: 917.1130000000001, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 737.593, y: 834.5839999999999, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 737.593, y: 747.177, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 510.102, y: 684.057, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 723.46, y: 1165.243, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 507.882, y: 684.578, yaw: 1.5617, z: 0}
+      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 723.46, y: 1165.243, yaw: 1.5267, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 721.345, y: 1103.893, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 725.576, y: 1021.389, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 724.1660000000001, y: 917.728, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 725.5890000000001, y: 834.9589999999999, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 722.963, y: 747.928, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 521.499, y: 684.699, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 725.5890000000001, y: 834.9589999999999, yaw: 1.5644, z: 0}
+      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 722.963, y: 747.928, yaw: 1.5576, z: 0}
+      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 520.72, y: 684.881, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 517.398, y: 785.121, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 517.521, y: 1166.529, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 530.078, y: 1163.205, yaw: 1.571, z: 0}
@@ -214,9 +211,9 @@ levels:
       - {model_name: OpenRobotics/FemaleVisitor, name: FemaleVisitor, static: true, x: 584.591, y: 1213.886, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 663.423, y: 1212.56, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 552.922, y: 696.514, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Ambulance, name: Ambulance, static: true, x: 387.105, y: 1033.033, yaw: 4.7126, z: 0}
+      - {model_name: OpenRobotics/Ambulance2, name: Ambulance2, static: true, x: 387.105, y: 1033.033, yaw: -3.1367, z: 0}
       - {model_name: OpenRobotics/SUV, name: SUV, static: true, x: 235.608, y: 1142.483, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/PatientWheelChair, name: PatientWheelChair, static: true, x: 624.965, y: 1171.597, yaw: 4.7126, z: 0}
+      - {model_name: OpenRobotics/PatientWheelChair, name: PatientWheelChair, static: true, x: 627.163, y: 1184.021, yaw: 0.0069, z: 0}
     vertices:
       - [-39.396, 320.366, 0, ""]
       - [497.117, 676.186, 0, ""]
@@ -328,7 +325,7 @@ levels:
       - [592.2329999999999, 725.894, 0, "", {is_passthrough_point: [4, true]}]
       - [545.9160000000001, 726.427, 0, L1_ward1, {is_holding_point: [4, true]}]
       - [591.462, 806.4299999999999, 0, "", {is_passthrough_point: [4, true]}]
-      - [542.02, 848.495, 0, magni_1_charger, {is_charger: [4, true], is_parking_spot: [4, true], is_passthrough_point: [4, false], spawn_robot_name: [1, magni_1], spawn_robot_type: [1, Magni]}]
+      - [542.02, 848.495, 0, magni_charger_1, {is_charger: [4, true], is_parking_spot: [4, true], is_passthrough_point: [4, false], spawn_robot_name: [1, magni_1], spawn_robot_type: [1, Magni]}]
       - [541.979, 805.932, 0, L1_consult_room1, {is_holding_point: [4, false]}]
       - [591.164, 829.0309999999999, 0, "", {is_passthrough_point: [4, true]}]
       - [590.312, 882.298, 0, "", {is_passthrough_point: [4, true]}]
@@ -336,7 +333,7 @@ levels:
       - [516.318, 957.395, 0, L1_entrance, {is_passthrough_point: [4, true]}]
       - [529.429, 996.728, 0, "", {is_passthrough_point: [4, true]}]
       - [719.693, 1248.94, 0, ""]
-      - [688.12, 1249.542, 0, hospi_1_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, hospi_1], spawn_robot_type: [1, HOSPI]}]
+      - [688.12, 1249.542, 0, hospi_charger_1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, hospi_1], spawn_robot_type: [1, HOSPI]}]
       - [601.5, 1249, 0, "", {lift_cabin: [1, Lift1]}]
       - [648, 1249, 0, "", {lift_cabin: [1, Lift2]}]
       - [600.592, 1210.108, 0, ""]
@@ -358,12 +355,12 @@ levels:
       - [615.986, 807.163, 0, ""]
       - [615.543, 1086.468, 0, ""]
       - [614.4930000000001, 1032.5, 0, ""]
-      - [551.117, 1008.76, 0, ""]
-      - [550.498, 907.4, 0, ""]
+      - [531.677, 1001.865, 0, ""]
+      - [532.933, 913.414, 0, ""]
       - [614.9059999999999, 878.499, 0, ""]
       - [616.224, 829.811, 0, ""]
       - [614.958, 725.596, 0, ""]
-      - [543.746, 1070.767, 0, magni_2_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_2], spawn_robot_type: [1, Magni]}]
+      - [543.746, 1070.767, 0, magni_charger_2, {is_charger: [4, true], is_parking_spot: [4, true]}]
     walls:
       - [2, 3, {alpha: [3, 1], texture_name: [1, default]}]
       - [3, 4, {alpha: [3, 1], texture_name: [1, default]}]
@@ -418,14 +415,14 @@ levels:
       - [37, 69, {alpha: [3, 1], texture_name: [1, default]}]
       - [70, 71, {alpha: [3, 1], texture_name: [1, default]}]
       - [72, 38, {alpha: [3, 1], texture_name: [1, default]}]
-    x_meters: 97.63132116285618
-    y_meters: 97.63132116285618
+    x_meters: 96.63202411922408
+    y_meters: 96.63202411922408
   L2:
     doors:
       - [36, 37, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_toilet1_door], type: [1, hinged]}]
       - [38, 39, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_ward1_door], type: [1, hinged]}]
       - [18, 40, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_office1_door], type: [1, hinged]}]
-      - [41, 42, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_dispensary_door2], type: [1, hinged]}]
+      - [42, 41, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, L2_dispensary_door2], type: [1, hinged]}]
       - [43, 44, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_dispensary_door1], type: [1, hinged]}]
       - [45, 46, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_ward6_door], type: [1, hinged]}]
       - [47, 48, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_ward5_door], type: [1, hinged]}]
@@ -524,18 +521,18 @@ levels:
     models:
       - {model_name: OpenRobotics/CleaningSection, name: CleaningSection, static: true, x: 115.764, y: 753.897, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/CleaningSection, name: CleaningSection, static: true, x: 116.444, y: 728.058, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Scrubber, name: Scrubber, static: true, x: 85.559, y: 755.438, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Scrubber, name: Scrubber, static: true, x: 85.559, y: 755.438, yaw: 0.0098, z: 0}
       - {model_name: OpenRobotics/Sofa, name: Sofa, static: true, x: 74.59, y: 490.781, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Sofa, name: Sofa, static: true, x: 76.20699999999999, y: 273.997, yaw: -1.5706, z: 0}
       - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 338.479, y: 145.677, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 342.754, y: 272.157, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 340.617, y: 404.801, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 339.937, y: 523.196, yaw: -1.5706, z: 0}
-      - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 341.574, y: 599.73, yaw: 4.7126, z: 0}
+      - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 338.209, y: 507.589, yaw: -1.5706, z: 0}
+      - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 341.227, y: 599.833, yaw: 4.7126, z: 0}
       - {model_name: OpenRobotics/AnesthesiaMachine, name: AnesthesiaMachine, static: true, x: 328.171, y: 96.8, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LockerBig, name: LockerBig, static: true, x: 44.88, y: 382.864, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 112.262, y: 495.315, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 114.006, y: 269.635, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 152.691, y: 31.094, yaw: -1.5728, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 178.768, y: 31.105, yaw: -1.5694, z: 0}
       - {model_name: OpenRobotics/ElderMalePatient, name: ElderMalePatient, static: true, x: 325.91, y: 49.479, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/ElderMalePatient, name: ElderMalePatient, static: true, x: 327.425, y: 633.467, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/ElderMalePatient, name: ElderMalePatient, static: true, x: 60.985, y: 41.589, yaw: 0.0002, z: 0}
@@ -545,21 +542,21 @@ levels:
       - {model_name: OpenRobotics/NormalBed, name: NormalBed, static: true, x: 327.132, y: 442.088, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 42.883, y: 624.8869999999999, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 51.83, y: 134.839, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/table, name: table, static: true, x: 83.72799999999999, y: 342.456, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/table, name: table, static: true, x: 83.72799999999999, y: 373.235, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/table, name: table, static: true, x: 83.169, y: 404.573, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Table, name: Table, static: true, x: 83.76000000000001, y: 340.935, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Table, name: Table, static: true, x: 83.76000000000001, y: 379.728, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Table, name: Table, static: true, x: 83.76000000000001, y: 418.521, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenCountertop, name: KitchenCountertop, static: true, x: 303.941, y: 781.873, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/CArm, name: CArm, static: true, x: 327.854, y: 367.762, yaw: -1.5706, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 344.967, y: 765.732, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 345.191, y: 697.804, yaw: -1.5706, z: 0}
-      - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 339.362, y: 676.955, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 344.843, y: 699.543, yaw: -3.1392, z: 0}
+      - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 353.143, y: 676.0940000000001, yaw: -1.5708, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 331.784, y: 653.838, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 330.524, y: 571.9, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 327.963, y: 462.299, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 329.661, y: 333.738, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 327.103, y: 225.912, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 328.523, y: 27.149, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 63.169, y: 26.496, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 62.81, y: 57.321, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 54.666, y: 652.264, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 342.487, y: 28.532, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 343.193, y: 226.148, yaw: 1.571, z: 0}
@@ -570,16 +567,15 @@ levels:
       - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 317.427, y: 613.236, yaw: 1.1188, z: 0}
       - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 317.846, y: 487.861, yaw: 0.4053, z: 0}
       - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 68.14700000000001, y: 341.468, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 83.014, y: 67.075, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 312.491, y: 85.965, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/NurseTable, name: NurseTable, static: true, x: 169.767, y: 31.395, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/NurseTable, name: NurseTable, static: true, x: 226.437, y: 30.695, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 76.611, y: 67.387, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 312.252, y: 76.83199999999999, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/NurseTable, name: NurseTable, static: true, x: 223.372, y: 29.667, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 66.708, y: 155.855, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 69.782, y: 648.755, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 292.454, y: 730.091, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/LitterBin, name: LitterBin, static: true, x: 332.412, y: 670.005, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/LitterBin, name: LitterBin, static: true, x: 330.038, y: 669.3680000000001, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 345.453, y: 617.218, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 346.669, y: 505.915, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 344.485, y: 531.079, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 344.236, y: 423.807, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 344.236, y: 294.865, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 345.453, y: 184.779, yaw: 1.571, z: 0}
@@ -588,28 +584,28 @@ levels:
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 122.847, y: 336.832, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 122.238, y: 364.81, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 122.847, y: 392.788, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 122.238, y: 418.333, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 40.473, y: 181.535, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 42.055, y: 245.821, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 39.942, y: 520.0069999999999, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 40.232, y: 575.231, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 56.735, y: 181.174, yaw: -1.5706, z: 0}
-      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 56.012, y: 246.042, yaw: -1.5706, z: 0}
-      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 55.596, y: 520.587, yaw: 4.7126, z: 0}
-      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 56.176, y: 574.651, yaw: -1.5706, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 36.753, y: 520.587, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 36.434, y: 575.667, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 37.401, y: 182.077, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 39.027, y: 245.681, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 122.552, y: 420.55, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 42.404, y: 183.644, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 42.691, y: 242.914, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 43.395, y: 520.717, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 42.667, y: 574.2859999999999, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 59.424, y: 183.901, yaw: -3.0952, z: 0}
+      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 59.547, y: 242.734, yaw: -3.1248, z: 0}
+      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 59.408, y: 520.9349999999999, yaw: 3.124, z: 0}
+      - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 59.917, y: 574.141, yaw: 3.1045, z: 0}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 39.225, y: 520.556, yaw: 3.1399, z: 0.55}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 38.446, y: 574.2859999999999, yaw: 3.1374, z: 0.55}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 38.278, y: 183.128, yaw: 3.1234, z: 0.55}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 38.535, y: 242.699, yaw: 3.1331, z: 0.55}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 35.739, y: 545.807, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 37.254, y: 212.652, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 309.755, y: 174, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 306.405, y: 526.178, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 169.075, y: 52.461, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 327.011, y: 178.449, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 301.454, y: 529.856, yaw: -0.08799999999999999, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 217.743, y: 50.938, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 62.848, y: 405.596, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/MopCart2, name: MopCart2, static: true, x: 85.84399999999999, y: 731.501, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/MopCart2, name: MopCart2, static: true, x: 89.446, y: 732.535, yaw: 1.5755, z: 0}
       - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 65.879, y: 430.89, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 197.95, y: 653.7430000000001, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 201.29, y: 663.701, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Scrubs, name: Scrubs, static: true, x: 272.657, y: 714.913, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 44.203, y: 680.734, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 44.773, y: 713.818, yaw: 1.571, z: 0}
@@ -620,16 +616,16 @@ levels:
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 65.879, y: 715.529, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 67.59, y: 681.875, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 67.02, y: 139.405, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/TVStand, name: TVStand, static: true, x: 344.294, y: 733.225, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/TV, name: TV, static: true, x: 344.967, y: 734.5700000000001, yaw: 3.1418, z: 0}
+      - {model_name: OpenRobotics/TVStand, name: TVStand, static: true, x: 344.294, y: 733.225, yaw: -1.5635, z: 0}
+      - {model_name: OpenRobotics/TV, name: TV, static: true, x: 344.967, y: 734.5700000000001, yaw: 0.9996, z: 0}
       - {model_name: OpenRobotics/MaleVisitorSit, name: MaleVisitorSit, static: true, x: 41.288, y: 623.941, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 335.738, y: 498.041, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 328.587, y: 596.846, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 322.336, y: 524.7140000000001, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 322.624, y: 599.833, yaw: 0.07969999999999999, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 344.188, y: 171.723, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 345.351, y: 78.264, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 43.871, y: 69.017, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 247.34, y: 712.396, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 223.281, y: 53.416, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 168.765, y: 55.767, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 283.085, y: 45.616, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 44.142, y: 88.551, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 285.673, y: 30.667, yaw: 1.571, z: 0}
@@ -708,7 +704,7 @@ levels:
       - [153.353, 461.688, 0, ""]
       - [92.87, 460.672, 0, L2_dispensary1, {is_holding_point: [4, true]}]
       - [153.388, 573.178, 0, ""]
-      - [85.386, 522.721, 0, mir100_2_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_2], spawn_robot_type: [1, MiR100]}]
+      - [85.386, 522.721, 0, mir100_charger_2, {is_charger: [4, true], is_parking_spot: [4, true]}]
       - [85.48699999999999, 572.266, 0, L2_office2, {is_holding_point: [4, true]}]
       - [154.005, 681.046, 0, ""]
       - [93.53, 680.773, 0, L2_storage, {is_holding_point: [4, true]}]
@@ -729,10 +725,10 @@ levels:
       - [93.40300000000001, 80.319, 0, L2_ward1, {is_holding_point: [4, true]}]
       - [310.965, 150.499, 0, L2_ward3, {is_holding_point: [4, true]}]
       - [153.799, 188.561, 0, ""]
-      - [85.911, 239.703, 0, mir100_1_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_1], spawn_robot_type: [1, MiR100]}]
+      - [85.911, 239.703, 0, mir100_charger_1, {is_charger: [4, true], is_parking_spot: [4, true]}]
       - [85.569, 187.666, 0, L2_office1, {is_holding_point: [4, true]}]
       - [320.657, 757.819, 0, ""]
-      - [278.85, 757.732, 0, hospi_2_charger, {is_charger: [4, true], is_parking_spot: [4, true]}]
+      - [278.85, 757.732, 0, hospi_charger_2, {is_charger: [4, true], is_parking_spot: [4, true]}]
       - [166.563, 757.598, 0, "", {lift_cabin: [1, Lift1]}]
       - [226.506, 757.598, 0, "", {lift_cabin: [1, Lift2]}]
       - [165.979, 706.8680000000001, 0, ""]
@@ -751,8 +747,8 @@ levels:
       - [185.255, 630.982, 0, ""]
       - [186.396, 81.39700000000001, 0, ""]
       - [218.632, 91.524, 0, ""]
-      - [65.745, 302.476, 0, magni_3_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_3], spawn_robot_type: [1, Magni]}]
-      - [65.64700000000001, 460.888, 0, magni_4_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_4], spawn_robot_type: [1, Magni]}]
+      - [65.745, 302.476, 0, magni_charger_3, {is_charger: [4, true], is_parking_spot: [4, true]}]
+      - [65.64700000000001, 460.888, 0, magni_charger_4, {is_charger: [4, true], is_parking_spot: [4, true]}]
     walls:
       - [0, 1, {alpha: [3, 1], texture_name: [1, default]}]
       - [1, 2, {alpha: [3, 1], texture_name: [1, default]}]
@@ -910,7 +906,7 @@ levels:
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 39.427, y: 276.2, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 38.751, y: 487.684, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 292.326, y: 730.525, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Fridge, name: Fridge, static: true, x: 345.505, y: 720.114, yaw: 3.1418, z: 0}
+      - {model_name: OpenRobotics/Fridge, name: Fridge, static: true, x: 346.555, y: 720.582, yaw: -1.5583, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 341.746, y: 651.2910000000001, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 344.372, y: 571.241, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LampAndStand, name: LampAndStand, static: true, x: 341.451, y: 461.333, yaw: 1.571, z: 0}
@@ -926,10 +922,10 @@ levels:
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 135.761, y: 351.985, yaw: -1.5706, z: 0}
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 137.378, y: 376.853, yaw: 4.7126, z: 0}
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 134.952, y: 404.956, yaw: 4.7126, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 74.095, y: 267.674, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 96.73999999999999, y: 268.079, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 88.04600000000001, y: 496.748, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 108.871, y: 496.141, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 74.949, y: 272.399, yaw: -0.0074, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 96.79600000000001, y: 272.673, yaw: -0.0026, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 88.233, y: 491.869, yaw: -3.1318, z: 0}
+      - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 109.553, y: 491.78, yaw: -3.1155, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 48.211, y: 303.903, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 48.014, y: 324.488, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 46.396, y: 440.541, yaw: 1.571, z: 0}
@@ -937,24 +933,24 @@ levels:
       - {model_name: OpenRobotics/MopCart1, name: MopCart1, static: true, x: 115.102, y: 731.601, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MopCart1, name: MopCart1, static: true, x: 115.778, y: 770.789, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/LitterBin, name: LitterBin, static: true, x: 343.478, y: 673.4930000000001, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 322.069, y: 411, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 322.069, y: 411, yaw: -1.5473, z: 0}
       - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 322.4, y: 180.676, yaw: 0.946, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 62.12, y: 74.36799999999999, yaw: 3.1054, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 62.12, y: 74.36799999999999, yaw: 1.4153, z: 0}
       - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 178.982, y: 26.275, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 170.655, y: 62.455, yaw: 2.397, z: 0}
       - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 326.254, y: 288.314, yaw: 0.6949, z: 0}
       - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 181.986, y: 596.707, yaw: 0.9406, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 344.025, y: 694.316, yaw: -1.5706, z: 0}
-      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 152.939, y: 49.175, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 345.592, y: 693.9589999999999, yaw: -3.1365, z: 0}
+      - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 147.789, y: 48.106, yaw: -0.0074, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 345.074, y: 518.256, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 341.635, y: 409.478, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 345.736, y: 172.956, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 43.609, y: 81.36199999999999, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/NurseTable, name: NurseTable, static: true, x: 196.178, y: 44.338, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/PatientWheelChair, name: PatientWheelChair, static: true, x: 151.22, y: 113.434, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/SmartTrolleyBed, name: SmartTrolleyBed, static: true, x: 327.705, y: 310.88, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/SmartTrolleyBed, name: SmartTrolleyBed, static: true, x: 323.775, y: 46.813, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/SmartTrolleyBed, name: SmartTrolleyBed, static: true, x: 323.669, y: 630.8920000000001, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/PatientWheelChair, name: PatientWheelChair, static: true, x: 151.22, y: 113.434, yaw: -0.0047, z: 0}
+      - {model_name: OpenRobotics/CGMVanguard, name: CGMVanguard, static: true, x: 327.705, y: 310.88, yaw: 3.1418, z: 0}
+      - {model_name: OpenRobotics/CGMVanguard, name: CGMVanguard, static: true, x: 327.064, y: 50.394, yaw: 3.1264, z: 0}
+      - {model_name: OpenRobotics/CGMVanguard, name: CGMVanguard, static: true, x: 327.275, y: 629.5700000000001, yaw: -3.1367, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 58.743, y: 27.685, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 331.606, y: 27.236, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 330.203, y: 225.604, yaw: 1.571, z: 0}
@@ -965,19 +961,19 @@ levels:
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 64.828, y: 651.434, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/TrashBin, name: TrashBin, static: true, x: 60.875, y: 156.989, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 46.123, y: 131.93, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 45.764, y: 621.242, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 43.269, y: 571.283, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/Toilet, name: Toilet, static: true, x: 45.764, y: 621.242, yaw: -0.0203, z: 0}
+      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 43.504, y: 571.415, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 44.185, y: 521.941, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 63.024, y: 523.66, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 60.731, y: 572.165, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 40.094, y: 522.425, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 39.212, y: 571.107, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 43.125, y: 184.182, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 40.047, y: 522.093, yaw: 3.1265, z: 0.55}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 39.306, y: 571.6, yaw: 3.1242, z: 0.55}
+      - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 44.168, y: 184.286, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/Desk, name: Desk, static: true, x: 43.338, y: 240.31, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 60.877, y: 183.119, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/DeskChair, name: DeskChair, static: true, x: 61.622, y: 240.948, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 38.979, y: 184.395, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 39.298, y: 241.054, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 40.016, y: 184.286, yaw: -3.1416, z: 0.55}
+      - {model_name: OpenRobotics/MonitorAndKeyboard, name: MonitorAndKeyboard, static: true, x: 39.142, y: 240.018, yaw: -3.1416, z: 0.55}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 37.385, y: 212.778, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Bookshelf, name: Bookshelf, static: true, x: 36.734, y: 547.51, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Sofa, name: Sofa, static: true, x: 47.609, y: 401.722, yaw: 0.0002, z: 0}
@@ -987,19 +983,19 @@ levels:
       - {model_name: OpenRobotics/FemaleVisitorSit, name: FemaleVisitorSit, static: true, x: 74.702, y: 270.909, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 129.788, y: 444.268, yaw: 3.9272, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 111.095, y: 275.559, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/TVStand, name: TVStand, static: true, x: 190.148, y: 373.416, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/TV, name: TV, static: true, x: 190.755, y: 374.831, yaw: 3.1418, z: 0}
-      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 199.378, y: 657.662, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/TVStand, name: TVStand, static: true, x: 190.148, y: 373.416, yaw: -1.5832, z: 0}
+      - {model_name: OpenRobotics/TV, name: TV, static: true, x: 190.245, y: 376.19, yaw: -1.5462, z: 0}
+      - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 199.378, y: 657.662, yaw: -1.5175, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 77.27800000000001, y: 154.763, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 80.502, y: 648.963, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/PatientFSit, name: PatientFSit, static: true, x: 45.238, y: 621.418, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/PatientFSit, name: PatientFSit, static: true, x: 45.238, y: 621.418, yaw: -0.0012, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 43.059, y: 68.773, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 347.097, y: 185.554, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 344.24, y: 419.573, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 346.828, y: 530.011, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 346.819, y: 611.054, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 349.398, y: 288.696, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 346.519, y: 64.09999999999999, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 343.226, y: 69.789, yaw: 3.1239, z: 0}
       - {model_name: OpenRobotics/Scrubber, name: Scrubber, static: true, x: 190.901, y: 187.732, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 340.175, y: 108.373, yaw: -1.5556, z: 0}
       - {model_name: OpenRobotics/ScrubsTrolley, name: ScrubsTrolley, static: true, x: 42.946, y: 676.027, yaw: 1.571, z: 0}
@@ -1012,7 +1008,7 @@ levels:
       - {model_name: OpenRobotics/SurgicalTrolleyGuards, name: SurgicalTrolleyGuards, static: true, x: 59.171, y: 718.619, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/XRayMachineSmall, name: XRayMachineSmall, static: true, x: 73.876, y: 773.381, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/XRayMachineSmall, name: XRayMachineSmall, static: true, x: 72.86199999999999, y: 748.535, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/XRayMachine, name: XRayMachine, static: true, x: 323.063, y: 365.948, yaw: 0.0002, z: 0}
+      - {model_name: OpenRobotics/XRayMachine, name: XRayMachine, static: true, x: 319.63, y: 359.214, yaw: 0.0104, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 339.81, y: 244.492, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 343.079, y: 483.73, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 341.918, y: 591.148, yaw: 1.571, z: 0}
@@ -1086,7 +1082,7 @@ levels:
       - [179.784, 723.135, 0, ""]
       - [212.752, 723.135, 0, ""]
       - [239.841, 723.1609999999999, 0, ""]
-      - [85.321, 523.755, 0, mir100_3_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_3], spawn_robot_type: [1, MiR100]}]
+      - [85.321, 523.755, 0, mir100_charger_3, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_1], spawn_robot_type: [1, MiR100]}]
       - [151.833, 570.256, 0, ""]
       - [86.30200000000001, 570.308, 0, L3_office2, {is_holding_point: [4, true]}]
       - [150.612, 682.958, 0, ""]
@@ -1116,7 +1112,7 @@ levels:
       - [73.64100000000001, 448.469, 0, L3_conf_room1, {is_holding_point: [4, true]}]
       - [83.77, 726.51, 0, "", {is_holding_point: [4, true]}]
       - [318.206, 759.45, 0, ""]
-      - [275.579, 758.896, 0, hospi_3_charger, {is_charger: [4, true], is_parking_spot: [4, true]}]
+      - [275.579, 758.896, 0, hospi_charger_3, {is_charger: [4, true], is_parking_spot: [4, true]}]
       - [166.318, 757.465, 0, "", {lift_cabin: [1, Lift1]}]
       - [226.295, 757.465, 0, "", {lift_cabin: [1, Lift2]}]
       - [165.181, 707.413, 0, ""]
@@ -1133,7 +1129,7 @@ levels:
       - [215.793, 635.3390000000001, 0, ""]
       - [185.929, 635.501, 0, ""]
       - [243.332, 63.225, 0, ""]
-      - [242.642, 34.208, 0, magni_5_charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_5], spawn_robot_type: [1, Magni]}]
+      - [242.642, 34.208, 0, magni_charger_5, {is_charger: [4, true], is_parking_spot: [4, true]}]
     walls:
       - [0, 1, {alpha: [3, 1], texture_name: [1, default]}]
       - [1, 2, {alpha: [3, 1], texture_name: [1, default]}]
