@@ -1,7 +1,7 @@
-# Blender v2.79 (sub 0) OBJ File: 'HospiFinal.blend'
+# Blender v2.79 (sub 0) OBJ File: 'HospitalRobotFinal.blend'
 # www.blender.org
-mtllib HOSPI.mtl
-o HOSPI_Cube.002
+mtllib HospitalRobot.mtl
+o HospitalRobot_Cube.002
 v -0.360974 0.304775 0.032917
 v -0.288923 0.276936 0.962926
 v 0.001719 0.250971 1.093634
@@ -4630,7 +4630,7 @@ vn 0.0853 -0.5999 0.7955
 vn 0.7221 0.6912 -0.0279
 vn 0.6698 -0.5498 0.4990
 vn 0.7187 0.5783 -0.3859
-usemtl Hospi
+usemtl HospitalRobot
 s 1
 f 280/1/1 109/2/2 276/3/3
 f 443/4/4 6/5/5 442/6/6
