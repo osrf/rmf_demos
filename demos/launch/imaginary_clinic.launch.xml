@@ -28,16 +28,16 @@
     </executable>
   </group>
 
-  <!-- Hospi fleet adapter and robot state aggregator needed for hospi slotcar_plugin -->
+  <!-- HospitalRobot fleet adapter and robot state aggregator needed for hospitalRobot slotcar_plugin -->
   <group>
-    <let name="fleet_name" value="hospi"/>
-    <include file="$(find-pkg-share demos)/include/adapters/hospi_adapter.launch.xml">
+    <let name="fleet_name" value="hospitalRobot"/>
+    <include file="$(find-pkg-share demos)/include/adapters/hospitalRobot_adapter.launch.xml">
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="$(var use_sim_time)"/>
       <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/imaginary_clinic/nav_graphs/0.yaml" />
     </include>
     <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
-      <arg name="robot_prefix" value="hospi"/>
+      <arg name="robot_prefix" value="hospitalRobot"/>
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="true"/>
     </include>
