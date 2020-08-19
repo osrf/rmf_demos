@@ -415,8 +415,8 @@ levels:
       - [37, 69, {alpha: [3, 1], texture_name: [1, default]}]
       - [70, 71, {alpha: [3, 1], texture_name: [1, default]}]
       - [72, 38, {alpha: [3, 1], texture_name: [1, default]}]
-    x_meters: 96.43216471049766
-    y_meters: 96.43216471049766
+    x_meters: 96.33223500613445
+    y_meters: 96.33223500613445
   L2:
     doors:
       - [36, 37, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_toilet1_door], type: [1, hinged]}]
