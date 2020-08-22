@@ -75,4 +75,9 @@
     </include>
   </group>
 
+  <!-- Lift Supervisor -->
+  <group>
+    <node pkg="rmf_fleet_adapter" exec="lift_supervisor"/>
+  </group>
+
 </launch>
