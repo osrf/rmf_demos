@@ -320,7 +320,7 @@ levels:
       - [592.2329999999999, 725.894, 0, "", {is_passthrough_point: [4, true]}]
       - [545.9160000000001, 726.427, 0, L1_ward1, {is_holding_point: [4, true]}]
       - [591.462, 806.4299999999999, 0, "", {is_passthrough_point: [4, true]}]
-      - [542.02, 848.495, 0, magni_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_1], spawn_robot_type: [1, Magni]}]
+      - [542.02, 848.495, 0, tinyRobot_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot_1], spawn_robot_type: [1, TinyRobot]}]
       - [541.979, 805.932, 0, L1_consult_room1, {is_holding_point: [4, true]}]
       - [590.312, 882.298, 0, "", {is_passthrough_point: [4, true]}]
       - [539.458, 918.938, 0, "", {is_passthrough_point: [4, true]}]
@@ -351,7 +351,7 @@ levels:
       - [532.933, 913.414, 0, "", {is_passthrough_point: [4, true]}]
       - [614.9059999999999, 878.499, 0, "", {is_passthrough_point: [4, true]}]
       - [614.958, 725.596, 0, "", {is_passthrough_point: [4, true]}]
-      - [543.746, 1070.767, 0, magni_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [543.746, 1070.767, 0, tinyRobot_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [625.6130000000001, 1174.23, 0, "", {is_passthrough_point: [4, true]}]
     walls:
       - [2, 3, {alpha: [3, 1], texture_name: [1, default]}]
@@ -610,7 +610,6 @@ levels:
       - {model_name: OpenRobotics/StorageRackCovered, name: StorageRackCovered, static: true, x: 67.59, y: 681.875, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Standing person, name: Standing_person, static: true, x: 67.02, y: 139.405, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/TVStand, name: TVStand, static: true, x: 344.294, y: 733.225, yaw: -1.5635, z: 0}
-      - {model_name: OpenRobotics/TV, name: TV, static: true, x: 344.967, y: 734.5700000000001, yaw: 0.9996, z: 0}
       - {model_name: OpenRobotics/MaleVisitorSit, name: MaleVisitorSit, static: true, x: 41.288, y: 623.941, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 322.336, y: 524.7140000000001, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 322.624, y: 599.833, yaw: 0.07969999999999999, z: 0}
@@ -697,7 +696,7 @@ levels:
       - [153.353, 461.688, 0, "", {is_passthrough_point: [4, true]}]
       - [92.87, 460.672, 0, L2_dispensary1, {is_holding_point: [4, true]}]
       - [153.388, 573.178, 0, "", {is_passthrough_point: [4, true]}]
-      - [85.386, 522.721, 0, mir100_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [85.386, 522.721, 0, deliveryRobot_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [85.48699999999999, 572.266, 0, L2_office2, {is_passthrough_point: [4, true]}]
       - [154.005, 681.046, 0, "", {is_passthrough_point: [4, true]}]
       - [93.53, 680.773, 0, L2_storage, {is_passthrough_point: [4, true]}]
@@ -718,7 +717,7 @@ levels:
       - [93.40300000000001, 80.319, 0, L2_ward1, {is_holding_point: [4, true]}]
       - [310.965, 150.499, 0, L2_ward3, {is_holding_point: [4, true]}]
       - [153.799, 188.561, 0, "", {is_passthrough_point: [4, true]}]
-      - [85.911, 239.703, 0, mir100_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [85.911, 239.703, 0, deliveryRobot_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [85.569, 187.666, 0, L2_office1, {is_passthrough_point: [4, true]}]
       - [320.657, 757.819, 0, "", {is_passthrough_point: [4, true]}]
       - [278.85, 757.732, 0, hospitalRobot_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
@@ -740,8 +739,8 @@ levels:
       - [185.255, 630.982, 0, "", {is_passthrough_point: [4, true]}]
       - [186.211, 80.584, 0, "", {is_passthrough_point: [4, true]}]
       - [218.632, 91.524, 0, "", {is_holding_point: [4, true]}]
-      - [65.745, 302.476, 0, magni_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
-      - [65.64700000000001, 460.888, 0, magni_charger_4, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [65.745, 302.476, 0, tinyRobot_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [65.64700000000001, 460.888, 0, tinyRobot_charger_4, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [200.673, 666.2859999999999, 0, "", {is_passthrough_point: [4, true]}]
     walls:
       - [0, 1, {alpha: [3, 1], texture_name: [1, default]}]
@@ -975,7 +974,6 @@ levels:
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 129.788, y: 444.268, yaw: 3.9272, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 111.095, y: 275.559, yaw: 0.0002, z: 0}
       - {model_name: OpenRobotics/TVStand, name: TVStand, static: true, x: 190.148, y: 373.416, yaw: -1.5832, z: 0}
-      - {model_name: OpenRobotics/TV, name: TV, static: true, x: 190.245, y: 376.19, yaw: -1.5462, z: 0}
       - {model_name: OpenRobotics/Nurse, name: Nurse, static: true, x: 196.412, y: 705.697, yaw: -1.5175, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 77.27800000000001, y: 154.763, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 80.502, y: 648.963, yaw: 1.571, z: 0}
@@ -1073,7 +1071,7 @@ levels:
       - [179.992, 723.1180000000001, 0, ""]
       - [212.506, 723.149, 0, ""]
       - [240.132, 723.224, 0, ""]
-      - [85.321, 523.755, 0, mir100_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_1], spawn_robot_type: [1, MiR100]}]
+      - [85.321, 523.755, 0, deliveryRobot_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot_1], spawn_robot_type: [1, DeliveryRobot]}]
       - [151.833, 570.256, 0, "", {is_passthrough_point: [4, true]}]
       - [86.30200000000001, 570.308, 0, L3_office2, {is_passthrough_point: [4, true]}]
       - [150.111, 683.6180000000001, 0, "", {is_passthrough_point: [4, true]}]
