@@ -175,7 +175,7 @@ levels:
       - {model_name: OpenRobotics/KitchenCountertop, name: KitchenCountertop, static: true, x: 711.706, y: 1267.923, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 738.191, y: 1242.351, yaw: 3.1418, z: 0}
       - {model_name: OpenRobotics/VendingMachine, name: VendingMachine, static: true, x: 738.907, y: 1220.991, yaw: -3.1416, z: 0}
-      - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 697.4880000000001, y: 1227.531, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/Cafe table, name: Cafe_table, static: true, x: 696.586, y: 1216.066, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/ElectronicsRecycling, name: ElectronicsRecycling, static: true, x: 745.897, y: 1201.229, yaw: -1.5748, z: 0}
       - {model_name: OpenRobotics/Fridge, name: Fridge, static: true, x: 739.4589999999999, y: 1184.98, yaw: -1.5656, z: 0}
       - {model_name: OpenRobotics/IVStand, name: IVStand, static: true, x: 736.566, y: 1068.641, yaw: 1.571, z: 0}
@@ -320,13 +320,13 @@ levels:
       - [592.2329999999999, 725.894, 0, "", {is_passthrough_point: [4, true]}]
       - [545.9160000000001, 726.427, 0, L1_ward1, {is_holding_point: [4, true]}]
       - [591.462, 806.4299999999999, 0, "", {is_passthrough_point: [4, true]}]
-      - [542.02, 848.495, 0, tinyRobot_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot_1], spawn_robot_type: [1, TinyRobot]}]
+      - [542.02, 848.495, 0, hospitalRobot_charger1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, hospitalRobot_1], spawn_robot_type: [1, HospitalRobot]}]
       - [541.979, 805.932, 0, L1_consult_room1, {is_holding_point: [4, true]}]
       - [590.312, 882.298, 0, "", {is_passthrough_point: [4, true]}]
       - [539.458, 918.938, 0, "", {is_passthrough_point: [4, true]}]
       - [540.521, 1001.853, 0, "", {is_passthrough_point: [4, true]}]
       - [719.693, 1248.94, 0, "", {is_passthrough_point: [4, true]}]
-      - [688.12, 1249.542, 0, hospitalRobot_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, hospitalRobot_1], spawn_robot_type: [1, HospitalRobot]}]
+      - [688.12, 1249.542, 0, tinyRobot_charger1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot_1], spawn_robot_type: [1, TinyRobot]}]
       - [601.5, 1249, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift1]}]
       - [648, 1249, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift2]}]
       - [600.592, 1210.108, 0, "", {is_passthrough_point: [4, true]}]
@@ -351,7 +351,7 @@ levels:
       - [532.933, 913.414, 0, "", {is_passthrough_point: [4, true]}]
       - [614.9059999999999, 878.499, 0, "", {is_passthrough_point: [4, true]}]
       - [614.958, 725.596, 0, "", {is_passthrough_point: [4, true]}]
-      - [543.746, 1070.767, 0, tinyRobot_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [543.746, 1070.767, 0, hospitalRobot_charger2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [625.6130000000001, 1174.23, 0, "", {is_passthrough_point: [4, true]}]
     walls:
       - [2, 3, {alpha: [3, 1], texture_name: [1, default]}]
@@ -407,8 +407,8 @@ levels:
       - [37, 69, {alpha: [3, 1], texture_name: [1, default]}]
       - [70, 71, {alpha: [3, 1], texture_name: [1, default]}]
       - [72, 38, {alpha: [3, 1], texture_name: [1, default]}]
-    x_meters: 95.63272707559199
-    y_meters: 95.63272707559199
+    x_meters: 94.8332894406863
+    y_meters: 94.8332894406863
   L2:
     doors:
       - [36, 37, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_toilet1_door], type: [1, hinged]}]
@@ -696,7 +696,7 @@ levels:
       - [153.353, 461.688, 0, "", {is_passthrough_point: [4, true]}]
       - [92.87, 460.672, 0, L2_dispensary1, {is_holding_point: [4, true]}]
       - [153.388, 573.178, 0, "", {is_passthrough_point: [4, true]}]
-      - [85.386, 522.721, 0, deliveryRobot_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [85.386, 522.721, 0, deliveryRobot_charger2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [85.48699999999999, 572.266, 0, L2_office2, {is_passthrough_point: [4, true]}]
       - [154.005, 681.046, 0, "", {is_passthrough_point: [4, true]}]
       - [93.53, 680.773, 0, L2_storage, {is_passthrough_point: [4, true]}]
@@ -717,10 +717,10 @@ levels:
       - [93.40300000000001, 80.319, 0, L2_ward1, {is_holding_point: [4, true]}]
       - [310.965, 150.499, 0, L2_ward3, {is_holding_point: [4, true]}]
       - [153.799, 188.561, 0, "", {is_passthrough_point: [4, true]}]
-      - [85.911, 239.703, 0, deliveryRobot_charger_1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [85.911, 239.703, 0, deliveryRobot_charger1, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [85.569, 187.666, 0, L2_office1, {is_passthrough_point: [4, true]}]
       - [320.657, 757.819, 0, "", {is_passthrough_point: [4, true]}]
-      - [278.85, 757.732, 0, hospitalRobot_charger_2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [278.85, 757.732, 0, tinyRobot_charger2, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [166.563, 757.598, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift1]}]
       - [226.506, 757.598, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift2]}]
       - [165.979, 706.8680000000001, 0, "", {is_passthrough_point: [4, true]}]
@@ -739,8 +739,8 @@ levels:
       - [185.255, 630.982, 0, "", {is_passthrough_point: [4, true]}]
       - [186.211, 80.584, 0, "", {is_passthrough_point: [4, true]}]
       - [218.632, 91.524, 0, "", {is_holding_point: [4, true]}]
-      - [65.745, 302.476, 0, tinyRobot_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
-      - [65.64700000000001, 460.888, 0, tinyRobot_charger_4, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [65.745, 302.476, 0, hospitalRobot_charger3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [65.64700000000001, 460.888, 0, hospitalRobot_charger4, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [200.673, 666.2859999999999, 0, "", {is_passthrough_point: [4, true]}]
     walls:
       - [0, 1, {alpha: [3, 1], texture_name: [1, default]}]
@@ -1071,7 +1071,7 @@ levels:
       - [179.992, 723.1180000000001, 0, ""]
       - [212.506, 723.149, 0, ""]
       - [240.132, 723.224, 0, ""]
-      - [85.321, 523.755, 0, deliveryRobot_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot_1], spawn_robot_type: [1, DeliveryRobot]}]
+      - [85.321, 523.755, 0, deliveryRobot_charger3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot_1], spawn_robot_type: [1, DeliveryRobot]}]
       - [151.833, 570.256, 0, "", {is_passthrough_point: [4, true]}]
       - [86.30200000000001, 570.308, 0, L3_office2, {is_passthrough_point: [4, true]}]
       - [150.111, 683.6180000000001, 0, "", {is_passthrough_point: [4, true]}]
@@ -1100,7 +1100,7 @@ levels:
       - [73.64100000000001, 448.469, 0, L3_conf_room1, {is_passthrough_point: [4, true]}]
       - [83.77, 726.51, 0, "", {is_holding_point: [4, true]}]
       - [318.206, 759.45, 0, "", {is_passthrough_point: [4, true]}]
-      - [275.579, 758.896, 0, hospitalRobot_charger_3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
+      - [275.579, 758.896, 0, tinyRobot_charger3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [166.318, 757.465, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift1]}]
       - [226.295, 757.465, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift2]}]
       - [165.181, 707.413, 0, "", {is_passthrough_point: [4, true]}]

@@ -154,4 +154,24 @@ ros2 launch demos airport_terminal_caddy.launch.xml
 
 ![](docs/media/caddy.gif)
 
+# Imaginary Clinic World
 
+This is an imaginary clinic building with three levels and two lifts. Three different robot fleets with different roles navigate across all three levels by lifts. In the illustrations below, we have the view of all three levels in `traffic_editor` (top left), the schedule visualizer in `rviz` (right), and the full simulation in `gazebo` (bottom left).
+
+![](docs/media/imaginary_clinic.png)
+
+## Demo Scenario
+To launch the world and the schedule visualizer,
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos imaginary_clinic.launch.xml
+```
+
+To request each of the robots to loop between two points, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button.
+
+Robots taking lift:
+![](docs/media/robots_taking_lift.gif)
+
+Multi-fleet demo:
+![](docs/media/imaginary_clinic.gif)

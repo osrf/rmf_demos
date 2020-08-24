@@ -34,7 +34,7 @@
     <include file="$(find-pkg-share demos)/include/adapters/hospitalRobot_adapter.launch.xml">
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="$(var use_sim_time)"/>
-      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/imaginary_clinic/nav_graphs/0.yaml" />
+      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/imaginary_clinic/nav_graphs/2.yaml" />
     </include>
     <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
       <arg name="robot_prefix" value="hospitalRobot"/>
@@ -49,7 +49,7 @@
     <include file="$(find-pkg-share demos)/include/adapters/tinyRobot_adapter.launch.xml">
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="true"/>
-      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/imaginary_clinic/nav_graphs/2.yaml" />
+      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/imaginary_clinic/nav_graphs/0.yaml" />
     </include>
     <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
       <arg name="robot_prefix" value="tinyRobot"/>
