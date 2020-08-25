@@ -168,7 +168,23 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos imaginary_clinic.launch.xml
 ```
 
-To request each of the robots to loop between two points, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button.
+To simulate a delivery
+
+Select fleet `tinyRobot`, set `L1_pantry` and `L3_ward4` as `Start` and `End` waypoints. Ensure `Pickup` and `Dropoff` dispensers are set to `coke_dispenser` and `coke_ingestor` respectively. Finally, click the `Send Delivery Request` button in the RViz `RMF Panel`.
+
+Alternatively, a launch file is configured to achieve the same result.
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos clinic_delivery.launch.xml 
+``` 
+
+To request each of the robots to loop between two points, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button. Alternatively,
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos clinic_loop.launch.xml
+``` 
 
 Robots taking lift:
 ![](docs/media/robots_taking_lift.gif)

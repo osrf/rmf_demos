@@ -42,7 +42,7 @@
       <arg name="discovery_timeout" value="60.0"/>
 
       <!-- Whether it can perform deliveries -->
-      <arg name="perform_deliveries" value="true"/>
+      <arg name="perform_deliveries" value="false"/>
 
       <!-- The hospitalRobot cannot drive backwards -->
       <arg name="reversible" value="false"/>
