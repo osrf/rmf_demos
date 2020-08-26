@@ -29,83 +29,38 @@ levels:
         vertices: [20, 16, 19, 22]
     lanes:
       - [243, 244, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [244, 245, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [245, 246, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [245, 244, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [250, 251, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [253, 254, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [247, 263, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [252, 261, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [248, 257, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [257, 259, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [256, 252, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [245, 249, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [249, 270, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [270, 246, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [270, 248, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [259, 256, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [247, 248, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [248, 249, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [250, 246, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [251, 250, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [251, 252, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [252, 253, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [252, 254, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [254, 255, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [255, 256, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [254, 257, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [257, 258, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [258, 251, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [259, 260, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [260, 261, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [261, 262, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [262, 263, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [263, 264, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [263, 265, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [265, 266, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [262, 267, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [267, 268, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [267, 269, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [269, 270, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [269, 271, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [271, 272, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [272, 273, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [274, 275, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [276, 277, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [279, 280, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [247, 287, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [288, 289, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [290, 291, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [291, 292, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [292, 293, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [293, 294, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [294, 295, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [295, 296, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [289, 297, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [297, 290, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [296, 297, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 2], orientation: [1, ""]}]
-      - [256, 300, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [256, 302, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [255, 303, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [255, 301, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [266, 298, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [265, 299, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [257, 307, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [307, 305, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [307, 308, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [308, 306, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [307, 309, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [309, 304, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [245, 247, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [280, 274, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [257, 281, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [277, 278, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [278, 285, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [285, 283, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [281, 286, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [286, 279, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [275, 276, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [281, 282, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [282, 283, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [283, 284, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [283, 282, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [282, 281, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [280, 266, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [260, 243, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [250, 253, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [252, 250, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [258, 257, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [256, 255, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [255, 276, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [276, 275, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [275, 274, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [274, 273, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [273, 272, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [272, 271, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [271, 257, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
     layers:
       {}
     measurements:
       - [197, 199, {distance: [3, 17.7]}]
       - [135, 139, {distance: [3, 4]}]
     models:
-      - {model_name: TruckBox, name: TruckBox, static: true, x: 1613.129, y: 67.515, yaw: -0.0005, z: 0}
-      - {model_name: TruckBox, name: TruckBox, static: true, x: 1613.857, y: 111.399, yaw: 0.0038, z: 0}
       - {model_name: TrolleyBox1, name: TrolleyBox1, static: true, x: 1540.696, y: 66.142, yaw: 0.0168, z: 0}
       - {model_name: TrolleyBox1, name: TrolleyBox1, static: true, x: 1543.675, y: 104.863, yaw: -0.0075, z: 0}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 956.917, y: 66.358, yaw: -3.1367, z: 0}
@@ -115,7 +70,6 @@ levels:
       - {model_name: StorageRack, name: StorageRack, static: true, x: 625.9589999999999, y: 87.56100000000001, yaw: 0, z: 0}
       - {model_name: StorageRack, name: StorageRack, static: true, x: 832.7910000000001, y: 100.25, yaw: 0, z: 0}
       - {model_name: StorageRack, name: StorageRack, static: true, x: 806.144, y: 122.667, yaw: 0, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 665.718, y: 73.60299999999999, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 899.115, y: 48.458, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 884.504, y: 48.614, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 870.048, y: 48.614, yaw: 0, z: 0}
@@ -129,12 +83,12 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 601.675, y: 48.547, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 618.533, y: 48.563, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 634.842, y: 48.736, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 748.574, y: 343.917, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 904.074, y: 344.429, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 1055.282, y: 341.889, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 748.574, y: 452.87, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 905.609, y: 449.289, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 1056.085, y: 448.717, yaw: 0, z: 0}
+      - {model_name: table_marble, name: table_marble, static: true, x: 748.574, y: 343.917, yaw: 0, z: 0.5}
+      - {model_name: table_marble, name: table_marble, static: true, x: 904.074, y: 344.429, yaw: 0, z: 0.5}
+      - {model_name: table_marble, name: table_marble, static: true, x: 1055.282, y: 341.889, yaw: 0, z: 0.5}
+      - {model_name: table_marble, name: table_marble, static: true, x: 748.574, y: 452.87, yaw: 0, z: 0.5}
+      - {model_name: table_marble, name: table_marble, static: true, x: 905.609, y: 449.289, yaw: 0, z: 0.5}
+      - {model_name: table_marble, name: table_marble, static: true, x: 1056.085, y: 448.717, yaw: 0, z: 0.5}
       - {model_name: Chair, name: Chair, static: true, x: 714.183, y: 336.103, yaw: 0, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 733.391, y: 320.459, yaw: -1.5518, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 767.4109999999999, y: 320.112, yaw: -1.5687, z: 0}
@@ -160,9 +114,6 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1970.581, y: 424.795, yaw: -3.0713, z: 0}
       - {model_name: VendingMachine, name: VendingMachine, static: true, x: 1892.688, y: 435.059, yaw: 1.5779, z: 0}
       - {model_name: VendingMachine, name: VendingMachine, static: true, x: 1892.976, y: 459.866, yaw: 1.5644, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 1998.57, y: 523.74, yaw: -3.1366, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 2039.142, y: 523.388, yaw: -3.1327, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 2077.453, y: 523.388, yaw: 3.1386, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1020.599, y: 336.458, yaw: 0, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1021.101, y: 353.537, yaw: 0, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1089.177, y: 336.774, yaw: -3.1389, z: 0}
@@ -173,16 +124,9 @@ levels:
       - {model_name: Chair, name: Chair, static: true, x: 1038.683, y: 318.374, yaw: -1.5608, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1055.595, y: 318.206, yaw: -1.5693, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1071.67, y: 317.872, yaw: -1.5774, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1099.983, y: 75.435, yaw: 2.3268, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1111.554, y: 60.421, yaw: -0.7504999999999999, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1082.687, y: 56.87, yaw: 0, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1079.628, y: 79.617, yaw: 1.8173, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1116.809, y: 92.93300000000001, yaw: -2.4203, z: 0}
       - {model_name: KitchenSink, name: KitchenSink, static: true, x: 832.235, y: 49.296, yaw: -1.5694, z: 0}
       - {model_name: KitchenSink, name: KitchenSink, static: true, x: 814.297, y: 49.296, yaw: -1.5708, z: 0}
       - {model_name: StorageRackCoverOpen, name: StorageRackCoverOpen, static: true, x: 668.256, y: 98.13500000000001, yaw: 0, z: 0}
-      - {model_name: TruckDelivery, name: TruckDelivery, static: true, x: 1903.21, y: 65.839, yaw: 3.1398, z: 0}
-      - {model_name: TruckDelivery, name: TruckDelivery, static: true, x: 1904.303, y: 114.484, yaw: -3.1358, z: 0}
       - {model_name: TrolleyBox1, name: TrolleyBox1, static: true, x: 1990.483, y: 60.179, yaw: -3.1244, z: 0}
       - {model_name: TrolleyBox1, name: TrolleyBox1, static: true, x: 1998.151, y: 111.117, yaw: -3.1344, z: 0}
       - {model_name: MetalCabinet, name: MetalCabinet, static: true, x: 1505.46, y: 102.036, yaw: -1.5708, z: 0}
@@ -202,12 +146,8 @@ levels:
       - {model_name: bookshelf, name: bookshelf, static: true, x: 426.897, y: 171.114, yaw: 0, z: 0}
       - {model_name: bookshelf, name: bookshelf, static: true, x: 407.175, y: 171.114, yaw: 0, z: 0}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 372.364, y: 177.4, yaw: -1.5695, z: 0}
-      - {model_name: BigCubicle, name: BigCubicle, static: true, x: 995.526, y: 123.715, yaw: -1.5782, z: 0}
-      - {model_name: BigCubicle, name: BigCubicle, static: true, x: 1044.621, y: 106.735, yaw: 3.1415, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1040.912, y: 92.545, yaw: 0, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 979.629, y: 119.829, yaw: 1.5708, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 609.404, y: 343.751, yaw: 0, z: 0}
-      - {model_name: table_marble, name: table_marble, static: true, x: 609.5119999999999, y: 452.161, yaw: 0, z: 0}
+      - {model_name: table_marble, name: table_marble, static: true, x: 609.404, y: 343.751, yaw: 0, z: 0.5}
+      - {model_name: table_marble, name: table_marble, static: true, x: 609.5119999999999, y: 452.161, yaw: 0, z: 0.5}
       - {model_name: Chair, name: Chair, static: true, x: 730.448, y: 429.116, yaw: -1.5502, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 747.489, y: 429.116, yaw: -1.5708, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 764.912, y: 429.308, yaw: -1.5817, z: 0}
@@ -293,10 +233,6 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 350.726, y: 514.462, yaw: -1.5599, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 412.245, y: 464.672, yaw: 1.5811, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 413.203, y: 501.536, yaw: -1.5708, z: 0}
-      - {model_name: BigCubicle, name: BigCubicle, static: true, x: 2355.788, y: 52.133, yaw: -0.009299999999999999, z: 0}
-      - {model_name: BigCubicle, name: BigCubicle, static: true, x: 2324.383, y: 52.157, yaw: 0, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2324.109, y: 66.386, yaw: 3.1365, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2356.581, y: 66.652, yaw: 3.1208, z: 0}
       - {model_name: MainTable, name: MainTable, static: true, x: 1926.55, y: 286.12, yaw: 0, z: 0}
       - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1926.134, y: 268.234, yaw: 0, z: 0}
       - {model_name: MainTable, name: MainTable, static: true, x: 2074.682, y: 243.522, yaw: 0.311, z: 0}
@@ -315,13 +251,6 @@ levels:
       - {model_name: Toilet, name: Toilet, static: true, x: 1771.836, y: 215.961, yaw: -1.5701, z: 0}
       - {model_name: Toilet, name: Toilet, static: true, x: 1793.557, y: 216.059, yaw: -1.5742, z: 0}
       - {model_name: bookshelf, name: bookshelf, static: true, x: 446.175, y: 171.114, yaw: 0, z: 0}
-      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1930.676, y: 230.527, yaw: -0.002, z: 0}
-      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1949.842, y: 230.527, yaw: 0, z: 0}
-      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1969.193, y: 230.341, yaw: 0, z: 0}
-      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1911.679, y: 230.43, yaw: 0.0036, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1091.954, y: 94.367, yaw: 2.8861, z: 0}
-      - {model_name: BigCubicle, name: BigCubicle, static: true, x: 2294.01, y: 52.02, yaw: 0, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2293.6, y: 66.11199999999999, yaw: -3.1416, z: 0}
       - {model_name: MopCart3, name: MopCart3, static: true, x: 1633.847, y: 270.813, yaw: 0, z: 0}
       - {model_name: ConfTable, name: ConfTable, static: true, x: 2015.963, y: 425.963, yaw: 0, z: 0}
       - {model_name: ConfTable, name: ConfTable, static: true, x: 2150.92, y: 427.459, yaw: 0, z: 0}
@@ -577,73 +506,40 @@ levels:
       - [1761, 230, 0, ""]
       - [1783, 230, 0, ""]
       - [1804, 230, 0, ""]
-      - [2133.56, 61.716, 0, robot_start3, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_0], spawn_robot_type: [1, Magni]}]
-      - [2133.746, 115.215, 0, ""]
       - [2190.931, 115.215, 0, ""]
       - [2190.501, 265.185, 0, ""]
-      - [2400.063, 114.622, 0, ""]
-      - [2400.251, 69.044, 0, ""]
-      - [2459.897, 69.58499999999999, 0, robot_start1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_1], spawn_robot_type: [1, Magni]}]
       - [2084.688, 271.497, 0, check_in, {is_parking_spot: [4, true]}]
-      - [1945.712, 351.346, 0, ""]
-      - [1747.608, 351.431, 0, ""]
       - [1746.119, 276.667, 0, l1_restroom, {is_parking_spot: [4, true]}]
-      - [1332.384, 351.364, 0, ""]
-      - [1333.507, 302.488, 0, ""]
       - [1332.658, 237.626, 0, ""]
       - [1332.995, 396.464, 0, ""]
       - [1945.371, 396.495, 0, ""]
-      - [1441.803, 64.026, 0, robot_start4, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_0], spawn_robot_type: [1, MiR100]}]
-      - [1439.915, 112.892, 0, locker_room, {is_parking_spot: [4, true]}]
-      - [1427.827, 129.587, 0, ""]
-      - [1426.847, 165.499, 0, ""]
       - [1398.275, 165.579, 0, ""]
-      - [1397.98, 110.9, 0, robot_start5, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_1], spawn_robot_type: [1, MiR100]}]
-      - [1302.24, 166.095, 0, ""]
+      - [1397.98, 110.9, 0, mir100_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_1], spawn_robot_type: [1, MiR100]}]
       - [1236.048, 165.114, 0, ""]
       - [1549.229, 163.485, 0, ""]
       - [1549.229, 124.772, 0, load1, {is_parking_spot: [4, true]}]
-      - [1968.685, 166.141, 0, ""]
-      - [1968.701, 130.598, 0, load2, {is_parking_spot: [4, true]}]
-      - [1968.935, 206.889, 0, ""]
-      - [2009.492, 208.496, 0, ""]
-      - [2009.492, 233.252, 0, front_desk, {is_parking_spot: [4, true]}]
       - [853.508, 142.996, 0, kitchen1, {is_parking_spot: [4, true]}]
-      - [673.943, 143.819, 0, kitchen2, {is_parking_spot: [4, true]}]
-      - [529.085, 167.744, 0, ""]
-      - [529.2430000000001, 214.816, 0, ""]
-      - [642.752, 214.754, 0, ""]
-      - [999.451, 214.576, 0, ""]
-      - [1004.646, 164.263, 0, ""]
-      - [960.154, 398.884, 0, dining1, {is_parking_spot: [4, true]}]
-      - [826.027, 398.543, 0, dining2, {is_parking_spot: [4, true]}]
-      - [693.433, 399.579, 0, dining3, {is_parking_spot: [4, true]}]
+      - [1000.85, 166.497, 0, ""]
+      - [960.154, 398.884, 0, dining, {is_parking_spot: [4, true]}]
       - [451.402, 399.404, 0, cafe, {is_parking_spot: [4, true]}]
-      - [643.163, 291.085, 0, ""]
-      - [1001.082, 291.575, 0, ""]
-      - [2536.237, 114.592, 0, robot_start2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_2], spawn_robot_type: [1, Magni]}]
-      - [384.126, 197.704, 0, bar, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, x2_0], spawn_robot_type: [1, X2]}]
-      - [319.563, 197.414, 0, ""]
-      - [319.042, 337.759, 0, cafe2, {is_parking_spot: [4, true]}]
-      - [319.355, 402.291, 0, cafe3, {is_parking_spot: [4, true]}]
-      - [318.726, 459.164, 0, cafe4, {is_parking_spot: [4, true]}]
-      - [381.553, 458.713, 0, cafe5, {is_parking_spot: [4, true]}]
-      - [381.364, 401.647, 0, cafe6, {is_parking_spot: [4, true]}]
-      - [382.147, 326.71, 0, cafe7, {is_parking_spot: [4, true]}]
-      - [382.842, 279.288, 0, ""]
-      - [318.557, 279.06, 0, cafe1, {is_parking_spot: [4, true]}]
-      - [1236.5, 70, 0, "", {lift_cabin: [1, cargo_lift1]}]
-      - [1301.25, 70, 0, "", {lift_cabin: [1, cargo_lift2]}]
-      - [1271.5, 237.5, 0, "", {lift_cabin: [1, guest_lift1]}]
+      - [999.6609999999999, 292.318, 0, ""]
+      - [2536.237, 114.592, 0, magni_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_0], spawn_robot_type: [1, Magni]}]
+      - [1236.5, 70, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift1]}]
+      - [1301.25, 70, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift2]}]
+      - [1271.5, 237.5, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift3]}]
       - [1271.5, 302.5, 0, "", {lift_cabin: [1, guest_lift2]}]
       - [1396.5, 237.5, 0, "", {lift_cabin: [1, guest_lift3]}]
       - [1396.5, 302.5, 0, "", {lift_cabin: [1, guest_lift4]}]
       - [1271.5, 526.5, 0, "", {lift_cabin: [1, guest_lift5]}]
       - [1334.3, 526.5, 0, "", {lift_cabin: [1, guest_lift6]}]
       - [1396.5, 526.5, 0, "", {lift_cabin: [1, guest_lift7]}]
-      - [1333.596, 466.988, 0, ""]
-      - [1396.341, 466.937, 0, ""]
-      - [1271.966, 466.665, 0, ""]
+      - [1745.736, 396.756, 0, ""]
+      - [685.393, 399.19, 0, dining2]
+      - [642.369, 271.056, 0, ""]
+      - [642.562, 210.984, 0, ""]
+      - [516.519, 209.13, 0, ""]
+      - [518.372, 164.645, 0, ""]
+      - [670.365, 142.402, 0, kitchen2]
     walls:
       - [0, 3, {alpha: [3, 1], texture_name: [1, default]}]
       - [3, 6, {alpha: [3, 1], texture_name: [1, default]}]
@@ -851,838 +747,6 @@ levels:
       - [242, 134, {alpha: [3, 1], texture_name: [1, default]}]
     x_meters: 200
     y_meters: 40
-  conference_level:
-    elevation: 10
-    fiducials:
-      - [1237, 40, ref1]
-      - [1302, 40, ref2]
-      - [1302, 95, ref3]
-      - [1332, 205, ref4]
-    flattened_x_offset: 0
-    flattened_y_offset: 0
-    floors:
-      - parameters: {texture_name: [1, brown_marble], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [64, 70, 66, 47, 41, 43, 49, 50, 44, 39, 48, 55, 51, 36, 71, 73, 81, 91, 98, 97, 92, 86, 78, 72]
-      - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [142, 152, 154, 157, 158, 150, 149, 114]
-      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [72, 78, 86, 92, 97, 98, 91, 81, 73, 71, 137, 135, 139, 140, 159, 160, 161, 241, 242, 235, 236, 212, 211, 210, 194, 164, 163, 153, 154, 157, 158, 150, 149, 114, 115, 116, 112, 104, 110, 127, 120]
-      - parameters: {texture_name: [1, concrete], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [0, 1, 2, 6, 35, 33, 34, 51, 55, 48, 39, 41, 47, 66, 70, 64, 120, 127, 110, 104, 112, 116, 115, 142, 187, 190, 186, 183, 215, 219, 225, 222, 226, 236, 235, 234, 262, 264, 260, 261, 141, 101, 60, 12]
-      - parameters: {texture_name: [1, white_marble], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [152, 167, 213, 226, 222, 225, 219, 215, 183, 186, 190, 187]
-      - parameters: {texture_name: [1, white_marble], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [162, 238, 242, 241]
-      - parameters: {texture_name: [1, concrete], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [136, 135, 139, 138]
-    lanes:
-      - [199, 309, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [309, 310, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [310, 200, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [201, 309, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [202, 310, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [310, 311, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [311, 312, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [313, 314, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [313, 315, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [315, 316, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [315, 317, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [317, 318, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [317, 319, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [319, 320, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [311, 321, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [321, 322, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [322, 205, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [321, 204, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [321, 323, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [323, 203, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [311, 324, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [312, 325, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [312, 313, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [319, 326, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [326, 327, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [327, 328, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [328, 329, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [330, 331, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [331, 332, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [332, 333, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [333, 334, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [334, 335, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [335, 336, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [336, 337, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [332, 338, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [333, 339, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [335, 340, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [334, 342, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [342, 343, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [343, 344, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [344, 345, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [345, 346, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [346, 197, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [345, 347, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [347, 198, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [344, 348, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [348, 349, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [349, 350, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [350, 351, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [351, 352, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [352, 353, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [350, 354, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [354, 355, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [355, 356, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [356, 357, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [354, 358, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [358, 326, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [326, 317, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [317, 318, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [317, 313, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [313, 314, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [313, 312, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [340, 341, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-    layers:
-      {}
-    measurements:
-      - [5, 6, {distance: [3, 17.85]}]
-      - [6, 35, {distance: [3, 7.25]}]
-    models:
-      - {model_name: Fridge, name: Fridge, static: true, x: 387.815, y: 213.462, yaw: -1.5666, z: 0}
-      - {model_name: Fridge, name: Fridge, static: true, x: 353.55, y: 201.175, yaw: 0.0052, z: 0}
-      - {model_name: Fridge, name: Fridge, static: true, x: 339.706, y: 201.348, yaw: -0.0012, z: 0}
-      - {model_name: Fridge, name: Fridge, static: true, x: 367.498, y: 201.248, yaw: -0, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 342.307, y: 239.01, yaw: 1.5708, z: 0}
-      - {model_name: StorageRackCoverOpen, name: StorageRackCoverOpen, static: true, x: 341.528, y: 270.181, yaw: -1.566, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 1611.293, y: 429.826, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 1659.402, y: 427.338, yaw: 1.5708, z: 0}
-      - {model_name: NurseDesk, name: NurseDesk, static: true, x: 1641.953, y: 476.276, yaw: -3.1416, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 1661.379, y: 525.304, yaw: -3.1414, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 1639.857, y: 525.34, yaw: -3.1416, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 1619.134, y: 525.274, yaw: -3.1416, z: 0}
-      - {model_name: ConfTable, name: ConfTable, static: true, x: 1766.665, y: 499.84, yaw: -0, z: 0}
-      - {model_name: ConfTable, name: ConfTable, static: true, x: 1836.151, y: 500.064, yaw: -3.1416, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1726.617, y: 500.278, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1746.66, y: 480.808, yaw: 0.3164, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1789.378, y: 479.952, yaw: -0.2832, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1820.046, y: 480.844, yaw: 0.1417, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1858.915, y: 481.2, yaw: -0.2844, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1856.597, y: 520.961, yaw: -2.9751, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1820.165, y: 520.784, yaw: 2.8569, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1783.735, y: 519.172, yaw: -2.9974, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1748.271, y: 521.429, yaw: 2.8168, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1884.146, y: 500.95, yaw: -1.685, z: 0}
-      - {model_name: ConfTable, name: ConfTable, static: true, x: 1990.005, y: 504.92, yaw: -0.009900000000000001, z: 0}
-      - {model_name: ConfTable, name: ConfTable, static: true, x: 2059.077, y: 506.143, yaw: -0.0204, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1949.065, y: 504.081, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1968.131, y: 486.391, yaw: 0.212, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2006.361, y: 486.391, yaw: -0.2491, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2038.262, y: 487.151, yaw: 0.4136, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2078.517, y: 486.391, yaw: -0.2247, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2101.81, y: 507.912, yaw: -1.5629, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2076.745, y: 527.4059999999999, yaw: -2.8598, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2039.781, y: 525.634, yaw: 2.9368, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2005.602, y: 523.862, yaw: -2.9383, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1967.371, y: 524.875, yaw: 2.8912, z: 0}
-      - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 486.462, y: 197.179, yaw: -3.1412, z: 0}
-      - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 465.684, y: 311.087, yaw: -3.1416, z: 0}
-      - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 464.761, y: 468.712, yaw: -3.1405, z: 0}
-      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 486.772, y: 155.75, yaw: -3.1416, z: 0}
-      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 465.419, y: 361.596, yaw: -3.1363, z: 0}
-      - {model_name: KitchenSink, name: KitchenSink, static: true, x: 465.35, y: 526.288, yaw: -3.1359, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1843.016, y: 176.367, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1759.745, y: 243.072, yaw: -3.1398, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1843.016, y: 213.474, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1797.736, y: 242.851, yaw: -3.1392, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1835.285, y: 242.851, yaw: 0.0033, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1752.181, y: 213.713, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1752.389, y: 176.477, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1760.025, y: 147.045, yaw: 0.009599999999999999, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1797.21, y: 146.879, yaw: 0.001, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1834.914, y: 146.965, yaw: -0.0115, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1734.028, y: 216.737, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1730.354, y: 172.47, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1761.104, y: 262.505, yaw: 2.8887, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1799.295, y: 263.354, yaw: -3.1004, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1838.759, y: 262.505, yaw: -3.0214, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1864.219, y: 212.857, yaw: -2.0327, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1863.795, y: 176.363, yaw: -1.3185, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1844.684, y: 128.194, yaw: -0.2306, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1809.13, y: 127.812, yaw: -0.0822, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1780.963, y: 128.098, yaw: 0.1548, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1752.359, y: 127.239, yaw: 0.3129, z: 0}
-      - {model_name: Chair, name: Chair, static: true, x: 1591.494, y: 428.457, yaw: -0.1555, z: 0}
-      - {model_name: Chair, name: Chair, static: true, x: 1625.564, y: 438.898, yaw: 2.7004, z: 0}
-      - {model_name: Chair, name: Chair, static: true, x: 1644.385, y: 419.94, yaw: -0.5512, z: 0}
-      - {model_name: Chair, name: Chair, static: true, x: 1674.058, y: 435.051, yaw: 2.7968, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 394.428, y: 373.16, yaw: 1.5708, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 354.879, y: 373.16, yaw: 1.5708, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 354.352, y: 427.474, yaw: 1.5708, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 393.373, y: 426.947, yaw: 1.5708, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 352.242, y: 478.624, yaw: 1.5708, z: 0}
-      - {model_name: StorageRack, name: StorageRack, static: true, x: 391.264, y: 478.097, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1963.797, y: 175.931, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1963.797, y: 213.476, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1970.623, y: 243.93, yaw: -0.0174, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 2008.322, y: 243.93, yaw: -0.0128, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 2046.807, y: 244.244, yaw: 0.0002, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 1971.675, y: 146.758, yaw: -0.008500000000000001, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 2009.737, y: 147.095, yaw: -0.0058, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 2046.678, y: 147.265, yaw: -0, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 2054.521, y: 175.774, yaw: 1.5708, z: 0}
-      - {model_name: RecTable, name: RecTable, static: true, x: 2054.99, y: 214.284, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1944.778, y: 217.927, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1945.099, y: 175.236, yaw: 1.5708, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1971.334, y: 263.228, yaw: 3.0283, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2010.074, y: 264.478, yaw: 3.1069, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2048.19, y: 263.853, yaw: -2.9144, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2079.432, y: 219.176, yaw: -1.5194, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2077.558, y: 178.874, yaw: -1.4106, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2047.785, y: 128.558, yaw: -0.176, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2012.669, y: 130.107, yaw: 0.0075, z: 0}
-      - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1971.873, y: 126.492, yaw: 0.2064, z: 0}
-      - {model_name: MopCart1, name: MopCart1, static: true, x: 1611.79, y: 314.529, yaw: 1.5708, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1570.479, y: 114.36, yaw: 3.1367, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1570.606, y: 94.074, yaw: -3.1351, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1570.695, y: 74.59099999999999, yaw: -3.1377, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1683.486, y: 74.682, yaw: 3.1361, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1683.361, y: 94.89400000000001, yaw: 3.1409, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1683.361, y: 114.604, yaw: -3.1337, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1693.069, y: 143.985, yaw: -1.5708, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1693.052, y: 164.345, yaw: -1.5708, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1693.552, y: 185.576, yaw: -1.565, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1693.308, y: 206.294, yaw: -1.5687, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1473.995, y: 75.568, yaw: -0.0015, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1473.76, y: 94.791, yaw: 0.0025, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1473.885, y: 115.545, yaw: -0.0009, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1473.844, y: 134.917, yaw: 0.0013, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1474.164, y: 154.771, yaw: -0.0044, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1473.969, y: 174.641, yaw: -0.0031, z: 0}
-      - {model_name: Toilet, name: Toilet, static: true, x: 1474.164, y: 194.902, yaw: -0.0012, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1553.592, y: 126.895, yaw: 0.0074, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1571.822, y: 126.647, yaw: -0, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1591.913, y: 126.771, yaw: -0, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1609.772, y: 127.019, yaw: -0, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 687.831, y: 197.2, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 763.931, y: 195.388, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 842.448, y: 194.784, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 684.811, y: 324.035, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 769.971, y: 324.639, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 849.091, y: 325.243, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 679.375, y: 447.849, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 773.595, y: 446.641, yaw: 1.5708, z: 0}
-      - {model_name: CoffeeTable, name: CoffeeTable, static: true, x: 848.487, y: 447.245, yaw: 1.5708, z: 0}
-    vertices:
-      - [113, 40, 0, ""]
-      - [113, 106, 0, ""]
-      - [330, 106, 0, ""]
-      - [330, 40, 0, ""]
-      - [330, 73, 0, ""]
-      - [330, 193, 0, ""]
-      - [330, 550, 0, ""]
-      - [330, 45, 0, ""]
-      - [1162, 40, 0, ""]
-      - [1237, 40, 0, ""]
-      - [1302, 40, 0, ""]
-      - [1302, 95, 0, ""]
-      - [1367, 40, 0, ""]
-      - [330, 123, 0, ""]
-      - [380, 123, 0, ""]
-      - [430, 123, 0, ""]
-      - [380, 73, 0, ""]
-      - [335, 73, 0, ""]
-      - [355, 73, 0, ""]
-      - [425, 73, 0, ""]
-      - [430, 73, 0, ""]
-      - [405, 73, 0, ""]
-      - [497, 123, 0, ""]
-      - [497, 73, 0, ""]
-      - [435, 73, 0, ""]
-      - [455, 73, 0, ""]
-      - [497, 223, 0, ""]
-      - [475, 223, 0, ""]
-      - [475, 228, 0, ""]
-      - [475, 268, 0, ""]
-      - [475, 390, 0, ""]
-      - [475, 430, 0, ""]
-      - [330, 68, 0, ""]
-      - [475, 490, 0, ""]
-      - [525, 490, 0, ""]
-      - [475, 550, 0, ""]
-      - [525, 550, 0, ""]
-      - [525, 450, 0, ""]
-      - [525, 210, 0, ""]
-      - [525, 405, 0, ""]
-      - [530, 405, 0, ""]
-      - [525, 253, 0, ""]
-      - [530, 253, 0, ""]
-      - [525, 309, 0, ""]
-      - [525, 349, 0, ""]
-      - [550, 253, 0, ""]
-      - [550, 405, 0, ""]
-      - [555, 253, 0, ""]
-      - [555, 405, 0, ""]
-      - [555, 309, 0, ""]
-      - [555, 349, 0, ""]
-      - [525, 500, 0, ""]
-      - [555, 400, 0, ""]
-      - [529.957, 500, 0, ""]
-      - [549.9880000000001, 500, 0, ""]
-      - [555, 500, 0, ""]
-      - [555, 525, 0, ""]
-      - [1237, 95, 0, ""]
-      - [1257, 95, 0, ""]
-      - [1282, 95, 0, ""]
-      - [1367, 95, 0, ""]
-      - [1322, 95, 0, ""]
-      - [1347, 95, 0, ""]
-      - [525, 170, 0, ""]
-      - [525, 100, 0, ""]
-      - [555, 258, 0, ""]
-      - [555, 158, 0, ""]
-      - [555, 133, 0, ""]
-      - [550, 158, 0, ""]
-      - [530, 158, 0, ""]
-      - [525, 158, 0, ""]
-      - [975, 550, 0, ""]
-      - [975, 100, 0, ""]
-      - [975, 493, 0, ""]
-      - [1005, 493, 0, ""]
-      - [1005, 550, 0, ""]
-      - [975, 105, 0, ""]
-      - [975, 125, 0, ""]
-      - [975, 167, 0, ""]
-      - [1005, 167, 0, ""]
-      - [1005, 100, 0, ""]
-      - [980, 493, 0, ""]
-      - [980, 488, 0, ""]
-      - [980, 448, 0, ""]
-      - [980, 443, 0, ""]
-      - [980, 403, 0, ""]
-      - [980, 167, 0, ""]
-      - [980, 212, 0, ""]
-      - [980, 217, 0, ""]
-      - [980, 172, 0, ""]
-      - [980, 257, 0, ""]
-      - [980, 398, 0, ""]
-      - [980, 262, 0, ""]
-      - [1005, 262, 0, ""]
-      - [1005, 398, 0, ""]
-      - [975, 350, 0, ""]
-      - [975, 310, 0, ""]
-      - [975, 262, 0, ""]
-      - [975, 398, 0, ""]
-      - [1162, 140, 0, ""]
-      - [1279, 140, 0, ""]
-      - [1417, 95, 0, ""]
-      - [1417, 140, 0, ""]
-      - [1309, 140, 0, ""]
-      - [1332, 205, 0, ""]
-      - [1332, 225, 0, ""]
-      - [1272, 205, 0, ""]
-      - [1332, 250, 0, ""]
-      - [1332, 290, 0, ""]
-      - [1332, 315, 0, ""]
-      - [1332, 335, 0, ""]
-      - [1272, 335, 0, ""]
-      - [1402, 205, 0, ""]
-      - [1402, 225, 0, ""]
-      - [1462, 205, 0, ""]
-      - [1462, 335, 0, ""]
-      - [1402, 335, 0, ""]
-      - [1402, 250, 0, ""]
-      - [1402, 290, 0, ""]
-      - [1402, 315, 0, ""]
-      - [1122, 100, 0, ""]
-      - [1122, 117, 0, ""]
-      - [1122, 157, 0, ""]
-      - [1122, 215, 0, ""]
-      - [1142, 215, 0, ""]
-      - [1172, 215, 0, ""]
-      - [1192, 215, 0, ""]
-      - [1122, 335, 0, ""]
-      - [1192, 335, 0, ""]
-      - [1272.003, 185, 0, ""]
-      - [1252, 185, 0, ""]
-      - [1252, 335, 0, ""]
-      - [1192, 185, 0, ""]
-      - [1247, 185, 0, ""]
-      - [1227, 185, 0, ""]
-      - [1272, 499, 0, ""]
-      - [1272, 559, 0, ""]
-      - [1272, 550, 0, ""]
-      - [1462, 559, 0, ""]
-      - [1462, 499, 0, ""]
-      - [1462, 550, 0, ""]
-      - [1417, 40, 0, ""]
-      - [1462, 65, 0, ""]
-      - [1292, 499, 0, ""]
-      - [1317, 499, 0, ""]
-      - [1355, 499, 0, ""]
-      - [1380, 499, 0, ""]
-      - [1418, 499, 0, ""]
-      - [1442, 499, 0, ""]
-      - [1595, 205, 0, ""]
-      - [1595, 335, 0, ""]
-      - [1582, 65, 0, ""]
-      - [1695, 65, 0, ""]
-      - [1695, 335, 0, ""]
-      - [1695, 295, 0, ""]
-      - [1690, 295, 0, ""]
-      - [1670, 295, 0, ""]
-      - [1660, 295, 0, ""]
-      - [1660, 335, 0, ""]
-      - [1595, 550, 0, ""]
-      - [1595, 530, 0, ""]
-      - [1695, 530, 0, ""]
-      - [1695, 550, 0, ""]
-      - [1753, 335, 0, ""]
-      - [1753, 310, 0, ""]
-      - [1758, 310, 0, ""]
-      - [1798, 310, 0, ""]
-      - [1695, 310, 0, ""]
-      - [1803, 310, 0, ""]
-      - [1843, 310, 0, ""]
-      - [1848, 310, 0, ""]
-      - [1848, 335, 0, ""]
-      - [1906, 310, 0, ""]
-      - [1906, 335, 0, ""]
-      - [1906, 65, 0, ""]
-      - [1901, 310, 0, ""]
-      - [1881, 310, 0, ""]
-      - [1820, 65, 0, ""]
-      - [1780.362, 65, 0, ""]
-      - [1906, 95, 0, ""]
-      - [1886, 95, 0, ""]
-      - [1695, 95, 0, ""]
-      - [1715, 95, 0, ""]
-      - [1825, 65, 0, ""]
-      - [1825, 70, 0, ""]
-      - [1825, 90, 0, ""]
-      - [1825, 95, 0, ""]
-      - [1775, 65, 0, ""]
-      - [1775, 70, 0, ""]
-      - [1775, 90, 0, ""]
-      - [1775, 95, 0, ""]
-      - [1755, 95, 0, ""]
-      - [1845, 95, 0, ""]
-      - [1964, 335, 0, ""]
-      - [1964, 310, 0, ""]
-      - [1911, 310, 0, ""]
-      - [1931, 310, 0, ""]
-      - [1269.5, 70, 0, "", {lift_cabin: [1, cargo_lift1]}]
-      - [1334.25, 70, 0, "", {lift_cabin: [1, cargo_lift2]}]
-      - [1304.5, 237.5, 0, "", {lift_cabin: [1, guest_lift1]}]
-      - [1304.5, 302.5, 0, "", {lift_cabin: [1, guest_lift2]}]
-      - [1429.5, 237.5, 0, "", {lift_cabin: [1, guest_lift3]}]
-      - [1429.5, 302.5, 0, "", {lift_cabin: [1, guest_lift4]}]
-      - [1304.5, 526.5, 0, "", {lift_cabin: [1, guest_lift5]}]
-      - [1367.3, 526.5, 0, "", {lift_cabin: [1, guest_lift6]}]
-      - [1429.5, 526.5, 0, "", {lift_cabin: [1, guest_lift7]}]
-      - [1969, 310, 0, ""]
-      - [2009, 310, 0, ""]
-      - [2014, 310, 0, ""]
-      - [2054, 310, 0, ""]
-      - [2059, 310, 0, ""]
-      - [2059, 335, 0, ""]
-      - [2117, 334.956, 0, ""]
-      - [2117, 310, 0, ""]
-      - [1992, 65, 0, ""]
-      - [1987, 65, 0, ""]
-      - [1926, 95, 0, ""]
-      - [1987, 70, 0, ""]
-      - [1987, 90, 0, ""]
-      - [1987, 95, 0, ""]
-      - [1967, 95, 0, ""]
-      - [2032, 65, 0, ""]
-      - [2037, 65, 0, ""]
-      - [2037, 70, 0, ""]
-      - [2037, 90, 0, ""]
-      - [2037, 95, 0, ""]
-      - [2117, 65, 0, ""]
-      - [2057, 95, 0, ""]
-      - [2117, 95, 0, ""]
-      - [2097, 95, 0, ""]
-      - [2142, 40, 0, ""]
-      - [2142, 45, 0, ""]
-      - [2141.995, 65, 0, ""]
-      - [2142, 90, 0, ""]
-      - [2142, 115, 0, ""]
-      - [2142, 300, 0, ""]
-      - [2116.817, 300, 0, ""]
-      - [2123, 300, 0, ""]
-      - [2142, 550, 0, ""]
-      - [1906, 550, 0, ""]
-      - [1906, 450, 0, ""]
-      - [1695, 450, 0, ""]
-      - [2142, 450.023, 0, ""]
-      - [1715, 450, 0, ""]
-      - [1735, 450, 0, ""]
-      - [1886, 450, 0, ""]
-      - [1866, 450, 0, ""]
-      - [1926, 450, 0, ""]
-      - [1946, 450, 0, ""]
-      - [2122, 450, 0, ""]
-      - [2102, 450, 0, ""]
-      - [397, 193, 0, ""]
-      - [397, 223, 0, ""]
-      - [382, 223, 0, ""]
-      - [382, 309, 0, ""]
-      - [382, 289, 0, ""]
-      - [382, 314, 0, ""]
-      - [330, 314, 0, ""]
-      - [2267, 90, 0, ""]
-      - [2287, 90, 0, ""]
-      - [2292, 90, 0, ""]
-      - [2292, 40, 0, ""]
-      - [2392, 115, 0, ""]
-      - [2392, 110, 0, ""]
-      - [2392, 90, 0, ""]
-      - [2509, 115, 0, ""]
-      - [2509, 40, 0, ""]
-      - [2392, 40, 0, ""]
-      - [1582, 125, 0, ""]
-      - [1542, 125, 0, ""]
-      - [1622, 125, 0, ""]
-      - [1237, 140, 0, ""]
-      - [1237, 135, 0, ""]
-      - [1237, 115, 0, ""]
-      - [1582, 85, 0, ""]
-      - [1582, 105, 0, ""]
-      - [1695, 85, 0, ""]
-      - [1695, 105, 0, ""]
-      - [1542, 85, 0, ""]
-      - [1542, 105, 0, ""]
-      - [1695, 125, 0, ""]
-      - [1655, 85, 0, ""]
-      - [1655.235, 105, 0, ""]
-      - [1655, 125, 0, ""]
-      - [1655, 295, 0, ""]
-      - [1635, 295, 0, ""]
-      - [1595, 295, 0, ""]
-      - [1630, 295, 0, ""]
-      - [1630, 260, 0, ""]
-      - [1595, 260, 0, ""]
-      - [1622, 260, 0, ""]
-      - [1622, 255, 0, ""]
-      - [1622, 235, 0, ""]
-      - [1622, 225, 0, ""]
-      - [1627, 225, 0, ""]
-      - [1647, 225, 0, ""]
-      - [1695, 225, 0, ""]
-      - [1462, 85, 0, ""]
-      - [1462, 105, 0, ""]
-      - [1462, 125, 0, ""]
-      - [1462, 145, 0, ""]
-      - [1462, 165, 0, ""]
-      - [1462, 185, 0, ""]
-      - [1502, 85, 0, ""]
-      - [1502, 105, 0, ""]
-      - [1502, 125, 0, ""]
-      - [1502, 145, 0, ""]
-      - [1502, 165, 0, ""]
-      - [1502, 185, 0, ""]
-      - [1359.975, 237.227, 0, ""]
-      - [1360.196, 302.619, 0, ""]
-      - [1361.013, 395.95, 0, ""]
-      - [1675.576, 394.596, 0, business_center, {is_parking_spot: [4, true]}]
-      - [1724.987, 394.532, 0, ""]
-      - [1725.049, 470.178, 0, meeting1, {is_parking_spot: [4, true]}]
-      - [1774.683, 394.781, 0, ""]
-      - [1775.354, 294.139, 0, conference1, {is_parking_spot: [4, true]}]
-      - [1936.522, 394.554, 0, ""]
-      - [1935.806, 468.378, 0, meeting2, {is_parking_spot: [4, true]}]
-      - [1984.541, 394.431, 0, ""]
-      - [1985.483, 291.272, 0, conference2, {is_parking_spot: [4, true]}]
-      - [1367.519, 454.503, 0, ""]
-      - [1430.547, 453.8, 0, ""]
-      - [1304.981, 453.862, 0, ""]
-      - [943.487, 423.182, 0, ballroom, {is_parking_spot: [4, true]}]
-      - [1675.661, 322.638, 0, conf_restroom, {is_parking_spot: [4, true]}]
-      - [2131.534, 394.969, 0, ""]
-      - [2130.506, 101.913, 0, ""]
-      - [2277.559, 103.204, 0, ""]
-      - [2277.872, 53.193, 0, conf_magni_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_conf_0], spawn_robot_type: [1, Magni]}]
-      - [344.711, 107.54, 0, conf_mir100_start0, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_conf_0], spawn_robot_type: [1, MiR100]}]
-      - [344.711, 53.965, 0, ""]
-      - [414.77, 53.708, 0, ""]
-      - [444.391, 53.965, 0, ""]
-      - [510.395, 55.081, 0, ""]
-      - [510.737, 192.778, 0, ""]
-      - [511.284, 247.967, 0, ""]
-      - [442.435, 247.967, 0, conf_kitchen, {is_parking_spot: [4, true]}]
-      - [415.543, 108.828, 0, conf_mir100_start1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_conf_1], spawn_robot_type: [1, MiR100]}]
-      - [444.133, 108.57, 0, conf_mir100_start2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_conf_2], spawn_robot_type: [1, MiR100]}]
-      - [539.096, 192.616, 0, ""]
-      - [539.575, 285.006, 0, ballroom_back, {is_parking_spot: [4, true]}]
-      - [1144.123, 54.811, 0, ""]
-      - [1145.164, 160.924, 0, ""]
-      - [1293.514, 160.606, 0, ""]
-      - [1293.451, 118.243, 0, ""]
-      - [1269.427, 118.243, 0, ""]
-      - [1333.482, 117.803, 0, ""]
-      - [1438.911, 159.741, 0, ""]
-      - [1439.486, 51.858, 0, ""]
-      - [1799.227, 52.218, 0, ""]
-      - [1799.201, 80.21599999999999, 0, ""]
-      - [1872.194, 80.254, 0, ""]
-      - [1872.26, 127.587, 0, conference1_back, {is_parking_spot: [4, true]}]
-      - [2010.967, 52.233, 0, ""]
-      - [2010.967, 80.431, 0, ""]
-      - [2076.535, 80.068, 0, ""]
-      - [2076.535, 120.595, 0, conference2_back, {is_parking_spot: [4, true]}]
-      - [2129.843, 52.274, 0, ""]
-    walls:
-      - [0, 1, {alpha: [3, 1], texture_name: [1, default]}]
-      - [1, 2, {alpha: [3, 1], texture_name: [1, default]}]
-      - [0, 3, {alpha: [3, 1], texture_name: [1, default]}]
-      - [4, 5, {alpha: [3, 1], texture_name: [1, default]}]
-      - [5, 6, {alpha: [3, 1], texture_name: [1, default]}]
-      - [3, 7, {alpha: [3, 1], texture_name: [1, default]}]
-      - [3, 8, {alpha: [3, 1], texture_name: [1, default]}]
-      - [8, 9, {alpha: [3, 1], texture_name: [1, default]}]
-      - [9, 10, {alpha: [3, 1], texture_name: [1, default]}]
-      - [10, 11, {alpha: [3, 1], texture_name: [1, default]}]
-      - [10, 12, {alpha: [3, 1], texture_name: [1, default]}]
-      - [13, 14, {alpha: [3, 1], texture_name: [1, default]}]
-      - [14, 15, {alpha: [3, 1], texture_name: [1, default]}]
-      - [14, 16, {alpha: [3, 1], texture_name: [1, default]}]
-      - [4, 17, {alpha: [3, 1], texture_name: [1, default]}]
-      - [18, 16, {alpha: [3, 1], texture_name: [1, default]}]
-      - [15, 20, {alpha: [3, 1], texture_name: [1, default]}]
-      - [20, 19, {alpha: [3, 1], texture_name: [1, default]}]
-      - [16, 21, {alpha: [3, 1], texture_name: [1, default]}]
-      - [15, 22, {alpha: [3, 1], texture_name: [1, default]}]
-      - [23, 22, {alpha: [3, 1], texture_name: [1, default]}]
-      - [20, 24, {alpha: [3, 1], texture_name: [1, default]}]
-      - [25, 23, {alpha: [3, 1], texture_name: [1, default]}]
-      - [22, 26, {alpha: [3, 1], texture_name: [1, default]}]
-      - [27, 26, {alpha: [3, 1], texture_name: [1, default]}]
-      - [27, 28, {alpha: [3, 1], texture_name: [1, default]}]
-      - [29, 30, {alpha: [3, 1], texture_name: [1, default]}]
-      - [4, 32, {alpha: [3, 1], texture_name: [1, default]}]
-      - [33, 31, {alpha: [3, 1], texture_name: [1, default]}]
-      - [33, 34, {alpha: [3, 1], texture_name: [1, default]}]
-      - [33, 35, {alpha: [3, 1], texture_name: [1, default]}]
-      - [35, 36, {alpha: [3, 1], texture_name: [1, default]}]
-      - [36, 34, {alpha: [3, 1], texture_name: [1, default]}]
-      - [6, 35, {alpha: [3, 1], texture_name: [1, default]}]
-      - [38, 37, {alpha: [3, 1], texture_name: [1, default]}]
-      - [39, 40, {alpha: [3, 1], texture_name: [1, default]}]
-      - [41, 42, {alpha: [3, 1], texture_name: [1, default]}]
-      - [46, 48, {alpha: [3, 1], texture_name: [1, default]}]
-      - [45, 47, {alpha: [3, 1], texture_name: [1, default]}]
-      - [43, 49, {alpha: [3, 1], texture_name: [1, default]}]
-      - [49, 50, {alpha: [3, 1], texture_name: [1, default]}]
-      - [50, 44, {alpha: [3, 1], texture_name: [1, default]}]
-      - [52, 48, {alpha: [3, 1], texture_name: [1, default]}]
-      - [51, 53, {alpha: [3, 1], texture_name: [1, default]}]
-      - [54, 55, {alpha: [3, 1], texture_name: [1, default]}]
-      - [48, 55, {alpha: [3, 1], texture_name: [1, default]}]
-      - [56, 55, {alpha: [3, 1], texture_name: [1, default]}]
-      - [9, 57, {alpha: [3, 1], texture_name: [1, default]}]
-      - [57, 58, {alpha: [3, 1], texture_name: [1, default]}]
-      - [59, 11, {alpha: [3, 1], texture_name: [1, default]}]
-      - [12, 60, {alpha: [3, 1], texture_name: [1, default]}]
-      - [11, 61, {alpha: [3, 1], texture_name: [1, default]}]
-      - [62, 60, {alpha: [3, 1], texture_name: [1, default]}]
-      - [64, 63, {alpha: [3, 1], texture_name: [1, default]}]
-      - [47, 65, {alpha: [3, 1], texture_name: [1, default]}]
-      - [47, 66, {alpha: [3, 1], texture_name: [1, default]}]
-      - [66, 67, {alpha: [3, 1], texture_name: [1, default]}]
-      - [70, 69, {alpha: [3, 1], texture_name: [1, default]}]
-      - [68, 66, {alpha: [3, 1], texture_name: [1, default]}]
-      - [36, 71, {alpha: [3, 1], texture_name: [1, default]}]
-      - [64, 72, {alpha: [3, 1], texture_name: [1, default]}]
-      - [71, 73, {alpha: [3, 1], texture_name: [1, default]}]
-      - [73, 74, {alpha: [3, 1], texture_name: [1, default]}]
-      - [71, 75, {alpha: [3, 1], texture_name: [1, default]}]
-      - [75, 74, {alpha: [3, 1], texture_name: [1, default]}]
-      - [76, 72, {alpha: [3, 1], texture_name: [1, default]}]
-      - [77, 78, {alpha: [3, 1], texture_name: [1, default]}]
-      - [72, 80, {alpha: [3, 1], texture_name: [1, default]}]
-      - [80, 79, {alpha: [3, 1], texture_name: [1, default]}]
-      - [79, 78, {alpha: [3, 1], texture_name: [1, default]}]
-      - [82, 81, {alpha: [3, 1], texture_name: [1, default]}]
-      - [84, 83, {alpha: [3, 1], texture_name: [1, default]}]
-      - [88, 87, {alpha: [3, 1], texture_name: [1, default]}]
-      - [86, 89, {alpha: [3, 1], texture_name: [1, default]}]
-      - [85, 91, {alpha: [3, 1], texture_name: [1, default]}]
-      - [90, 92, {alpha: [3, 1], texture_name: [1, default]}]
-      - [91, 94, {alpha: [3, 1], texture_name: [1, default]}]
-      - [94, 93, {alpha: [3, 1], texture_name: [1, default]}]
-      - [93, 92, {alpha: [3, 1], texture_name: [1, default]}]
-      - [97, 92, {alpha: [3, 1], texture_name: [1, default]}]
-      - [97, 96, {alpha: [3, 1], texture_name: [1, default]}]
-      - [95, 98, {alpha: [3, 1], texture_name: [1, default]}]
-      - [98, 91, {alpha: [3, 1], texture_name: [1, default]}]
-      - [8, 99, {alpha: [3, 1], texture_name: [1, default]}]
-      - [99, 100, {alpha: [3, 1], texture_name: [1, default]}]
-      - [60, 101, {alpha: [3, 1], texture_name: [1, default]}]
-      - [101, 102, {alpha: [3, 1], texture_name: [1, default]}]
-      - [103, 102, {alpha: [3, 1], texture_name: [1, default]}]
-      - [104, 105, {alpha: [3, 1], texture_name: [1, default]}]
-      - [106, 104, {alpha: [3, 1], texture_name: [1, default]}]
-      - [107, 108, {alpha: [3, 1], texture_name: [1, default]}]
-      - [106, 111, {alpha: [3, 1], texture_name: [1, default]}]
-      - [111, 110, {alpha: [3, 1], texture_name: [1, default]}]
-      - [110, 109, {alpha: [3, 1], texture_name: [1, default]}]
-      - [113, 112, {alpha: [3, 1], texture_name: [1, default]}]
-      - [104, 112, {alpha: [3, 1], texture_name: [1, default]}]
-      - [117, 118, {alpha: [3, 1], texture_name: [1, default]}]
-      - [112, 114, {alpha: [3, 1], texture_name: [1, default]}]
-      - [114, 115, {alpha: [3, 1], texture_name: [1, default]}]
-      - [115, 116, {alpha: [3, 1], texture_name: [1, default]}]
-      - [116, 119, {alpha: [3, 1], texture_name: [1, default]}]
-      - [80, 120, {alpha: [3, 1], texture_name: [1, default]}]
-      - [120, 121, {alpha: [3, 1], texture_name: [1, default]}]
-      - [122, 123, {alpha: [3, 1], texture_name: [1, default]}]
-      - [123, 124, {alpha: [3, 1], texture_name: [1, default]}]
-      - [125, 126, {alpha: [3, 1], texture_name: [1, default]}]
-      - [123, 127, {alpha: [3, 1], texture_name: [1, default]}]
-      - [127, 128, {alpha: [3, 1], texture_name: [1, default]}]
-      - [128, 126, {alpha: [3, 1], texture_name: [1, default]}]
-      - [106, 129, {alpha: [3, 1], texture_name: [1, default]}]
-      - [129, 130, {alpha: [3, 1], texture_name: [1, default]}]
-      - [130, 131, {alpha: [3, 1], texture_name: [1, default]}]
-      - [131, 128, {alpha: [3, 1], texture_name: [1, default]}]
-      - [131, 111, {alpha: [3, 1], texture_name: [1, default]}]
-      - [126, 132, {alpha: [3, 1], texture_name: [1, default]}]
-      - [132, 134, {alpha: [3, 1], texture_name: [1, default]}]
-      - [133, 130, {alpha: [3, 1], texture_name: [1, default]}]
-      - [75, 137, {alpha: [3, 1], texture_name: [1, default]}]
-      - [137, 136, {alpha: [3, 1], texture_name: [1, default]}]
-      - [136, 138, {alpha: [3, 1], texture_name: [1, default]}]
-      - [138, 140, {alpha: [3, 1], texture_name: [1, default]}]
-      - [140, 139, {alpha: [3, 1], texture_name: [1, default]}]
-      - [137, 135, {alpha: [3, 1], texture_name: [1, default]}]
-      - [101, 141, {alpha: [3, 1], texture_name: [1, default]}]
-      - [114, 142, {alpha: [3, 1], texture_name: [1, default]}]
-      - [135, 143, {alpha: [3, 1], texture_name: [1, default]}]
-      - [144, 145, {alpha: [3, 1], texture_name: [1, default]}]
-      - [146, 147, {alpha: [3, 1], texture_name: [1, default]}]
-      - [148, 139, {alpha: [3, 1], texture_name: [1, default]}]
-      - [114, 149, {alpha: [3, 1], texture_name: [1, default]}]
-      - [142, 151, {alpha: [3, 1], texture_name: [1, default]}]
-      - [151, 152, {alpha: [3, 1], texture_name: [1, default]}]
-      - [155, 154, {alpha: [3, 1], texture_name: [1, default]}]
-      - [149, 150, {alpha: [3, 1], texture_name: [1, default]}]
-      - [150, 158, {alpha: [3, 1], texture_name: [1, default]}]
-      - [158, 157, {alpha: [3, 1], texture_name: [1, default]}]
-      - [157, 156, {alpha: [3, 1], texture_name: [1, default]}]
-      - [140, 159, {alpha: [3, 1], texture_name: [1, default]}]
-      - [160, 161, {alpha: [3, 1], texture_name: [1, default]}]
-      - [161, 162, {alpha: [3, 1], texture_name: [1, default]}]
-      - [160, 159, {alpha: [3, 1], texture_name: [1, default]}]
-      - [153, 163, {alpha: [3, 1], texture_name: [1, default]}]
-      - [163, 164, {alpha: [3, 1], texture_name: [1, default]}]
-      - [164, 165, {alpha: [3, 1], texture_name: [1, default]}]
-      - [154, 167, {alpha: [3, 1], texture_name: [1, default]}]
-      - [167, 164, {alpha: [3, 1], texture_name: [1, default]}]
-      - [167, 153, {alpha: [3, 1], texture_name: [1, default]}]
-      - [166, 168, {alpha: [3, 1], texture_name: [1, default]}]
-      - [169, 170, {alpha: [3, 1], texture_name: [1, default]}]
-      - [170, 171, {alpha: [3, 1], texture_name: [1, default]}]
-      - [171, 173, {alpha: [3, 1], texture_name: [1, default]}]
-      - [173, 172, {alpha: [3, 1], texture_name: [1, default]}]
-      - [170, 176, {alpha: [3, 1], texture_name: [1, default]}]
-      - [175, 172, {alpha: [3, 1], texture_name: [1, default]}]
-      - [152, 178, {alpha: [3, 1], texture_name: [1, default]}]
-      - [177, 174, {alpha: [3, 1], texture_name: [1, default]}]
-      - [174, 179, {alpha: [3, 1], texture_name: [1, default]}]
-      - [179, 172, {alpha: [3, 1], texture_name: [1, default]}]
-      - [180, 179, {alpha: [3, 1], texture_name: [1, default]}]
-      - [152, 181, {alpha: [3, 1], texture_name: [1, default]}]
-      - [181, 154, {alpha: [3, 1], texture_name: [1, default]}]
-      - [181, 182, {alpha: [3, 1], texture_name: [1, default]}]
-      - [191, 190, {alpha: [3, 1], texture_name: [1, default]}]
-      - [190, 186, {alpha: [3, 1], texture_name: [1, default]}]
-      - [186, 192, {alpha: [3, 1], texture_name: [1, default]}]
-      - [190, 189, {alpha: [3, 1], texture_name: [1, default]}]
-      - [185, 186, {alpha: [3, 1], texture_name: [1, default]}]
-      - [188, 187, {alpha: [3, 1], texture_name: [1, default]}]
-      - [184, 183, {alpha: [3, 1], texture_name: [1, default]}]
-      - [173, 193, {alpha: [3, 1], texture_name: [1, default]}]
-      - [194, 193, {alpha: [3, 1], texture_name: [1, default]}]
-      - [194, 196, {alpha: [3, 1], texture_name: [1, default]}]
-      - [172, 195, {alpha: [3, 1], texture_name: [1, default]}]
-      - [207, 208, {alpha: [3, 1], texture_name: [1, default]}]
-      - [194, 206, {alpha: [3, 1], texture_name: [1, default]}]
-      - [209, 210, {alpha: [3, 1], texture_name: [1, default]}]
-      - [210, 211, {alpha: [3, 1], texture_name: [1, default]}]
-      - [211, 212, {alpha: [3, 1], texture_name: [1, default]}]
-      - [212, 213, {alpha: [3, 1], texture_name: [1, default]}]
-      - [213, 210, {alpha: [3, 1], texture_name: [1, default]}]
-      - [174, 215, {alpha: [3, 1], texture_name: [1, default]}]
-      - [215, 214, {alpha: [3, 1], texture_name: [1, default]}]
-      - [179, 216, {alpha: [3, 1], texture_name: [1, default]}]
-      - [220, 219, {alpha: [3, 1], texture_name: [1, default]}]
-      - [219, 218, {alpha: [3, 1], texture_name: [1, default]}]
-      - [217, 215, {alpha: [3, 1], texture_name: [1, default]}]
-      - [221, 222, {alpha: [3, 1], texture_name: [1, default]}]
-      - [222, 223, {alpha: [3, 1], texture_name: [1, default]}]
-      - [225, 224, {alpha: [3, 1], texture_name: [1, default]}]
-      - [219, 225, {alpha: [3, 1], texture_name: [1, default]}]
-      - [222, 226, {alpha: [3, 1], texture_name: [1, default]}]
-      - [225, 227, {alpha: [3, 1], texture_name: [1, default]}]
-      - [226, 228, {alpha: [3, 1], texture_name: [1, default]}]
-      - [228, 229, {alpha: [3, 1], texture_name: [1, default]}]
-      - [228, 213, {alpha: [3, 1], texture_name: [1, default]}]
-      - [141, 230, {alpha: [3, 1], texture_name: [1, default]}]
-      - [231, 230, {alpha: [3, 1], texture_name: [1, default]}]
-      - [232, 233, {alpha: [3, 1], texture_name: [1, default]}]
-      - [236, 237, {alpha: [3, 1], texture_name: [1, default]}]
-      - [234, 235, {alpha: [3, 1], texture_name: [1, default]}]
-      - [235, 238, {alpha: [3, 1], texture_name: [1, default]}]
-      - [162, 239, {alpha: [3, 1], texture_name: [1, default]}]
-      - [239, 238, {alpha: [3, 1], texture_name: [1, default]}]
-      - [239, 240, {alpha: [3, 1], texture_name: [1, default]}]
-      - [161, 241, {alpha: [3, 1], texture_name: [1, default]}]
-      - [241, 243, {alpha: [3, 1], texture_name: [1, default]}]
-      - [244, 246, {alpha: [3, 1], texture_name: [1, default]}]
-      - [245, 240, {alpha: [3, 1], texture_name: [1, default]}]
-      - [248, 250, {alpha: [3, 1], texture_name: [1, default]}]
-      - [249, 242, {alpha: [3, 1], texture_name: [1, default]}]
-      - [240, 247, {alpha: [3, 1], texture_name: [1, default]}]
-      - [5, 251, {alpha: [3, 1], texture_name: [1, default]}]
-      - [251, 252, {alpha: [3, 1], texture_name: [1, default]}]
-      - [252, 253, {alpha: [3, 1], texture_name: [1, default]}]
-      - [253, 255, {alpha: [3, 1], texture_name: [1, default]}]
-      - [257, 256, {alpha: [3, 1], texture_name: [1, default]}]
-      - [256, 254, {alpha: [3, 1], texture_name: [1, default]}]
-      - [233, 258, {alpha: [3, 1], texture_name: [1, default]}]
-      - [230, 261, {alpha: [3, 1], texture_name: [1, default]}]
-      - [261, 260, {alpha: [3, 1], texture_name: [1, default]}]
-      - [260, 259, {alpha: [3, 1], texture_name: [1, default]}]
-      - [234, 262, {alpha: [3, 1], texture_name: [1, default]}]
-      - [260, 264, {alpha: [3, 1], texture_name: [1, default]}]
-      - [262, 263, {alpha: [3, 1], texture_name: [1, default]}]
-      - [262, 265, {alpha: [3, 1], texture_name: [1, default]}]
-      - [265, 266, {alpha: [3, 1], texture_name: [1, default]}]
-      - [264, 267, {alpha: [3, 1], texture_name: [1, default]}]
-      - [267, 266, {alpha: [3, 1], texture_name: [1, default]}]
-      - [151, 268, {alpha: [3, 1], texture_name: [1, default]}]
-      - [269, 268, {alpha: [3, 1], texture_name: [1, default]}]
-      - [268, 270, {alpha: [3, 1], texture_name: [1, default]}]
-      - [57, 273, {alpha: [3, 1], texture_name: [1, default]}]
-      - [278, 274, {alpha: [3, 1], texture_name: [1, default]}]
-      - [279, 275, {alpha: [3, 1], texture_name: [1, default]}]
-      - [281, 276, {alpha: [3, 1], texture_name: [1, default]}]
-      - [282, 277, {alpha: [3, 1], texture_name: [1, default]}]
-      - [283, 280, {alpha: [3, 1], texture_name: [1, default]}]
-      - [157, 284, {alpha: [3, 1], texture_name: [1, default]}]
-      - [286, 285, {alpha: [3, 1], texture_name: [1, default]}]
-      - [287, 288, {alpha: [3, 1], texture_name: [1, default]}]
-      - [289, 288, {alpha: [3, 1], texture_name: [1, default]}]
-      - [290, 291, {alpha: [3, 1], texture_name: [1, default]}]
-      - [292, 270, {alpha: [3, 1], texture_name: [1, default]}]
-      - [293, 294, {alpha: [3, 1], texture_name: [1, default]}]
-      - [295, 296, {alpha: [3, 1], texture_name: [1, default]}]
-      - [302, 308, {alpha: [3, 1], texture_name: [1, default]}]
-      - [297, 303, {alpha: [3, 1], texture_name: [1, default]}]
-      - [298, 304, {alpha: [3, 1], texture_name: [1, default]}]
-      - [299, 305, {alpha: [3, 1], texture_name: [1, default]}]
-      - [300, 306, {alpha: [3, 1], texture_name: [1, default]}]
-      - [301, 307, {alpha: [3, 1], texture_name: [1, default]}]
-    x_meters: 150
-    y_meters: 40
   guest_level:
     elevation: 20
     fiducials:
@@ -1754,19 +818,19 @@ levels:
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [265, 259, 260, 261, 263, 264]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [258, 257, 785, 286]
+        vertices: [258, 257, 778, 286]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [786, 296, 301, 787]
+        vertices: [779, 296, 301, 780]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [788, 316, 318, 319]
+        vertices: [781, 316, 318, 319]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [320, 321, 322, 328, 324, 323]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [272, 269, 271, 30, 257, 258, 259, 275]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [284, 283, 286, 785, 786, 296, 293, 291, 281, 280, 277, 278]
+        vertices: [284, 283, 286, 778, 779, 296, 293, 291, 281, 280, 277, 278]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [299, 300, 301, 787, 788, 316, 315, 313, 310, 309, 306, 305]
+        vertices: [299, 300, 301, 780, 781, 316, 315, 313, 310, 309, 306, 305]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [319, 31, 336, 335, 333, 329, 322, 318]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
@@ -1792,17 +856,17 @@ levels:
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [497, 504, 501, 499, 498, 496]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [495, 511, 789, 494]
+        vertices: [495, 511, 782, 494]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [550, 553, 556, 792]
+        vertices: [550, 553, 556, 785]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [790, 791, 534, 528]
+        vertices: [783, 784, 534, 528]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [493, 492, 508, 505, 497, 495, 494, 46]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [789, 790, 528, 527, 525, 522, 520, 518, 517, 514, 510, 511]
+        vertices: [782, 783, 528, 527, 525, 522, 520, 518, 517, 514, 510, 511]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [791, 792, 550, 549, 547, 543, 541, 540, 542, 536, 532, 534]
+        vertices: [784, 785, 550, 549, 547, 543, 541, 540, 542, 536, 532, 534]
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [553, 554, 557, 559, 561, 555]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
@@ -1845,78 +909,32 @@ levels:
         vertices: [0, 146, 147, 148, 149, 158, 132, 131, 139, 143, 126, 123, 127, 116, 120, 107, 111, 115, 103, 100, 102, 91, 93, 67, 77, 76, 65, 64]
       - parameters: {texture_name: [1, blue_linoleum_high_contrast], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [640, 638, 637, 639, 667, 665, 664, 661, 646, 657, 656, 643]
-    holes:
-      - parameters: {}
-        vertices: [795, 793, 794, 796]
-      - parameters: {}
-        vertices: [797, 798, 800, 799]
+      - parameters: {texture_name: [1, gray_flooring], texture_rotation: [3, 0], texture_scale: [3, 1]}
+        vertices: [577, 615, 608, 609, 610, 586, 585, 581]
     lanes:
-      - [772, 775, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [772, 779, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [779, 780, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [780, 781, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [781, 782, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [782, 783, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [783, 784, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [784, 773, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [810, 811, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [773, 812, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [812, 815, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [815, 816, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [816, 817, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [817, 818, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [818, 819, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [819, 820, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [820, 821, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [821, 822, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [825, 826, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [812, 829, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [829, 830, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [830, 813, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [827, 774, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [796, 803, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [802, 774, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
       - [774, 773, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [773, 812, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [828, 774, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [828, 805, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [805, 806, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [806, 807, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [773, 784, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [784, 783, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [783, 782, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [782, 781, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [781, 780, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [780, 779, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [779, 772, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [772, 775, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [810, 811, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [812, 813, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [813, 814, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [812, 815, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [815, 816, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [816, 817, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [817, 818, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [818, 819, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [819, 820, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [820, 821, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [825, 826, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [821, 822, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [829, 833, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [829, 835, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [830, 836, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [830, 834, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [827, 831, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [828, 832, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [813, 814, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [777, 776, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [776, 772, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [776, 810, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [772, 776, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [776, 810, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [821, 823, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
-      - [824, 823, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [823, 821, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [823, 825, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [823, 825, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [773, 796, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [790, 791, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [791, 792, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [803, 806, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [802, 804, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [776, 775, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [775, 772, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [800, 799, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [799, 798, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [790, 774, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [775, 795, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [772, 796, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [803, 797, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [796, 798, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [799, 801, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [796, 797, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [796, 798, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [798, 801, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [773, 772, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
+      - [772, 795, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 1], orientation: [1, ""]}]
     layers:
       {}
     measurements:
@@ -3063,19 +2081,12 @@ levels:
       - [2170, 655, 0, ""]
       - [2270, 680, 0, ""]
       - [2270, 730, 0, ""]
-      - [212.5, 165.596, 0, ""]
+      - [212.5, 165.596, 0, guest1]
       - [1212.5, 166.63, 0, ""]
       - [1212.5, 110, 0, ""]
-      - [212.851, 105, 0, guest1, {is_parking_spot: [4, true]}]
       - [211.554, 259.617, 0, guest2, {is_parking_spot: [4, true]}]
       - [267.958, 257.036, 0, closet1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_guest_0], spawn_robot_type: [1, Magni]}]
       - [240, 265, 0, ""]
-      - [420.18, 165.987, 0, guest5, {is_parking_spot: [4, true]}]
-      - [548.929, 167.335, 0, guest6, {is_parking_spot: [4, true]}]
-      - [680.783, 167.493, 0, guest7, {is_parking_spot: [4, true]}]
-      - [799.369, 167.894, 0, guest8, {is_parking_spot: [4, true]}]
-      - [931.451, 168.227, 0, guest9, {is_parking_spot: [4, true]}]
-      - [1065.193, 168.227, 0, guest10, {is_parking_spot: [4, true]}]
       - [540, 330, 0, ""]
       - [690, 330, 0, ""]
       - [790, 330, 0, ""]
@@ -3084,14 +2095,6 @@ levels:
       - [1770, 330, 0, ""]
       - [1870, 330, 0, ""]
       - [2020, 330, 0, ""]
-      - [1160, 95, 0, ""]
-      - [1205, 95, 0, ""]
-      - [1160, 45, 0, ""]
-      - [1205, 45, 0, ""]
-      - [1225, 95, 0, ""]
-      - [1270, 95, 0, ""]
-      - [1225, 45, 0, ""]
-      - [1270, 45, 0, ""]
       - [1220, 485, 0, ""]
       - [1220, 545, 0, ""]
       - [1340, 485, 0, ""]
@@ -3101,27 +2104,15 @@ levels:
       - [1321.327, 79.929, 0, cleaning, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_2], spawn_robot_type: [1, MiR100]}]
       - [275, 485, 0, ""]
       - [275, 545, 0, ""]
-      - [214.054, 421.593, 0, guest3, {is_parking_spot: [4, true]}]
-      - [212.428, 579.883, 0, guest4, {is_parking_spot: [4, true]}]
+      - [219.505, 577.6950000000001, 0, guest3, {is_parking_spot: [4, true]}]
       - [1275.034, 166.385, 0, ""]
-      - [1275.929, 450.1, 0, guest11, {is_parking_spot: [4, true]}]
-      - [1275.737, 579.181, 0, guest12, {is_parking_spot: [4, true]}]
-      - [1494.553, 167.642, 0, guest13, {is_parking_spot: [4, true]}]
-      - [1628.866, 167.415, 0, guest14, {is_parking_spot: [4, true]}]
-      - [1760.367, 167.423, 0, guest15, {is_parking_spot: [4, true]}]
-      - [1878.994, 167.618, 0, guest16, {is_parking_spot: [4, true]}]
-      - [2010.786, 167.085, 0, guest17, {is_parking_spot: [4, true]}]
-      - [2140.165, 166.477, 0, guest18, {is_parking_spot: [4, true]}]
-      - [2347.035, 167.39, 0, ""]
-      - [2349.789, 104.602, 0, guest19, {is_parking_spot: [4, true]}]
-      - [2345.524, 255.489, 0, guest20, {is_parking_spot: [4, true]}]
+      - [1275.737, 579.181, 0, guest4, {is_parking_spot: [4, true]}]
+      - [2347.035, 167.39, 0, guest5]
+      - [2345.524, 255.489, 0, guest6, {is_parking_spot: [4, true]}]
       - [2292.015, 257.266, 0, closet2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_guest_1], spawn_robot_type: [1, Magni]}]
-      - [2345.401, 421.16, 0, guest21, {is_parking_spot: [4, true]}]
-      - [2345.472, 579.443, 0, guest22, {is_parking_spot: [4, true]}]
+      - [2345.472, 579.443, 0, guest7, {is_parking_spot: [4, true]}]
       - [1182.288, 109.687, 0, ""]
-      - [1247.672, 110.091, 0, ""]
       - [1275.388, 237.243, 0, ""]
-      - [1276.034, 302.966, 0, ""]
       - [1182.5, 70, 0, "", {lift_cabin: [1, cargo_lift1]}]
       - [1247.25, 70, 0, "", {lift_cabin: [1, cargo_lift2]}]
       - [1217.5, 237.5, 0, "", {lift_cabin: [1, guest_lift1]}]
@@ -3808,13 +2799,13 @@ levels:
       - [766, 765, {alpha: [3, 1], texture_name: [1, default]}]
       - [770, 771, {alpha: [3, 1], texture_name: [1, default]}]
       - [577, 615, {alpha: [3, 1], texture_name: [1, default]}]
-      - [17, 778, {alpha: [3, 1], texture_name: [1, default]}]
-      - [802, 404, {alpha: [3, 1], texture_name: [1, default]}]
-      - [401, 801, {alpha: [3, 1], texture_name: [1, default]}]
-      - [803, 460, {alpha: [3, 1], texture_name: [1, default]}]
-      - [804, 463, {alpha: [3, 1], texture_name: [1, default]}]
-      - [209, 808, {alpha: [3, 1], texture_name: [1, default]}]
-      - [809, 210, {alpha: [3, 1], texture_name: [1, default]}]
+      - [17, 777, {alpha: [3, 1], texture_name: [1, default]}]
+      - [787, 404, {alpha: [3, 1], texture_name: [1, default]}]
+      - [401, 786, {alpha: [3, 1], texture_name: [1, default]}]
+      - [788, 460, {alpha: [3, 1], texture_name: [1, default]}]
+      - [789, 463, {alpha: [3, 1], texture_name: [1, default]}]
+      - [209, 793, {alpha: [3, 1], texture_name: [1, default]}]
+      - [794, 210, {alpha: [3, 1], texture_name: [1, default]}]
       - [277, 279, {alpha: [3, 1], texture_name: [1, default]}]
       - [279, 280, {alpha: [3, 1], texture_name: [1, default]}]
       - [279, 276, {alpha: [3, 1], texture_name: [1, default]}]
@@ -3822,7 +2813,7 @@ levels:
     x_meters: 130
     y_meters: 40
 lifts:
-  cargo_lift1:
+  Lift1:
     depth: 2.25
     doors:
       door:
@@ -3831,38 +2822,15 @@ lifts:
         width: 1
         x: 0
         y: -1.125
-    highest_floor: ""
     level_doors:
       L1: [door]
-      conference_level: [door]
       guest_level: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2
     x: 1236.5
     y: 70
     yaw: 0
-  cargo_lift2:
-    depth: 2.25
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 0
-        width: 1
-        x: 0
-        y: -1.125
-    highest_floor: ""
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-      guest_level: [door]
-    lowest_floor: ""
-    reference_floor_name: L1
-    width: 2
-    x: 1301.25
-    y: 70
-    yaw: 0
-  guest_lift1:
+  Lift3:
     depth: 2
     doors:
       door:
@@ -3871,132 +2839,12 @@ lifts:
         width: 1
         x: 1.25
         y: 0
-    highest_floor: ""
     level_doors:
       L1: [door]
-      conference_level: [door]
       guest_level: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.5
-    x: 1271.5
+    x: 1272
     y: 237.5
-    yaw: 0
-  guest_lift2:
-    depth: 2
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 1.5708
-        width: 1
-        x: 1.25
-        y: 0
-    highest_floor: ""
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-      guest_level: [door]
-    lowest_floor: ""
-    reference_floor_name: L1
-    width: 2.5
-    x: 1271.5
-    y: 302.5
-    yaw: 0
-  guest_lift3:
-    depth: 2
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 1.5708
-        width: 1
-        x: -1.25
-        y: 0
-    highest_floor: ""
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-      guest_level: [door]
-    lowest_floor: ""
-    reference_floor_name: L1
-    width: 2.5
-    x: 1396.5
-    y: 237.5
-    yaw: 0
-  guest_lift4:
-    depth: 2
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 1.5708
-        width: 1
-        x: -1.25
-        y: 0
-    highest_floor: ""
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-      guest_level: [door]
-    lowest_floor: ""
-    reference_floor_name: L1
-    width: 2.5
-    x: 1396.5
-    y: 302.5
-    yaw: 0
-  guest_lift5:
-    depth: 2.5
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 0
-        width: 1
-        x: 0
-        y: 1.25
-    highest_floor: conference_level
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-    lowest_floor: ""
-    reference_floor_name: L1
-    width: 2.8
-    x: 1271.5
-    y: 526.5
-    yaw: 0
-  guest_lift6:
-    depth: 2.5
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 0
-        width: 1
-        x: 0
-        y: 1.25
-    highest_floor: conference_level
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-    lowest_floor: ""
-    reference_floor_name: L1
-    width: 2.8
-    x: 1334.3
-    y: 526.5
-    yaw: 0
-  guest_lift7:
-    depth: 2.5
-    doors:
-      door:
-        door_type: 2
-        motion_axis_orientation: 0
-        width: 1
-        x: 0
-        y: 1.25
-    highest_floor: conference_level
-    level_doors:
-      L1: [door]
-      conference_level: [door]
-    lowest_floor: L1
-    reference_floor_name: L1
-    width: 2.8
-    x: 1396.5
-    y: 526.5
     yaw: 0
 name: hotel
