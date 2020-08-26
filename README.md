@@ -60,14 +60,7 @@ cd ~/rmf_demos_ws
 rosdep install --from-paths src --ignore-src --rosdistro eloquent -yr
 ```
 
-The `Airport Terminal` world requires certain open source gazebo models hosted [here](https://github.com/osrf/gazebo_models). If any model related errors are observed at launch, the missing models can be manually downloaded and added into `~/.gazebo/models/`. Optionally, all the open source models can be downloaded and copied into the default model directory.
-
-```bash
-cd ~/.
-git clone https://github.com/osrf/gazebo_models
-cd gazebo_models
-cp -r ./* ~/.gazebo/models/.
-```
+The models required for each of the demo worlds will be automatically downloaded into `~/.gazebo/models` from Ignition [Fuel](https://app.ignitionrobotics.org/fuel) when building the package `rmf_demo_maps`. If you notice something wrong with the models in the simulation, your `~/.gazebo/models` path might contain deprecated models not from `Fuel`. An easy way to solve this is to remove all models except for `sun` and `ground_plane` from `~/.gazebo/models`, and perform a clean rebuild of the package `rmf_demo_maps`.
 
 ## Compiling Instructions
 
@@ -104,7 +97,7 @@ ros2 launch demos office_delivery.launch.xml
 
 ![](docs/docs/media/delivery_request.gif)
 
-To request each of the Magni robots to loop between two points,
+To request each of the TinyRobot to loop between two points,
 Select desired `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button. Alternatively,
 
 ```bash
@@ -135,7 +128,7 @@ To spawn robots into the world and issue tasks to the same,
 source ~/rmf_demos_ws/install/setup.bash
 ros2 run demos airport_terminal_scenario.sh
 ```
-This command spawns two MiR100 and four Magni robots in the map. Out of these one MiR100 and two magni robots are issued loop request tasks. The other robots are idle and can be issued loop or delivery request tasks via the `RMF Panel`.
+This command spawns two DeliveryRobots and four TinyRobots in the map. Out of these one DeliveryRobot and two TinyRobots are issued loop request tasks. The other robots are idle and can be issued loop or delivery request tasks via the `RMF Panel`.
 
 Alternatively, to spawn all the robots without issuing any task orders,
 
@@ -150,7 +143,7 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos airport_terminal_delivery.launch.xml
 ```
 
-Non-autonomous vehicles can also be integrated with RMF provided their positions can be localized in the world. This may be of value at facilities where space is shared by autonomous robots as well as manually operated vechiles such as forklifts or transporters. In this demo, we can introduce a vehicle (caddy) which can be driven around through keyboard/joystick teleop. In RMF nomenclature, this vehicle is classified as a `read_only` type, ie, RMF can only infer its position in the world but does not have control over its motion. Here, the goal is to have other controllable robots avoid this vechile's path by replanning their routes if needed. The model is fitted with a plugin which generates a prediction of the vehicle's path based on its current heading. It is configured to occupy the same lanes as the `magni` robots. Here, a `read_only_fleet_adapter` submits the prediction from the plugin to the RMF schedule.
+Non-autonomous vehicles can also be integrated with RMF provided their positions can be localized in the world. This may be of value at facilities where space is shared by autonomous robots as well as manually operated vechiles such as forklifts or transporters. In this demo, we can introduce a vehicle (caddy) which can be driven around through keyboard/joystick teleop. In RMF nomenclature, this vehicle is classified as a `read_only` type, ie, RMF can only infer its position in the world but does not have control over its motion. Here, the goal is to have other controllable robots avoid this vechile's path by replanning their routes if needed. The model is fitted with a plugin which generates a prediction of the vehicle's path based on its current heading. It is configured to occupy the same lanes as the `tinyRobot`s. Here, a `read_only_fleet_adapter` submits the prediction from the plugin to the RMF schedule.
 
 To spawn the caddy into the world,
 
@@ -161,4 +154,40 @@ ros2 launch demos airport_terminal_caddy.launch.xml
 
 ![](docs/media/caddy.gif)
 
+# Imaginary Clinic World
 
+This is an imaginary clinic building with three levels and two lifts. Three different robot fleets with different roles navigate across all three levels by lifts. In the illustrations below, we have the view of all three levels in `traffic_editor` (top left), the schedule visualizer in `rviz` (right), and the full simulation in `gazebo` (bottom left).
+
+![](docs/media/imaginary_clinic.png)
+
+## Demo Scenario
+To launch the world and the schedule visualizer,
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos imaginary_clinic.launch.xml
+```
+
+To simulate a delivery
+
+Select fleet `tinyRobot`, set `L1_pantry` and `L3_ward4` as `Start` and `End` waypoints. Ensure `Pickup` and `Dropoff` dispensers are set to `coke_dispenser` and `coke_ingestor` respectively. Finally, click the `Send Delivery Request` button in the RViz `RMF Panel`.
+
+Alternatively, a launch file is configured to achieve the same result.
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos clinic_delivery.launch.xml 
+``` 
+
+To request each of the robots to loop between two points, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button. Alternatively,
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos clinic_loop.launch.xml
+``` 
+
+Robots taking lift:
+![](docs/media/robots_taking_lift.gif)
+
+Multi-fleet demo:
+![](docs/media/imaginary_clinic.gif)

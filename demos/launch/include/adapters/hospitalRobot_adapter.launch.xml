@@ -35,14 +35,14 @@
       <!-- How long it can be delayed before we give up and start over -->
       <arg name="delay_threshold" value="15.0"/>
 
-      <!-- Don't make the mir wait long to retry -->
+      <!-- Don't make the deliveryRobot wait long to retry -->
       <arg name="retry_wait" value="10.0"/>
 
       <!-- Give everything time to discover -->
       <arg name="discovery_timeout" value="60.0"/>
 
       <!-- Whether it can perform deliveries -->
-      <arg name="perform_deliveries" value="true"/>
+      <arg name="perform_deliveries" value="false"/>
 
       <!-- The hospitalRobot cannot drive backwards -->
       <arg name="reversible" value="false"/>

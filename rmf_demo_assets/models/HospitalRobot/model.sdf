@@ -27,12 +27,12 @@
       <pose>0 0 0 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0.43294142 0 0 0</pose>
-        <mass>244.816489</mass>
+        <pose>0 0 0.693 0 0 0</pose>
+        <mass>170</mass>
         <inertia>
-          <ixx>26.0429852</ixx>
-          <iyy>29.0695006</iyy>
-          <izz>23.0523441</izz>
+          <ixx>34.6605</ixx>
+          <iyy>32.8369</iyy>
+          <izz>13.0691</izz>
         </inertia>
       </inertial>
 
