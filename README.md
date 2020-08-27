@@ -196,6 +196,8 @@ Multi-fleet demo:
 
 This is a hotel with a lobby and a guest level. The hotel has two lifts and two robot fleets.
 
+![](docs/media/hotel.png)
+
 ## Demo Scenario
 To launch the world and the schedule visualizer,
 
