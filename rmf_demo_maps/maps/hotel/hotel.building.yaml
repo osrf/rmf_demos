@@ -160,12 +160,12 @@ levels:
       - {model_name: Chair, name: Chair, static: true, x: 715.514, y: 445.965, yaw: 0, z: 0}
       - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1977.789, y: 267.962, yaw: 0, z: 0}
       - {model_name: OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2017.22, y: 254.452, yaw: 0.8783, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1636.189, y: 211.935, yaw: 0, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1654.297, y: 212.01, yaw: 0, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1672.233, y: 212.01, yaw: 0, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1857.033, y: 233.703, yaw: -1.5724, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1856.976, y: 250.794, yaw: -1.5722, z: 0}
-      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1857.358, y: 268.004, yaw: -1.5682, z: 0}
+      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1636.189, y: 211.935, yaw: 0, z: 1}
+      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1654.297, y: 212.01, yaw: 0, z: 1}
+      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1672.233, y: 212.01, yaw: 0, z: 1}
+      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1857.033, y: 233.703, yaw: -1.5724, z: 1}
+      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1856.976, y: 250.794, yaw: -1.5722, z: 1}
+      - {model_name: BathroomSink, name: BathroomSink, static: true, x: 1857.358, y: 268.004, yaw: -1.5682, z: 1}
       - {model_name: Chair, name: Chair, static: true, x: 888.74, y: 478.387, yaw: 1.5806, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 906.925, y: 478.567, yaw: 1.5746, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 923.309, y: 478.387, yaw: 1.5979, z: 0}
@@ -211,16 +211,10 @@ levels:
       - {model_name: cafe_table, name: cafe_table, static: true, x: 351.942, y: 413.524, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 412.963, y: 483.583, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 350.486, y: 494.994, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 409.188, y: 312.561, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 291.883, y: 298.661, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 290.686, y: 383.116, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 295.43, y: 477.12, yaw: 0, z: 0}
-      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 291.933, y: 280.213, yaw: 1.5586, z: 0}
-      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 292.115, y: 317.416, yaw: -1.5758, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 351.038, y: 312.17, yaw: 1.5708, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 350.906, y: 346.579, yaw: -1.5708, z: 0}
-      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 409.188, y: 294.422, yaw: 1.5708, z: 0}
-      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 409.569, y: 331.357, yaw: -1.5528, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 412.135, y: 379.61, yaw: 1.5816, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 412.515, y: 418.338, yaw: -1.5726, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 352.049, y: 395.626, yaw: 1.5745, z: 0}
@@ -257,8 +251,6 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2061.188, y: 426.573, yaw: -0.4012, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2106.924, y: 428.437, yaw: -3.0329, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2196.871, y: 428.828, yaw: -0.2197, z: 0}
-      - {model_name: ManualFireAlarmButton, name: ManualFireAlarmButton, static: true, x: 257.324, y: 380.995, yaw: 1.5708, z: 0}
-      - {model_name: ExtinguisherBox, name: ExtinguisherBox, static: true, x: 1531.431, y: 201.185, yaw: 1.5708, z: 0}
       - {model_name: NurseDesk, name: NurseDesk, static: true, x: 404.104, y: 253.844, yaw: 0.0103, z: 0}
       - {model_name: Sofa, name: Sofa, static: true, x: 2016.797, y: 456.166, yaw: 1.5708, z: 0}
       - {model_name: Sofa, name: Sofa, static: true, x: 2150.148, y: 455.446, yaw: 1.5708, z: 0}
@@ -514,7 +506,7 @@ levels:
       - [1332.995, 396.464, 0, ""]
       - [1945.371, 396.495, 0, ""]
       - [1398.275, 165.579, 0, ""]
-      - [1397.98, 110.9, 0, mir100_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_1], spawn_robot_type: [1, MiR100]}]
+      - [1397.98, 110.9, 0, DeliveryRobot_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, DeliveryRobot_1], spawn_robot_type: [1, DeliveryRobot]}]
       - [1236.048, 165.114, 0, ""]
       - [1549.229, 163.485, 0, ""]
       - [1549.229, 124.772, 0, load1, {is_parking_spot: [4, true]}]
@@ -523,7 +515,7 @@ levels:
       - [960.154, 398.884, 0, dining, {is_parking_spot: [4, true]}]
       - [451.402, 399.404, 0, cafe, {is_parking_spot: [4, true]}]
       - [999.6609999999999, 292.318, 0, ""]
-      - [2536.237, 114.592, 0, magni_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_0], spawn_robot_type: [1, Magni]}]
+      - [2536.237, 114.592, 0, TinyRobot_start, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, TinyRobot_0], spawn_robot_type: [1, TinyRobot]}]
       - [1236.5, 70, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift1]}]
       - [1301.25, 70, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift2]}]
       - [1271.5, 237.5, 0, "", {is_passthrough_point: [4, true], lift_cabin: [1, Lift3]}]
@@ -747,7 +739,7 @@ levels:
       - [242, 134, {alpha: [3, 1], texture_name: [1, default]}]
     x_meters: 200
     y_meters: 40
-  guest_level:
+  L2:
     elevation: 20
     fiducials:
       - [1150, 40, ref1]
@@ -941,8 +933,8 @@ levels:
       - [0, 1, {distance: [3, 34.5]}]
       - [0, 11, {distance: [3, 124]}]
     models:
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 283.162, y: 80.131, yaw: -1.5701, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.869, y: 80.35899999999999, yaw: 1.5705, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 283.162, y: 80.131, yaw: -1.5701, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.869, y: 80.35899999999999, yaw: 1.5705, z: 1}
       - {model_name: MiniSofa, name: Sofa, static: true, x: 355.108, y: 121.932, yaw: -1.5759, z: 0}
       - {model_name: MiniSofa, name: Sofa, static: true, x: 72.7, y: 121.558, yaw: -1.5662, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 298.13, y: 126.405, yaw: -3.1291, z: 0}
@@ -955,12 +947,12 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 50.008, y: 260.833, yaw: 1.5708, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 119.489, y: 220.235, yaw: -3.1401, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 119.489, y: 241.44, yaw: -0.0064, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.988, y: 174.992, yaw: 1.5684, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.803, y: 284.873, yaw: 1.571, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 41.935, y: 629.859, yaw: 1.5598, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.988, y: 174.992, yaw: 1.5684, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.803, y: 284.873, yaw: 1.571, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 41.935, y: 629.859, yaw: 1.5598, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 88.16200000000001, y: 713.2430000000001, yaw: -1.578, z: 0}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 315.51, y: 620.352, yaw: -1.5768, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 137.022, y: 365.133, yaw: 1.5732, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 137.022, y: 365.133, yaw: 1.5732, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 53.17, y: 119.899, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 53.6, y: 217.14, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 53.511, y: 243.871, yaw: 0, z: 0}
@@ -975,10 +967,10 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 101.661, y: 639.856, yaw: -0.004, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 193.025, y: 660.586, yaw: -1.5819, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 218.055, y: 657.547, yaw: 1.5671, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 293.02, y: 474.511, yaw: -1.5731, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 293.074, y: 555.491, yaw: -1.5785, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.868, y: 474.441, yaw: 1.5754, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.783, y: 555.14, yaw: 1.5746, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 293.02, y: 474.511, yaw: -1.5731, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 293.074, y: 555.491, yaw: -1.5785, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.868, y: 474.441, yaw: 1.5754, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.783, y: 555.14, yaw: 1.5746, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 120.898, y: 428.892, yaw: 0.0044, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 121.248, y: 599.597, yaw: -3.1387, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 310.18, y: 429.243, yaw: -0.0054, z: 0}
@@ -1011,7 +1003,7 @@ levels:
       - {model_name: wastebasket, name: wastebasket, static: true, x: 337.945, y: 594.947, yaw: 3.1415, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 237.856, y: 682.063, yaw: 1.5656, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 142.321, y: 659.949, yaw: 1.5771, z: 0}
-      - {model_name: wastebasket, name: wastebasket, static: true, x: 88.373, y: 596.9690000000001, yaw: -3.1379, z: 0}
+      - {model_name: wastebasket, name: wastebasket, static: true, x: 88.373, y: 596.9690000000001, yaw: -3.1379, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 515.379, y: 328.108, yaw: -3.1399, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 537.127, y: 233.507, yaw: 1.5653, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 549.389, y: 261.78, yaw: 1.5705, z: 0}
@@ -1023,8 +1015,8 @@ levels:
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 692.732, y: 233.306, yaw: -1.5641, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 678.139, y: 294.668, yaw: 0, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 680.263, y: 263.122, yaw: -1.5541, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 713.954, y: 328.085, yaw: -3.1406, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 766.799, y: 328.043, yaw: 3.1368, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 713.954, y: 328.085, yaw: -3.1406, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 766.799, y: 328.043, yaw: 3.1368, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 786.904, y: 233.453, yaw: 1.5817, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 855.764, y: 268.014, yaw: -1.5724, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 874.073, y: 268.335, yaw: 1.5721, z: 0}
@@ -1035,14 +1027,14 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 928.7, y: 276.958, yaw: 0.0052, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 801.386, y: 294.341, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 927.688, y: 294.494, yaw: 0, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 965.444, y: 328.061, yaw: 3.1401, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1034.524, y: 243.062, yaw: 3.1389, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 965.444, y: 328.061, yaw: 3.1401, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1034.524, y: 243.062, yaw: 3.1389, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1087.116, y: 257.498, yaw: -1.5681, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1057.632, y: 320.528, yaw: -3.139, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 1080.245, y: 316.717, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1080.903, y: 298.306, yaw: 0.0059, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1081.542, y: 283.734, yaw: -1.5725, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1201.927, y: 474.627, yaw: 1.5775, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1201.927, y: 474.627, yaw: 1.5775, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1187.531, y: 428.357, yaw: 0.0005, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 1118.604, y: 433.373, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 1118.677, y: 596.953, yaw: 0, z: 0}
@@ -1064,13 +1056,13 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 1444.081, y: 573.628, yaw: -1.5705, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1442.336, y: 456.124, yaw: -1.573, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1201.862, y: 555.47, yaw: 1.5697, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1358.063, y: 554.6369999999999, yaw: -1.567, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1358.009, y: 475.051, yaw: -1.5688, z: 0}
-      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1301.987, y: 658.126, yaw: 1.5792, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1358.063, y: 554.6369999999999, yaw: -1.567, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1358.009, y: 475.051, yaw: -1.5688, z: 1}
+      - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1301.987, y: 658.126, yaw: 1.5792, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1277.103, y: 657.856, yaw: -1.574, z: 0}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 1179.756, y: 620.319, yaw: -1.5705, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1453.082, y: 629.907, yaw: -1.5691, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1406.832, y: 710.756, yaw: 1.5662, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1453.082, y: 629.907, yaw: -1.5691, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1406.832, y: 710.756, yaw: 1.5662, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 1358.99, y: 642.357, yaw: 0, z: 0}
       - {model_name: RecTable, name: RecTable, static: true, x: 1244.516, y: 707.049, yaw: 1.5756, z: 0}
       - {model_name: RecTable, name: RecTable, static: true, x: 249.054, y: 708.141, yaw: 1.5696, z: 0}
@@ -1080,16 +1072,16 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1376.932, y: 641.351, yaw: 0.0077, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1397.558, y: 639.842, yaw: 0.0117, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1358.061, y: 657.896, yaw: 1.5757, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1525.345, y: 243.167, yaw: -3.1404, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1525.345, y: 243.167, yaw: -3.1404, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 1478.449, y: 316.537, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1477.395, y: 296.722, yaw: -3.1362, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1476.131, y: 281.755, yaw: 1.5657, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1501.638, y: 320.542, yaw: 3.1273, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1473.03, y: 257.205, yaw: 1.607, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1595.349, y: 327.961, yaw: -3.1413, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1595.349, y: 327.961, yaw: -3.1413, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1617.276, y: 232.664, yaw: 1.5688, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1794.834, y: 328.652, yaw: 3.1399, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1846.224, y: 328.191, yaw: 3.1395, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1794.834, y: 328.652, yaw: 3.1399, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1846.224, y: 328.191, yaw: 3.1395, z: 1}
       - {model_name: Fridge, name: Fridge, static: true, x: 1686.755, y: 272.529, yaw: -1.5775, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1703.673, y: 272.952, yaw: 1.586, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 1632.509, y: 294.387, yaw: 0, z: 0}
@@ -1112,11 +1104,11 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2151.84, y: 300.157, yaw: 0.0064, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2010.195, y: 264.058, yaw: -1.5773, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2152.471, y: 285.646, yaw: -1.5775, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2048.08, y: 328.104, yaw: -3.1407, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2048.08, y: 328.104, yaw: -3.1407, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2157.582, y: 258.342, yaw: -1.5702, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2133.494, y: 321.753, yaw: 3.1363, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.03, y: 80.242, yaw: -1.5727, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2276.787, y: 79.58199999999999, yaw: 1.5689, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.03, y: 80.242, yaw: -1.5727, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2276.787, y: 79.58199999999999, yaw: 1.5689, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2182.358, y: 122.616, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2183.544, y: 432.503, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2182.916, y: 597.022, yaw: 0, z: 0}
@@ -1127,9 +1119,9 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 2178.826, y: 452.793, yaw: 1.5714, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2201.71, y: 431.523, yaw: 1.5652, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2216.807, y: 430.873, yaw: -0.001, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2266.901, y: 474.327, yaw: 1.5687, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2266.901, y: 474.327, yaw: 1.5687, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2252.822, y: 428.013, yaw: -3.1369, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2266.99, y: 554.457, yaw: 1.5708, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2266.99, y: 554.457, yaw: 1.5708, z: 1}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2201.558, y: 597.851, yaw: -1.5703, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2217.104, y: 598.11, yaw: -3.137, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2179.632, y: 575.337, yaw: 1.5688, z: 0}
@@ -1140,17 +1132,17 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2488.612, y: 122.354, yaw: -1.568, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2473.769, y: 123.591, yaw: 3.1413, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.257, y: 221.311, yaw: 3.138, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.025, y: 175.501, yaw: -1.5788, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.025, y: 175.501, yaw: -1.5788, z: 1}
       - {model_name: Fridge, name: Fridge, static: true, x: 2510.229, y: 197.061, yaw: -1.5704, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2508.422, y: 218.056, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2491.146, y: 218.579, yaw: -1.5742, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2476.3, y: 218.568, yaw: 3.1415, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.069, y: 284.975, yaw: -1.5789, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.069, y: 284.975, yaw: -1.5789, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2508.159, y: 242.034, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2490.292, y: 241.612, yaw: 1.5733, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2476.553, y: 241.511, yaw: -0.0001, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.188, y: 238.54, yaw: -0.0021, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.188, y: 364.851, yaw: -1.5756, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.188, y: 364.851, yaw: -1.5756, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2506.882, y: 407.35, yaw: 0, z: 0}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.065, y: 432.696, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2489.196, y: 431.818, yaw: 1.5696, z: 0}
@@ -1159,8 +1151,8 @@ levels:
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.443, y: 411.637, yaw: -3.1406, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.219, y: 428.513, yaw: 0.0048, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.453, y: 431.504, yaw: 0.0097, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2422.968, y: 475.689, yaw: -1.5699, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2422.955, y: 553.667, yaw: -1.5677, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2422.968, y: 475.689, yaw: -1.5699, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2422.955, y: 553.667, yaw: -1.5677, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.6, y: 597.654, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2489.987, y: 597.38, yaw: -1.5737, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.667, y: 597.283, yaw: -3.14, z: 0}
@@ -1168,8 +1160,8 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 2510.198, y: 456.862, yaw: -1.5658, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2509.937, y: 575.773, yaw: -1.5687, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.206, y: 601.503, yaw: 3.1381, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2518.08, y: 629.5069999999999, yaw: -1.5625, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2471.82, y: 714.074, yaw: 1.5732, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2518.08, y: 629.5069999999999, yaw: -1.5625, z: 1}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2471.82, y: 714.074, yaw: 1.5732, z: 1}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 2244.521, y: 620.159, yaw: -1.5696, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2342.865, y: 656.676, yaw: -1.5712, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2366.87, y: 658.144, yaw: 1.5843, z: 0}
@@ -1181,7 +1173,7 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2442.981, y: 641.106, yaw: 0.0142, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2424.066, y: 658.045, yaw: 1.5822, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2461.189, y: 640.627, yaw: -1.5585, z: 0}
-      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2114.959, y: 243.05, yaw: 3.139, z: 0}
+      - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2114.959, y: 243.05, yaw: 3.139, z: 1}
       - {model_name: cafe_table, name: cafe_table, static: true, x: 375.954, y: 121.141, yaw: -0.0037, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2510.022, y: 260.585, yaw: -1.5724, z: 0}
       - {model_name: Toilet, name: Toilet, static: true, x: 169.886, y: 66.09, yaw: -1.5851, z: 0}
@@ -2085,7 +2077,7 @@ levels:
       - [1212.5, 166.63, 0, ""]
       - [1212.5, 110, 0, ""]
       - [211.554, 259.617, 0, guest2, {is_parking_spot: [4, true]}]
-      - [267.958, 257.036, 0, closet1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_guest_0], spawn_robot_type: [1, Magni]}]
+      - [267.958, 257.036, 0, closet1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, TinyRobot_guest_0], spawn_robot_type: [1, TinyRobot]}]
       - [240, 265, 0, ""]
       - [540, 330, 0, ""]
       - [690, 330, 0, ""]
@@ -2101,7 +2093,7 @@ levels:
       - [1340, 545, 0, ""]
       - [1292.692, 109.847, 0, ""]
       - [1292.692, 79.929, 0, ""]
-      - [1321.327, 79.929, 0, cleaning, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, mir100_2], spawn_robot_type: [1, MiR100]}]
+      - [1321.327, 79.929, 0, cleaning, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, DeliveryRobot_2], spawn_robot_type: [1, DeliveryRobot]}]
       - [275, 485, 0, ""]
       - [275, 545, 0, ""]
       - [219.505, 577.6950000000001, 0, guest3, {is_parking_spot: [4, true]}]
@@ -2109,7 +2101,7 @@ levels:
       - [1275.737, 579.181, 0, guest4, {is_parking_spot: [4, true]}]
       - [2347.035, 167.39, 0, guest5]
       - [2345.524, 255.489, 0, guest6, {is_parking_spot: [4, true]}]
-      - [2292.015, 257.266, 0, closet2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, magni_guest_1], spawn_robot_type: [1, Magni]}]
+      - [2292.015, 257.266, 0, closet2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, TinyRobot_guest_1], spawn_robot_type: [1, TinyRobot]}]
       - [2345.472, 579.443, 0, guest7, {is_parking_spot: [4, true]}]
       - [1182.288, 109.687, 0, ""]
       - [1275.388, 237.243, 0, ""]
@@ -2822,9 +2814,11 @@ lifts:
         width: 1
         x: 0
         y: -1.125
+    highest_floor: ""
     level_doors:
       L1: [door]
-      guest_level: [door]
+      L2: [door]
+    lowest_floor: ""
     reference_floor_name: L1
     width: 2
     x: 1236.5
@@ -2839,9 +2833,11 @@ lifts:
         width: 1
         x: 1.25
         y: 0
+    highest_floor: ""
     level_doors:
       L1: [door]
-      guest_level: [door]
+      L2: [door]
+    lowest_floor: ""
     reference_floor_name: L1
     width: 2.5
     x: 1272
