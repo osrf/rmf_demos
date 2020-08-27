@@ -201,7 +201,7 @@ To launch the world and the schedule visualizer,
 
 ```bash
 source ~/rmf_demos_ws/install/setup.bash
-ros2 launch demos imaginary_clinic.launch.xml
+ros2 launch demos hotel.launch.xml
 ```
 
 To simulate a loop request, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button.
