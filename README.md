@@ -194,7 +194,7 @@ Multi-fleet demo:
 
 # Hotel
 
-This is a hotel with a lobby and a guest level. The hotel has two lifts and two robot fleets.
+This is a hotel with a lobby and a guest level. The hotel has two lifts and two robot fleets. The tiny robots are supposed to guide the guests and the delivery robots are used to load and deliver cargo
 
 ![](docs/media/hotel.png)
 
