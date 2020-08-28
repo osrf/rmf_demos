@@ -24,12 +24,13 @@ def main(argv=sys.argv):
                         '--dropoff',
                         default='hardware_2', help='Finish waypoint')
     parser.add_argument('-dd',
-                        '--dropoff_dispenser',
-                        default='coke_ingestor', help='Dropoff dispenser name')
+                        '--dropoff_ingestor',
+                        default='coke_ingestor', help='Dropoff ingestor name')
     parser.add_argument('-i',
                         '--task-id', help='Task ID', default='', type=str)
     parser.add_argument('-r',
-                        '--robot-type', help='Type of robot', default='magni')
+                        '--robot-type',
+                        help='Type of robot', default='tinyRobot')
 
     args = parser.parse_args(args_without_ros[1:])
 
@@ -46,7 +47,7 @@ def main(argv=sys.argv):
     request.pickup_place_name = args.pickup
     request.dropoff_place_name = args.dropoff
     request.pickup_dispenser = args.pickup_dispenser
-    request.dropoff_dispenser = args.dropoff_dispenser
+    request.dropoff_ingestor = args.dropoff_ingestor
 
     for _ in range(5):
         publisher.publish(request)

@@ -112,9 +112,9 @@ void RmfPanel::create_layout()
   _pickup_dispenser_editor = new QLineEdit;
   delivery_layout->addWidget(_pickup_dispenser_editor, 0, 1, 1, 2);
 
-  delivery_layout->addWidget(new QLabel("Dropoff dispenser: "), 1, 0);
-  _dropoff_dispenser_editor = new QLineEdit;
-  delivery_layout->addWidget(_dropoff_dispenser_editor, 1, 1, 1, 2);
+  delivery_layout->addWidget(new QLabel("Dropoff ingestor: "), 1, 0);
+  _dropoff_ingestor_editor = new QLineEdit;
+  delivery_layout->addWidget(_dropoff_ingestor_editor, 1, 1, 1, 2);
 
   _send_delivery_button = new QPushButton("Send Delivery Request");
   delivery_layout->addWidget(_send_delivery_button, 2, 0, 1, -1);
@@ -383,11 +383,11 @@ void RmfPanel::load(const rviz_common::Config& config)
 {
   rviz_common::Panel::load(config);
   QString pickup_dispenser;
-  QString dropoff_dispenser;
+  QString dropoff_ingestor;
   if (config.mapGetString("pickup_dispenser", &pickup_dispenser))
     _pickup_dispenser_editor->setText(pickup_dispenser);
-  if (config.mapGetString("dropoff_dispenser", &dropoff_dispenser))
-    _dropoff_dispenser_editor->setText(dropoff_dispenser);
+  if (config.mapGetString("dropoff_ingestor", &dropoff_ingestor))
+    _dropoff_ingestor_editor->setText(dropoff_ingestor);
 }
 
 // Save config
@@ -395,7 +395,7 @@ void RmfPanel::save(rviz_common::Config config) const
 {
   rviz_common::Panel::save(config);
   config.mapSetValue("pickup_dispenser", _pickup_dispenser_editor->text());
-  config.mapSetValue("dropoff_dispenser", _dropoff_dispenser_editor->text());
+  config.mapSetValue("dropoff_ingestor", _dropoff_ingestor_editor->text());
 }
 
 // Q_SLOTS
@@ -405,14 +405,14 @@ void RmfPanel::queue_delivery()
   std::string start = _start_waypoint_selector->currentText().toStdString();
   std::string end = _end_waypoint_selector->currentText().toStdString();
   std::string pickup_dispenser = _pickup_dispenser_editor->text().toStdString();
-  std::string dropoff_dispenser =
-    _dropoff_dispenser_editor->text().toStdString();
+  std::string dropoff_ingestor =
+    _dropoff_ingestor_editor->text().toStdString();
 
   Delivery delivery;
 
   // If either start or end are empty, the delivery should probably not be queued
   if (start.empty() || end.empty() || pickup_dispenser.empty()
-    || dropoff_dispenser.empty())
+    || dropoff_ingestor.empty())
   {
     RCLCPP_INFO(_node->get_logger(),
       "Waypoint input is empty string; Delivery not queued in plan.");
@@ -423,7 +423,7 @@ void RmfPanel::queue_delivery()
   delivery.pickup_place_name = start;
   delivery.dropoff_place_name = end;
   delivery.pickup_dispenser = pickup_dispenser;
-  delivery.dropoff_dispenser = dropoff_dispenser;
+  delivery.dropoff_ingestor = dropoff_ingestor;
 
   auto delivery_time = _time_selector->time();
 

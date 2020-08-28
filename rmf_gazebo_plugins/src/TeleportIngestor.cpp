@@ -33,9 +33,10 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_state.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_request.hpp>
+
 
 namespace rmf_gazebo_plugins {
 
@@ -45,9 +46,9 @@ class TeleportIngestorPlugin : public gazebo::ModelPlugin
 public:
 
   using FleetState = rmf_fleet_msgs::msg::FleetState;
-  using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-  using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
-  using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
+  using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
+  using IngestorRequest = rmf_ingestor_msgs::msg::IngestorRequest;
+  using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
   using Pose3d = ignition::math::Pose3d;
 
 private:
@@ -63,9 +64,9 @@ private:
 
   gazebo_ros::Node::SharedPtr _node;
   rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
-  rclcpp::Publisher<DispenserState>::SharedPtr _state_pub;
-  rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
-  rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
+  rclcpp::Publisher<IngestorState>::SharedPtr _state_pub;
+  rclcpp::Subscription<IngestorRequest>::SharedPtr _request_sub;
+  rclcpp::Publisher<IngestorResult>::SharedPtr _result_pub;
 
   std::unordered_map<std::string, ignition::math::Pose3d>
   _non_static_models_init_poses;
@@ -74,7 +75,7 @@ private:
 
   std::unordered_map<std::string, bool> _past_request_guids;
 
-  DispenserState _current_state;
+  IngestorState _current_state;
 
   rclcpp::Time simulation_now() const
   {
@@ -217,7 +218,7 @@ private:
   void send_ingestor_response(
     const std::string& request_guid, uint8_t status) const
   {
-    DispenserResult response;
+    IngestorResult response;
     response.time = simulation_now();
     response.request_guid = request_guid;
     response.source_guid = _guid;
@@ -225,7 +226,7 @@ private:
     _result_pub->publish(response);
   }
 
-  void dispenser_request_cb(DispenserRequest::UniquePtr msg)
+  void ingestor_request_cb(IngestorRequest::UniquePtr msg)
   {
     // TODO: the message field should use fleet name instead
     const auto transporter_type = msg->transporter_type;
@@ -240,23 +241,23 @@ private:
         {
           RCLCPP_WARN(_node->get_logger(),
             "Request already succeeded: [%s]", request_guid);
-          send_ingestor_response(request_guid, DispenserResult::SUCCESS);
+          send_ingestor_response(request_guid, IngestorResult::SUCCESS);
         }
         else
         {
           RCLCPP_WARN(_node->get_logger(),
             "Request already failed: [%s]", request_guid);
-          send_ingestor_response(request_guid, DispenserResult::FAILED);
+          send_ingestor_response(request_guid, IngestorResult::FAILED);
         }
         return;
       }
 
-      send_ingestor_response(request_guid, DispenserResult::ACKNOWLEDGED);
+      send_ingestor_response(request_guid, IngestorResult::ACKNOWLEDGED);
 
       RCLCPP_INFO(_node->get_logger(), "Ingesting item");
       ingest_from_nearest_robot(transporter_type);
 
-      send_ingestor_response(request_guid, DispenserResult::SUCCESS);
+      send_ingestor_response(request_guid, IngestorResult::SUCCESS);
 
       rclcpp::sleep_for(std::chrono::seconds(10));
       send_ingested_item_home();
@@ -277,7 +278,7 @@ private:
       const auto now = simulation_now();
 
       _current_state.time = now;
-      _current_state.mode = DispenserState::IDLE;
+      _current_state.mode = IngestorState::IDLE;
       _state_pub->publish(_current_state);
     }
   }
@@ -312,22 +313,22 @@ public:
         fleet_state_cb(std::move(msg));
       });
 
-    _state_pub = _node->create_publisher<DispenserState>(
-      "/dispenser_states", 10);
+    _state_pub = _node->create_publisher<IngestorState>(
+      "/ingestor_states", 10);
 
-    _request_sub = _node->create_subscription<DispenserRequest>(
-      "/dispenser_requests",
+    _request_sub = _node->create_subscription<IngestorRequest>(
+      "/ingestor_requests",
       rclcpp::SystemDefaultsQoS(),
-      [&](DispenserRequest::UniquePtr msg)
+      [&](IngestorRequest::UniquePtr msg)
       {
-        dispenser_request_cb(std::move(msg));
+        ingestor_request_cb(std::move(msg));
       });
 
-    _result_pub = _node->create_publisher<DispenserResult>(
-      "/dispenser_results", 10);
+    _result_pub = _node->create_publisher<IngestorResult>(
+      "/ingestor_results", 10);
 
     _current_state.guid = _guid;
-    _current_state.mode = DispenserState::IDLE;
+    _current_state.mode = IngestorState::IDLE;
 
     _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&TeleportIngestorPlugin::on_update, this));

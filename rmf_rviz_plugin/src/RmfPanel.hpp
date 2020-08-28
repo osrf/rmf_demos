@@ -134,8 +134,8 @@ protected:
   // Actions - For queuing commands in Plan
   QLineEdit* _pickup_dispenser_editor;
   QString _pickup_dispenser;
-  QLineEdit* _dropoff_dispenser_editor;
-  QString _dropoff_dispenser;
+  QLineEdit* _dropoff_ingestor_editor;
+  QString _dropoff_ingestor;
   QPushButton* _send_delivery_button;
 
   QSpinBox* _repeat_count_selector; // Number of loops in Loop task
