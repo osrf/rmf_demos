@@ -143,8 +143,8 @@ levels:
       - {model_name: MetalCabinet, name: MetalCabinet, static: true, x: 1453.083, y: 133.099, yaw: 3.1389, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 449.585, y: 214.229, yaw: -1.567, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 449.585, y: 201.49, yaw: -1.5721, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 426.897, y: 171.114, yaw: 0, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 407.175, y: 171.114, yaw: 0, z: 0}
+      - {model_name: Bookshelf, name: Bookshelf, static: true, x: 426.897, y: 171.114, yaw: 0, z: 0}
+      - {model_name: Bookshelf, name: Bookshelf, static: true, x: 407.175, y: 171.114, yaw: 0, z: 0}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 372.364, y: 177.4, yaw: -1.5695, z: 0}
       - {model_name: table_marble, name: table_marble, static: true, x: 609.404, y: 343.751, yaw: 0, z: 0.5}
       - {model_name: table_marble, name: table_marble, static: true, x: 609.5119999999999, y: 452.161, yaw: 0, z: 0.5}
@@ -206,13 +206,13 @@ levels:
       - {model_name: Chair, name: Chair, static: true, x: 1074.295, y: 476.816, yaw: 1.5728, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1089.873, y: 441.654, yaw: -3.1332, z: 0}
       - {model_name: Chair, name: Chair, static: true, x: 1090.146, y: 459.865, yaw: -3.1416, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 351.121, y: 329.438, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 412.515, y: 398.974, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 351.942, y: 413.524, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 412.963, y: 483.583, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 350.486, y: 494.994, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 290.686, y: 383.116, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 295.43, y: 477.12, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 351.121, y: 329.438, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 412.515, y: 398.974, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 351.942, y: 413.524, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 412.963, y: 483.583, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 350.486, y: 494.994, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 290.686, y: 383.116, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 295.43, y: 477.12, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 351.038, y: 312.17, yaw: 1.5708, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 350.906, y: 346.579, yaw: -1.5708, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 412.135, y: 379.61, yaw: 1.5816, z: 0}
@@ -244,7 +244,7 @@ levels:
       - {model_name: Toilet, name: Toilet, static: true, x: 1750.266, y: 215.882, yaw: -1.5712, z: 0}
       - {model_name: Toilet, name: Toilet, static: true, x: 1771.836, y: 215.961, yaw: -1.5701, z: 0}
       - {model_name: Toilet, name: Toilet, static: true, x: 1793.557, y: 216.059, yaw: -1.5742, z: 0}
-      - {model_name: bookshelf, name: bookshelf, static: true, x: 446.175, y: 171.114, yaw: 0, z: 0}
+      - {model_name: Bookshelf, name: Bookshelf, static: true, x: 446.175, y: 171.114, yaw: 0, z: 0}
       - {model_name: MopCart3, name: MopCart3, static: true, x: 1633.847, y: 270.813, yaw: 0, z: 0}
       - {model_name: ConfTable, name: ConfTable, static: true, x: 2015.963, y: 425.963, yaw: 0, z: 0}
       - {model_name: ConfTable, name: ConfTable, static: true, x: 2150.92, y: 427.459, yaw: 0, z: 0}
@@ -935,8 +935,8 @@ levels:
     models:
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 283.162, y: 80.131, yaw: -1.5701, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 136.869, y: 80.35899999999999, yaw: 1.5705, z: 1}
-      - {model_name: MiniSofa, name: Sofa, static: true, x: 355.108, y: 121.932, yaw: -1.5759, z: 0}
-      - {model_name: MiniSofa, name: Sofa, static: true, x: 72.7, y: 121.558, yaw: -1.5662, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 355.108, y: 121.932, yaw: -1.5759, z: 0}
+      - {model_name: MiniSofa, name: MiniSofa, static: true, x: 72.7, y: 121.558, yaw: -1.5662, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 298.13, y: 126.405, yaw: -3.1291, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 122.198, y: 126.154, yaw: -3.1384, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 379.209, y: 103.13, yaw: -1.5762, z: 0}
@@ -953,14 +953,14 @@ levels:
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 88.16200000000001, y: 713.2430000000001, yaw: -1.578, z: 0}
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 315.51, y: 620.352, yaw: -1.5768, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 137.022, y: 365.133, yaw: 1.5732, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.17, y: 119.899, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.6, y: 217.14, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.511, y: 243.871, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 53.903, y: 405.513, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 53.17, y: 119.899, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 53.6, y: 217.14, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 53.511, y: 243.871, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 53.903, y: 405.513, yaw: 0, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 120.38, y: 410.788, yaw: 3.1407, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 49.676, y: 387.601, yaw: 1.5695, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 75.04600000000001, y: 405.743, yaw: -1.573, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 143.166, y: 642.271, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 143.166, y: 642.271, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 162.316, y: 643.128, yaw: -0.0176, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 123.157, y: 642.842, yaw: 3.1245, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 278.191, y: 721.318, yaw: 3.1321, z: 0}
@@ -975,10 +975,10 @@ levels:
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 121.248, y: 599.597, yaw: -3.1387, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 310.18, y: 429.243, yaw: -0.0054, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 308.427, y: 601.349, yaw: 3.1393, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 52.401, y: 434.259, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 52.401, y: 596.843, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 375.136, y: 596.032, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 374.73, y: 433.042, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 52.401, y: 434.259, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 52.401, y: 596.843, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 375.136, y: 596.032, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 374.73, y: 433.042, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 378.4, y: 451.226, yaw: -1.5657, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 377.929, y: 577.127, yaw: -1.5736, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 50.135, y: 456.666, yaw: 1.5609, z: 0}
@@ -988,7 +988,7 @@ levels:
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 356.11, y: 595.551, yaw: -1.5696, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 71.52, y: 596.903, yaw: -1.5701, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 444.924, y: 243.016, yaw: 3.1375, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 408.185, y: 316.992, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 408.185, y: 316.992, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 429.137, y: 320.934, yaw: 3.1396, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 407.663, y: 298.644, yaw: -3.1376, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 402.782, y: 257.447, yaw: 1.5794, z: 0}
@@ -1008,12 +1008,12 @@ levels:
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 537.127, y: 233.507, yaw: 1.5653, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 549.389, y: 261.78, yaw: 1.5705, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 550.692, y: 275.457, yaw: 3.1373, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 552.984, y: 294.743, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 552.984, y: 294.743, yaw: 0, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 607.162, y: 269.96, yaw: -1.5687, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 622.753, y: 270.46, yaw: 1.5656, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 680.427, y: 277.179, yaw: -0.0048, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 692.732, y: 233.306, yaw: -1.5641, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 678.139, y: 294.668, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 678.139, y: 294.668, yaw: 0, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 680.263, y: 263.122, yaw: -1.5541, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 713.954, y: 328.085, yaw: -3.1406, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 766.799, y: 328.043, yaw: 3.1368, z: 1}
@@ -1025,21 +1025,21 @@ levels:
       - {model_name: wastebasket, name: wastebasket, static: true, x: 928.7, y: 263.468, yaw: -1.5666, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 942.405, y: 232.146, yaw: -1.5589, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 928.7, y: 276.958, yaw: 0.0052, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 801.386, y: 294.341, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 927.688, y: 294.494, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 801.386, y: 294.341, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 927.688, y: 294.494, yaw: 0, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 965.444, y: 328.061, yaw: 3.1401, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1034.524, y: 243.062, yaw: 3.1389, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1087.116, y: 257.498, yaw: -1.5681, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1057.632, y: 320.528, yaw: -3.139, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1080.245, y: 316.717, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1080.245, y: 316.717, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1080.903, y: 298.306, yaw: 0.0059, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1081.542, y: 283.734, yaw: -1.5725, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1201.927, y: 474.627, yaw: 1.5775, z: 1}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1187.531, y: 428.357, yaw: 0.0005, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1118.604, y: 433.373, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1118.677, y: 596.953, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1440.525, y: 433.986, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1441.036, y: 596.953, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1118.604, y: 433.373, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1118.677, y: 596.953, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1440.525, y: 433.986, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1441.036, y: 596.953, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1138.601, y: 432.453, yaw: 1.5648, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1421.623, y: 432.453, yaw: 1.5838, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1422.645, y: 598.997, yaw: -1.5698, z: 0}
@@ -1063,7 +1063,7 @@ levels:
       - {model_name: KitchenCountertop, name: KitchenCountertop, static: true, x: 1179.756, y: 620.319, yaw: -1.5705, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1453.082, y: 629.907, yaw: -1.5691, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1406.832, y: 710.756, yaw: 1.5662, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1358.99, y: 642.357, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1358.99, y: 642.357, yaw: 0, z: 0}
       - {model_name: RecTable, name: RecTable, static: true, x: 1244.516, y: 707.049, yaw: 1.5756, z: 0}
       - {model_name: RecTable, name: RecTable, static: true, x: 249.054, y: 708.141, yaw: 1.5696, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1254.47, y: 682.064, yaw: -1.5571, z: 0}
@@ -1073,7 +1073,7 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 1397.558, y: 639.842, yaw: 0.0117, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1358.061, y: 657.896, yaw: 1.5757, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1525.345, y: 243.167, yaw: -3.1404, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1478.449, y: 316.537, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1478.449, y: 316.537, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1477.395, y: 296.722, yaw: -3.1362, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1476.131, y: 281.755, yaw: 1.5657, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1501.638, y: 320.542, yaw: 3.1273, z: 0}
@@ -1084,13 +1084,13 @@ levels:
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 1846.224, y: 328.191, yaw: 3.1395, z: 1}
       - {model_name: Fridge, name: Fridge, static: true, x: 1686.755, y: 272.529, yaw: -1.5775, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1703.673, y: 272.952, yaw: 1.586, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1632.509, y: 294.387, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1632.509, y: 294.387, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1631.529, y: 276.582, yaw: -3.1414, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1630.223, y: 262.045, yaw: 1.5701, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1758.352, y: 277.806, yaw: 0.0038, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 1881.307, y: 276.279, yaw: 3.1318, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1757.331, y: 295.843, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 1883.079, y: 294.983, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1757.331, y: 295.843, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 1883.079, y: 294.983, yaw: 0, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1880.349, y: 262.706, yaw: 1.5428, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 1759.032, y: 263.513, yaw: -1.5761, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 1772.697, y: 232.727, yaw: -1.5643, z: 0}
@@ -1098,8 +1098,8 @@ levels:
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2022.918, y: 232.626, yaw: -1.5867, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1936.271, y: 275.336, yaw: -1.5727, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 1953.037, y: 275.609, yaw: 1.5695, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2006.866, y: 296.522, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2152.509, y: 318.073, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2006.866, y: 296.522, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2152.509, y: 318.073, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2008.323, y: 278.833, yaw: 0.0026, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2151.84, y: 300.157, yaw: 0.0064, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2010.195, y: 264.058, yaw: -1.5773, z: 0}
@@ -1109,9 +1109,9 @@ levels:
       - {model_name: Fridge, name: Fridge, static: true, x: 2133.494, y: 321.753, yaw: 3.1363, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.03, y: 80.242, yaw: -1.5727, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2276.787, y: 79.58199999999999, yaw: 1.5689, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2182.358, y: 122.616, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2183.544, y: 432.503, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2182.916, y: 597.022, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2182.358, y: 122.616, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2183.544, y: 432.503, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2182.916, y: 597.022, yaw: 0, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2262.641, y: 126.754, yaw: -3.1391, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2200.664, y: 123.607, yaw: -1.5764, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2179.629, y: 103.612, yaw: 1.5604, z: 0}
@@ -1128,23 +1128,23 @@ levels:
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2252.673, y: 601.467, yaw: -3.1405, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.376, y: 126.817, yaw: -3.1393, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2510.242, y: 103.109, yaw: -1.5746, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.304, y: 122.216, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2507.304, y: 122.216, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2488.612, y: 122.354, yaw: -1.568, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2473.769, y: 123.591, yaw: 3.1413, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.257, y: 221.311, yaw: 3.138, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.025, y: 175.501, yaw: -1.5788, z: 1}
       - {model_name: Fridge, name: Fridge, static: true, x: 2510.229, y: 197.061, yaw: -1.5704, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2508.422, y: 218.056, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2508.422, y: 218.056, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2491.146, y: 218.579, yaw: -1.5742, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2476.3, y: 218.568, yaw: 3.1415, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.069, y: 284.975, yaw: -1.5789, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2508.159, y: 242.034, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2508.159, y: 242.034, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2490.292, y: 241.612, yaw: 1.5733, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2476.553, y: 241.511, yaw: -0.0001, z: 0}
       - {model_name: WhiteCabinet, name: WhiteCabinet, static: true, x: 2437.188, y: 238.54, yaw: -0.0021, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2423.188, y: 364.851, yaw: -1.5756, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2506.882, y: 407.35, yaw: 0, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.065, y: 432.696, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2506.882, y: 407.35, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2507.065, y: 432.696, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2489.196, y: 431.818, yaw: 1.5696, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2488.425, y: 407.654, yaw: -1.5672, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.504, y: 408.161, yaw: 3.1403, z: 0}
@@ -1153,7 +1153,7 @@ levels:
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.453, y: 431.504, yaw: 0.0097, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2422.968, y: 475.689, yaw: -1.5699, z: 1}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2422.955, y: 553.667, yaw: -1.5677, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2507.6, y: 597.654, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2507.6, y: 597.654, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2489.987, y: 597.38, yaw: -1.5737, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2474.667, y: 597.283, yaw: -3.14, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2509.934, y: 383.825, yaw: -1.5816, z: 0}
@@ -1168,13 +1168,13 @@ levels:
       - {model_name: RecTable, name: RecTable, static: true, x: 2312.104, y: 709.014, yaw: 1.5731, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2319.361, y: 683.723, yaw: 1.5688, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2281.179, y: 721.638, yaw: -3.1287, z: 0}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 2424.066, y: 642.0940000000001, yaw: 0, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 2424.066, y: 642.0940000000001, yaw: 0, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2405.292, y: 640.682, yaw: -3.141, z: 0}
       - {model_name: MiniSofa, name: MiniSofa, static: true, x: 2442.981, y: 641.106, yaw: 0.0142, z: 0}
       - {model_name: wastebasket, name: wastebasket, static: true, x: 2424.066, y: 658.045, yaw: 1.5822, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2461.189, y: 640.627, yaw: -1.5585, z: 0}
       - {model_name: BathroomSink, name: BathroomSInk, static: true, x: 2114.959, y: 243.05, yaw: 3.139, z: 1}
-      - {model_name: cafe_table, name: cafe_table, static: true, x: 375.954, y: 121.141, yaw: -0.0037, z: 0}
+      - {model_name: Cafe table, name: Cafe table, static: true, x: 375.954, y: 121.141, yaw: -0.0037, z: 0}
       - {model_name: Fridge, name: Fridge, static: true, x: 2510.022, y: 260.585, yaw: -1.5724, z: 0}
       - {model_name: Toilet, name: Toilet, static: true, x: 169.886, y: 66.09, yaw: -1.5851, z: 0}
       - {model_name: Shower, name: Shower, static: true, x: 146.973, y: 43.453, yaw: 0.0028, z: 0}
