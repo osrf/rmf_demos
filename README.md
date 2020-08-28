@@ -87,7 +87,7 @@ Answers to frequently asked questions can be found [here](docs/faq.md).
 # Demo Worlds
 
 > Note: When running the demos on Ubuntu 18.04 + ROS2 Eloquent, you are required to explicitly supply gazebo_version launch argument. Eg:
-ros2 launch demos office.launch.xml gazebo_version:=gazebo-9
+ros2 launch demos office.launch.xml gazebo_version:=9
 
 ## Office World
 An indoor office environment for robots to navigate around. It includes a beverage dispensing station, controllable doors and laneways which are integrated into RMF.
@@ -167,5 +167,4 @@ ros2 launch demos airport_terminal_caddy.launch.xml
 ```
 
 ![](docs/media/caddy.gif)
-
 
