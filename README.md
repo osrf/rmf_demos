@@ -191,3 +191,24 @@ Robots taking lift:
 
 Multi-fleet demo:
 ![](docs/media/imaginary_clinic.gif)
+
+# Hotel
+
+This is a hotel with a lobby and a guest level. The hotel has two lifts and two robot fleets. The tiny robots are supposed to guide the guests and the delivery robots are used to load and deliver cargo.
+
+The hotel map is truncated due to the high memory usage. The full map can be accessed [here](https://github.com/MakinoharaShouko/hotel).
+
+![](docs/media/hotel.png)
+
+## Demo Scenario
+To launch the world and the schedule visualizer,
+
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos hotel.launch.xml
+```
+
+To simulate a loop request, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button.
+
+Robot taking lift:
+![](docs/media/robot_taking_lift_hotel.gif)
