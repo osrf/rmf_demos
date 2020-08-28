@@ -20,7 +20,6 @@
 
   <exec_depend>gazebo_ros_pkgs</exec_depend>
   <exec_depend>rmf_demo_assets</exec_depend>
-  <exec_depend>rmf_assets</exec_depend>
   <exec_depend>rmf_gazebo_plugins</exec_depend>
   <exec_depend>rmf_demo_tasks</exec_depend>
   <exec_depend>rmf_rviz_plugin</exec_depend>
