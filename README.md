@@ -15,11 +15,11 @@ This repository contains demonstrations of the above mentioned capabilities of R
 
 These demos were developed and tested on
 
-* [Ubuntu 18.04 LTS](https://releases.ubuntu.com/18.04/)
+* [Ubuntu 18.04 LTS](https://releases.ubuntu.com/18.04/) & [Ubuntu 20.04 LTS](https://releases.ubuntu.com/20.04/)
 
-* [ROS 2 - Eloquent](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/)
+* [ROS 2 - Eloquent](https://index.ros.org/doc/ros2/Releases/Release-Eloquent-Elusor/) & [ROS 2 - Foxy](https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy/)
 
-* [Gazebo 9.12.0 or 9.13.0](https://osrf-distributions.s3.us-east-1.amazonaws.com/gazebo/releases/gazebo-9.12.0.tar.bz2)
+* [Gazebo 9.13.0 & Gazebo 11.1.0](http://gazebosim.org/)
 
 ## Setup
 
@@ -28,8 +28,8 @@ Setup your computer to accept Gazebo packages from packages.osrfoundation.org.
 ```bash
 sudo apt update
 sudo apt install -y wget
-echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
-wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add -
+echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > sudo /etc/apt/sources.list.d/gazebo-stable.list
+wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 ```
 Install all non-ROS dependencies of RMF packages,
 
@@ -57,10 +57,10 @@ Ensure all ROS 2 prerequisites are fulfilled,
 
 ```bash
 cd ~/rmf_demos_ws
-rosdep install --from-paths src --ignore-src --rosdistro eloquent -yr
+rosdep install --from-paths src --ignore-src --rosdistro <ROS_DISTRO> -yr
 ```
 
-The `Airport Terminal` world requires certain open source gazebo models hosted [here](https://github.com/osrf/gazebo_models). If any model related errors are observed at launch, the missing models can be manually downloaded and added into `~/.gazebo/models/`. Optionally, all the open source models can be downloaded and copied into the default model directory.
+Certain worlds requires open source gazebo models hosted [here](https://github.com/osrf/gazebo_models). If any model related errors are observed at launch, the missing models can be manually downloaded and added into `~/.gazebo/models/`. Optionally, all the open source models can be downloaded and copied into the default model directory.
 
 ```bash
 cd ~/.
@@ -71,7 +71,15 @@ cp -r ./* ~/.gazebo/models/.
 
 ## Compiling Instructions
 
-Source ROS 2 Eloquent and build,
+#### Ubuntu 20.04 and ROS 2 Foxy:
+
+```bash
+cd ~/rmf_demos_ws
+source /opt/ros/foxy/setup.bash
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
+```
+
+#### Ubuntu 18.04 and ROS 2 Eloquent:
 
 ```bash
 cd ~/rmf_demos_ws
@@ -79,10 +87,16 @@ source /opt/ros/eloquent/setup.bash
 CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
 ```
 > Note: The build will fail if the compiler is not set to g++ version 8 or above.
+
 ## FAQ
 Answers to frequently asked questions can be found [here](docs/faq.md).
 
-# Office World
+# Demo Worlds
+
+> Note: When running the demos on Ubuntu 18.04 + ROS2 Eloquent, you are required to explicitly supply gazebo_version launch argument. Eg:
+ros2 launch demos office.launch.xml gazebo_version:=gazebo-9
+
+## Office World
 An indoor office environment for robots to navigate around. It includes a beverage dispensing station, controllable doors and laneways which are integrated into RMF.
 
 
@@ -114,14 +128,14 @@ ros2 launch demos office_loop.launch.xml
 
 ![](docs/media/loop_request.gif)
 
-# Airport Terminal World
+## Airport Terminal World
 
 This demo world shows robot interaction on a much larger map, with a lot more lanes, destinations, robots and possible interactions between robots from different fleets, robots and infrastructure, as well as robots and users. In the illustrations below, from top to bottom we have how the world looks like in `traffic_editor`, the schedule visualizer in `rviz`, and the full simulation in `gazebo`,
 
 ![](docs/media/airport_terminal_traffic_editor_screenshot.png)
 ![](docs/media/airport_terminal_demo_screenshot.png)
 
-## Demo Scenario
+### Demo Scenario
 To launch the world and the schedule visualizer,
 
 ```bash
