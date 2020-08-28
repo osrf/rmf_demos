@@ -28,7 +28,7 @@ Setup your computer to accept Gazebo packages from packages.osrfoundation.org.
 ```bash
 sudo apt update
 sudo apt install -y wget
-echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > sudo /etc/apt/sources.list.d/gazebo-stable.list
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
 wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 ```
 Install all non-ROS dependencies of RMF packages,
