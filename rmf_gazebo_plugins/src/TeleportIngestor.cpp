@@ -121,13 +121,13 @@ private:
 
     // create a new bounding box extended slightly in the Z direction
     max_corner.Z(max_corner.Z() + 0.1);
-    
+
     #if GAZEBO_MAJOR_VERSION <= 9
-      const ignition::math::Box vicinity_box(
-        robot_collision_bb.Min(), max_corner);
+    const ignition::math::Box vicinity_box(
+      robot_collision_bb.Min(), max_corner);
     #else
-      const ignition::math::AxisAlignedBox vicinity_box(
-        robot_collision_bb.Min(), max_corner);
+    const ignition::math::AxisAlignedBox vicinity_box(
+      robot_collision_bb.Min(), max_corner);
     #endif
 
     // There might not be a better way to loop through all the models, as we
