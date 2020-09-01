@@ -45,7 +45,7 @@ find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
-#find_package(rmf_plugins_common REQUIRED)
+find_package(rmf_plugins_common REQUIRED)
 
 include(GNUInstallDirs)
 
@@ -60,7 +60,7 @@ target_link_libraries(teleport_ingestor
     ${rclcpp_LIBRARIES}
     ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-    #${rmf_plugins_common_LIBRARIES}
+    ${rmf_plugins_common_LIBRARIES}
     ${rmf_fleet_msgs_LIBRARIES}
     ${rmf_dispenser_msgs_LIBRARIES}
 )
@@ -70,7 +70,7 @@ target_include_directories(teleport_ingestor
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${rclcpp_INCLUDE_DIRS}
-    #${rmf_plugins_common_INCLUDE_DIRS}
+    ${rmf_plugins_common_INCLUDE_DIRS}
     ${rmf_fleet_msgs_INCLUDE_DIRS}
     ${rmf_dispenser_msgs_INCLUDE_DIRS}
 )
@@ -86,7 +86,7 @@ target_link_libraries(teleport_dispenser
     ${rclcpp_LIBRARIES}
     ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-    #${rmf_plugins_common_LIBRARIES}
+    ${rmf_plugins_common_LIBRARIES}
     ${rmf_fleet_msgs_LIBRARIES}
     ${rmf_dispenser_msgs_LIBRARIES}
 )
@@ -96,7 +96,7 @@ target_include_directories(teleport_dispenser
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${rclcpp_INCLUDE_DIRS}
-    #${rmf_plugins_common_INCLUDE_DIRS}
+    ${rmf_plugins_common_INCLUDE_DIRS}
     ${rmf_fleet_msgs_INCLUDE_DIRS}
     ${rmf_dispenser_msgs_INCLUDE_DIRS}
 )

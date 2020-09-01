@@ -21,6 +21,7 @@
   <depend>rmf_fleet_msgs</depend>
   <depend>rmf_dispenser_msgs</depend>
   <depend>building_map_msgs</depend>
+  <depend>rmf_plugins_common</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

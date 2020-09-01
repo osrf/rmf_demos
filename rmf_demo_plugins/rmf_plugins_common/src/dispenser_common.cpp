@@ -1,5 +1,5 @@
 #include <rmf_plugins_common/dispenser_common.hpp>
 
-int foo(int x){
+int bar(int x){
     return 5;
 }
