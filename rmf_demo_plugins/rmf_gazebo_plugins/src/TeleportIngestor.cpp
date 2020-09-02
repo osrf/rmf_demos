@@ -38,6 +38,10 @@
 #include <rmf_ingestor_msgs/msg/ingestor_request.hpp>
 
 
+#include <rmf_plugins_common/ingestor_common.hpp>
+
+using namespace rmf_ingestor_common;
+
 namespace rmf_gazebo_plugins {
 
 class TeleportIngestorPlugin : public gazebo::ModelPlugin
@@ -53,8 +57,8 @@ public:
 
 private:
 
-  std::string _guid;
-  double _last_pub_time = 0.0;
+  std::unique_ptr<TeleportIngestorCommon> IngestorCommonPtr;
+
   bool _load_complete = false;
 
   gazebo::event::ConnectionPtr _update_connection;
@@ -63,28 +67,9 @@ private:
   gazebo::physics::WorldPtr _world;
 
   gazebo_ros::Node::SharedPtr _node;
-  rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
-  rclcpp::Publisher<IngestorState>::SharedPtr _state_pub;
-  rclcpp::Subscription<IngestorRequest>::SharedPtr _request_sub;
-  rclcpp::Publisher<IngestorResult>::SharedPtr _result_pub;
 
   std::unordered_map<std::string, ignition::math::Pose3d>
   _non_static_models_init_poses;
-
-  std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
-
-  std::unordered_map<std::string, bool> _past_request_guids;
-
-  IngestorState _current_state;
-
-  rclcpp::Time simulation_now() const
-  {
-    const double t = _model->GetWorld()->SimTime().Double();
-    const int32_t t_sec = static_cast<int32_t>(t);
-    const uint32_t t_nsec =
-      static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
-    return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
-  }
 
   bool find_nearest_non_static_model(
     const std::vector<gazebo::physics::ModelPtr>& models,
@@ -159,8 +144,8 @@ private:
 
   void ingest_from_nearest_robot(const std::string& fleet_name)
   {
-    const auto fleet_state_it = _fleet_states.find(fleet_name);
-    if (fleet_state_it == _fleet_states.end())
+    const auto fleet_state_it = IngestorCommonPtr->_fleet_states.find(fleet_name);
+    if (fleet_state_it == IngestorCommonPtr->_fleet_states.end())
     {
       RCLCPP_WARN(_node->get_logger(),
         "No such fleet: [%s]", fleet_name.c_str());
@@ -193,11 +178,12 @@ private:
       return;
     }
     _ingested_model->SetWorldPose(_model->WorldPose());
+    IngestorCommonPtr->_ingestor_filled = true;
   }
 
   void send_ingested_item_home()
   {
-    if (_ingested_model)
+    if (IngestorCommonPtr->_ingestor_filled)
     {
       const auto it =
         _non_static_models_init_poses.find(_ingested_model->GetName());
@@ -206,63 +192,7 @@ private:
       else
         _ingested_model->SetWorldPose(it->second);
 
-      _ingested_model = nullptr;
-    }
-  }
-
-  void fleet_state_cb(FleetState::UniquePtr msg)
-  {
-    _fleet_states[msg->name] = std::move(msg);
-  }
-
-  void send_ingestor_response(
-    const std::string& request_guid, uint8_t status) const
-  {
-    IngestorResult response;
-    response.time = simulation_now();
-    response.request_guid = request_guid;
-    response.source_guid = _guid;
-    response.status = status;
-    _result_pub->publish(response);
-  }
-
-  void ingestor_request_cb(IngestorRequest::UniquePtr msg)
-  {
-    // TODO: the message field should use fleet name instead
-    const auto transporter_type = msg->transporter_type;
-    const auto request_guid = msg->request_guid;
-
-    if (_guid == msg->target_guid && !_ingested_model)
-    {
-      const auto it = _past_request_guids.find(request_guid);
-      if (it != _past_request_guids.end())
-      {
-        if (it->second)
-        {
-          RCLCPP_WARN(_node->get_logger(),
-            "Request already succeeded: [%s]", request_guid);
-          send_ingestor_response(request_guid, IngestorResult::SUCCESS);
-        }
-        else
-        {
-          RCLCPP_WARN(_node->get_logger(),
-            "Request already failed: [%s]", request_guid);
-          send_ingestor_response(request_guid, IngestorResult::FAILED);
-        }
-        return;
-      }
-
-      send_ingestor_response(request_guid, IngestorResult::ACKNOWLEDGED);
-
-      RCLCPP_INFO(_node->get_logger(), "Ingesting item");
-      ingest_from_nearest_robot(transporter_type);
-
-      send_ingestor_response(request_guid, IngestorResult::SUCCESS);
-
-      rclcpp::sleep_for(std::chrono::seconds(10));
-      send_ingested_item_home();
-
-      // There are currently no cases to publish a FAILED result yet
+      IngestorCommonPtr->_ingestor_filled = false;
     }
   }
 
@@ -270,16 +200,33 @@ private:
   {
     if (!_load_complete)
       return;
+    
+    IngestorCommonPtr->_sim_time = _world->SimTime().Double();
+
+    if(IngestorCommonPtr->_ingest){ //add an if !IngestorCommonPtr->_ingestor_filled
+        IngestorCommonPtr->send_ingestor_response(DispenserResult::ACKNOWLEDGED);
+
+        RCLCPP_INFO(_node->get_logger(), "Ingesting item");
+        ingest_from_nearest_robot(IngestorCommonPtr->latest.transporter_type);
+
+        IngestorCommonPtr->send_ingestor_response(DispenserResult::SUCCESS);
+        IngestorCommonPtr->_last_ingested_time = _world->SimTime().Double();
+        IngestorCommonPtr->_ingest = false;
+    }
 
     const double t = _world->SimTime().Double();
-    if (t - _last_pub_time >= 2.0)
+    if (t - IngestorCommonPtr->_last_pub_time >= 2.0)
     {
-      _last_pub_time = t;
-      const auto now = simulation_now();
+      IngestorCommonPtr->_last_pub_time = t;
+      const auto now = IngestorCommonPtr->simulation_now(t);
 
-      _current_state.time = now;
-      _current_state.mode = IngestorState::IDLE;
-      _state_pub->publish(_current_state);
+      IngestorCommonPtr->_current_state.time = now;
+      IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
+      IngestorCommonPtr->_state_pub->publish(IngestorCommonPtr->_current_state);
+    }
+
+    if(t - IngestorCommonPtr->_last_ingested_time >= 5.0 && IngestorCommonPtr->_ingestor_filled){
+      send_ingested_item_home(); 
     }
   }
 
@@ -294,7 +241,7 @@ public:
     _node = gazebo_ros::Node::Get(_sdf);
     RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
 
-    _guid = _model->GetName();
+    IngestorCommonPtr->_guid = _model->GetName();
 
     // Keep track of all the non-static models
     auto model_list = _world->Models();
@@ -305,34 +252,39 @@ public:
         _non_static_models_init_poses[m_name] = m->WorldPose();
     }
 
-    _fleet_state_sub = _node->create_subscription<FleetState>(
+    IngestorCommonPtr->_fleet_state_sub = _node->create_subscription<FleetState>(
       "/fleet_states",
       rclcpp::SystemDefaultsQoS(),
       [&](FleetState::UniquePtr msg)
       {
-        fleet_state_cb(std::move(msg));
+        IngestorCommonPtr->fleet_state_cb(std::move(msg));
       });
 
-    _state_pub = _node->create_publisher<IngestorState>(
-      "/ingestor_states", 10);
+    IngestorCommonPtr->_state_pub = _node->create_publisher<DispenserState>(
+      "/dispenser_states", 10);
 
-    _request_sub = _node->create_subscription<IngestorRequest>(
-      "/ingestor_requests",
+    IngestorCommonPtr->_request_sub = _node->create_subscription<DispenserRequest>(
+      "/dispenser_requests",
       rclcpp::SystemDefaultsQoS(),
       [&](IngestorRequest::UniquePtr msg)
       {
-        ingestor_request_cb(std::move(msg));
+        IngestorCommonPtr->dispenser_request_cb(std::move(msg));
       });
 
-    _result_pub = _node->create_publisher<IngestorResult>(
-      "/ingestor_results", 10);
+    IngestorCommonPtr->_result_pub = _node->create_publisher<DispenserResult>(
+      "/dispenser_results", 10);
 
-    _current_state.guid = _guid;
-    _current_state.mode = IngestorState::IDLE;
+    IngestorCommonPtr->_current_state.guid = IngestorCommonPtr->_guid;
+    IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
 
     _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&TeleportIngestorPlugin::on_update, this));
     _load_complete = true;
+  }
+
+  TeleportIngestorPlugin()
+  : IngestorCommonPtr(std::make_unique<TeleportIngestorCommon>())
+  {
   }
 
   ~TeleportIngestorPlugin()

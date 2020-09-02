@@ -46,9 +46,12 @@
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
 
+#include <rmf_plugins_common/ingestor_common.hpp>
+
 // TODO remove this
 using namespace ignition;
 using namespace ignition::gazebo;
+using namespace rmf_ingestor_common;
 
 namespace rmf_ignition_plugins {
 
@@ -59,45 +62,28 @@ class IGNITION_GAZEBO_VISIBLE TeleportIngestorPlugin
 {
 public:
 
-  using FleetState = rmf_fleet_msgs::msg::FleetState;
   using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-  using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
 
+  TeleportIngestorPlugin();
+  ~TeleportIngestorPlugin();
   void Configure(const Entity& entity,
     const std::shared_ptr<const sdf::Element>&,
     EntityComponentManager& ecm, EventManager&) override;
   void PreUpdate(const UpdateInfo& info, EntityComponentManager& ecm) override;
 
 private:
-  // Ingest request params
-  bool _ingest = false;
-  DispenserRequest latest;
+  std::unique_ptr<TeleportIngestorCommon> IngestorCommonPtr;
 
-  // General params
   Entity _ingestor;
   Entity _ingested_entity;
-  std::string _guid;
   bool _load_complete = false;
-  bool _ingestor_filled = false;
-
-  double _last_pub_time = 0.0;
-  double _last_ingested_time = 0.0;
-  std::chrono::steady_clock::duration _sim_time;
 
   rclcpp::Node::SharedPtr _ros_node;
-  rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
-  rclcpp::Publisher<DispenserState>::SharedPtr _state_pub;
-  rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
-  rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
 
   std::unordered_map<std::string, ignition::math::Pose3d>
   _non_static_models_init_poses;
-  std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
-  std::unordered_map<std::string, bool> _past_request_guids;
-  DispenserState _current_state;
 
-  rclcpp::Time simulation_now(const double t) const;
   bool find_nearest_non_static_model(
     const EntityComponentManager& ecm,
     const std::vector<Entity>& robot_model_entities,
@@ -108,18 +94,7 @@ private:
     Entity& payload_entity);
   void ingest_from_nearest_robot(EntityComponentManager& ecm, const std::string& fleet_name);
   void send_ingested_item_home(EntityComponentManager& ecm);
-  void fleet_state_cb(FleetState::UniquePtr msg);
-  void send_ingestor_response(uint8_t status) const;
-  void dispenser_request_cb(DispenserRequest::UniquePtr msg);
 };
-
-rclcpp::Time TeleportIngestorPlugin::simulation_now(const double t) const
-{
-  const int32_t t_sec = static_cast<int32_t>(t);
-  const uint32_t t_nsec =
-    static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
-  return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
-}
 
 bool TeleportIngestorPlugin::find_nearest_non_static_model(
   const EntityComponentManager& ecm,
@@ -135,7 +110,7 @@ bool TeleportIngestorPlugin::find_nearest_non_static_model(
     bool is_static = ecm.Component<components::Static>(en)->Data();
     std::string name = ecm.Component<components::Name>(en)->Data();
 
-    if (!en || is_static || name == _guid)
+    if (!en || is_static || name == IngestorCommonPtr->_guid)
       continue;
 
     const auto en_pos = ecm.Component<components::Pose>(en)->Data().Pos();
@@ -181,7 +156,7 @@ bool TeleportIngestorPlugin::get_payload_model(
     const components::Static* is_static
     ) -> bool
     {
-      if (!is_static->Data() && name->Data() != _guid 
+      if (!is_static->Data() && name->Data() != IngestorCommonPtr->_guid
       && name->Data() != Model(robot_entity).Name(ecm))
       {
         const double dist = pose->Data().Pos().Distance(robot_model_pos);
@@ -200,10 +175,10 @@ bool TeleportIngestorPlugin::get_payload_model(
 
 void TeleportIngestorPlugin::ingest_from_nearest_robot(EntityComponentManager& ecm, const std::string& fleet_name)
 {
-  const auto fleet_state_it = _fleet_states.find(fleet_name);
-  if (fleet_state_it == _fleet_states.end())
+  const auto fleet_state_it = IngestorCommonPtr->_fleet_states.find(fleet_name);
+  if (fleet_state_it == IngestorCommonPtr->_fleet_states.end())
   {
-    RCLCPP_WARN(_ros_node->get_logger(),
+    RCLCPP_WARN(IngestorCommonPtr->_ros_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
     return;
   }
@@ -218,14 +193,14 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(EntityComponentManager& e
   Entity robot_model;
   if (!find_nearest_non_static_model(ecm, robot_model_list, robot_model))
   {
-    RCLCPP_WARN(_ros_node->get_logger(),
+    RCLCPP_WARN(IngestorCommonPtr->_ros_node->get_logger(),
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
     return;
   }
 
   if (!get_payload_model(ecm, robot_model, _ingested_entity))
   {
-    RCLCPP_WARN(_ros_node->get_logger(),
+    RCLCPP_WARN(IngestorCommonPtr->_ros_node->get_logger(),
       "No delivery item found on the robot: [%s]",
       Model(robot_model).Name(ecm));
     return;
@@ -237,12 +212,12 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(EntityComponentManager& e
   }
   auto new_pose = ecm.Component<components::Pose>(_ingestor)->Data()+ ignition::math::Pose3<double>(0,0,0.5,0,0,0);;
   ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() = new_pose;
-  _ingestor_filled = true;
+  IngestorCommonPtr->_ingestor_filled = true;
 }
 
 void TeleportIngestorPlugin::send_ingested_item_home(EntityComponentManager& ecm)
 {
-  if (_ingestor_filled)
+  if (IngestorCommonPtr->_ingestor_filled)
   {
     const auto it = _non_static_models_init_poses.find(Model(_ingested_entity).Name(ecm));
     if (it == _non_static_models_init_poses.end()) {
@@ -254,52 +229,18 @@ void TeleportIngestorPlugin::send_ingested_item_home(EntityComponentManager& ecm
       }
       ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() = it->second;
     }
-    _ingestor_filled = false;
+    IngestorCommonPtr->_ingestor_filled = false;
   }
 }
 
-void TeleportIngestorPlugin::fleet_state_cb(FleetState::UniquePtr msg)
+TeleportIngestorPlugin::TeleportIngestorPlugin()
+: IngestorCommonPtr(std::make_unique<TeleportIngestorCommon>())
 {
-  _fleet_states[msg->name] = std::move(msg);
+  // We do initialization only during ::Configure
 }
 
-void TeleportIngestorPlugin::send_ingestor_response(uint8_t status) const
+TeleportIngestorPlugin::~TeleportIngestorPlugin()
 {
-  DispenserResult response;
-  response.time = simulation_now(std::chrono::duration_cast<std::chrono::nanoseconds>(_sim_time).count() * 1e-9); //maybe there's a better way to do this
-  response.request_guid = latest.request_guid;
-  response.source_guid = _guid;
-  response.status = status;
-  _result_pub->publish(response);
-}
-
-void TeleportIngestorPlugin::dispenser_request_cb(DispenserRequest::UniquePtr msg)
-{
-  latest = *msg;
-
-  if (_guid == latest.target_guid && !_ingestor_filled)
-  {
-    const auto it = _past_request_guids.find(latest.request_guid);
-    if (it != _past_request_guids.end())
-    {
-      if (it->second)
-      {
-        RCLCPP_WARN(_ros_node->get_logger(),
-          "Request already succeeded: [%s]", latest.request_guid);
-        send_ingestor_response(DispenserResult::SUCCESS);
-      }
-      else
-      {
-        RCLCPP_WARN(_ros_node->get_logger(),
-          "Request already failed: [%s]", latest.request_guid);
-        send_ingestor_response(DispenserResult::FAILED);
-      }
-      return;
-    }
-
-    _ingest = true; // mark true to ingest item next time PreUpdate() is called
-    // There are currently no cases to publish a FAILED result yet
-  }
 }
 
 void TeleportIngestorPlugin::Configure(const Entity& entity,
@@ -311,11 +252,12 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
     rclcpp::init(0, argv);
 
   _ingestor = entity;
-  _guid = ecm.Component<components::Name>(_ingestor)->Data();
-  std::string plugin_name("plugin_" + _guid);
+  IngestorCommonPtr->_guid = ecm.Component<components::Name>(_ingestor)->Data();
+  std::string plugin_name("plugin_" + IngestorCommonPtr->_guid);
   ignwarn << "Initializing plugin with name " << plugin_name << std::endl;
   _ros_node = std::make_shared<rclcpp::Node>(plugin_name);
-  RCLCPP_INFO(_ros_node->get_logger(), "Started node...");
+  IngestorCommonPtr->init_ros_node(_ros_node);
+  RCLCPP_INFO(IngestorCommonPtr->_ros_node->get_logger(), "Started node...");
 
   // Keep track of all the non-static models
   ecm.Each<components::Model, components::Name, components::Pose, components::Static>(
@@ -326,79 +268,54 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
     const components::Static* is_static
     ) -> bool
     {
-      if (!is_static->Data() && name->Data() != _guid)
+      if (!is_static->Data() && name->Data() != IngestorCommonPtr->_guid)
       {
         _non_static_models_init_poses[name->Data()] = pose->Data();
       }
       return true;
     });
 
-  _fleet_state_sub = _ros_node->create_subscription<FleetState>(
-    "/fleet_states",
-    rclcpp::SystemDefaultsQoS(),
-    [&](FleetState::UniquePtr msg)
-    {
-      fleet_state_cb(std::move(msg));
-    });
-
-  _state_pub = _ros_node->create_publisher<DispenserState>(
-    "/dispenser_states", 10);
-
-  _request_sub = _ros_node->create_subscription<DispenserRequest>(
-    "/dispenser_requests",
-    rclcpp::SystemDefaultsQoS(),
-    [&](DispenserRequest::UniquePtr msg)
-    {
-      dispenser_request_cb(std::move(msg));
-    });
-
-  _result_pub = _ros_node->create_publisher<DispenserResult>(
-    "/dispenser_results", 10);
-
-  _current_state.guid = _guid;
-  _current_state.mode = DispenserState::IDLE;
+  IngestorCommonPtr->_current_state.guid = IngestorCommonPtr->_guid;
+  IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
 
   _load_complete = true;
 }
 
 void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info, EntityComponentManager& ecm)
 {
-  _sim_time = info.simTime;
-  double t =
-  (std::chrono::duration_cast<std::chrono::nanoseconds>(_sim_time).
-  count()) * 1e-9;
+  IngestorCommonPtr->_sim_time = (std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count());
 
   // TODO parallel thread executor?
-  rclcpp::spin_some(_ros_node);
+  rclcpp::spin_some(IngestorCommonPtr->_ros_node);
   if (!_load_complete) {
     return;
   }
 
-  if(_ingest) { // Only ingests max once per call to PreUpdate()
-    send_ingestor_response(DispenserResult::ACKNOWLEDGED);
+  if(IngestorCommonPtr->_ingest) { // Only ingests max once per call to PreUpdate()
+    IngestorCommonPtr->send_ingestor_response(DispenserResult::ACKNOWLEDGED);
 
-    RCLCPP_INFO(_ros_node->get_logger(), "Ingesting item");
-    ingest_from_nearest_robot(ecm, latest.transporter_type);
+    RCLCPP_INFO(IngestorCommonPtr->_ros_node->get_logger(), "Ingesting item");
+    ingest_from_nearest_robot(ecm, IngestorCommonPtr->latest.transporter_type);
 
-    send_ingestor_response(DispenserResult::SUCCESS);
+    IngestorCommonPtr->send_ingestor_response(DispenserResult::SUCCESS);
 
     //rclcpp::sleep_for(std::chrono::seconds(10));
     //send_ingested_item_home(ecm);
-    _last_ingested_time = t;
-    _ingest = false;
+    IngestorCommonPtr->_last_ingested_time = IngestorCommonPtr->_sim_time;
+    IngestorCommonPtr->_ingest= false;
   }
 
-  if (t - _last_pub_time >= 2.0)
+  if (IngestorCommonPtr->_sim_time - IngestorCommonPtr->_last_pub_time >= 2.0)
   {
-    _last_pub_time = t;
-    const auto now = simulation_now(t);
+    IngestorCommonPtr->_last_pub_time = IngestorCommonPtr->_sim_time;
+    const auto now = IngestorCommonPtr->simulation_now(IngestorCommonPtr->_sim_time);
 
-    _current_state.time = now;
-    _current_state.mode = DispenserState::IDLE;
-    _state_pub->publish(_current_state);
+    IngestorCommonPtr->_current_state.time = now;
+    IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
+    IngestorCommonPtr->_state_pub->publish(IngestorCommonPtr->_current_state);
   }
 
-  if(t - _last_ingested_time >= 5.0 && _ingestor_filled){
+  if(IngestorCommonPtr->_sim_time - IngestorCommonPtr->_last_ingested_time >= 5.0 && IngestorCommonPtr->_ingestor_filled){
     send_ingested_item_home(ecm); 
   }
 }
