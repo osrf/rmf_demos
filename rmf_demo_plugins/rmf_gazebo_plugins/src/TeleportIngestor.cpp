@@ -16,9 +16,6 @@
 */
 
 #include <vector>
-#include <algorithm>
-#include <unordered_map>
-#include <unordered_set>
 
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
@@ -55,245 +52,259 @@ public:
   using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
   using Pose3d = ignition::math::Pose3d;
 
-private:
+  TeleportIngestorPlugin();
+  ~TeleportIngestorPlugin();
+  void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;
 
-  std::unique_ptr<TeleportIngestorCommon> IngestorCommonPtr;
+private:
+  // Stores params representing state of Ingestor, and handles all message pub/sub
+  std::unique_ptr<TeleportIngestorCommon> _ingestor_common;
 
   bool _load_complete = false;
 
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
-  gazebo::physics::ModelPtr _ingested_model;
+  gazebo::physics::ModelPtr _ingested_model; // Item that ingestor may contain
   gazebo::physics::WorldPtr _world;
 
   gazebo_ros::Node::SharedPtr _node;
 
-  std::unordered_map<std::string, ignition::math::Pose3d>
-  _non_static_models_init_poses;
-
   bool find_nearest_non_static_model(
     const std::vector<gazebo::physics::ModelPtr>& models,
-    gazebo::physics::ModelPtr& nearest_model) const
-  {
-    double nearest_dist = 1e6;
-    bool found = false;
-
-    for (const auto& m : models)
-    {
-      if (!m || m->IsStatic() || m->GetName() == _model->GetName())
-        continue;
-
-      const double dist =
-        m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
-      if (dist < nearest_dist)
-      {
-        nearest_dist = dist;
-        nearest_model = m;
-        found = true;
-      }
-    }
-    return found;
-  }
-
+    gazebo::physics::ModelPtr& nearest_model) const;
   bool get_payload_model(
     const gazebo::physics::ModelPtr& robot_model,
-    gazebo::physics::ModelPtr& payload_model) const
-  {
-    if (!robot_model)
-      return false;
-
-    const auto robot_collision_bb = robot_model->BoundingBox();
-    ignition::math::Vector3d max_corner = robot_collision_bb.Max();
-
-    // create a new bounding box extended slightly in the Z direction
-    max_corner.Z(max_corner.Z() + 0.1);
-
-    #if GAZEBO_MAJOR_VERSION <= 9
-    const ignition::math::Box vicinity_box(
-      robot_collision_bb.Min(), max_corner);
-    #else
-    const ignition::math::AxisAlignedBox vicinity_box(
-      robot_collision_bb.Min(), max_corner);
-    #endif
-
-    // There might not be a better way to loop through all the models, as we
-    // might consider delivering items that were spawned during run time,
-    // instead of during launch.
-    const auto robot_model_pos = robot_model->WorldPose().Pos();
-    double nearest_dist = 1.0;
-    const auto model_list = _world->Models();
-    bool found = false;
-    for (const auto& m : model_list)
-    {
-      if (!m ||
-        m->IsStatic() ||
-        m->GetName() == _model->GetName() ||
-        m->GetName() == robot_model->GetName())
-        continue;
-
-      const double dist = m->WorldPose().Pos().Distance(robot_model_pos);
-      if (dist < nearest_dist && vicinity_box.Intersects(m->BoundingBox()))
-      {
-        payload_model = m;
-        nearest_dist = dist;
-        found = true;
-      }
-    }
-    return found;
-  }
-
-  void ingest_from_nearest_robot(const std::string& fleet_name)
-  {
-    const auto fleet_state_it = IngestorCommonPtr->_fleet_states.find(fleet_name);
-    if (fleet_state_it == IngestorCommonPtr->_fleet_states.end())
-    {
-      RCLCPP_WARN(_node->get_logger(),
-        "No such fleet: [%s]", fleet_name.c_str());
-      return;
-    }
-
-    std::vector<gazebo::physics::ModelPtr> robot_model_list;
-    for (const auto& rs : fleet_state_it->second->robots)
-    {
-      const auto r_model = _world->ModelByName(rs.name);
-      if (r_model)
-        robot_model_list.push_back(r_model);
-    }
-
-    gazebo::physics::ModelPtr robot_model;
-    if (!find_nearest_non_static_model(robot_model_list, robot_model) ||
-      !robot_model)
-    {
-      RCLCPP_WARN(_node->get_logger(),
-        "No nearby robots of fleet [%s] found.", fleet_name.c_str());
-      return;
-    }
-
-    if (!get_payload_model(robot_model, _ingested_model))
-    {
-      RCLCPP_WARN(_node->get_logger(),
-        "No delivery item found on the robot: [%s]",
-        robot_model->GetName());
-      _ingested_model = nullptr;
-      return;
-    }
-    _ingested_model->SetWorldPose(_model->WorldPose());
-    IngestorCommonPtr->_ingestor_filled = true;
-  }
-
-  void send_ingested_item_home()
-  {
-    if (IngestorCommonPtr->_ingestor_filled)
-    {
-      const auto it =
-        _non_static_models_init_poses.find(_ingested_model->GetName());
-      if (it == _non_static_models_init_poses.end())
-        _world->RemoveModel(_ingested_model);
-      else
-        _ingested_model->SetWorldPose(it->second);
-
-      IngestorCommonPtr->_ingestor_filled = false;
-    }
-  }
-
-  void on_update()
-  {
-    if (!_load_complete)
-      return;
-    
-    IngestorCommonPtr->_sim_time = _world->SimTime().Double();
-
-    if(IngestorCommonPtr->_ingest){ //add an if !IngestorCommonPtr->_ingestor_filled
-        IngestorCommonPtr->send_ingestor_response(DispenserResult::ACKNOWLEDGED);
-
-        RCLCPP_INFO(_node->get_logger(), "Ingesting item");
-        ingest_from_nearest_robot(IngestorCommonPtr->latest.transporter_type);
-
-        IngestorCommonPtr->send_ingestor_response(DispenserResult::SUCCESS);
-        IngestorCommonPtr->_last_ingested_time = _world->SimTime().Double();
-        IngestorCommonPtr->_ingest = false;
-    }
-
-    const double t = _world->SimTime().Double();
-    if (t - IngestorCommonPtr->_last_pub_time >= 2.0)
-    {
-      IngestorCommonPtr->_last_pub_time = t;
-      const auto now = IngestorCommonPtr->simulation_now(t);
-
-      IngestorCommonPtr->_current_state.time = now;
-      IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
-      IngestorCommonPtr->_state_pub->publish(IngestorCommonPtr->_current_state);
-    }
-
-    if(t - IngestorCommonPtr->_last_ingested_time >= 5.0 && IngestorCommonPtr->_ingestor_filled){
-      send_ingested_item_home(); 
-    }
-  }
-
-public:
-
-  void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override
-  {
-    _model = _parent;
-    _world = _model->GetWorld();
-    _ingested_model = nullptr;
-
-    _node = gazebo_ros::Node::Get(_sdf);
-    RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
-
-    IngestorCommonPtr->_guid = _model->GetName();
-
-    // Keep track of all the non-static models
-    auto model_list = _world->Models();
-    for (const auto& m : model_list)
-    {
-      std::string m_name = m->GetName();
-      if (m && !(m->IsStatic()) && m_name != _model->GetName())
-        _non_static_models_init_poses[m_name] = m->WorldPose();
-    }
-
-    IngestorCommonPtr->_fleet_state_sub = _node->create_subscription<FleetState>(
-      "/fleet_states",
-      rclcpp::SystemDefaultsQoS(),
-      [&](FleetState::UniquePtr msg)
-      {
-        IngestorCommonPtr->fleet_state_cb(std::move(msg));
-      });
-
-    IngestorCommonPtr->_state_pub = _node->create_publisher<DispenserState>(
-      "/dispenser_states", 10);
-
-    IngestorCommonPtr->_request_sub = _node->create_subscription<DispenserRequest>(
-      "/dispenser_requests",
-      rclcpp::SystemDefaultsQoS(),
-      [&](IngestorRequest::UniquePtr msg)
-      {
-        IngestorCommonPtr->dispenser_request_cb(std::move(msg));
-      });
-
-    IngestorCommonPtr->_result_pub = _node->create_publisher<DispenserResult>(
-      "/dispenser_results", 10);
-
-    IngestorCommonPtr->_current_state.guid = IngestorCommonPtr->_guid;
-    IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
-
-    _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
-      std::bind(&TeleportIngestorPlugin::on_update, this));
-    _load_complete = true;
-  }
-
-  TeleportIngestorPlugin()
-  : IngestorCommonPtr(std::make_unique<TeleportIngestorCommon>())
-  {
-  }
-
-  ~TeleportIngestorPlugin()
-  {
-    if (_load_complete)
-      rclcpp::shutdown();
-  }
-
+    gazebo::physics::ModelPtr& payload_model) const;
+  void ingest_from_nearest_robot(const std::string& fleet_name);
+  void send_ingested_item_home();
+  void on_update();
 };
+
+bool TeleportIngestorPlugin::find_nearest_non_static_model(
+  const std::vector<gazebo::physics::ModelPtr>& models,
+  gazebo::physics::ModelPtr& nearest_model) const
+{
+  double nearest_dist = 1e6;
+  bool found = false;
+
+  for (const auto& m : models)
+  {
+    if (!m || m->IsStatic() || m->GetName() == _model->GetName())
+      continue;
+
+    const double dist =
+      m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
+    if (dist < nearest_dist)
+    {
+      nearest_dist = dist;
+      nearest_model = m;
+      found = true;
+    }
+  }
+  return found;
+}
+
+bool TeleportIngestorPlugin::get_payload_model(
+  const gazebo::physics::ModelPtr& robot_model,
+  gazebo::physics::ModelPtr& payload_model) const
+{
+  if (!robot_model)
+    return false;
+
+  const ignition::math::Box robot_collision_bb = robot_model->BoundingBox();
+  ignition::math::Vector3d max_corner = robot_collision_bb.Max();
+
+  // Create a new bounding box extended slightly in the Z direction
+  max_corner.Z(max_corner.Z() + 0.1);
+  #if GAZEBO_MAJOR_VERSION <= 9
+  const ignition::math::Box vicinity_box(
+    robot_collision_bb.Min(), max_corner);
+  #else
+  const ignition::math::AxisAlignedBox vicinity_box(
+    robot_collision_bb.Min(), max_corner);
+  #endif
+
+
+  // There might not be a better way to loop through all the models, as we
+  // might consider delivering items that were spawned during run time,
+  // instead of during launch.
+  const auto robot_model_pos = robot_model->WorldPose().Pos();
+  double nearest_dist = 1.0;
+  const auto model_list = _world->Models();
+  bool found = false;
+  for (const auto& m : model_list)
+  {
+    if (!m ||
+      m->IsStatic() ||
+      m->GetName() == _model->GetName() ||
+      m->GetName() == robot_model->GetName())
+      continue;
+
+    const double dist = m->WorldPose().Pos().Distance(robot_model_pos);
+    if (dist < nearest_dist && vicinity_box.Intersects(m->BoundingBox()))
+    {
+      payload_model = m;
+      nearest_dist = dist;
+      found = true;
+    }
+  }
+  return found;
+}
+
+void TeleportIngestorPlugin::ingest_from_nearest_robot(const std::string& fleet_name)
+{
+  const auto fleet_state_it = _ingestor_common->_fleet_states.find(fleet_name);
+  if (fleet_state_it == _ingestor_common->_fleet_states.end())
+  {
+    RCLCPP_WARN(_node->get_logger(),
+      "No such fleet: [%s]", fleet_name.c_str());
+    return;
+  }
+
+  std::vector<gazebo::physics::ModelPtr> robot_model_list;
+  for (const auto& rs : fleet_state_it->second->robots)
+  {
+    const auto r_model = _world->ModelByName(rs.name);
+    if (r_model)
+      robot_model_list.push_back(r_model);
+  }
+
+  gazebo::physics::ModelPtr robot_model;
+  if (!find_nearest_non_static_model(robot_model_list, robot_model) ||
+    !robot_model)
+  {
+    RCLCPP_WARN(_node->get_logger(),
+      "No nearby robots of fleet [%s] found.", fleet_name.c_str());
+    return;
+  }
+
+  if (!get_payload_model(robot_model, _ingested_model))
+  {
+    RCLCPP_WARN(_node->get_logger(),
+      "No delivery item found on the robot: [%s]",
+      robot_model->GetName());
+    _ingested_model = nullptr;
+    return;
+  }
+  _ingested_model->SetWorldPose(_model->WorldPose());
+  _ingestor_common->_ingestor_filled = true;
+}
+
+void TeleportIngestorPlugin::send_ingested_item_home()
+{
+  if (_ingestor_common->_ingestor_filled)
+  {
+    const auto it =
+      _ingestor_common->_non_static_models_init_poses.find(_ingested_model->GetName());
+    if (it == _ingestor_common->_non_static_models_init_poses.end())
+      _world->RemoveModel(_ingested_model);
+    else
+      _ingested_model->SetWorldPose(it->second);
+
+    _ingestor_common->_ingestor_filled = false; // Assumes ingestor can only hold 1 object at a time
+  }
+}
+
+void TeleportIngestorPlugin::on_update()
+{
+  if (!_load_complete)
+    return;
+  
+  _ingestor_common->_sim_time = _world->SimTime().Double();
+
+  if(_ingestor_common->_ingest){
+      _ingestor_common->send_ingestor_response(DispenserResult::ACKNOWLEDGED);
+
+      RCLCPP_INFO(_node->get_logger(), "Ingesting item");
+      if(!_ingestor_common->_ingestor_filled){
+        ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
+
+        _ingestor_common->send_ingestor_response(DispenserResult::SUCCESS);
+        _ingestor_common->_last_ingested_time = _world->SimTime().Double();
+      } else {
+        RCLCPP_WARN(_ingestor_common->_ros_node->get_logger(),
+          "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
+        _ingestor_common->send_ingestor_response(DispenserResult::FAILED);
+      }
+      _ingestor_common->_ingest = false;
+  }
+
+  const double t = _world->SimTime().Double();
+  if (t - _ingestor_common->_last_pub_time >= 2.0)
+  {
+    _ingestor_common->_last_pub_time = t;
+    const auto now = _ingestor_common->simulation_now(t);
+
+    _ingestor_common->_current_state.time = now;
+    _ingestor_common->_current_state.mode = DispenserState::IDLE;
+    _ingestor_common->_state_pub->publish(_ingestor_common->_current_state);
+  }
+
+  if(t - _ingestor_common->_last_ingested_time >= 5.0 && _ingestor_common->_ingestor_filled){
+    send_ingested_item_home(); 
+  }
+}
+
+void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+{
+  _model = _parent;
+  _world = _model->GetWorld();
+  _ingested_model = nullptr;
+
+  _node = gazebo_ros::Node::Get(_sdf);
+  RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
+
+  _ingestor_common->_guid = _model->GetName();
+
+  // Keep track of all the non-static models
+  auto model_list = _world->Models();
+  for (const auto& m : model_list)
+  {
+    std::string m_name = m->GetName();
+    if (m && !(m->IsStatic()) && m_name != _model->GetName())
+      _ingestor_common->_non_static_models_init_poses[m_name] = m->WorldPose();
+  }
+
+  IngestorCommonPtr->_fleet_state_sub = _node->create_subscription<FleetState>(
+    "/fleet_states",
+    rclcpp::SystemDefaultsQoS(),
+    [&](FleetState::UniquePtr msg)
+    {
+      IngestorCommonPtr->fleet_state_cb(std::move(msg));
+    });
+
+  IngestorCommonPtr->_state_pub = _node->create_publisher<DispenserState>(
+    "/dispenser_states", 10);
+
+  IngestorCommonPtr->_request_sub = _node->create_subscription<DispenserRequest>(
+    "/dispenser_requests",
+    rclcpp::SystemDefaultsQoS(),
+    [&](IngestorRequest::UniquePtr msg)
+    {
+      IngestorCommonPtr->dispenser_request_cb(std::move(msg));
+    });
+
+  IngestorCommonPtr->_result_pub = _node->create_publisher<DispenserResult>(
+    "/dispenser_results", 10);
+
+  IngestorCommonPtr->_current_state.guid = IngestorCommonPtr->_guid;
+  IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
+
+  _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
+    std::bind(&TeleportIngestorPlugin::on_update, this));
+  _load_complete = true;
+}
+
+TeleportIngestorPlugin::TeleportIngestorPlugin()
+: _ingestor_common(std::make_unique<TeleportIngestorCommon>())
+{
+}
+
+TeleportIngestorPlugin::~TeleportIngestorPlugin()
+{
+  if (_load_complete)
+    rclcpp::shutdown();
+}
 
 } // namespace rmf_gazebo_plugins
 

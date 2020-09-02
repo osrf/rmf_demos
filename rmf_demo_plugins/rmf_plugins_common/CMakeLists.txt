@@ -16,6 +16,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+find_package(ignition-math4 REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -37,6 +38,7 @@ ament_target_dependencies(ingestor_common
     rmf_dispenser_msgs
     rclcpp
     std_msgs
+    ignition-math4
 )
 
 target_include_directories(ingestor_common 
@@ -45,9 +47,9 @@ target_include_directories(ingestor_common
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-###############################
-# TeleportDispenser Plugin
-###############################
+###################################
+# TeleportDispenser Plugin Common #
+###################################
 
 add_library(dispenser_common SHARED ${PROJECT_SOURCE_DIR}/src/dispenser_common.cpp)
 

@@ -19,21 +19,16 @@
 #define RMF_PLUGINS_COMMON__INGESTOR_COMMON_HPP
 
 #include <string>
-#include <vector>
-#include <algorithm>
 #include <unordered_map>
-#include <unordered_set>
 
 #include <rclcpp/rclcpp.hpp>
 
-/*#include <ignition/math/Vector3.hh>*/
-/*#include <ignition/math/Pose3.hh>*/
+#include <ignition/math/Pose3.hh>
 
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
-
 
 namespace rmf_ingestor_common {
 
@@ -69,93 +64,12 @@ class TeleportIngestorCommon {
     std::unordered_map<std::string, bool> _past_request_guids;
     DispenserState _current_state;
 
-    TeleportIngestorCommon(){
-    }
-
-    rclcpp::Logger logger() const
-    {
-        return rclcpp::get_logger("Teleport_Dispenser");
-    }
-
-    rclcpp::Time simulation_now(double t) const
-    {
-        const int32_t t_sec = static_cast<int32_t>(t);
-        const uint32_t t_nsec =
-        static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
-        return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
-    }
-
-    void send_ingestor_response(uint8_t status) const
-    {
-        DispenserResult response;
-        response.time = simulation_now(_sim_time);//std::chrono::duration_cast<std::chrono::nanoseconds>(_sim_time).count() * 1e-9); //maybe there's a better way to do this
-        response.request_guid = latest.request_guid;
-        response.source_guid = _guid;
-        response.status = status;
-        _result_pub->publish(response);
-    }
-
-    void fleet_state_cb(FleetState::UniquePtr msg)
-    {
-        _fleet_states[msg->name] = std::move(msg);
-    }
-
-    void dispenser_request_cb(DispenserRequest::UniquePtr msg)
-    {
-        latest = *msg;
-
-        if (_guid == latest.target_guid && !_ingestor_filled)
-        {
-            const auto it = _past_request_guids.find(latest.request_guid);
-            if (it != _past_request_guids.end())
-                {
-                if (it->second)
-                {
-                    RCLCPP_WARN(_ros_node->get_logger(),
-                    "Request already succeeded: [%s]", latest.request_guid);
-                    send_ingestor_response(DispenserResult::SUCCESS);
-                }
-                else
-                {
-                    RCLCPP_WARN(_ros_node->get_logger(),
-                    "Request already failed: [%s]", latest.request_guid);
-                    send_ingestor_response(DispenserResult::FAILED);
-                }
-                return;
-            }
-
-            _ingest = true; // mark true to ingest item next time PreUpdate() is called
-            // There are currently no cases to publish a FAILED result yet
-        }
-    }
-
-    void init_ros_node(const rclcpp::Node::SharedPtr node)
-    {
-        _ros_node = std::move(node);
-
-        _fleet_state_sub = _ros_node->create_subscription<FleetState>(
-            "/fleet_states",
-            rclcpp::SystemDefaultsQoS(),
-            [&](FleetState::UniquePtr msg)
-            {
-                fleet_state_cb(std::move(msg));
-            });
-
-        _state_pub = _ros_node->create_publisher<DispenserState>(
-            "/dispenser_states", 10);
-
-        _request_sub = _ros_node->create_subscription<DispenserRequest>(
-            "/dispenser_requests",
-            rclcpp::SystemDefaultsQoS(),
-            [&](DispenserRequest::UniquePtr msg)
-            {
-                dispenser_request_cb(std::move(msg));
-            });
-
-        _result_pub = _ros_node->create_publisher<DispenserResult>(
-            "/dispenser_results", 10);
-    }
-
+    TeleportIngestorCommon();
+    rclcpp::Time simulation_now(double t) const;
+    void send_ingestor_response(uint8_t status) const;
+    void fleet_state_cb(FleetState::UniquePtr msg);
+    void dispenser_request_cb(DispenserRequest::UniquePtr msg);
+    void init_ros_node(const rclcpp::Node::SharedPtr node);
 };
 
 } // namespace rmf_ingestor_common
