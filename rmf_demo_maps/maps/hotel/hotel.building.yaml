@@ -2822,9 +2822,12 @@ lifts:
         width: 1
         x: 0
         y: -1.125
+    highest_floor: L2
+    initial_floor_name: L1
     level_doors:
       L1: [door]
       L2: [door]
+    lowest_floor: L1
     reference_floor_name: L1
     width: 2
     x: 1236.5
@@ -2839,9 +2842,12 @@ lifts:
         width: 1
         x: 1.25
         y: 0
+    highest_floor: L2
+    initial_floor_name: L1
     level_doors:
       L1: [door]
       L2: [door]
+    lowest_floor: L1
     reference_floor_name: L1
     width: 2.5
     x: 1272
