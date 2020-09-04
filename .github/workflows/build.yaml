@@ -25,28 +25,26 @@ jobs:
 
     - name: workspace
       run: |
-        mkdir -p ~/rmf_demos_ws/src
-        cd ~/rmf_demos_ws/src
+        mkdir -p rmf_demos_ws/src
+        cd rmf_demos_ws/src
         git clone https://github.com/osrf/rmf_core.git
         git clone https://github.com/osrf/traffic_editor.git
-        git clone https://github.com/osrf/traffic_editor_assets.git
         git clone https://github.com/osrf/rmf_schedule_visualizer.git
 
     - name: checkout
       uses: actions/checkout@v2
       with:
-        path: ~/rmf_demos_ws/src/rmf_demos
+        path: rmf_demos_ws/src/rmf_demos
 
     - name: ros-deps
       run: |
-        cd ~/rmf_demos_ws
+        cd rmf_demos_ws
         rosdep update
         rosdep install --from-paths src --ignore-src --rosdistro eloquent -yr
-
     - name: build
       shell: bash
       run: |
-        cd ~/rmf_demos_ws
+        cd rmf_demos_ws
         source /opt/ros/eloquent/setup.bash
         CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE -DNO_DOWNLOAD_MODELS=True --packages-up-to \
           demos \
