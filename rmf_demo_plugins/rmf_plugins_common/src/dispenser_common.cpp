@@ -34,25 +34,25 @@ void TeleportDispenserCommon::dispenser_request_cb(DispenserRequest::UniquePtr m
 
   if (_guid == latest.target_guid && _dispenser_filled)
   {
-  const auto it = _past_request_guids.find(latest.request_guid);
-  if (it != _past_request_guids.end())
-  {
-    if (it->second)
+    const auto it = _past_request_guids.find(latest.request_guid);
+    if (it != _past_request_guids.end())
     {
-      RCLCPP_WARN(_ros_node->get_logger(),
-      "Request already succeeded: [%s]", latest.request_guid);
-      send_dispenser_response(DispenserResult::SUCCESS);
+      if (it->second)
+      {
+        RCLCPP_WARN(_ros_node->get_logger(),
+        "Request already succeeded: [%s]", latest.request_guid);
+        send_dispenser_response(DispenserResult::SUCCESS);
+      }
+      else
+      {
+        RCLCPP_WARN(_ros_node->get_logger(),
+        "Request already failed: [%s]", latest.request_guid);
+        send_dispenser_response(DispenserResult::FAILED);
+      }
+      return;
     }
-    else
-    {
-      RCLCPP_WARN(_ros_node->get_logger(),
-      "Request already failed: [%s]", latest.request_guid);
-      send_dispenser_response(DispenserResult::FAILED);
-    }
-    return;
-  }
 
-  _dispense = true; // Mark true to dispense item next time PreUpdate() is called
+    _dispense = true; // Mark true to dispense item next time PreUpdate() is called
   }
 }
 

@@ -183,12 +183,11 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(EntityComponentManager& e
     return;
   }
 
-  // Move item from dispenser onto robot. Currently approximates new position by adding 0.5 to z coord of Ingstor's pose
   auto cmd = ecm.Component<components::WorldPoseCmd>(_ingested_entity);
   if (!cmd) {
     ecm.CreateComponent(_ingested_entity, components::WorldPoseCmd(ignition::math::Pose3<double>()));
   }
-  auto new_pose = ecm.Component<components::Pose>(_ingestor)->Data()+ ignition::math::Pose3<double>(0,0,0.5,0,0,0);;
+  auto new_pose = ecm.Component<components::Pose>(_ingestor)->Data();
   ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() = new_pose;
   _ingestor_common->_ingestor_filled = true;
 }

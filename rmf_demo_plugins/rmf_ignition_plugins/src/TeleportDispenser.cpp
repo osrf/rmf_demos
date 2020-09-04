@@ -77,6 +77,7 @@ private:
     EntityComponentManager& ecm,
     const std::vector<Entity>& robot_model_entities,
     Entity& robot_entity) const;
+  void place_on_entity(EntityComponentManager& ecm, const Entity& base, const Entity& to_move);
   void dispense_on_nearest_robot(EntityComponentManager& ecm, const std::string& fleet_name);
   void fill_dispenser(EntityComponentManager& ecm);
   void create_dispenser_bounding_box(EntityComponentManager& ecm);
@@ -121,6 +122,28 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model(
   return found;
 }
 
+// Move enity `to_move` onto `base`
+void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm, const Entity& base, const Entity& to_move)
+{
+  const auto base_aabb = ecm.Component<components::AxisAlignedBox>(base);
+  const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
+  auto new_pose = ecm.Component<components::Pose>(base)->Data();
+  if (!base_aabb || !to_move_aabb) {
+    RCLCPP_WARN(_dispenser_common->_ros_node->get_logger(),
+      "Either base entity or item to be dispensed does not have an AxisAlignedBox component. \
+      Dispensing item to approximate location.");
+    new_pose += ignition::math::Pose3<double>(0,0,0.5,0,0,0);
+  } else {
+    new_pose.SetZ(base_aabb->Data().Max().Z() + 0.5*(to_move_aabb->Data().ZLength()));
+  }
+
+  auto cmd = ecm.Component<components::WorldPoseCmd>(to_move);
+  if (!cmd) {
+    ecm.CreateComponent(to_move, components::WorldPoseCmd(ignition::math::Pose3<double>()));
+  }
+  ecm.Component<components::WorldPoseCmd>(to_move)->Data() = new_pose;
+}
+
 void TeleportDispenserPlugin::dispense_on_nearest_robot(EntityComponentManager& ecm, const std::string& fleet_name)
 {
   if (!_dispenser_common->_dispenser_filled)
@@ -147,19 +170,13 @@ void TeleportDispenserPlugin::dispense_on_nearest_robot(EntityComponentManager& 
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
     return;
   }
-
-  // Move item from dispenser onto robot. Currently approximates new position by adding 0.5 to z coord of Robot's pose
-  auto cmd = ecm.Component<components::WorldPoseCmd>(_item_en);
-  if (!cmd) {
-    ecm.CreateComponent(_item_en, components::WorldPoseCmd(ignition::math::Pose3<double>()));
-  }
-  auto new_pose = ecm.Component<components::Pose>(robot_model)->Data() + ignition::math::Pose3<double>(0,0,0.5,0,0,0);
-  ecm.Component<components::WorldPoseCmd>(_item_en)->Data() = new_pose;
+  place_on_entity(ecm, robot_model, _item_en);
   _dispenser_common->_dispenser_filled = false; // Assumes Dispenser is configured to only dispense a single object
 }
 
 // Searches vicinity of Dispenser for closest valid item. If found, _item_en is set to the item's entity
-void TeleportDispenserPlugin::fill_dispenser(EntityComponentManager& ecm){
+void TeleportDispenserPlugin::fill_dispenser(EntityComponentManager& ecm)
+{
     const auto dispenser_pos = ecm.Component<components::Pose>(_dispenser)->Data().Pos();
 
     double nearest_dist = 1.0;
@@ -195,17 +212,22 @@ void TeleportDispenserPlugin::fill_dispenser(EntityComponentManager& ecm){
     } else {
       RCLCPP_INFO(_dispenser_common->_ros_node->get_logger(),
         "Found dispenser item: [%s]", ecm.Component<components::Name>(_item_en)->Data().c_str());
+
+      // Create Bounding Box component to enable dispensing item later
+      if (!ecm.EntityHasComponentType(_item_en, components::AxisAlignedBox().TypeId())) {
+        ecm.CreateComponent(_item_en, components::AxisAlignedBox());
+      }
     }
 }
 
-void TeleportDispenserPlugin::create_dispenser_bounding_box(EntityComponentManager& ecm){
+void TeleportDispenserPlugin::create_dispenser_bounding_box(EntityComponentManager& ecm)
+{
   const auto dispenser_pos =  ecm.Component<components::Pose>(_dispenser)->Data().Pos();
   ignition::math::Vector3d corner_1(dispenser_pos.X() - 0.05, dispenser_pos.Y() - 0.05, dispenser_pos.Z() - 0.05);
   ignition::math::Vector3d corner_2(dispenser_pos.X() + 0.05, dispenser_pos.Y() + 0.05, dispenser_pos.Z() + 0.05);
   _dispenser_vicinity_box = ignition::math::AxisAlignedBox(corner_1, corner_2);
 
-  auto aabb = ecm.Component<components::AxisAlignedBox>(_dispenser);
-  if (!aabb) {
+  if (!ecm.EntityHasComponentType(_dispenser, components::AxisAlignedBox().TypeId())) {
     ecm.CreateComponent(_dispenser, components::AxisAlignedBox(_dispenser_vicinity_box));
   } else {
     ecm.Component<components::AxisAlignedBox>(_dispenser)->Data() = _dispenser_vicinity_box;
@@ -247,7 +269,7 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info, EntityComponentM
 
   // Set item that the Dispenser will be configured to dispense. Do this only on first PreUpdate() call.
   // Happens here and not in Configure() to allow for all models to load
-  if(!_dispenser_common->_dispenser_filled && !tried_fill_dispenser){
+  if(!tried_fill_dispenser){
     fill_dispenser(ecm);
     tried_fill_dispenser = true;
   }
@@ -298,4 +320,3 @@ IGNITION_ADD_PLUGIN(
 IGNITION_ADD_PLUGIN_ALIAS(TeleportDispenserPlugin, "teleport_dispenser")
 
 } // namespace rmf_ignition_plugins
-

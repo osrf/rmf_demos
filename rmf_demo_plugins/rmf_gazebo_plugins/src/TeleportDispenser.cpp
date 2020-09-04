@@ -154,7 +154,8 @@ void TeleportDispenserPlugin::fill_dispenser(){
   }
 }
 
-void TeleportDispenserPlugin::create_dispenser_bounding_box(){
+void TeleportDispenserPlugin::create_dispenser_bounding_box()
+{
   // Find the dispenser item model, maximum distance 1 meter
   const auto dispenser_pos = _model->WorldPose().Pos();
   ignition::math::Vector3d corner_1 = dispenser_pos;
