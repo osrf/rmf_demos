@@ -6,9 +6,9 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 
@@ -22,6 +22,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
+find_package(rmf_ingestor_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
 
 include(GNUInstallDirs)
@@ -35,7 +36,7 @@ add_library(ingestor_common SHARED ${PROJECT_SOURCE_DIR}/src/ingestor_common.cpp
 ament_target_dependencies(ingestor_common 
     rmf_fleet_msgs
     building_map_msgs
-    rmf_dispenser_msgs
+    rmf_ingestor_msgs
     rclcpp
     std_msgs
     ignition-math4

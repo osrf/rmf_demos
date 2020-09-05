@@ -26,22 +26,23 @@
 #include <ignition/math/Pose3.hh>
 
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_state.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_request.hpp>
 
 namespace rmf_ingestor_common {
 
 class TeleportIngestorCommon {
   public:
+
     using FleetState = rmf_fleet_msgs::msg::FleetState;
-    using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-    using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
-    using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
+    using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
+    using IngestorRequest = rmf_ingestor_msgs::msg::IngestorRequest;
+    using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
 
     // Ingest request params
     bool _ingest = false;
-    DispenserRequest latest;
+    IngestorRequest latest;
 
     // General params
     std::string _guid;
@@ -54,21 +55,21 @@ class TeleportIngestorCommon {
 
     rclcpp::Node::SharedPtr _ros_node;
     rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
-    rclcpp::Publisher<DispenserState>::SharedPtr _state_pub;
-    rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
-    rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
+    rclcpp::Publisher<IngestorState>::SharedPtr _state_pub;
+    rclcpp::Subscription<IngestorRequest>::SharedPtr _request_sub;
+    rclcpp::Publisher<IngestorResult>::SharedPtr _result_pub;
 
     std::unordered_map<std::string, ignition::math::Pose3d>
     _non_static_models_init_poses;
     std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
     std::unordered_map<std::string, bool> _past_request_guids;
-    DispenserState _current_state;
+    IngestorState _current_state;
 
     TeleportIngestorCommon();
     rclcpp::Time simulation_now(double t) const;
     void send_ingestor_response(uint8_t status) const;
     void fleet_state_cb(FleetState::UniquePtr msg);
-    void dispenser_request_cb(DispenserRequest::UniquePtr msg);
+    void ingestor_request_cb(IngestorRequest::UniquePtr msg);
     void init_ros_node(const rclcpp::Node::SharedPtr node);
 };
 

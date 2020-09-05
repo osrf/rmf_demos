@@ -6,9 +6,9 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 
@@ -44,6 +44,7 @@ set(IGN_MATH_VER 4)
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
+find_package(rmf_ingestor_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
 find_package(rmf_plugins_common REQUIRED)
 
@@ -62,7 +63,7 @@ target_link_libraries(teleport_ingestor
     ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
     ${rmf_plugins_common_LIBRARIES}
     ${rmf_fleet_msgs_LIBRARIES}
-    ${rmf_dispenser_msgs_LIBRARIES}
+    ${rmf_ingestor_msgs_LIBRARIES}
 )
 
 target_include_directories(teleport_ingestor
@@ -72,7 +73,7 @@ target_include_directories(teleport_ingestor
     ${rclcpp_INCLUDE_DIRS}
     ${rmf_plugins_common_INCLUDE_DIRS}
     ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${rmf_dispenser_msgs_INCLUDE_DIRS}
+    ${rmf_ingestor_msgs_INCLUDE_DIRS}
 )
 
 ###############################

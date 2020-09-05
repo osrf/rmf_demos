@@ -50,7 +50,6 @@ ament_target_dependencies(teleport_dispenser
   gazebo_ros
   rmf_fleet_msgs
   rmf_dispenser_msgs
-  rmf_sim_utils
   rmf_plugins_common
 )
 
@@ -72,7 +71,6 @@ ament_target_dependencies(teleport_ingestor
   gazebo_ros
   rmf_fleet_msgs
   rmf_ingestor_msgs
-  rmf_sim_utils
   rmf_dispenser_msgs
   rmf_plugins_common
 )
@@ -96,7 +94,6 @@ ament_target_dependencies(readonly
     rclcpp
     gazebo_ros
     rmf_plugins_common
-    rmf_sim_utils
 )
 
 target_include_directories(readonly

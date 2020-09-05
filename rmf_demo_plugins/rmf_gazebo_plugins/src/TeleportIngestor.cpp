@@ -34,7 +34,6 @@
 #include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
 #include <rmf_ingestor_msgs/msg/ingestor_request.hpp>
 
-
 #include <rmf_plugins_common/ingestor_common.hpp>
 
 using namespace rmf_ingestor_common;
@@ -50,7 +49,6 @@ public:
   using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
   using IngestorRequest = rmf_ingestor_msgs::msg::IngestorRequest;
   using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
-  using Pose3d = ignition::math::Pose3d;
 
   TeleportIngestorPlugin();
   ~TeleportIngestorPlugin();
@@ -123,7 +121,6 @@ bool TeleportIngestorPlugin::get_payload_model(
   const ignition::math::AxisAlignedBox vicinity_box(
     robot_collision_bb.Min(), max_corner);
   #endif
-
 
   // There might not be a better way to loop through all the models, as we
   // might consider delivering items that were spawned during run time,
@@ -213,18 +210,18 @@ void TeleportIngestorPlugin::on_update()
   _ingestor_common->_sim_time = _world->SimTime().Double();
 
   if(_ingestor_common->_ingest){
-      _ingestor_common->send_ingestor_response(DispenserResult::ACKNOWLEDGED);
+      _ingestor_common->send_ingestor_response(IngestorResult::ACKNOWLEDGED);
 
       RCLCPP_INFO(_node->get_logger(), "Ingesting item");
       if(!_ingestor_common->_ingestor_filled){
         ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
 
-        _ingestor_common->send_ingestor_response(DispenserResult::SUCCESS);
+        _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
         _ingestor_common->_last_ingested_time = _world->SimTime().Double();
       } else {
         RCLCPP_WARN(_ingestor_common->_ros_node->get_logger(),
           "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
-        _ingestor_common->send_ingestor_response(DispenserResult::FAILED);
+        _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
       }
       _ingestor_common->_ingest = false;
   }
@@ -236,7 +233,7 @@ void TeleportIngestorPlugin::on_update()
     const auto now = _ingestor_common->simulation_now(t);
 
     _ingestor_common->_current_state.time = now;
-    _ingestor_common->_current_state.mode = DispenserState::IDLE;
+    _ingestor_common->_current_state.mode = IngestorState::IDLE;
     _ingestor_common->_state_pub->publish(_ingestor_common->_current_state);
   }
 
@@ -255,6 +252,7 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent, sdf::Elemen
   RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
 
   _ingestor_common->_guid = _model->GetName();
+  _ingestor_common->init_ros_node(_node);
 
   // Keep track of all the non-static models
   auto model_list = _world->Models();
@@ -265,30 +263,8 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent, sdf::Elemen
       _ingestor_common->_non_static_models_init_poses[m_name] = m->WorldPose();
   }
 
-  IngestorCommonPtr->_fleet_state_sub = _node->create_subscription<FleetState>(
-    "/fleet_states",
-    rclcpp::SystemDefaultsQoS(),
-    [&](FleetState::UniquePtr msg)
-    {
-      IngestorCommonPtr->fleet_state_cb(std::move(msg));
-    });
-
-  IngestorCommonPtr->_state_pub = _node->create_publisher<DispenserState>(
-    "/dispenser_states", 10);
-
-  IngestorCommonPtr->_request_sub = _node->create_subscription<DispenserRequest>(
-    "/dispenser_requests",
-    rclcpp::SystemDefaultsQoS(),
-    [&](IngestorRequest::UniquePtr msg)
-    {
-      IngestorCommonPtr->dispenser_request_cb(std::move(msg));
-    });
-
-  IngestorCommonPtr->_result_pub = _node->create_publisher<DispenserResult>(
-    "/dispenser_results", 10);
-
-  IngestorCommonPtr->_current_state.guid = IngestorCommonPtr->_guid;
-  IngestorCommonPtr->_current_state.mode = DispenserState::IDLE;
+  _ingestor_common->_current_state.guid = _ingestor_common->_guid;
+  _ingestor_common->_current_state.mode = IngestorState::IDLE;
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportIngestorPlugin::on_update, this));

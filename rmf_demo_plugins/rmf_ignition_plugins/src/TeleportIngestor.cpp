@@ -34,8 +34,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_state.hpp>
+#include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
 
 #include <rmf_plugins_common/ingestor_common.hpp>
 
@@ -51,8 +51,8 @@ class IGNITION_GAZEBO_VISIBLE TeleportIngestorPlugin
 {
 public:
 
-  using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-  using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
+  using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
+  using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
 
   TeleportIngestorPlugin();
   ~TeleportIngestorPlugin();
@@ -252,7 +252,7 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
     });
 
   _ingestor_common->_current_state.guid = _ingestor_common->_guid;
-  _ingestor_common->_current_state.mode = DispenserState::IDLE;
+  _ingestor_common->_current_state.mode = IngestorState::IDLE;
 
   _load_complete = true;
 }
@@ -269,18 +269,18 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info, EntityComponentMa
 
   // Only ingests max once per call to PreUpdate(), using request stored in _ingestor_common->_latest
   if(_ingestor_common->_ingest) {
-    _ingestor_common->send_ingestor_response(DispenserResult::ACKNOWLEDGED);
+    _ingestor_common->send_ingestor_response(IngestorResult::ACKNOWLEDGED);
 
     if(!_ingestor_common->_ingestor_filled){
       RCLCPP_INFO(_ingestor_common->_ros_node->get_logger(), "Ingesting item");
       ingest_from_nearest_robot(ecm, _ingestor_common->latest.transporter_type);
 
-      _ingestor_common->send_ingestor_response(DispenserResult::SUCCESS);
+      _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
       _ingestor_common->_last_ingested_time = _ingestor_common->_sim_time;
     } else {
       RCLCPP_WARN(_ingestor_common->_ros_node->get_logger(),
         "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
-      _ingestor_common->send_ingestor_response(DispenserResult::FAILED);
+      _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
     }
     _ingestor_common->_ingest= false;
   }
@@ -291,7 +291,7 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info, EntityComponentMa
     const auto now = _ingestor_common->simulation_now(_ingestor_common->_sim_time);
 
     _ingestor_common->_current_state.time = now;
-    _ingestor_common->_current_state.mode = DispenserState::IDLE;
+    _ingestor_common->_current_state.mode = IngestorState::IDLE;
     _ingestor_common->_state_pub->publish(_ingestor_common->_current_state);
   }
 
