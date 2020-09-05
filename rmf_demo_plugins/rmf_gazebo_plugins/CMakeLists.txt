@@ -71,7 +71,6 @@ ament_target_dependencies(teleport_ingestor
   gazebo_ros
   rmf_fleet_msgs
   rmf_ingestor_msgs
-  rmf_dispenser_msgs
   rmf_plugins_common
 )
 

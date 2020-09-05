@@ -85,7 +85,7 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model_name(
 
   for (const auto& m : models)
   {
-    if (!m || m->IsStatic() || m->GetName() == _dispenser_common->_guid)
+    if (!m || m->IsStatic() || m->GetName() == _dispenser_common->guid)
       continue;
 
     const double dist =
@@ -100,15 +100,16 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model_name(
   return found;
 }
 
-void TeleportDispenserPlugin::dispense_on_nearest_robot(const std::string& fleet_name)
+void TeleportDispenserPlugin::dispense_on_nearest_robot(
+  const std::string& fleet_name)
 {
   if (!_item_model)
     return;
 
-  const auto fleet_state_it = _dispenser_common->_fleet_states.find(fleet_name);
-  if (fleet_state_it == _dispenser_common->_fleet_states.end())
+  const auto fleet_state_it = _dispenser_common->fleet_states.find(fleet_name);
+  if (fleet_state_it == _dispenser_common->fleet_states.end())
   {
-    RCLCPP_WARN(_dispenser_common->_ros_node->get_logger(),
+    RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
     return;
   }
@@ -125,16 +126,17 @@ void TeleportDispenserPlugin::dispense_on_nearest_robot(const std::string& fleet
   if (!find_nearest_non_static_model_name(
       robot_models, nearest_robot_model_name))
   {
-    RCLCPP_WARN(_dispenser_common->_ros_node->get_logger(),
+    RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "No near robots of fleet [%s] found.", fleet_name.c_str());
     return;
   }
   _item_model->PlaceOnEntity(nearest_robot_model_name);
-  _dispenser_common->_dispenser_filled = false;
+  _dispenser_common->dispenser_filled = false;
 }
 
 // Searches vicinity of Dispenser for closest valid item. If found, _item_model is set to the newly found item
-void TeleportDispenserPlugin::fill_dispenser(){
+void TeleportDispenserPlugin::fill_dispenser()
+{
   auto model_list = _world->Models();
   double nearest_dist = 1.0;
   const auto dispenser_pos = _model->WorldPose().Pos();
@@ -149,7 +151,7 @@ void TeleportDispenserPlugin::fill_dispenser(){
     {
       _item_model = m;
       nearest_dist = dist;
-      _dispenser_common->_dispenser_filled = true;
+      _dispenser_common->dispenser_filled = true;
     }
   }
 }
@@ -179,41 +181,45 @@ void TeleportDispenserPlugin::on_update()
   if (!_load_complete)
     return;
 
-  _dispenser_common->_sim_time = _world->SimTime().Double();
+  _dispenser_common->sim_time = _world->SimTime().Double();
 
   // `_dispense` is set to true if the dispenser plugin node has received a valid DispenserRequest
-  if(_dispenser_common->_dispense){
+  if (_dispenser_common->dispense)
+  {
     _dispenser_common->send_dispenser_response(DispenserResult::ACKNOWLEDGED);
 
-    if(_dispenser_common->_dispenser_filled){
-      RCLCPP_INFO(_dispenser_common->_ros_node->get_logger(), "Dispensing item");
+    if (_dispenser_common->dispenser_filled)
+    {
+      RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
+        "Dispensing item");
       dispense_on_nearest_robot(_dispenser_common->latest.transporter_type);
 
       _dispenser_common->send_dispenser_response(DispenserResult::SUCCESS);
-    } else {
-        RCLCPP_WARN(_dispenser_common->_ros_node->get_logger(),
-          "No item to dispense: [%s]", _dispenser_common->latest.request_guid);
-        _dispenser_common->send_dispenser_response(DispenserResult::FAILED);
     }
-    _dispenser_common->_dispense = false;
+    else
+    {
+      RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
+        "No item to dispense: [%s]", _dispenser_common->latest.request_guid);
+      _dispenser_common->send_dispenser_response(DispenserResult::FAILED);
+    }
+    _dispenser_common->dispense = false;
   }
 
   const double t = _world->SimTime().Double();
-  if (t - _dispenser_common->_last_pub_time >= 2.0)
+  if (t - _dispenser_common->last_pub_time >= 2.0)
   {
-    _dispenser_common->_last_pub_time = t;
+    _dispenser_common->last_pub_time = t;
     const auto now = _dispenser_common->simulation_now(t);
 
-    _dispenser_common->_current_state.time = now;
-    _dispenser_common->_current_state.mode = DispenserState::IDLE;
-    _dispenser_common->_state_pub->publish(_dispenser_common->_current_state);
-
+    _dispenser_common->current_state.time = now;
+    _dispenser_common->current_state.mode = DispenserState::IDLE;
+    _dispenser_common->publish_state();
     // Occasionally check to see if dispensed item has been returned to it
-    if (!_dispenser_common->_dispenser_filled &&
+    if (!_dispenser_common->dispenser_filled &&
       _item_model &&
       _model->BoundingBox().Intersects(
         _item_model->BoundingBox()))
-      _dispenser_common->_dispenser_filled = true;
+      _dispenser_common->dispenser_filled = true;
   }
 }
 
@@ -228,31 +234,34 @@ TeleportDispenserPlugin::~TeleportDispenserPlugin()
     rclcpp::shutdown();
 }
 
-void TeleportDispenserPlugin::Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+void TeleportDispenserPlugin::Load(gazebo::physics::ModelPtr _parent,
+  sdf::ElementPtr _sdf)
 {
   _model = _parent;
   _world = _model->GetWorld();
-  _dispenser_common->_guid = _model->GetName();
+  _dispenser_common->guid = _model->GetName();
 
   _dispenser_common->init_ros_node(gazebo_ros::Node::Get(_sdf));
-  RCLCPP_INFO(_dispenser_common->_ros_node->get_logger(), "Started TeleportDispenserPlugin node...");
+  RCLCPP_INFO(
+    _dispenser_common->ros_node->get_logger(),
+    "Started TeleportDispenserPlugin node...");
 
   create_dispenser_bounding_box();
   fill_dispenser();
 
   if (!_item_model)
   {
-    RCLCPP_WARN(_dispenser_common->_ros_node->get_logger(),
+    RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "Could not find dispenser item model within 1 meter, "
       "this dispenser will not be operational");
     return;
   }
 
-  RCLCPP_INFO(_dispenser_common->_ros_node->get_logger(),
+  RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
     "Found dispenser item: [%s]", _item_model->GetName().c_str());
 
-  _dispenser_common->_current_state.guid = _dispenser_common->_guid;
-  _dispenser_common->_current_state.mode = DispenserState::IDLE;
+  _dispenser_common->current_state.guid = _dispenser_common->guid;
+  _dispenser_common->current_state.mode = DispenserState::IDLE;
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportDispenserPlugin::on_update, this));

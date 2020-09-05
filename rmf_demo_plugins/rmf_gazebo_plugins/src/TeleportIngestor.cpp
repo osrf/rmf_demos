@@ -109,7 +109,7 @@ bool TeleportIngestorPlugin::get_payload_model(
   if (!robot_model)
     return false;
 
-  const ignition::math::Box robot_collision_bb = robot_model->BoundingBox();
+  const auto robot_collision_bb = robot_model->BoundingBox();
   ignition::math::Vector3d max_corner = robot_collision_bb.Max();
 
   // Create a new bounding box extended slightly in the Z direction
@@ -148,10 +148,11 @@ bool TeleportIngestorPlugin::get_payload_model(
   return found;
 }
 
-void TeleportIngestorPlugin::ingest_from_nearest_robot(const std::string& fleet_name)
+void TeleportIngestorPlugin::ingest_from_nearest_robot(
+  const std::string& fleet_name)
 {
-  const auto fleet_state_it = _ingestor_common->_fleet_states.find(fleet_name);
-  if (fleet_state_it == _ingestor_common->_fleet_states.end())
+  const auto fleet_state_it = _ingestor_common->fleet_states.find(fleet_name);
+  if (fleet_state_it == _ingestor_common->fleet_states.end())
   {
     RCLCPP_WARN(_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
@@ -184,21 +185,21 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(const std::string& fleet_
     return;
   }
   _ingested_model->SetWorldPose(_model->WorldPose());
-  _ingestor_common->_ingestor_filled = true;
+  _ingestor_common->ingestor_filled = true;
 }
 
 void TeleportIngestorPlugin::send_ingested_item_home()
 {
-  if (_ingestor_common->_ingestor_filled)
+  if (_ingestor_common->ingestor_filled)
   {
-    const auto it =
-      _ingestor_common->_non_static_models_init_poses.find(_ingested_model->GetName());
-    if (it == _ingestor_common->_non_static_models_init_poses.end())
+    const auto it = _ingestor_common->non_static_models_init_poses.find(
+      _ingested_model->GetName());
+    if (it == _ingestor_common->non_static_models_init_poses.end())
       _world->RemoveModel(_ingested_model);
     else
       _ingested_model->SetWorldPose(it->second);
 
-    _ingestor_common->_ingestor_filled = false; // Assumes ingestor can only hold 1 object at a time
+    _ingestor_common->ingestor_filled = false; // Assumes ingestor can only hold 1 object at a time
   }
 }
 
@@ -206,43 +207,50 @@ void TeleportIngestorPlugin::on_update()
 {
   if (!_load_complete)
     return;
-  
-  _ingestor_common->_sim_time = _world->SimTime().Double();
 
-  if(_ingestor_common->_ingest){
-      _ingestor_common->send_ingestor_response(IngestorResult::ACKNOWLEDGED);
+  _ingestor_common->sim_time = _world->SimTime().Double();
 
-      RCLCPP_INFO(_node->get_logger(), "Ingesting item");
-      if(!_ingestor_common->_ingestor_filled){
-        ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
+  if (_ingestor_common->ingest)
+  {
+    _ingestor_common->send_ingestor_response(IngestorResult::ACKNOWLEDGED);
 
-        _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
-        _ingestor_common->_last_ingested_time = _world->SimTime().Double();
-      } else {
-        RCLCPP_WARN(_ingestor_common->_ros_node->get_logger(),
-          "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
-        _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
-      }
-      _ingestor_common->_ingest = false;
+    RCLCPP_INFO(_node->get_logger(), "Ingesting item");
+    if (!_ingestor_common->ingestor_filled)
+    {
+      ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
+
+      _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
+      _ingestor_common->last_ingested_time = _world->SimTime().Double();
+    }
+    else
+    {
+      RCLCPP_WARN(_ingestor_common->ros_node->get_logger(),
+        "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
+      _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
+    }
+    _ingestor_common->ingest = false;
   }
 
   const double t = _world->SimTime().Double();
-  if (t - _ingestor_common->_last_pub_time >= 2.0)
+  if (t - _ingestor_common->last_pub_time >= 2.0)
   {
-    _ingestor_common->_last_pub_time = t;
+    _ingestor_common->last_pub_time = t;
     const auto now = _ingestor_common->simulation_now(t);
 
-    _ingestor_common->_current_state.time = now;
-    _ingestor_common->_current_state.mode = IngestorState::IDLE;
-    _ingestor_common->_state_pub->publish(_ingestor_common->_current_state);
+    _ingestor_common->current_state.time = now;
+    _ingestor_common->current_state.mode = IngestorState::IDLE;
+    _ingestor_common->publish_state();
   }
 
-  if(t - _ingestor_common->_last_ingested_time >= 5.0 && _ingestor_common->_ingestor_filled){
-    send_ingested_item_home(); 
+  if (t - _ingestor_common->last_ingested_time >= 5.0 &&
+    _ingestor_common->ingestor_filled)
+  {
+    send_ingested_item_home();
   }
 }
 
-void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
+  sdf::ElementPtr _sdf)
 {
   _model = _parent;
   _world = _model->GetWorld();
@@ -260,11 +268,11 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent, sdf::Elemen
   {
     std::string m_name = m->GetName();
     if (m && !(m->IsStatic()) && m_name != _model->GetName())
-      _ingestor_common->_non_static_models_init_poses[m_name] = m->WorldPose();
+      _ingestor_common->non_static_models_init_poses[m_name] = m->WorldPose();
   }
 
-  _ingestor_common->_current_state.guid = _ingestor_common->_guid;
-  _ingestor_common->_current_state.mode = IngestorState::IDLE;
+  _ingestor_common->current_state.guid = _ingestor_common->_guid;
+  _ingestor_common->current_state.mode = IngestorState::IDLE;
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportIngestorPlugin::on_update, this));

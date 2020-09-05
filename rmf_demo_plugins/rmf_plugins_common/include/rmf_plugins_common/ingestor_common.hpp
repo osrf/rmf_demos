@@ -32,45 +32,48 @@
 
 namespace rmf_ingestor_common {
 
-class TeleportIngestorCommon {
-  public:
+class TeleportIngestorCommon
+{
+public:
 
-    using FleetState = rmf_fleet_msgs::msg::FleetState;
-    using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
-    using IngestorRequest = rmf_ingestor_msgs::msg::IngestorRequest;
-    using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
+  using FleetState = rmf_fleet_msgs::msg::FleetState;
+  using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
+  using IngestorRequest = rmf_ingestor_msgs::msg::IngestorRequest;
+  using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
 
-    // Ingest request params
-    bool _ingest = false;
-    IngestorRequest latest;
+  // Ingest request params
+  bool ingest = false;
+  IngestorRequest latest;
 
-    // General params
-    std::string _guid;
-    bool _load_complete = false;
-    bool _ingestor_filled = false;
+  // General params
+  std::string _guid;
+  bool ingestor_filled = false;
 
-    double _last_pub_time = 0.0;
-    double _last_ingested_time = 0.0;
-    double _sim_time = 0.0;
+  double last_pub_time = 0.0;
+  double last_ingested_time = 0.0;
+  double sim_time = 0.0;
 
-    rclcpp::Node::SharedPtr _ros_node;
-    rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
-    rclcpp::Publisher<IngestorState>::SharedPtr _state_pub;
-    rclcpp::Subscription<IngestorRequest>::SharedPtr _request_sub;
-    rclcpp::Publisher<IngestorResult>::SharedPtr _result_pub;
+  rclcpp::Node::SharedPtr ros_node;
 
-    std::unordered_map<std::string, ignition::math::Pose3d>
-    _non_static_models_init_poses;
-    std::unordered_map<std::string, FleetState::UniquePtr> _fleet_states;
-    std::unordered_map<std::string, bool> _past_request_guids;
-    IngestorState _current_state;
+  std::unordered_map<std::string, ignition::math::Pose3d>
+  non_static_models_init_poses;
+  std::unordered_map<std::string, FleetState::UniquePtr> fleet_states;
+  IngestorState current_state;
 
-    TeleportIngestorCommon();
-    rclcpp::Time simulation_now(double t) const;
-    void send_ingestor_response(uint8_t status) const;
-    void fleet_state_cb(FleetState::UniquePtr msg);
-    void ingestor_request_cb(IngestorRequest::UniquePtr msg);
-    void init_ros_node(const rclcpp::Node::SharedPtr node);
+  TeleportIngestorCommon();
+  rclcpp::Time simulation_now(double t) const;
+  void send_ingestor_response(uint8_t status) const;
+  void fleet_state_cb(FleetState::UniquePtr msg);
+  void ingestor_request_cb(IngestorRequest::UniquePtr msg);
+  void init_ros_node(const rclcpp::Node::SharedPtr node);
+  void publish_state() const;
+
+private:
+  rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;
+  rclcpp::Publisher<IngestorState>::SharedPtr _state_pub;
+  rclcpp::Subscription<IngestorRequest>::SharedPtr _request_sub;
+  rclcpp::Publisher<IngestorResult>::SharedPtr _result_pub;
+  std::unordered_map<std::string, bool> _past_request_guids;
 };
 
 } // namespace rmf_ingestor_common

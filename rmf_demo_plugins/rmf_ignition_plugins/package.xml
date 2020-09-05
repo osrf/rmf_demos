@@ -18,7 +18,7 @@
   <depend>rclcpp</depend>
 
   <depend>std_msgs</depend>
-  
+
   <depend>rmf_fleet_msgs</depend>
   <depend>rmf_dispenser_msgs</depend>
   <depend>rmf_ingestor_msgs</depend>
