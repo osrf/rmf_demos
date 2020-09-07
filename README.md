@@ -198,7 +198,11 @@ This is a hotel with a lobby and a guest level. The hotel has two lifts and two 
 
 The hotel map is truncated due to the high memory usage. The full map can be accessed [here](https://github.com/MakinoharaShouko/hotel).
 
+Hotel floor plan in `traffic_editor`:
 ![](docs/media/hotel.png)
+
+Full hotel floor plan in `traffic_editor`:
+![](docs/media/hotel_full.png)
 
 ## Demo Scenario
 To launch the world and the schedule visualizer,
