@@ -20,6 +20,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #include <rclcpp/rclcpp.hpp>
 
@@ -60,11 +61,11 @@ public:
   std::unordered_map<std::string, FleetState::UniquePtr> fleet_states;
   IngestorState current_state;
 
-  TeleportIngestorCommon();
   rclcpp::Time simulation_now(double t) const;
   void send_ingestor_response(uint8_t status) const;
   void fleet_state_cb(FleetState::UniquePtr msg);
   void ingestor_request_cb(IngestorRequest::UniquePtr msg);
+  void on_update();
   void init_ros_node(const rclcpp::Node::SharedPtr node);
   void publish_state() const;
 

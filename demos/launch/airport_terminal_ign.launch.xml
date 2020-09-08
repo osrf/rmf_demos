@@ -61,7 +61,7 @@
     </include>
   </group>
 
-  <!-- Caddy fleet adapter and robot state aggregator needed for read_only plugin -->
+  <!-- Caddy fleet adapter and robot state aggregator needed for read_only plugin
   <group>
     <let name="fleet_name" value="caddy"/>
     <include file="$(find-pkg-share demos)/include/adapters/caddy_adapter.launch.xml">
@@ -73,7 +73,7 @@
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="true"/>
     </include>
-  </group>
+  </group> -->
 
   <!-- ros_ign bridge for simulation clock -->
   <node pkg="ros_ign_bridge" exec="parameter_bridge"

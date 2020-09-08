@@ -2,20 +2,19 @@
   <name>rmf_ignition_plugins</name>
   <version>1.0.0</version>
   <description>
-    ROS 2 slotcar plugin and payload handlers for Gazebo simulated robots
+    ROS 2 Ignition plugins for TeleportIngestors and TeleportDispensers
   </description>
-  <author>Morgan Quigley</author>
-  <author>Michael Grey</author>
-  <author>Roselle Carmen</author>
+  <author>Luca Della Vedova</author>
+  <author>Yadu</author>
   <author>Aaron Chong</author>
-  <author>Brandon Ong</author>
   <author>Rushyendra Maganty</author>
-  <maintainer email="morgan@openrobotics.org">Morgan Quigley</maintainer>
+  <maintainer email="luca@openrobotics.org">Luca Della Vedova</maintainer>
   <license>Apache 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>gazebo_ros_pkgs</depend>
 
   <depend>std_msgs</depend>
 

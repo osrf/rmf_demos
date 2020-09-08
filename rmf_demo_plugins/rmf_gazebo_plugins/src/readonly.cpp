@@ -35,9 +35,9 @@
 #include <building_map_msgs/msg/level.hpp>
 #include <building_map_msgs/msg/graph.hpp>
 
-#include "utils.hpp"
+#include <rmf_plugins_common/utils.hpp>
 
-using namespace rmf_gazebo_plugins;
+using namespace rmf_plugins_utils;
 
 class ReadonlyPlugin : public gazebo::ModelPlugin
 {

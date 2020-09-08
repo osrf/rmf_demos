@@ -67,11 +67,10 @@ private:
 
   Entity _ingestor;
   Entity _ingested_entity; // Item that ingestor may contain
-  bool _load_complete = false;
 
   rclcpp::Node::SharedPtr _ros_node;
 
-  bool find_nearest_non_static_model(
+  bool find_nearest_model(
     const EntityComponentManager& ecm,
     const std::vector<Entity>& robot_model_entities,
     Entity& robot_entity) const;
@@ -79,12 +78,12 @@ private:
     const EntityComponentManager& ecm,
     const Entity& robot_entity,
     Entity& payload_entity);
-  void ingest_from_nearest_robot(EntityComponentManager& ecm,
+  bool ingest_from_nearest_robot(EntityComponentManager& ecm,
     const std::string& fleet_name);
   void send_ingested_item_home(EntityComponentManager& ecm);
 };
 
-bool TeleportIngestorPlugin::find_nearest_non_static_model(
+bool TeleportIngestorPlugin::find_nearest_model(
   const EntityComponentManager& ecm,
   const std::vector<Entity>& robot_model_entities,
   Entity& robot_entity) const
@@ -96,10 +95,9 @@ bool TeleportIngestorPlugin::find_nearest_non_static_model(
 
   for (const auto& en : robot_model_entities)
   {
-    bool is_static = ecm.Component<components::Static>(en)->Data();
+    
     std::string name = ecm.Component<components::Name>(en)->Data();
-
-    if (!en || is_static || name == _ingestor_common->_guid)
+    if (name == _ingestor_common->_guid)
       continue;
 
     const auto en_pos = ecm.Component<components::Pose>(en)->Data().Pos();
@@ -153,7 +151,7 @@ bool TeleportIngestorPlugin::get_payload_model(
   return found;
 }
 
-void TeleportIngestorPlugin::ingest_from_nearest_robot(
+bool TeleportIngestorPlugin::ingest_from_nearest_robot(
   EntityComponentManager& ecm, const std::string& fleet_name)
 {
   const auto fleet_state_it = _ingestor_common->fleet_states.find(fleet_name);
@@ -161,7 +159,7 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(
   {
     RCLCPP_WARN(_ingestor_common->ros_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
-    return;
+    return false;
   }
 
   std::vector<Entity> robot_model_list;
@@ -169,17 +167,17 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(
   {
     std::vector<Entity> entities =
       ecm.EntitiesByComponents(components::Name(rs.name),
-        components::Model());
+        components::Model(), components::Static(false));
     robot_model_list.insert(robot_model_list.end(),
       entities.begin(), entities.end());
   }
 
   Entity robot_model;
-  if (!find_nearest_non_static_model(ecm, robot_model_list, robot_model))
+  if (!find_nearest_model(ecm, robot_model_list, robot_model))
   {
     RCLCPP_WARN(_ingestor_common->ros_node->get_logger(),
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
-    return;
+    return false;
   }
 
   if (!get_payload_model(ecm, robot_model, _ingested_entity))
@@ -187,7 +185,7 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(
     RCLCPP_WARN(_ingestor_common->ros_node->get_logger(),
       "No delivery item found on the robot: [%s]",
       Model(robot_model).Name(ecm));
-    return;
+    return false;
   }
 
   auto cmd = ecm.Component<components::WorldPoseCmd>(_ingested_entity);
@@ -199,6 +197,7 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(
   auto new_pose = ecm.Component<components::Pose>(_ingestor)->Data();
   ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() = new_pose;
   _ingestor_common->ingestor_filled = true;
+  return true;
 }
 
 void TeleportIngestorPlugin::send_ingested_item_home(
@@ -231,11 +230,11 @@ void TeleportIngestorPlugin::send_ingested_item_home(
 TeleportIngestorPlugin::TeleportIngestorPlugin()
 : _ingestor_common(std::make_unique<TeleportIngestorCommon>())
 {
-  // We do initialization only during ::Configure
 }
 
 TeleportIngestorPlugin::~TeleportIngestorPlugin()
 {
+  rclcpp::shutdown();
 }
 
 void TeleportIngestorPlugin::Configure(const Entity& entity,
@@ -273,8 +272,6 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
 
   _ingestor_common->current_state.guid = _ingestor_common->_guid;
   _ingestor_common->current_state.mode = IngestorState::IDLE;
-
-  _load_complete = true;
 }
 
 void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
@@ -285,10 +282,6 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
 
   // TODO parallel thread executor?
   rclcpp::spin_some(_ingestor_common->ros_node);
-  if (!_load_complete)
-  {
-    return;
-  }
 
   // Only ingests max once per call to PreUpdate(), using request stored in _ingestor_common->_latest
   if (_ingestor_common->ingest)
@@ -298,10 +291,18 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
     if (!_ingestor_common->ingestor_filled)
     {
       RCLCPP_INFO(_ingestor_common->ros_node->get_logger(), "Ingesting item");
-      ingest_from_nearest_robot(ecm, _ingestor_common->latest.transporter_type);
-
-      _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
-      _ingestor_common->last_ingested_time = _ingestor_common->sim_time;
+      bool res = ingest_from_nearest_robot(ecm, _ingestor_common->latest.transporter_type);
+      if (res)
+      {
+        _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
+        _ingestor_common->last_ingested_time = _ingestor_common->sim_time;
+        RCLCPP_INFO(_ingestor_common->ros_node->get_logger(), "Success");
+      }
+      else
+      {
+        _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
+        RCLCPP_WARN(_ingestor_common->ros_node->get_logger(), "Unable to dispense item");
+      }
     }
     else
     {
@@ -312,7 +313,8 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
     _ingestor_common->ingest = false;
   }
 
-  if (_ingestor_common->sim_time - _ingestor_common->last_pub_time >= 2.0)
+  constexpr double interval = 2.0;
+  if (_ingestor_common->sim_time - _ingestor_common->last_pub_time >= interval)
   {
     _ingestor_common->last_pub_time = _ingestor_common->sim_time;
     const auto now = _ingestor_common->simulation_now(

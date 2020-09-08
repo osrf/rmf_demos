@@ -16,6 +16,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+find_package(gazebo REQUIRED)
+find_package(gazebo_ros REQUIRED)
+find_package(gazebo_dev REQUIRED)
 find_package(ignition-math4 REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -26,6 +29,18 @@ find_package(rmf_ingestor_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
 
 include(GNUInstallDirs)
+
+add_library(rmf_sim_utils SHARED ${PROJECT_SOURCE_DIR}/src/utils.cpp)
+
+ament_target_dependencies(rmf_sim_utils
+)
+
+target_include_directories(rmf_sim_utils
+  PUBLIC
+    ${GAZEBO_INCLUDE_DIRS}
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 ##################################
 # TeleportIngestor Plugin Common #
@@ -75,9 +90,10 @@ target_include_directories(dispenser_common
 ament_export_include_directories(include)
 ament_export_libraries(ingestor_common)
 ament_export_libraries(dispenser_common)
+ament_export_libraries(rmf_sim_utils)
 
 install(
-  TARGETS ingestor_common dispenser_common
+  TARGETS ingestor_common dispenser_common rmf_sim_utils
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )

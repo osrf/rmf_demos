@@ -25,16 +25,16 @@
 
 #include <ignition/math/Vector3.hh>
 
-#include "utils.hpp"
-
 #include <rclcpp/rclcpp.hpp>
 
 #include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
 
 #include <rmf_plugins_common/dispenser_common.hpp>
+#include <rmf_plugins_common/utils.hpp>
 
 using namespace rmf_dispenser_common;
+using namespace rmf_plugins_utils;
 
 namespace rmf_gazebo_plugins {
 
@@ -54,8 +54,6 @@ private:
   // Stores params representing state of Dispenser, and handles all message pub/sub
   std::unique_ptr<TeleportDispenserCommon> _dispenser_common;
 
-  bool _load_complete = false;
-
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
   gazebo::physics::ModelPtr _item_model; // Item that dispenser may contain
@@ -67,16 +65,16 @@ private:
   ignition::math::AxisAlignedBox _dispenser_vicinity_box;
   #endif
 
-  bool find_nearest_non_static_model_name(
+  bool find_nearest_model_name(
     const std::vector<gazebo::physics::ModelPtr>& models,
     std::string& nearest_model_name) const;
-  void dispense_on_nearest_robot(const std::string& fleet_name);
+  bool dispense_on_nearest_robot(const std::string& fleet_name);
   void fill_dispenser();
   void create_dispenser_bounding_box();
   void on_update();
 };
 
-bool TeleportDispenserPlugin::find_nearest_non_static_model_name(
+bool TeleportDispenserPlugin::find_nearest_model_name(
   const std::vector<gazebo::physics::ModelPtr>& models,
   std::string& nearest_model_name) const
 {
@@ -85,7 +83,7 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model_name(
 
   for (const auto& m : models)
   {
-    if (!m || m->IsStatic() || m->GetName() == _dispenser_common->guid)
+    if (!m || m->GetName() == _dispenser_common->guid)
       continue;
 
     const double dist =
@@ -100,38 +98,39 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model_name(
   return found;
 }
 
-void TeleportDispenserPlugin::dispense_on_nearest_robot(
+bool TeleportDispenserPlugin::dispense_on_nearest_robot(
   const std::string& fleet_name)
 {
   if (!_item_model)
-    return;
+    return false;
 
   const auto fleet_state_it = _dispenser_common->fleet_states.find(fleet_name);
   if (fleet_state_it == _dispenser_common->fleet_states.end())
   {
     RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
-    return;
+    return false;
   }
 
   std::vector<gazebo::physics::ModelPtr> robot_models;
   for (const auto& rs : fleet_state_it->second->robots)
   {
     const auto r_model = _world->ModelByName(rs.name);
-    if (r_model)
+    if (r_model && !r_model->IsStatic())
       robot_models.push_back(r_model);
   }
 
   std::string nearest_robot_model_name;
-  if (!find_nearest_non_static_model_name(
+  if (!find_nearest_model_name(
       robot_models, nearest_robot_model_name))
   {
     RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "No near robots of fleet [%s] found.", fleet_name.c_str());
-    return;
+    return false;
   }
   _item_model->PlaceOnEntity(nearest_robot_model_name);
   _dispenser_common->dispenser_filled = false;
+  return true;
 }
 
 // Searches vicinity of Dispenser for closest valid item. If found, _item_model is set to the newly found item
@@ -178,9 +177,6 @@ void TeleportDispenserPlugin::create_dispenser_bounding_box()
 
 void TeleportDispenserPlugin::on_update()
 {
-  if (!_load_complete)
-    return;
-
   _dispenser_common->sim_time = _world->SimTime().Double();
 
   // `_dispense` is set to true if the dispenser plugin node has received a valid DispenserRequest
@@ -192,9 +188,17 @@ void TeleportDispenserPlugin::on_update()
     {
       RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
         "Dispensing item");
-      dispense_on_nearest_robot(_dispenser_common->latest.transporter_type);
-
-      _dispenser_common->send_dispenser_response(DispenserResult::SUCCESS);
+      bool res = dispense_on_nearest_robot(_dispenser_common->latest.transporter_type);
+      if (res)
+      {
+        _dispenser_common->send_dispenser_response(DispenserResult::SUCCESS);
+        RCLCPP_INFO(_dispenser_common->ros_node->get_logger(), "Success");
+      }
+      else
+      {
+        _dispenser_common->send_dispenser_response(DispenserResult::FAILED);
+        RCLCPP_WARN(_dispenser_common->ros_node->get_logger(), "Unable to dispense item");
+      }
     }
     else
     {
@@ -206,7 +210,8 @@ void TeleportDispenserPlugin::on_update()
   }
 
   const double t = _world->SimTime().Double();
-  if (t - _dispenser_common->last_pub_time >= 2.0)
+  constexpr double interval = 2.0;
+  if (t - _dispenser_common->last_pub_time >= interval)
   {
     _dispenser_common->last_pub_time = t;
     const auto now = _dispenser_common->simulation_now(t);
@@ -230,8 +235,7 @@ TeleportDispenserPlugin::TeleportDispenserPlugin()
 
 TeleportDispenserPlugin::~TeleportDispenserPlugin()
 {
-  if (_load_complete)
-    rclcpp::shutdown();
+  rclcpp::shutdown();
 }
 
 void TeleportDispenserPlugin::Load(gazebo::physics::ModelPtr _parent,
@@ -265,7 +269,6 @@ void TeleportDispenserPlugin::Load(gazebo::physics::ModelPtr _parent,
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportDispenserPlugin::on_update, this));
-  _load_complete = true;
 }
 
 } // namespace rmf_gazebo_plugins

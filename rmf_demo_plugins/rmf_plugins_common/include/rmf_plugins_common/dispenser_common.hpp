@@ -53,7 +53,6 @@ public:
   std::unordered_map<std::string, FleetState::UniquePtr> fleet_states;
   DispenserState current_state;
 
-  TeleportDispenserCommon();
   rclcpp::Time simulation_now(double t) const;
   void send_dispenser_response(uint8_t status) const;
   void fleet_state_cb(FleetState::UniquePtr msg);

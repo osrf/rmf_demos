@@ -67,19 +67,18 @@ private:
   Entity _item_en; // Item that dispenser may contain
   ignition::math::AxisAlignedBox _dispenser_vicinity_box;
 
-  bool _load_complete = false;
   bool _item_en_found = false; // True if entity to be dispensed has been determined. Used when locating item in future
   bool tried_fill_dispenser = false; // Set to true if fill_dispenser() has been called at least once
 
   rclcpp::Node::SharedPtr _ros_node;
 
-  bool find_nearest_non_static_model(
+  bool find_nearest_model(
     EntityComponentManager& ecm,
     const std::vector<Entity>& robot_model_entities,
     Entity& robot_entity) const;
   void place_on_entity(EntityComponentManager& ecm,
     const Entity& base, const Entity& to_move);
-  void dispense_on_nearest_robot(EntityComponentManager& ecm,
+  bool dispense_on_nearest_robot(EntityComponentManager& ecm,
     const std::string& fleet_name);
   void fill_dispenser(EntityComponentManager& ecm);
   void create_dispenser_bounding_box(EntityComponentManager& ecm);
@@ -88,14 +87,14 @@ private:
 TeleportDispenserPlugin::TeleportDispenserPlugin()
 : _dispenser_common(std::make_unique<TeleportDispenserCommon>())
 {
-  // We do initialization only during ::Configure
 }
 
 TeleportDispenserPlugin::~TeleportDispenserPlugin()
 {
+  rclcpp::shutdown();
 }
 
-bool TeleportDispenserPlugin::find_nearest_non_static_model(
+bool TeleportDispenserPlugin::find_nearest_model(
   EntityComponentManager& ecm,
   const std::vector<Entity>& robot_model_entities,
   Entity& robot_entity) const
@@ -107,10 +106,8 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model(
 
   for (const auto& en : robot_model_entities)
   {
-    bool is_static = ecm.Component<components::Static>(en)->Data();
     std::string name = ecm.Component<components::Name>(en)->Data();
-
-    if (!en || is_static || name == _dispenser_common->guid)
+    if (name == _dispenser_common->guid)
       continue;
 
     const auto en_pos = ecm.Component<components::Pose>(en)->Data().Pos();
@@ -125,7 +122,7 @@ bool TeleportDispenserPlugin::find_nearest_non_static_model(
   return found;
 }
 
-// Move enity `to_move` onto `base`
+// Move entity `to_move` onto `base`
 void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   const Entity& base, const Entity& to_move)
 {
@@ -155,37 +152,38 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   ecm.Component<components::WorldPoseCmd>(to_move)->Data() = new_pose;
 }
 
-void TeleportDispenserPlugin::dispense_on_nearest_robot(
+bool TeleportDispenserPlugin::dispense_on_nearest_robot(
   EntityComponentManager& ecm, const std::string& fleet_name)
 {
   if (!_dispenser_common->dispenser_filled)
-    return;
+    return false;
 
   const auto fleet_state_it = _dispenser_common->fleet_states.find(fleet_name);
   if (fleet_state_it == _dispenser_common->fleet_states.end())
   {
     RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
-    return;
+    return false;
   }
   std::vector<Entity> robot_model_list;
   for (const auto& rs : fleet_state_it->second->robots)
   {
     std::vector<Entity> entities =
-      ecm.EntitiesByComponents(components::Name(rs.name), components::Model());
+      ecm.EntitiesByComponents(components::Name(rs.name), components::Model(), components::Static(false));
     robot_model_list.insert(robot_model_list.end(),
       entities.begin(), entities.end());
   }
 
   Entity robot_model;
-  if (!find_nearest_non_static_model(ecm, robot_model_list, robot_model))
+  if (!find_nearest_model(ecm, robot_model_list, robot_model))
   {
     RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
-    return;
+    return false;
   }
   place_on_entity(ecm, robot_model, _item_en);
   _dispenser_common->dispenser_filled = false; // Assumes Dispenser is configured to only dispense a single object
+  return true;
 }
 
 // Searches vicinity of Dispenser for closest valid item. If found, _item_en is set to the item's entity
@@ -288,8 +286,6 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
 
   _dispenser_common->current_state.guid = _dispenser_common->guid;
   _dispenser_common->current_state.mode = DispenserState::IDLE;
-
-  _load_complete = true;
 }
 
 void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
@@ -299,10 +295,6 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
     std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count();
   // TODO parallel thread executor?
   rclcpp::spin_some(_dispenser_common->ros_node);
-  if (!_load_complete)
-  {
-    return;
-  }
 
   // Set item that the Dispenser will be configured to dispense. Do this only on first PreUpdate() call.
   // Happens here and not in Configure() to allow for all models to load
@@ -321,11 +313,18 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
     {
       RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
         "Dispensing item");
-      dispense_on_nearest_robot(ecm,
+      bool res = dispense_on_nearest_robot(ecm,
         _dispenser_common->latest.transporter_type);
-
-      _dispenser_common->send_dispenser_response(DispenserResult::SUCCESS);
-      RCLCPP_INFO(_dispenser_common->ros_node->get_logger(), "Success");
+      if (res)
+      {
+        _dispenser_common->send_dispenser_response(DispenserResult::SUCCESS);
+        RCLCPP_INFO(_dispenser_common->ros_node->get_logger(), "Success");
+      }
+      else
+      {
+        _dispenser_common->send_dispenser_response(DispenserResult::FAILED);
+        RCLCPP_WARN(_dispenser_common->ros_node->get_logger(), "Unable to dispense item");
+      }
     }
     else
     {
@@ -336,7 +335,8 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
     _dispenser_common->dispense = false;
   }
 
-  if (_dispenser_common->sim_time - _dispenser_common->last_pub_time >= 2.0)
+  constexpr double interval = 2.0;
+  if (_dispenser_common->sim_time - _dispenser_common->last_pub_time >= interval)
   {
     _dispenser_common->last_pub_time = _dispenser_common->sim_time;
     const auto now = _dispenser_common->simulation_now(

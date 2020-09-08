@@ -32,13 +32,6 @@ find_package(rmf_plugins_common REQUIRED)
 
 include(GNUInstallDirs)
 
-add_library(rmf_sim_utils SHARED src/utils.cpp)
-
-target_include_directories(rmf_sim_utils
-  PUBLIC
-    ${GAZEBO_INCLUDE_DIRS}
-)
-
 ###############################
 # TeleportDispenser Plugin
 ###############################
@@ -107,8 +100,7 @@ target_include_directories(readonly
 ###############################
 
 install(
-  TARGETS 
-    rmf_sim_utils
+  TARGETS
     teleport_dispenser
     teleport_ingestor
     readonly

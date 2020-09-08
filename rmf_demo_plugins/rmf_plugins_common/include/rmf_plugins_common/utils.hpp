@@ -1,9 +1,9 @@
-#ifndef SRC__RMF_GAZEBO_PLUGINS__UTILS_HPP
-#define SRC__RMF_GAZEBO_PLUGINS__UTILS_HPP
+#ifndef SRC__RMF_PLUGINS__UTILS_HPP
+#define SRC__RMF_PLUGINS__UTILS_HPP
 
 #include <sdf/Element.hh>
 
-namespace rmf_gazebo_plugins {
+namespace rmf_plugins_utils {
 
 // TODO(MXG): Refactor the use of this function to replace it with
 // compute_desired_rate_of_change()
@@ -115,6 +115,6 @@ void get_sdf_param_if_available(const sdf::ElementPtr& sdf,
   }
 }
 
-} // namespace rmf_gazebo_plugins
+} // namespace rmf_plugins_utils
 
-#endif // SRC__RMF_GAZEBO_PLUGINS__UTILS_HPP
+#endif // SRC__RMF_PLUGINS__UTILS_HPP

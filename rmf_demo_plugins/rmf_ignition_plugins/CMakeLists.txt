@@ -38,7 +38,7 @@ set(IGN_PLUGIN_VER 1)
 ign_find_package(ignition-common3 REQUIRED)
 set(IGN_COMMON_VER 3)
 ign_find_package(ignition-math4 REQUIRED)
-ign_find_package(sdformat9 REQUIRED)
+ign_find_package(sdformat10 REQUIRED)
 set(IGN_MATH_VER 4)
 
 find_package(std_msgs REQUIRED)
@@ -56,24 +56,19 @@ include(GNUInstallDirs)
 
 add_library(teleport_ingestor SHARED src/TeleportIngestor.cpp)
 
-target_link_libraries(teleport_ingestor
-  PUBLIC
-    ${rclcpp_LIBRARIES}
-    ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
-    ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-    ${rmf_plugins_common_LIBRARIES}
-    ${rmf_fleet_msgs_LIBRARIES}
-    ${rmf_ingestor_msgs_LIBRARIES}
+ament_target_dependencies(teleport_ingestor
+    ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}
+    rmf_fleet_msgs
+    rmf_ingestor_msgs
+    rclcpp
+    rmf_plugins_common
 )
 
 target_include_directories(teleport_ingestor
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${rclcpp_INCLUDE_DIRS}
-    ${rmf_plugins_common_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${rmf_ingestor_msgs_INCLUDE_DIRS}
 )
 
 ###############################
@@ -82,24 +77,19 @@ target_include_directories(teleport_ingestor
 
 add_library(teleport_dispenser SHARED src/TeleportDispenser.cpp)
 
-target_link_libraries(teleport_dispenser
-  PUBLIC
-    ${rclcpp_LIBRARIES}
-    ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
-    ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-    ${rmf_plugins_common_LIBRARIES}
-    ${rmf_fleet_msgs_LIBRARIES}
-    ${rmf_dispenser_msgs_LIBRARIES}
+ament_target_dependencies(teleport_dispenser
+    ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}
+    rmf_fleet_msgs
+    rmf_dispenser_msgs
+    rclcpp
+    rmf_plugins_common
 )
 
 target_include_directories(teleport_dispenser
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${rclcpp_INCLUDE_DIRS}
-    ${rmf_plugins_common_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${rmf_dispenser_msgs_INCLUDE_DIRS}
 )
 
 ###############################

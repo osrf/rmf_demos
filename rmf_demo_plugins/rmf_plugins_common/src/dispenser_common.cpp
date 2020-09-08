@@ -2,10 +2,6 @@
 
 namespace rmf_dispenser_common {
 
-TeleportDispenserCommon::TeleportDispenserCommon()
-{
-}
-
 rclcpp::Time TeleportDispenserCommon::simulation_now(double t) const
 {
   const int32_t t_sec = static_cast<int32_t>(t);
@@ -65,10 +61,7 @@ void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
   _fleet_state_sub = ros_node->create_subscription<FleetState>(
     "/fleet_states",
     rclcpp::SystemDefaultsQoS(),
-    [&](FleetState::UniquePtr msg)
-    {
-      fleet_state_cb(std::move(msg));
-    });
+    std::bind(&TeleportDispenserCommon::fleet_state_cb, this, std::placeholders::_1));
 
   _state_pub = ros_node->create_publisher<DispenserState>(
     "/dispenser_states", 10);
@@ -76,10 +69,7 @@ void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
   _request_sub = ros_node->create_subscription<DispenserRequest>(
     "/dispenser_requests",
     rclcpp::SystemDefaultsQoS(),
-    [&](DispenserRequest::UniquePtr msg)
-    {
-      dispenser_request_cb(std::move(msg));
-    });
+    std::bind(&TeleportDispenserCommon::dispenser_request_cb, this, std::placeholders::_1));
 
   _result_pub = ros_node->create_publisher<DispenserResult>(
     "/dispenser_results", 10);

@@ -25,8 +25,6 @@
 
 #include <ignition/math/Vector3.hh>
 
-#include "utils.hpp"
-
 #include <rclcpp/rclcpp.hpp>
 
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
@@ -35,7 +33,9 @@
 #include <rmf_ingestor_msgs/msg/ingestor_request.hpp>
 
 #include <rmf_plugins_common/ingestor_common.hpp>
+#include <rmf_plugins_common/utils.hpp>
 
+using namespace rmf_plugins_utils;
 using namespace rmf_ingestor_common;
 
 namespace rmf_gazebo_plugins {
@@ -58,8 +58,6 @@ private:
   // Stores params representing state of Ingestor, and handles all message pub/sub
   std::unique_ptr<TeleportIngestorCommon> _ingestor_common;
 
-  bool _load_complete = false;
-
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
   gazebo::physics::ModelPtr _ingested_model; // Item that ingestor may contain
@@ -67,18 +65,18 @@ private:
 
   gazebo_ros::Node::SharedPtr _node;
 
-  bool find_nearest_non_static_model(
+  bool find_nearest_model(
     const std::vector<gazebo::physics::ModelPtr>& models,
     gazebo::physics::ModelPtr& nearest_model) const;
   bool get_payload_model(
     const gazebo::physics::ModelPtr& robot_model,
     gazebo::physics::ModelPtr& payload_model) const;
-  void ingest_from_nearest_robot(const std::string& fleet_name);
+  bool ingest_from_nearest_robot(const std::string& fleet_name);
   void send_ingested_item_home();
   void on_update();
 };
 
-bool TeleportIngestorPlugin::find_nearest_non_static_model(
+bool TeleportIngestorPlugin::find_nearest_model(
   const std::vector<gazebo::physics::ModelPtr>& models,
   gazebo::physics::ModelPtr& nearest_model) const
 {
@@ -148,7 +146,7 @@ bool TeleportIngestorPlugin::get_payload_model(
   return found;
 }
 
-void TeleportIngestorPlugin::ingest_from_nearest_robot(
+bool TeleportIngestorPlugin::ingest_from_nearest_robot(
   const std::string& fleet_name)
 {
   const auto fleet_state_it = _ingestor_common->fleet_states.find(fleet_name);
@@ -156,24 +154,24 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(
   {
     RCLCPP_WARN(_node->get_logger(),
       "No such fleet: [%s]", fleet_name.c_str());
-    return;
+    return false;
   }
 
   std::vector<gazebo::physics::ModelPtr> robot_model_list;
   for (const auto& rs : fleet_state_it->second->robots)
   {
     const auto r_model = _world->ModelByName(rs.name);
-    if (r_model)
+    if (r_model && !r_model->IsStatic())
       robot_model_list.push_back(r_model);
   }
 
   gazebo::physics::ModelPtr robot_model;
-  if (!find_nearest_non_static_model(robot_model_list, robot_model) ||
+  if (!find_nearest_model(robot_model_list, robot_model) ||
     !robot_model)
   {
     RCLCPP_WARN(_node->get_logger(),
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
-    return;
+    return false;
   }
 
   if (!get_payload_model(robot_model, _ingested_model))
@@ -182,10 +180,11 @@ void TeleportIngestorPlugin::ingest_from_nearest_robot(
       "No delivery item found on the robot: [%s]",
       robot_model->GetName());
     _ingested_model = nullptr;
-    return;
+    return false;
   }
   _ingested_model->SetWorldPose(_model->WorldPose());
   _ingestor_common->ingestor_filled = true;
+  return true;
 }
 
 void TeleportIngestorPlugin::send_ingested_item_home()
@@ -205,9 +204,6 @@ void TeleportIngestorPlugin::send_ingested_item_home()
 
 void TeleportIngestorPlugin::on_update()
 {
-  if (!_load_complete)
-    return;
-
   _ingestor_common->sim_time = _world->SimTime().Double();
 
   if (_ingestor_common->ingest)
@@ -217,10 +213,18 @@ void TeleportIngestorPlugin::on_update()
     RCLCPP_INFO(_node->get_logger(), "Ingesting item");
     if (!_ingestor_common->ingestor_filled)
     {
-      ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
-
-      _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
-      _ingestor_common->last_ingested_time = _world->SimTime().Double();
+      bool res = ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
+      if (res)
+      {
+        _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
+        _ingestor_common->last_ingested_time =  _world->SimTime().Double();
+        RCLCPP_INFO(_ingestor_common->ros_node->get_logger(), "Success");
+      }
+      else
+      {
+        _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
+        RCLCPP_WARN(_ingestor_common->ros_node->get_logger(), "Unable to dispense item");
+      }
     }
     else
     {
@@ -232,7 +236,8 @@ void TeleportIngestorPlugin::on_update()
   }
 
   const double t = _world->SimTime().Double();
-  if (t - _ingestor_common->last_pub_time >= 2.0)
+  constexpr double interval = 2.0;
+  if (t - _ingestor_common->last_pub_time >= interval)
   {
     _ingestor_common->last_pub_time = t;
     const auto now = _ingestor_common->simulation_now(t);
@@ -276,7 +281,6 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportIngestorPlugin::on_update, this));
-  _load_complete = true;
 }
 
 TeleportIngestorPlugin::TeleportIngestorPlugin()
@@ -286,8 +290,7 @@ TeleportIngestorPlugin::TeleportIngestorPlugin()
 
 TeleportIngestorPlugin::~TeleportIngestorPlugin()
 {
-  if (_load_complete)
-    rclcpp::shutdown();
+  rclcpp::shutdown();
 }
 
 } // namespace rmf_gazebo_plugins

@@ -1,9 +1,9 @@
 #include <cmath>
 #include <algorithm>
 
-#include "utils.hpp"
+#include <rmf_plugins_common/utils.hpp>
 
-namespace rmf_gazebo_plugins {
+namespace rmf_plugins_utils {
 
 //==============================================================================
 double compute_ds(
@@ -114,4 +114,4 @@ bool get_element_required(
   return true;
 }
 
-} // namespace rmf_gazebo_plugins
+} // namespace rmf_plugins_utils
