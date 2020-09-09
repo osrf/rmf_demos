@@ -54,7 +54,7 @@ ament_target_dependencies(ingestor_common
     rmf_ingestor_msgs
     rclcpp
     std_msgs
-    ignition-math4
+    ignition-math6
 )
 
 target_include_directories(ingestor_common 
