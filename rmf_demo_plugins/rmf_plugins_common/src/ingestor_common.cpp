@@ -53,25 +53,29 @@ void TeleportIngestorCommon::ingestor_request_cb(IngestorRequest::UniquePtr msg)
   }
 }
 
-void TeleportIngestorCommon::on_update(){
-  //if (!_load_complete)
-  //  return;
-  
-  //_ingestor_common->sim_time =
-  //  std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count();
-  //_ingestor_common->sim_time = _world->SimTime().Double();
-
-  /*if (ingest)
+void TeleportIngestorCommon::on_update(
+  std::function<bool(const std::string&)> ingest_from_robot_cb,
+  std::function<void(void)> send_ingested_item_home_cb)
+{
+  if (ingest)
   {
     send_ingestor_response(IngestorResult::ACKNOWLEDGED);
 
     if (!ingestor_filled)
     {
       RCLCPP_INFO(ros_node->get_logger(), "Ingesting item");
-      ingest_from_nearest_robot(latest.transporter_type);
-
-      send_ingestor_response(IngestorResult::SUCCESS);
-      last_ingested_time = sim_time;//_world->SimTime().Double();
+      bool res = ingest_from_robot_cb(latest.transporter_type);
+      if (res)
+      {
+        send_ingestor_response(IngestorResult::SUCCESS);
+        last_ingested_time = sim_time;
+        RCLCPP_INFO(ros_node->get_logger(), "Success");
+      }
+      else
+      {
+        send_ingestor_response(IngestorResult::FAILED);
+        RCLCPP_WARN(ros_node->get_logger(), "Unable to dispense item");
+      }
     }
     else
     {
@@ -82,7 +86,6 @@ void TeleportIngestorCommon::on_update(){
     ingest = false;
   }
 
-  //const double t = _world->SimTime().Double();
   constexpr double interval = 2.0;
   if (sim_time - last_pub_time >= interval)
   {
@@ -92,13 +95,15 @@ void TeleportIngestorCommon::on_update(){
     current_state.time = now;
     current_state.mode = IngestorState::IDLE;
     publish_state();
-  }*/
+  }
 
-  /*if (t - _ingestor_common->last_ingested_time >= 5.0 &&
-    _ingestor_common->ingestor_filled)
+  // Periodically try to teleport ingested item back to original location
+  constexpr double return_interval = 5.0;
+  if (sim_time - last_ingested_time >=
+    return_interval && ingestor_filled)
   {
-    send_ingested_item_home();
-  }*/  
+    send_ingested_item_home_cb();
+  }
 }
 
 void TeleportIngestorCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
@@ -108,7 +113,8 @@ void TeleportIngestorCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
   _fleet_state_sub = ros_node->create_subscription<FleetState>(
     "/fleet_states",
     rclcpp::SystemDefaultsQoS(),
-    std::bind(&TeleportIngestorCommon::fleet_state_cb, this, std::placeholders::_1));
+    std::bind(&TeleportIngestorCommon::fleet_state_cb, this,
+    std::placeholders::_1));
 
   _state_pub = ros_node->create_publisher<IngestorState>(
     "/ingestor_states", 10);
@@ -116,7 +122,8 @@ void TeleportIngestorCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
   _request_sub = ros_node->create_subscription<IngestorRequest>(
     "/ingestor_requests",
     rclcpp::SystemDefaultsQoS(),
-    std::bind(&TeleportIngestorCommon::ingestor_request_cb, this, std::placeholders::_1));
+    std::bind(&TeleportIngestorCommon::ingestor_request_cb, this,
+    std::placeholders::_1));
 
   _result_pub = ros_node->create_publisher<IngestorResult>(
     "/ingestor_results", 10);

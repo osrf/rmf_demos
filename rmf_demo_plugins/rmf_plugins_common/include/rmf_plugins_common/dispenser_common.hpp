@@ -57,6 +57,8 @@ public:
   void send_dispenser_response(uint8_t status) const;
   void fleet_state_cb(FleetState::UniquePtr msg);
   void dispenser_request_cb(DispenserRequest::UniquePtr msg);
+  void on_update(
+    std::function<bool(const std::string&)> dispense_onto_robot_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
   void publish_state() const;
 

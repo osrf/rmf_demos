@@ -169,7 +169,8 @@ bool TeleportDispenserPlugin::dispense_on_nearest_robot(
   for (const auto& rs : fleet_state_it->second->robots)
   {
     std::vector<Entity> entities =
-      ecm.EntitiesByComponents(components::Name(rs.name), components::Model(), components::Static(false));
+      ecm.EntitiesByComponents(components::Name(rs.name),
+        components::Model(), components::Static(false));
     robot_model_list.insert(robot_model_list.end(),
       entities.begin(), entities.end());
   }
@@ -304,48 +305,15 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
     tried_fill_dispenser = true;
   }
 
-  // `_dispense` is set to true if the dispenser plugin node has received a valid DispenserRequest
-  if (_dispenser_common->dispense)
-  {
-    _dispenser_common->send_dispenser_response(DispenserResult::ACKNOWLEDGED);
-
-    if (_dispenser_common->dispenser_filled)
-    {
-      RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
-        "Dispensing item");
-      bool res = dispense_on_nearest_robot(ecm,
-        _dispenser_common->latest.transporter_type);
-      if (res)
-      {
-        _dispenser_common->send_dispenser_response(DispenserResult::SUCCESS);
-        RCLCPP_INFO(_dispenser_common->ros_node->get_logger(), "Success");
-      }
-      else
-      {
-        _dispenser_common->send_dispenser_response(DispenserResult::FAILED);
-        RCLCPP_WARN(_dispenser_common->ros_node->get_logger(), "Unable to dispense item");
-      }
-    }
-    else
-    {
-      RCLCPP_WARN(_dispenser_common->ros_node->get_logger(),
-        "No item to dispense: [%s]", _dispenser_common->latest.request_guid);
-      _dispenser_common->send_dispenser_response(DispenserResult::FAILED);
-    }
-    _dispenser_common->dispense = false;
-  }
+  std::function<bool(const std::string&)> dispense_onto_robot_cb =
+    std::bind(&TeleportDispenserPlugin::dispense_on_nearest_robot,
+      this, std::ref(ecm), std::placeholders::_1);
+  _dispenser_common->on_update(dispense_onto_robot_cb);
 
   constexpr double interval = 2.0;
-  if (_dispenser_common->sim_time - _dispenser_common->last_pub_time >= interval)
+  if (_dispenser_common->sim_time - _dispenser_common->last_pub_time >=
+    interval)
   {
-    _dispenser_common->last_pub_time = _dispenser_common->sim_time;
-    const auto now = _dispenser_common->simulation_now(
-      _dispenser_common->sim_time);
-
-    _dispenser_common->current_state.time = now;
-    _dispenser_common->current_state.mode = DispenserState::IDLE;
-    _dispenser_common->publish_state();
-
     // Occasionally check to see if dispensed item has been returned to it
     if (_item_en_found
       && ecm.Component<components::AxisAlignedBox>(_dispenser)->Data().Contains(

@@ -16,6 +16,9 @@
 */
 
 #include <vector>
+#include <functional>
+#include <memory>
+#include <string>
 
 #include <ignition/plugin/Register.hh>
 
@@ -95,7 +98,6 @@ bool TeleportIngestorPlugin::find_nearest_model(
 
   for (const auto& en : robot_model_entities)
   {
-    
     std::string name = ecm.Component<components::Name>(en)->Data();
     if (name == _ingestor_common->_guid)
       continue;
@@ -283,54 +285,15 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
   // TODO parallel thread executor?
   rclcpp::spin_some(_ingestor_common->ros_node);
 
-  // Only ingests max once per call to PreUpdate(), using request stored in _ingestor_common->_latest
-  if (_ingestor_common->ingest)
-  {
-    _ingestor_common->send_ingestor_response(IngestorResult::ACKNOWLEDGED);
+  std::function<bool(const std::string&)> ingest_fn_cb =
+    std::bind(&TeleportIngestorPlugin::ingest_from_nearest_robot,
+      this, std::ref(ecm), std::placeholders::_1);
 
-    if (!_ingestor_common->ingestor_filled)
-    {
-      RCLCPP_INFO(_ingestor_common->ros_node->get_logger(), "Ingesting item");
-      bool res = ingest_from_nearest_robot(ecm, _ingestor_common->latest.transporter_type);
-      if (res)
-      {
-        _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
-        _ingestor_common->last_ingested_time = _ingestor_common->sim_time;
-        RCLCPP_INFO(_ingestor_common->ros_node->get_logger(), "Success");
-      }
-      else
-      {
-        _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
-        RCLCPP_WARN(_ingestor_common->ros_node->get_logger(), "Unable to dispense item");
-      }
-    }
-    else
-    {
-      RCLCPP_WARN(_ingestor_common->ros_node->get_logger(),
-        "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
-      _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
-    }
-    _ingestor_common->ingest = false;
-  }
+  std::function<void(void)> send_ingested_item_home_cb =
+    std::bind(&TeleportIngestorPlugin::send_ingested_item_home,
+      this, std::ref(ecm));
 
-  constexpr double interval = 2.0;
-  if (_ingestor_common->sim_time - _ingestor_common->last_pub_time >= interval)
-  {
-    _ingestor_common->last_pub_time = _ingestor_common->sim_time;
-    const auto now = _ingestor_common->simulation_now(
-      _ingestor_common->sim_time);
-
-    _ingestor_common->current_state.time = now;
-    _ingestor_common->current_state.mode = IngestorState::IDLE;
-    _ingestor_common->publish_state();
-  }
-
-  // Periodically try to teleport ingested item back to original location
-  if (_ingestor_common->sim_time - _ingestor_common->last_ingested_time >=
-    5.0 && _ingestor_common->ingestor_filled)
-  {
-    send_ingested_item_home(ecm);
-  }
+  _ingestor_common->on_update(ingest_fn_cb, send_ingested_item_home_cb);
 }
 
 IGNITION_ADD_PLUGIN(

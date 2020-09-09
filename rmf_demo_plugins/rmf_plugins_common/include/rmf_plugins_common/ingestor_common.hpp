@@ -21,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <functional>
 
 #include <rclcpp/rclcpp.hpp>
 
@@ -65,7 +66,8 @@ public:
   void send_ingestor_response(uint8_t status) const;
   void fleet_state_cb(FleetState::UniquePtr msg);
   void ingestor_request_cb(IngestorRequest::UniquePtr msg);
-  void on_update();
+  void on_update(std::function<bool(const std::string&)> ingest_from_robot_cb,
+    std::function<void(void)> send_ingested_item_home_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
   void publish_state() const;
 

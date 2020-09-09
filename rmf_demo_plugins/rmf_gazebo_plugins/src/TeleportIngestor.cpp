@@ -16,6 +16,7 @@
 */
 
 #include <vector>
+#include <functional>
 
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
@@ -206,52 +207,15 @@ void TeleportIngestorPlugin::on_update()
 {
   _ingestor_common->sim_time = _world->SimTime().Double();
 
-  if (_ingestor_common->ingest)
-  {
-    _ingestor_common->send_ingestor_response(IngestorResult::ACKNOWLEDGED);
+  std::function<bool(const std::string&)> ingest_fn_cb =
+    std::bind(&TeleportIngestorPlugin::ingest_from_nearest_robot,
+      this, std::placeholders::_1);
 
-    RCLCPP_INFO(_node->get_logger(), "Ingesting item");
-    if (!_ingestor_common->ingestor_filled)
-    {
-      bool res = ingest_from_nearest_robot(_ingestor_common->latest.transporter_type);
-      if (res)
-      {
-        _ingestor_common->send_ingestor_response(IngestorResult::SUCCESS);
-        _ingestor_common->last_ingested_time =  _world->SimTime().Double();
-        RCLCPP_INFO(_ingestor_common->ros_node->get_logger(), "Success");
-      }
-      else
-      {
-        _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
-        RCLCPP_WARN(_ingestor_common->ros_node->get_logger(), "Unable to dispense item");
-      }
-    }
-    else
-    {
-      RCLCPP_WARN(_ingestor_common->ros_node->get_logger(),
-        "No item to ingest: [%s]", _ingestor_common->latest.request_guid);
-      _ingestor_common->send_ingestor_response(IngestorResult::FAILED);
-    }
-    _ingestor_common->ingest = false;
-  }
+  std::function<void(void)> send_ingested_item_home_cb =
+    std::bind(&TeleportIngestorPlugin::send_ingested_item_home,
+      this);
 
-  const double t = _world->SimTime().Double();
-  constexpr double interval = 2.0;
-  if (t - _ingestor_common->last_pub_time >= interval)
-  {
-    _ingestor_common->last_pub_time = t;
-    const auto now = _ingestor_common->simulation_now(t);
-
-    _ingestor_common->current_state.time = now;
-    _ingestor_common->current_state.mode = IngestorState::IDLE;
-    _ingestor_common->publish_state();
-  }
-
-  if (t - _ingestor_common->last_ingested_time >= 5.0 &&
-    _ingestor_common->ingestor_filled)
-  {
-    send_ingested_item_home();
-  }
+  _ingestor_common->on_update(ingest_fn_cb, send_ingested_item_home_cb);
 }
 
 void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
