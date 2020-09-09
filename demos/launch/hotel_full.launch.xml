@@ -60,16 +60,16 @@
     </include>
   </group>
 
-  <!-- CafeRobot fleet adapter, and robot state aggregator needed for the CafeRobot slotcar_plugin -->
+  <!-- HospitalRobot fleet adapter, and robot state aggregator needed for the HospitalRobot slotcar_plugin -->
   <group>
-    <let name="fleet_name" value="cafeRobot"/>
-    <include file="$(find-pkg-share demos)/include/adapters/cafeRobot_adapter.launch.xml">
+    <let name="fleet_name" value="hospitalRobot"/>
+    <include file="$(find-pkg-share demos)/include/adapters/hospitalRobot_adapter.launch.xml">
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="$(var use_sim_time)"/>
       <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/hotel_full/nav_graphs/2.yaml" />
     </include>
     <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
-      <arg name="robot_prefix" value="CafeRobot"/>
+      <arg name="robot_prefix" value="hospitalRobot"/>
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="true"/>
     </include>

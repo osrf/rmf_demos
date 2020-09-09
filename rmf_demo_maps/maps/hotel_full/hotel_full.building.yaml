@@ -251,7 +251,7 @@ levels:
       - {model_name: OpenRobotics/Gazebo, name: Gazebo, static: true, x: 2827.456, y: 304.873, yaw: 0, z: 0}
       - {model_name: OpenRobotics/Pine Tree, name: Pine Tree, static: true, x: 207.316, y: 334.597, yaw: 0, z: 0}
       - {model_name: OpenRobotics/ManualFireAlarmButton, name: ManualFireAlarmButton, static: true, x: 806.825, y: 261.374, yaw: 0, z: 0}
-      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 714.183, y: 336.103, yaw: 0, z: 0}
+      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 719.7859999999999, y: 336.041, yaw: 0, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 733.391, y: 320.459, yaw: -1.5518, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 767.4109999999999, y: 320.112, yaw: -1.5687, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 781.979, y: 338.603, yaw: -3.1367, z: 0}
@@ -260,7 +260,7 @@ levels:
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 750.98, y: 320.343, yaw: -1.5441, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 749.6950000000001, y: 371.616, yaw: 1.5792, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 782.292, y: 354.12, yaw: -3.1267, z: 0}
-      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 714.287, y: 353.703, yaw: 0, z: 0}
+      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 719.909, y: 354.448, yaw: 0, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 888.475, y: 320.092, yaw: -1.5908, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 904.1849999999999, y: 319.289, yaw: -1.574, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 921.385, y: 319.518, yaw: -1.5621, z: 0}
@@ -367,8 +367,8 @@ levels:
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 592.0650000000001, y: 320.43, yaw: -1.5551, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 608.9690000000001, y: 320.197, yaw: -1.5644, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 626.456, y: 320.314, yaw: -1.5606, z: 0}
-      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 643.823, y: 336.617, yaw: -3.1389, z: 0}
-      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 643.932, y: 356.176, yaw: -3.135, z: 0}
+      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 640.3339999999999, y: 336.138, yaw: -3.1389, z: 0}
+      - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 640.875, y: 355.909, yaw: -3.135, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 591.4829999999999, y: 372.191, yaw: 1.5678, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 609.203, y: 371.842, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/Chair, name: Chair, static: true, x: 627.389, y: 372.191, yaw: 1.5698, z: 0}
@@ -474,8 +474,8 @@ levels:
       - {model_name: OpenRobotics/NurseDesk, name: NurseDesk, static: true, x: 404.104, y: 253.844, yaw: 0.0103, z: 0}
       - {model_name: OpenRobotics/Sofa, name: Sofa, static: true, x: 2016.797, y: 456.166, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/Sofa, name: Sofa, static: true, x: 2150.148, y: 455.446, yaw: 1.5708, z: 0}
-      - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 596.579, y: 346.234, yaw: 1.5708, z: 0}
-      - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 616.672, y: 346.234, yaw: 1.5708, z: 0}
+      - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 599.53, y: 346.894, yaw: 1.5708, z: 0}
+      - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 619.782, y: 346.955, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 597.9059999999999, y: 454.472, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 618.184, y: 454.472, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/RecTable, name: OpenRobotics/RecTable, static: true, x: 741.062, y: 344.912, yaw: 1.5708, z: 0}
@@ -824,7 +824,7 @@ levels:
       - [551.467, 500.193, 0, ""]
       - [553.452, 343.951, 0, table7, {is_parking_spot: [4, true]}]
       - [550.862, 453.889, 0, table8, {is_parking_spot: [4, true]}]
-      - [384.126, 197.704, 0, bar, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, CafeRobot_0], spawn_robot_type: [1, CafeRobot]}]
+      - [384.126, 197.704, 0, bar, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, HospitalRobot_0], spawn_robot_type: [1, HospitalRobot]}]
       - [319.563, 197.414, 0, ""]
       - [319.042, 337.759, 0, cafe2, {is_parking_spot: [4, true]}]
       - [319.355, 402.291, 0, cafe3, {is_parking_spot: [4, true]}]
@@ -4558,6 +4558,40 @@ levels:
     x_meters: 130
     y_meters: 40
 lifts:
+  Lift1:
+    depth: 2.25
+    doors:
+      door:
+        door_type: 2
+        motion_axis_orientation: 0
+        width: 1
+        x: 0
+        y: -1.125
+    level_doors:
+      L1: [door]
+      L2: [door]
+    reference_floor_name: L1
+    width: 2
+    x: 1236.5
+    y: 70
+    yaw: 0
+  Lift3:
+    depth: 2
+    doors:
+      door:
+        door_type: 2
+        motion_axis_orientation: 1.5708
+        width: 1
+        x: 1.25
+        y: 0
+    level_doors:
+      L1: [door]
+      L2: [door]
+    reference_floor_name: L1
+    width: 2.5
+    x: 1272
+    y: 237.5
+    yaw: 0
   cargo_lift1:
     depth: 2.25
     doors:
@@ -4567,12 +4601,10 @@ lifts:
         width: 1
         x: 0
         y: -1.125
-    highest_floor: ""
     level_doors:
       L1: [door]
       L2: [door]
       L3: [door]
-    lowest_floor: L1
     reference_floor_name: L1
     width: 2
     x: 1236.5
@@ -4587,12 +4619,10 @@ lifts:
         width: 1
         x: 0
         y: -1.125
-    highest_floor: ""
     level_doors:
       L1: [door]
       L2: [door]
       L3: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2
     x: 1301.25
@@ -4607,12 +4637,10 @@ lifts:
         width: 1
         x: 1.25
         y: 0
-    highest_floor: ""
     level_doors:
       L1: [door]
       L2: [door]
       L3: [door]
-    lowest_floor: L1
     reference_floor_name: L1
     width: 2.5
     x: 1271.5
@@ -4627,12 +4655,10 @@ lifts:
         width: 1
         x: 1.25
         y: 0
-    highest_floor: ""
     level_doors:
       L1: [door]
       L2: [door]
       L3: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.5
     x: 1271.5
@@ -4647,12 +4673,10 @@ lifts:
         width: 1
         x: -1.25
         y: 0
-    highest_floor: ""
     level_doors:
       L1: [door]
       L2: [door]
       L3: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.5
     x: 1396.5
@@ -4667,12 +4691,10 @@ lifts:
         width: 1
         x: -1.25
         y: 0
-    highest_floor: ""
     level_doors:
       L1: [door]
       L2: [door]
       L3: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.5
     x: 1396.5
@@ -4687,11 +4709,9 @@ lifts:
         width: 1
         x: 0
         y: 1.25
-    highest_floor: L2
     level_doors:
       L1: [door]
       L2: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.8
     x: 1271.5
@@ -4706,11 +4726,9 @@ lifts:
         width: 1
         x: 0
         y: 1.25
-    highest_floor: L2
     level_doors:
       L1: [door]
       L2: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.8
     x: 1334.3
@@ -4725,11 +4743,9 @@ lifts:
         width: 1
         x: 0
         y: 1.25
-    highest_floor: L2
     level_doors:
       L1: [door]
       L2: [door]
-    lowest_floor: ""
     reference_floor_name: L1
     width: 2.8
     x: 1396.5
