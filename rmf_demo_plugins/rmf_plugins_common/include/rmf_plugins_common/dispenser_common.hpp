@@ -46,6 +46,7 @@ public:
   double last_pub_time = 0.0;
   double sim_time = 0.0;
 
+  bool item_en_found = false; // True if entity to be dispensed has been determined. Used when locating item in future
   bool dispenser_filled = false;
 
   rclcpp::Node::SharedPtr ros_node;
@@ -58,7 +59,8 @@ public:
   void fleet_state_cb(FleetState::UniquePtr msg);
   void dispenser_request_cb(DispenserRequest::UniquePtr msg);
   void on_update(
-    std::function<bool(const std::string&)> dispense_onto_robot_cb);
+    std::function<bool(const std::string&)> dispense_onto_robot_cb,
+    std::function<bool(void)> check_filled_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
 
 private:
@@ -67,6 +69,8 @@ private:
   rclcpp::Subscription<DispenserRequest>::SharedPtr _request_sub;
   rclcpp::Publisher<DispenserResult>::SharedPtr _result_pub;
   std::unordered_map<std::string, bool> _past_request_guids;
+
+  void try_refill_dispenser(std::function<bool(void)> check_filled_cb);
 };
 
 } // namespace rmf_dispenser_common

@@ -28,11 +28,6 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <rmf_fleet_msgs/msg/fleet_state.hpp>
-#include <rmf_ingestor_msgs/msg/ingestor_state.hpp>
-#include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
-#include <rmf_ingestor_msgs/msg/ingestor_request.hpp>
-
 #include <rmf_plugins_common/ingestor_common.hpp>
 #include <rmf_plugins_common/utils.hpp>
 
@@ -45,12 +40,6 @@ class TeleportIngestorPlugin : public gazebo::ModelPlugin
 {
 
 public:
-
-  using FleetState = rmf_fleet_msgs::msg::FleetState;
-  using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
-  using IngestorRequest = rmf_ingestor_msgs::msg::IngestorRequest;
-  using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
-
   TeleportIngestorPlugin();
   ~TeleportIngestorPlugin();
   void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;
@@ -86,7 +75,7 @@ bool TeleportIngestorPlugin::find_nearest_model(
 
   for (const auto& m : models)
   {
-    if (!m || m->IsStatic() || m->GetName() == _model->GetName())
+    if (!m || m->GetName() == _model->GetName())
       continue;
 
     const double dist =
@@ -239,9 +228,6 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
     if (m && !(m->IsStatic()) && m_name != _model->GetName())
       _ingestor_common->non_static_models_init_poses[m_name] = m->WorldPose();
   }
-
-  _ingestor_common->current_state.guid = _ingestor_common->_guid;
-  _ingestor_common->current_state.mode = IngestorState::IDLE;
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportIngestorPlugin::on_update, this));

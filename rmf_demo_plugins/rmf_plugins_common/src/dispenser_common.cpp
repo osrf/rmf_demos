@@ -46,8 +46,23 @@ void TeleportDispenserCommon::dispenser_request_cb(
   }
 }
 
+void TeleportDispenserCommon::try_refill_dispenser(
+  std::function<bool(void)> check_filled_cb)
+{
+  constexpr double interval = 2.0;
+  if (sim_time - last_pub_time >= interval)
+  {
+    // Occasionally check to see if dispensed item has been returned to it
+    if (!dispenser_filled && item_en_found && check_filled_cb())
+    {
+      dispenser_filled = true;
+    }
+  }
+}
+
 void TeleportDispenserCommon::on_update(
-  std::function<bool(const std::string&)> dispense_onto_robot_cb)
+  std::function<bool(const std::string&)> dispense_onto_robot_cb,
+  std::function<bool(void)> check_filled_cb)
 {
   // `_dispense` is set to true if the dispenser plugin node has received a valid DispenserRequest
   if (dispense)
@@ -88,6 +103,8 @@ void TeleportDispenserCommon::on_update(
     current_state.mode = DispenserState::IDLE;
     _state_pub->publish(current_state);
   }
+
+  try_refill_dispenser(check_filled_cb);
 }
 
 void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
@@ -111,6 +128,9 @@ void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
 
   _result_pub = ros_node->create_publisher<DispenserResult>(
     "/dispenser_results", 10);
+
+  current_state.guid = guid;
+  current_state.mode = DispenserState::IDLE;
 }
 
 } // namespace rmf_dispenser_common

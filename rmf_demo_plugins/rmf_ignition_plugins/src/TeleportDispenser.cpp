@@ -32,9 +32,6 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
-
 #include <rmf_plugins_common/dispenser_common.hpp>
 
 using namespace ignition::gazebo;
@@ -48,9 +45,6 @@ class IGNITION_GAZEBO_VISIBLE TeleportDispenserPlugin
   public ISystemPreUpdate
 {
 public:
-
-  using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-  using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
 
   TeleportDispenserPlugin();
   ~TeleportDispenserPlugin();
@@ -67,7 +61,6 @@ private:
   Entity _item_en; // Item that dispenser may contain
   ignition::math::AxisAlignedBox _dispenser_vicinity_box;
 
-  bool _item_en_found = false; // True if entity to be dispensed has been determined. Used when locating item in future
   bool tried_fill_dispenser = false; // Set to true if fill_dispenser() has been called at least once
 
   rclcpp::Node::SharedPtr _ros_node;
@@ -212,9 +205,9 @@ void TeleportDispenserPlugin::fill_dispenser(EntityComponentManager& ecm)
         Contains(pose->Data().Pos()))
         {
           _item_en = en;
-          _dispenser_common->dispenser_filled = true;
-          _item_en_found = true;
           nearest_dist = dist;
+          _dispenser_common->dispenser_filled = true;
+          _dispenser_common->item_en_found = true;
         }
       }
       return true;
@@ -284,9 +277,6 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
   RCLCPP_INFO(_dispenser_common->ros_node->get_logger(), "Started node...");
 
   create_dispenser_bounding_box(ecm);
-
-  _dispenser_common->current_state.guid = _dispenser_common->guid;
-  _dispenser_common->current_state.mode = DispenserState::IDLE;
 }
 
 void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
@@ -308,20 +298,14 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
   std::function<bool(const std::string&)> dispense_onto_robot_cb =
     std::bind(&TeleportDispenserPlugin::dispense_on_nearest_robot,
       this, std::ref(ecm), std::placeholders::_1);
-  _dispenser_common->on_update(dispense_onto_robot_cb);
 
-  constexpr double interval = 2.0;
-  if (_dispenser_common->sim_time - _dispenser_common->last_pub_time >=
-    interval)
-  {
-    // Occasionally check to see if dispensed item has been returned to it
-    if (_item_en_found
-      && ecm.Component<components::AxisAlignedBox>(_dispenser)->Data().Contains(
-        ecm.Component<components::Pose>(_item_en)->Data().Pos()))
+  std::function<bool(void)> check_filled_cb = [&]()
     {
-      _dispenser_common->dispenser_filled = true;
-    }
-  }
+      return ecm.Component<components::AxisAlignedBox>(_dispenser)->Data().
+        Contains(ecm.Component<components::Pose>(_item_en)->Data().Pos());
+    };
+
+  _dispenser_common->on_update(dispense_onto_robot_cb, check_filled_cb);
 }
 
 IGNITION_ADD_PLUGIN(

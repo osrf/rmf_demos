@@ -27,14 +27,9 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <rmf_dispenser_msgs/msg/dispenser_state.hpp>
-#include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
-
 #include <rmf_plugins_common/dispenser_common.hpp>
-#include <rmf_plugins_common/utils.hpp>
 
 using namespace rmf_dispenser_common;
-using namespace rmf_plugins_utils;
 
 namespace rmf_gazebo_plugins {
 
@@ -42,9 +37,6 @@ class TeleportDispenserPlugin : public gazebo::ModelPlugin
 {
 
 public:
-
-  using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
-  using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
 
   TeleportDispenserPlugin();
   ~TeleportDispenserPlugin();
@@ -151,6 +143,7 @@ void TeleportDispenserPlugin::fill_dispenser()
       _item_model = m;
       nearest_dist = dist;
       _dispenser_common->dispenser_filled = true;
+      _dispenser_common->item_en_found = true;
     }
   }
 }
@@ -173,6 +166,7 @@ void TeleportDispenserPlugin::create_dispenser_bounding_box()
   _dispenser_vicinity_box =
     ignition::math::AxisAlignedBox(corner_1, corner_2);
   #endif
+  _model->BoundingBox() = _dispenser_vicinity_box;
 }
 
 void TeleportDispenserPlugin::on_update()
@@ -182,19 +176,13 @@ void TeleportDispenserPlugin::on_update()
   std::function<bool(const std::string&)> dispense_onto_robot_cb =
     std::bind(&TeleportDispenserPlugin::dispense_on_nearest_robot,
       this, std::placeholders::_1);
-  _dispenser_common->on_update(dispense_onto_robot_cb);
 
-  const double t = _world->SimTime().Double();
-  constexpr double interval = 2.0;
-  if (t - _dispenser_common->last_pub_time >= interval)
-  {
-    // Occasionally check to see if dispensed item has been returned to it
-    if (!_dispenser_common->dispenser_filled &&
-      _item_model &&
-      _model->BoundingBox().Intersects(
-        _item_model->BoundingBox()))
-      _dispenser_common->dispenser_filled = true;
-  }
+  std::function<bool(void)> check_filled_cb = [&]()
+    {
+      return _model->BoundingBox().Contains(_item_model->WorldPose().Pos());
+    };
+
+  _dispenser_common->on_update(dispense_onto_robot_cb, check_filled_cb);
 }
 
 TeleportDispenserPlugin::TeleportDispenserPlugin()
@@ -232,9 +220,6 @@ void TeleportDispenserPlugin::Load(gazebo::physics::ModelPtr _parent,
 
   RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
     "Found dispenser item: [%s]", _item_model->GetName().c_str());
-
-  _dispenser_common->current_state.guid = _dispenser_common->guid;
-  _dispenser_common->current_state.mode = DispenserState::IDLE;
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&TeleportDispenserPlugin::on_update, this));

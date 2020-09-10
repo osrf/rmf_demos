@@ -37,9 +37,6 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <rmf_ingestor_msgs/msg/ingestor_state.hpp>
-#include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
-
 #include <rmf_plugins_common/ingestor_common.hpp>
 
 using namespace ignition::gazebo;
@@ -53,10 +50,6 @@ class IGNITION_GAZEBO_VISIBLE TeleportIngestorPlugin
   public ISystemPreUpdate
 {
 public:
-
-  using IngestorState = rmf_ingestor_msgs::msg::IngestorState;
-  using IngestorResult = rmf_ingestor_msgs::msg::IngestorResult;
-
   TeleportIngestorPlugin();
   ~TeleportIngestorPlugin();
   void Configure(const Entity& entity,
@@ -271,9 +264,6 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
       }
       return true;
     });
-
-  _ingestor_common->current_state.guid = _ingestor_common->_guid;
-  _ingestor_common->current_state.mode = IngestorState::IDLE;
 }
 
 void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,

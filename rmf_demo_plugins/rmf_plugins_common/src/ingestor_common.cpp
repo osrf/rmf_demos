@@ -117,6 +117,9 @@ void TeleportIngestorCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
 
   _result_pub = ros_node->create_publisher<IngestorResult>(
     "/ingestor_results", 10);
+
+  current_state.guid = _guid;
+  current_state.mode = IngestorState::IDLE;
 }
 
 } // namespace rmf_ingestor_common
