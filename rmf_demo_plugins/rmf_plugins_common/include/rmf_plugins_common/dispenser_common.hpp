@@ -60,7 +60,6 @@ public:
   void on_update(
     std::function<bool(const std::string&)> dispense_onto_robot_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
-  void publish_state() const;
 
 private:
   rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;

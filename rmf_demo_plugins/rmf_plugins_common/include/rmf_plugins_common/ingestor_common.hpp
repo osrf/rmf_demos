@@ -69,7 +69,6 @@ public:
   void on_update(std::function<bool(const std::string&)> ingest_from_robot_cb,
     std::function<void(void)> send_ingested_item_home_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
-  void publish_state() const;
 
 private:
   rclcpp::Subscription<FleetState>::SharedPtr _fleet_state_sub;

@@ -33,6 +33,8 @@ include(GNUInstallDirs)
 add_library(rmf_sim_utils SHARED ${PROJECT_SOURCE_DIR}/src/utils.cpp)
 
 ament_target_dependencies(rmf_sim_utils
+  rclcpp
+  rmf_ingestor_msgs
 )
 
 target_include_directories(rmf_sim_utils
@@ -61,6 +63,7 @@ target_include_directories(ingestor_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${GAZEBO_INCLUDE_DIRS}
 )
 
 ###################################
@@ -81,6 +84,7 @@ target_include_directories(dispenser_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${GAZEBO_INCLUDE_DIRS}
 )
 
 ###############################

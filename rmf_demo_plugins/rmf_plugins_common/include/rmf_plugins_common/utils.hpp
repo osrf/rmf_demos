@@ -1,7 +1,9 @@
 #ifndef SRC__RMF_PLUGINS__UTILS_HPP
 #define SRC__RMF_PLUGINS__UTILS_HPP
 
+#include <rclcpp/rclcpp.hpp>
 #include <sdf/Element.hh>
+#include <memory>
 
 namespace rmf_plugins_utils {
 
@@ -34,6 +36,8 @@ bool get_element_required(
   const sdf::ElementPtr& _sdf,
   const std::string& _element_name,
   sdf::ElementPtr& _element);
+
+rclcpp::Time simulation_now(double t);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
@@ -113,6 +117,21 @@ void get_sdf_param_if_available(const sdf::ElementPtr& sdf,
     std::cout << "Using default value [" << value << "] for property ["
               << parameter_name << "]" << std::endl;
   }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+template<typename ResultMsgT>
+std::shared_ptr<ResultMsgT> make_response(uint8_t status,
+  const double sim_time,
+  const std::string& request_guid,
+  const std::string& guid)
+{
+  std::shared_ptr<ResultMsgT> response = std::make_shared<ResultMsgT>();
+  response->time = simulation_now(sim_time);
+  response->request_guid = request_guid;
+  response->source_guid = guid;
+  response->status = status;
+  return response;
 }
 
 } // namespace rmf_plugins_utils

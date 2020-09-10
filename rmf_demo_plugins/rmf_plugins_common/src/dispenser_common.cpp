@@ -1,23 +1,15 @@
+#include <memory>
+
 #include <rmf_plugins_common/dispenser_common.hpp>
+#include <rmf_plugins_common/utils.hpp>
 
 namespace rmf_dispenser_common {
 
-rclcpp::Time TeleportDispenserCommon::simulation_now(double t) const
-{
-  const int32_t t_sec = static_cast<int32_t>(t);
-  const uint32_t t_nsec =
-    static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
-  return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
-}
-
 void TeleportDispenserCommon::send_dispenser_response(uint8_t status) const
 {
-  DispenserResult response;
-  response.time = simulation_now(sim_time);
-  response.request_guid = latest.request_guid;
-  response.source_guid = guid;
-  response.status = status;
-  _result_pub->publish(response);
+  auto response = rmf_plugins_utils::make_response<DispenserResult>(
+    status, sim_time, latest.request_guid, guid);
+  _result_pub->publish(*response);
 }
 
 void TeleportDispenserCommon::fleet_state_cb(FleetState::UniquePtr msg)
@@ -90,11 +82,11 @@ void TeleportDispenserCommon::on_update(
   if (sim_time - last_pub_time >= interval)
   {
     last_pub_time = sim_time;
-    const auto now = simulation_now(sim_time);
+    const auto now = rmf_plugins_utils::simulation_now(sim_time);
 
     current_state.time = now;
     current_state.mode = DispenserState::IDLE;
-    publish_state();
+    _state_pub->publish(current_state);
   }
 }
 
@@ -120,11 +112,5 @@ void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
   _result_pub = ros_node->create_publisher<DispenserResult>(
     "/dispenser_results", 10);
 }
-
-void TeleportDispenserCommon::publish_state() const
-{
-  _state_pub->publish(current_state);
-}
-
 
 } // namespace rmf_dispenser_common

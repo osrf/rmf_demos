@@ -114,4 +114,13 @@ bool get_element_required(
   return true;
 }
 
+//================================================================================
+rclcpp::Time simulation_now(double t)
+{
+  const int32_t t_sec = static_cast<int32_t>(t);
+  const uint32_t t_nsec =
+    static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
+  return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
+}
+
 } // namespace rmf_plugins_utils

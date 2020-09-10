@@ -1,23 +1,13 @@
 #include <rmf_plugins_common/ingestor_common.hpp>
+#include <rmf_plugins_common/utils.hpp>
 
 namespace rmf_ingestor_common {
 
-rclcpp::Time TeleportIngestorCommon::simulation_now(double t) const
-{
-  const int32_t t_sec = static_cast<int32_t>(t);
-  const uint32_t t_nsec =
-    static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
-  return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
-}
-
 void TeleportIngestorCommon::send_ingestor_response(uint8_t status) const
 {
-  IngestorResult response;
-  response.time = simulation_now(sim_time);
-  response.request_guid = latest.request_guid;
-  response.source_guid = _guid;
-  response.status = status;
-  _result_pub->publish(response);
+  auto response = rmf_plugins_utils::make_response<IngestorResult>(
+    status, sim_time, latest.request_guid, _guid);
+  _result_pub->publish(*response);
 }
 
 void TeleportIngestorCommon::fleet_state_cb(FleetState::UniquePtr msg)
@@ -90,11 +80,11 @@ void TeleportIngestorCommon::on_update(
   if (sim_time - last_pub_time >= interval)
   {
     last_pub_time = sim_time;
-    const auto now = simulation_now(sim_time);
+    const auto now = rmf_plugins_utils::simulation_now(sim_time);
 
     current_state.time = now;
     current_state.mode = IngestorState::IDLE;
-    publish_state();
+    _state_pub->publish(current_state);
   }
 
   // Periodically try to teleport ingested item back to original location
@@ -127,11 +117,6 @@ void TeleportIngestorCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
 
   _result_pub = ros_node->create_publisher<IngestorResult>(
     "/ingestor_results", 10);
-}
-
-void TeleportIngestorCommon::publish_state() const
-{
-  _state_pub->publish(current_state);
 }
 
 } // namespace rmf_ingestor_common
