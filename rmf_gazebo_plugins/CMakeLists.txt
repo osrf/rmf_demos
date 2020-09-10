@@ -6,9 +6,9 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 
@@ -26,6 +26,7 @@ find_package(gazebo_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
+find_package(rmf_ingestor_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
 
 include(GNUInstallDirs)
@@ -67,7 +68,7 @@ ament_target_dependencies(teleport_ingestor
   rclcpp
   gazebo_ros
   rmf_fleet_msgs
-  rmf_dispenser_msgs
+  rmf_ingestor_msgs
 )
 
 target_include_directories(teleport_ingestor

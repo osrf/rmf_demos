@@ -87,7 +87,13 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE "RVIZ_DEFAULT_PLUGINS_BUILDIN
 pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
 
 ament_export_include_directories(include)
-ament_export_interfaces(${PROJECT_NAME} HAS_LIBRARY_TARGET)
+if($ENV{ROS_DISTRO} STREQUAL foxy)
+  ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
+elseif($ENV{ROS_DISTRO} STREQUAL eloquent)
+  ament_export_interfaces(${PROJECT_NAME} HAS_LIBRARY_TARGET)
+else()
+  message(FATAL_ERROR "Unsupported ROS distribution")
+endif()
 ament_export_dependencies(
   Qt5
   rviz_common
