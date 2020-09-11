@@ -7,6 +7,30 @@
 
 namespace rmf_plugins_utils {
 
+// Holds parameter identifying an entity in either Ignition Gazebo or Gazebo classic
+struct SimEntity
+{
+  uint64_t entity; // If used for Ignition Gazebo
+  std::string name; // If used for Gazebo classic
+
+  SimEntity(uint64_t en)
+  : entity(en)
+  {
+    name = "";
+  }
+  SimEntity(std::string nm)
+  : name(nm)
+  {
+    entity = 0;
+  }
+  SimEntity()
+  {
+    name = "";
+    entity = 0;
+  }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 // TODO(MXG): Refactor the use of this function to replace it with
 // compute_desired_rate_of_change()
 double compute_ds(

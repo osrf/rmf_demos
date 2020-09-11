@@ -27,6 +27,7 @@
 #include <ignition/math/Vector3.hh>
 
 #include <rclcpp/rclcpp.hpp>
+#include <rmf_fleet_msgs/msg/fleet_state.hpp>
 
 #include <rmf_plugins_common/ingestor_common.hpp>
 #include <rmf_plugins_common/utils.hpp>
@@ -40,6 +41,10 @@ class TeleportIngestorPlugin : public gazebo::ModelPlugin
 {
 
 public:
+  using FleetState = rmf_fleet_msgs::msg::FleetState;
+  using FleetStateIt =
+    std::unordered_map<std::string, FleetState::UniquePtr>::iterator;
+
   TeleportIngestorPlugin();
   ~TeleportIngestorPlugin();
   void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;
@@ -53,50 +58,51 @@ private:
   gazebo::physics::ModelPtr _ingested_model; // Item that ingestor may contain
   gazebo::physics::WorldPtr _world;
 
-  gazebo_ros::Node::SharedPtr _node;
-
-  bool find_nearest_model(
-    const std::vector<gazebo::physics::ModelPtr>& models,
-    gazebo::physics::ModelPtr& nearest_model) const;
-  bool get_payload_model(
-    const gazebo::physics::ModelPtr& robot_model,
+  bool find_nearest_model(const std::vector<SimEntity>& models,
+    SimEntity& nearest_model) const;
+  bool get_payload_model(const SimEntity& robot_model,
     gazebo::physics::ModelPtr& payload_model) const;
-  bool ingest_from_nearest_robot(const std::string& fleet_name);
+  void fill_robot_list(FleetStateIt fleet_state_it,
+    std::vector<SimEntity>& robot_model_list);
+  void transport_model();
   void send_ingested_item_home();
   void on_update();
 };
 
 bool TeleportIngestorPlugin::find_nearest_model(
-  const std::vector<gazebo::physics::ModelPtr>& models,
-  gazebo::physics::ModelPtr& nearest_model) const
+  const std::vector<SimEntity>& models,
+  SimEntity& nearest_model) const
 {
   double nearest_dist = 1e6;
   bool found = false;
 
-  for (const auto& m : models)
+  for (const auto& sim_obj : models)
   {
-    if (!m || m->GetName() == _model->GetName())
+
+    if (sim_obj.name == _model->GetName())
       continue;
 
+    // If `models` has been generated with `fill_robot_list`, it is
+    // guaranteed to have a valid name field
+    gazebo::physics::EntityPtr m = _world->EntityByName(sim_obj.name);
     const double dist =
       m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
     if (dist < nearest_dist)
     {
       nearest_dist = dist;
-      nearest_model = m;
+      nearest_model = sim_obj;
       found = true;
     }
   }
   return found;
 }
 
+// Identifies item to ingest and assigns it to `payload_model`
 bool TeleportIngestorPlugin::get_payload_model(
-  const gazebo::physics::ModelPtr& robot_model,
+  const SimEntity& robot_sim_entity,
   gazebo::physics::ModelPtr& payload_model) const
 {
-  if (!robot_model)
-    return false;
-
+  const auto robot_model = _world->EntityByName(robot_sim_entity.name);
   const auto robot_collision_bb = robot_model->BoundingBox();
   ignition::math::Vector3d max_corner = robot_collision_bb.Max();
 
@@ -119,8 +125,7 @@ bool TeleportIngestorPlugin::get_payload_model(
   bool found = false;
   for (const auto& m : model_list)
   {
-    if (!m ||
-      m->IsStatic() ||
+    if (!m || m->IsStatic() ||
       m->GetName() == _model->GetName() ||
       m->GetName() == robot_model->GetName())
       continue;
@@ -136,45 +141,21 @@ bool TeleportIngestorPlugin::get_payload_model(
   return found;
 }
 
-bool TeleportIngestorPlugin::ingest_from_nearest_robot(
-  const std::string& fleet_name)
+void TeleportIngestorPlugin::fill_robot_list(
+  FleetStateIt fleet_state_it, std::vector<SimEntity>& robot_model_list)
 {
-  const auto fleet_state_it = _ingestor_common->fleet_states.find(fleet_name);
-  if (fleet_state_it == _ingestor_common->fleet_states.end())
-  {
-    RCLCPP_WARN(_node->get_logger(),
-      "No such fleet: [%s]", fleet_name.c_str());
-    return false;
-  }
-
-  std::vector<gazebo::physics::ModelPtr> robot_model_list;
   for (const auto& rs : fleet_state_it->second->robots)
   {
     const auto r_model = _world->ModelByName(rs.name);
     if (r_model && !r_model->IsStatic())
-      robot_model_list.push_back(r_model);
+      robot_model_list.push_back(SimEntity(r_model->GetName()));
   }
+}
 
-  gazebo::physics::ModelPtr robot_model;
-  if (!find_nearest_model(robot_model_list, robot_model) ||
-    !robot_model)
-  {
-    RCLCPP_WARN(_node->get_logger(),
-      "No nearby robots of fleet [%s] found.", fleet_name.c_str());
-    return false;
-  }
-
-  if (!get_payload_model(robot_model, _ingested_model))
-  {
-    RCLCPP_WARN(_node->get_logger(),
-      "No delivery item found on the robot: [%s]",
-      robot_model->GetName());
-    _ingested_model = nullptr;
-    return false;
-  }
+// Moves the identified item to ingest from its current position to the ingestor
+void TeleportIngestorPlugin::transport_model()
+{
   _ingested_model->SetWorldPose(_model->WorldPose());
-  _ingestor_common->ingestor_filled = true;
-  return true;
 }
 
 void TeleportIngestorPlugin::send_ingested_item_home()
@@ -196,15 +177,28 @@ void TeleportIngestorPlugin::on_update()
 {
   _ingestor_common->sim_time = _world->SimTime().Double();
 
-  std::function<bool(const std::string&)> ingest_fn_cb =
-    std::bind(&TeleportIngestorPlugin::ingest_from_nearest_robot,
-      this, std::placeholders::_1);
+  std::function<void(FleetStateIt,
+    std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb =
+    std::bind(&TeleportIngestorPlugin::fill_robot_list, this,
+      std::placeholders::_1, std::placeholders::_2);
+
+  std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
+    SimEntity&)> find_nearest_model_cb =
+    std::bind(&TeleportIngestorPlugin::find_nearest_model, this,
+      std::placeholders::_1, std::placeholders::_2);
+
+  std::function<bool(const SimEntity&)> get_payload_model_cb =
+    std::bind(&TeleportIngestorPlugin::get_payload_model, this,
+      std::placeholders::_1, std::ref(_ingested_model));
+
+  std::function<void()> transport_model_cb =
+    std::bind(&TeleportIngestorPlugin::transport_model, this);
 
   std::function<void(void)> send_ingested_item_home_cb =
-    std::bind(&TeleportIngestorPlugin::send_ingested_item_home,
-      this);
+    std::bind(&TeleportIngestorPlugin::send_ingested_item_home, this);
 
-  _ingestor_common->on_update(ingest_fn_cb, send_ingested_item_home_cb);
+  _ingestor_common->on_update(fill_robot_list_cb, find_nearest_model_cb,
+    get_payload_model_cb, transport_model_cb, send_ingested_item_home_cb);
 }
 
 void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
@@ -214,11 +208,10 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
   _world = _model->GetWorld();
   _ingested_model = nullptr;
 
-  _node = gazebo_ros::Node::Get(_sdf);
-  RCLCPP_INFO(_node->get_logger(), "Started TeleportIngestorPlugin node...");
-
   _ingestor_common->_guid = _model->GetName();
-  _ingestor_common->init_ros_node(_node);
+  _ingestor_common->init_ros_node(gazebo_ros::Node::Get(_sdf));
+  RCLCPP_INFO(_ingestor_common->ros_node->get_logger(),
+    "Started TeleportIngestorPlugin node...");
 
   // Keep track of all the non-static models
   auto model_list = _world->Models();

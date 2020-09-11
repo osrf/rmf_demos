@@ -28,12 +28,16 @@
 #include <rmf_dispenser_msgs/msg/dispenser_result.hpp>
 #include <rmf_dispenser_msgs/msg/dispenser_request.hpp>
 
+#include <rmf_plugins_common/utils.hpp>
+
 namespace rmf_dispenser_common {
 
 class TeleportDispenserCommon
 {
 public:
   using FleetState = rmf_fleet_msgs::msg::FleetState;
+  using FleetStateIt =
+    std::unordered_map<std::string, FleetState::UniquePtr>::iterator;
   using DispenserState = rmf_dispenser_msgs::msg::DispenserState;
   using DispenserRequest = rmf_dispenser_msgs::msg::DispenserRequest;
   using DispenserResult = rmf_dispenser_msgs::msg::DispenserResult;
@@ -54,12 +58,15 @@ public:
   std::unordered_map<std::string, FleetState::UniquePtr> fleet_states;
   DispenserState current_state;
 
-  rclcpp::Time simulation_now(double t) const;
   void send_dispenser_response(uint8_t status) const;
   void fleet_state_cb(FleetState::UniquePtr msg);
   void dispenser_request_cb(DispenserRequest::UniquePtr msg);
   void on_update(
-    std::function<bool(const std::string&)> dispense_onto_robot_cb,
+    std::function<void(FleetStateIt,
+    std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb,
+    std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
+    rmf_plugins_utils::SimEntity&)> find_nearest_model_cb,
+    std::function<void(const rmf_plugins_utils::SimEntity&)> place_on_entity_cb,
     std::function<bool(void)> check_filled_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
 
@@ -71,6 +78,13 @@ private:
   std::unordered_map<std::string, bool> _past_request_guids;
 
   void try_refill_dispenser(std::function<bool(void)> check_filled_cb);
+  bool dispense_on_nearest_robot(
+    std::function<void(FleetStateIt,
+    std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb,
+    std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
+    rmf_plugins_utils::SimEntity&)> find_nearest_model_cb,
+    std::function<void(const rmf_plugins_utils::SimEntity&)> place_on_entity_cb,
+    const std::string& fleet_name);
 };
 
 } // namespace rmf_dispenser_common

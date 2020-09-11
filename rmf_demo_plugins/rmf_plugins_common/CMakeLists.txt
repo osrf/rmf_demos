@@ -30,6 +30,10 @@ find_package(building_map_msgs REQUIRED)
 
 include(GNUInstallDirs)
 
+###############################
+# Utils                       #
+###############################
+
 add_library(rmf_sim_utils SHARED ${PROJECT_SOURCE_DIR}/src/utils.cpp)
 
 ament_target_dependencies(rmf_sim_utils
@@ -88,7 +92,7 @@ target_include_directories(dispenser_common
 )
 
 ###############################
-# Install Targets
+# Install Targets             #
 ###############################
 
 ament_export_include_directories(include)

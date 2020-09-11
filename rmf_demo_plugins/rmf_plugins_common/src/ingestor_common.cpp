@@ -1,11 +1,12 @@
 #include <rmf_plugins_common/ingestor_common.hpp>
-#include <rmf_plugins_common/utils.hpp>
+
+using namespace rmf_plugins_utils;
 
 namespace rmf_ingestor_common {
 
 void TeleportIngestorCommon::send_ingestor_response(uint8_t status) const
 {
-  auto response = rmf_plugins_utils::make_response<IngestorResult>(
+  auto response = make_response<IngestorResult>(
     status, sim_time, latest.request_guid, _guid);
   _result_pub->publish(*response);
 }
@@ -43,8 +44,53 @@ void TeleportIngestorCommon::ingestor_request_cb(IngestorRequest::UniquePtr msg)
   }
 }
 
+bool TeleportIngestorCommon::ingest_from_nearest_robot(
+  std::function<void(FleetStateIt,
+  std::vector<SimEntity>&)> fill_robot_list_cb,
+  std::function<bool(const std::vector<SimEntity>&,
+  SimEntity&)> find_nearest_model_cb,
+  std::function<bool(const SimEntity&)> get_payload_model_cb,
+  std::function<void()> transport_model_cb,
+  const std::string& fleet_name)
+{
+  const auto fleet_state_it = fleet_states.find(fleet_name);
+  if (fleet_state_it == fleet_states.end())
+  {
+    RCLCPP_WARN(ros_node->get_logger(),
+      "No such fleet: [%s]", fleet_name.c_str());
+    return false;
+  }
+
+  std::vector<SimEntity> robot_list;
+  fill_robot_list_cb(fleet_state_it, robot_list);
+
+  SimEntity robot_model;
+  if (!find_nearest_model_cb(robot_list, robot_model))
+  {
+    RCLCPP_WARN(ros_node->get_logger(),
+      "No nearby robots of fleet [%s] found.", fleet_name.c_str());
+    return false;
+  }
+
+  if (!get_payload_model_cb(robot_model))
+  {
+    RCLCPP_WARN(ros_node->get_logger(),
+      "No delivery item found on the robot.");
+    return false;
+  }
+
+  transport_model_cb();
+  ingestor_filled = true;
+  return true;
+}
+
 void TeleportIngestorCommon::on_update(
-  std::function<bool(const std::string&)> ingest_from_robot_cb,
+  std::function<void(FleetStateIt,
+  std::vector<SimEntity>&)> fill_robot_list_cb,
+  std::function<bool(const std::vector<SimEntity>&,
+  SimEntity&)> find_nearest_model_cb,
+  std::function<bool(const SimEntity&)> get_payload_model_cb,
+  std::function<void()> transport_model_cb,
   std::function<void(void)> send_ingested_item_home_cb)
 {
   if (ingest)
@@ -54,7 +100,9 @@ void TeleportIngestorCommon::on_update(
     if (!ingestor_filled)
     {
       RCLCPP_INFO(ros_node->get_logger(), "Ingesting item");
-      bool res = ingest_from_robot_cb(latest.transporter_type);
+      bool res = ingest_from_nearest_robot(fill_robot_list_cb,
+          find_nearest_model_cb, get_payload_model_cb,
+          transport_model_cb, latest.transporter_type);
       if (res)
       {
         send_ingestor_response(IngestorResult::SUCCESS);
@@ -80,7 +128,7 @@ void TeleportIngestorCommon::on_update(
   if (sim_time - last_pub_time >= interval)
   {
     last_pub_time = sim_time;
-    const auto now = rmf_plugins_utils::simulation_now(sim_time);
+    const auto now = simulation_now(sim_time);
 
     current_state.time = now;
     current_state.mode = IngestorState::IDLE;
