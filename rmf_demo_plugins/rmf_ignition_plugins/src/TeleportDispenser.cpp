@@ -61,7 +61,7 @@ public:
   void PreUpdate(const UpdateInfo& info, EntityComponentManager& ecm) override;
 
 private:
-  // Stores params representing state of Dispenser, and handles the main ingestor logic
+  // Stores params representing state of Dispenser, and handles the main dispenser logic
   std::unique_ptr<TeleportDispenserCommon> _dispenser_common;
 
   Entity _dispenser;
@@ -191,8 +191,7 @@ void TeleportDispenserPlugin::fill_dispenser(EntityComponentManager& ecm)
         const auto dist = pose->Data().Pos().Distance(dispenser_pos);
 
         if (dist < nearest_dist
-        && ecm.Component<components::AxisAlignedBox>(_dispenser)->Data().
-        Contains(pose->Data().Pos()))
+        && _dispenser_vicinity_box.Contains(pose->Data().Pos()))
         {
           _item_en = en;
           nearest_dist = dist;
@@ -234,18 +233,6 @@ void TeleportDispenserPlugin::create_dispenser_bounding_box(
   ignition::math::Vector3d corner_2(dispenser_pos.X() + 0.05,
     dispenser_pos.Y() + 0.05, dispenser_pos.Z() + 0.05);
   _dispenser_vicinity_box = ignition::math::AxisAlignedBox(corner_1, corner_2);
-
-  if (!ecm.EntityHasComponentType(_dispenser,
-    components::AxisAlignedBox().TypeId()))
-  {
-    ecm.CreateComponent(_dispenser,
-      components::AxisAlignedBox(_dispenser_vicinity_box));
-  }
-  else
-  {
-    ecm.Component<components::AxisAlignedBox>(_dispenser)->Data() =
-      _dispenser_vicinity_box;
-  }
 }
 
 void TeleportDispenserPlugin::Configure(const Entity& entity,
@@ -302,8 +289,8 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
 
   std::function<bool(void)> check_filled_cb = [&]()
     {
-      return ecm.Component<components::AxisAlignedBox>(_dispenser)->Data().
-        Contains(ecm.Component<components::Pose>(_item_en)->Data().Pos());
+      return _dispenser_vicinity_box.Contains(
+        ecm.Component<components::Pose>(_item_en)->Data().Pos());
     };
 
   _dispenser_common->on_update(fill_robot_list_cb, find_nearest_model_cb,

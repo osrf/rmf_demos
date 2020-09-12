@@ -150,7 +150,6 @@ void TeleportDispenserPlugin::create_dispenser_bounding_box()
   _dispenser_vicinity_box =
     ignition::math::AxisAlignedBox(corner_1, corner_2);
   #endif
-  _model->BoundingBox() = _dispenser_vicinity_box;
 }
 
 void TeleportDispenserPlugin::on_update()
@@ -173,7 +172,7 @@ void TeleportDispenserPlugin::on_update()
 
   std::function<bool(void)> check_filled_cb = [&]()
     {
-      return _model->BoundingBox().Contains(_item_model->WorldPose().Pos());
+      return _dispenser_vicinity_box.Contains(_item_model->WorldPose().Pos());
     };
 
   _dispenser_common->on_update(fill_robot_list_cb, find_nearest_model_cb,

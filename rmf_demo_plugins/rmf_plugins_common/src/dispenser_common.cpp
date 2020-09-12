@@ -89,6 +89,7 @@ bool TeleportDispenserCommon::dispense_on_nearest_robot(
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
     return false;
   }
+
   place_on_entity_cb(robot_model);
   dispenser_filled = false; // Assumes Dispenser is configured to only dispense a single object
   return true;
@@ -133,6 +134,8 @@ void TeleportDispenserCommon::on_update(
     dispense = false;
   }
 
+  try_refill_dispenser(check_filled_cb);
+
   constexpr double interval = 2.0;
   if (sim_time - last_pub_time >= interval)
   {
@@ -143,8 +146,6 @@ void TeleportDispenserCommon::on_update(
     current_state.mode = DispenserState::IDLE;
     _state_pub->publish(current_state);
   }
-
-  try_refill_dispenser(check_filled_cb);
 }
 
 void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
