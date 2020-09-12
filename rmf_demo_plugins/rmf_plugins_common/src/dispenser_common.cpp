@@ -62,8 +62,8 @@ void TeleportDispenserCommon::try_refill_dispenser(
 bool TeleportDispenserCommon::dispense_on_nearest_robot(
   std::function<void(FleetStateIt,
   std::vector<SimEntity>&)> fill_robot_list_cb,
-  std::function<bool(const std::vector<SimEntity>&,
-  SimEntity&)> find_nearest_model_cb,
+  std::function<SimEntity(const std::vector<SimEntity>&,
+  bool&)> find_nearest_model_cb,
   std::function<void(const SimEntity&)> place_on_entity_cb,
   const std::string& fleet_name)
 {
@@ -81,8 +81,9 @@ bool TeleportDispenserCommon::dispense_on_nearest_robot(
   std::vector<SimEntity> robot_list;
   fill_robot_list_cb(fleet_state_it, robot_list);
 
-  SimEntity robot_model;
-  if (!find_nearest_model_cb(robot_list, robot_model))
+  bool found = false;
+  SimEntity robot_model = find_nearest_model_cb(robot_list, found);
+  if (!found)
   {
     RCLCPP_WARN(ros_node->get_logger(),
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
@@ -96,8 +97,8 @@ bool TeleportDispenserCommon::dispense_on_nearest_robot(
 void TeleportDispenserCommon::on_update(
   std::function<void(FleetStateIt,
   std::vector<SimEntity>&)> fill_robot_list_cb,
-  std::function<bool(const std::vector<SimEntity>&,
-  SimEntity&)> find_nearest_model_cb,
+  std::function<SimEntity(const std::vector<SimEntity>&,
+  bool&)> find_nearest_model_cb,
   std::function<void(const SimEntity&)> place_on_entity_cb,
   std::function<bool(void)> check_filled_cb)
 {

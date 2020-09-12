@@ -7,26 +7,47 @@
 
 namespace rmf_plugins_utils {
 
-// Holds parameter identifying an entity in either Ignition Gazebo or Gazebo classic
+/////////////////////////////////////////////////////////////////////////////////////////////
+enum Simulator {Ignition, Gazebo};
+
+// Holds an identifier referring to either an Ignition or Gazebo classic entity
+// Contains either a uint64_t value or a std::string value depending on `sim_type`
+// Enables functions to be written that generically operate on both Ignition or Gazebo entities
 struct SimEntity
 {
+  Simulator sim_type;
   uint64_t entity; // If used for Ignition Gazebo
   std::string name; // If used for Gazebo classic
 
   SimEntity(uint64_t en)
-  : entity(en)
+  : sim_type(Ignition), entity(en)
   {
     name = "";
   }
   SimEntity(std::string nm)
-  : name(nm)
+  : sim_type(Gazebo), name(nm)
   {
     entity = 0;
   }
-  SimEntity()
+
+  const std::string& get_name() const
   {
-    name = "";
-    entity = 0;
+    if (sim_type != Gazebo)
+    {
+      std::cerr << "SimEntity Ignition object does not hold a name."
+                << std::endl;
+    }
+    return name;
+  }
+
+  uint64_t get_entity() const
+  {
+    if (sim_type != Ignition)
+    {
+      std::cerr << "SimEntity Gazebo object does not hold a uint64_t entity."
+                << std::endl;
+    }
+    return entity;
   }
 };
 

@@ -72,8 +72,9 @@ public:
   void on_update(
     std::function<void(FleetStateIt,
     std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb,
-    std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    rmf_plugins_utils::SimEntity&)> find_nearest_model_cb,
+    std::function<rmf_plugins_utils::SimEntity(
+      const std::vector<rmf_plugins_utils::SimEntity>&,
+      bool&)> find_nearest_model_cb,
     std::function<bool(const SimEntity&)> get_payload_model_cb,
     std::function<void()> transport_model_cb,
     std::function<void(void)> send_ingested_item_home_cb);
@@ -89,8 +90,9 @@ private:
   bool ingest_from_nearest_robot(
     std::function<void(FleetStateIt,
     std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb,
-    std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    rmf_plugins_utils::SimEntity&)> find_nearest_model_cb,
+    std::function<rmf_plugins_utils::SimEntity(
+      const std::vector<rmf_plugins_utils::SimEntity>&,
+      bool&)> find_nearest_model_cb,
     std::function<bool(const SimEntity&)> get_payload_model_cb,
     std::function<void()> transport_model_cb,
     const std::string& fleet_name);

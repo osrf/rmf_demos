@@ -58,8 +58,8 @@ private:
   gazebo::physics::ModelPtr _ingested_model; // Item that ingestor may contain
   gazebo::physics::WorldPtr _world;
 
-  bool find_nearest_model(const std::vector<SimEntity>& models,
-    SimEntity& nearest_model) const;
+  SimEntity find_nearest_model(const std::vector<SimEntity>& models,
+    bool& found) const;
   bool get_payload_model(const SimEntity& robot_model,
     gazebo::physics::ModelPtr& payload_model) const;
   void fill_robot_list(FleetStateIt fleet_state_it,
@@ -69,22 +69,21 @@ private:
   void on_update();
 };
 
-bool TeleportIngestorPlugin::find_nearest_model(
+SimEntity TeleportIngestorPlugin::find_nearest_model(
   const std::vector<SimEntity>& models,
-  SimEntity& nearest_model) const
+  bool& found) const
 {
   double nearest_dist = 1e6;
-  bool found = false;
+  SimEntity nearest_model("");
 
-  for (const auto& sim_obj : models)
+  for (const SimEntity& sim_obj : models)
   {
-
-    if (sim_obj.name == _model->GetName())
+    if (sim_obj.get_name() == _model->GetName())
       continue;
 
     // If `models` has been generated with `fill_robot_list`, it is
     // guaranteed to have a valid name field
-    gazebo::physics::EntityPtr m = _world->EntityByName(sim_obj.name);
+    gazebo::physics::EntityPtr m = _world->EntityByName(sim_obj.get_name());
     const double dist =
       m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
     if (dist < nearest_dist)
@@ -94,7 +93,7 @@ bool TeleportIngestorPlugin::find_nearest_model(
       found = true;
     }
   }
-  return found;
+  return nearest_model;
 }
 
 // Identifies item to ingest and assigns it to `payload_model`
@@ -102,7 +101,7 @@ bool TeleportIngestorPlugin::get_payload_model(
   const SimEntity& robot_sim_entity,
   gazebo::physics::ModelPtr& payload_model) const
 {
-  const auto robot_model = _world->EntityByName(robot_sim_entity.name);
+  const auto robot_model = _world->EntityByName(robot_sim_entity.get_name());
   const auto robot_collision_bb = robot_model->BoundingBox();
   ignition::math::Vector3d max_corner = robot_collision_bb.Max();
 
@@ -182,8 +181,8 @@ void TeleportIngestorPlugin::on_update()
     std::bind(&TeleportIngestorPlugin::fill_robot_list, this,
       std::placeholders::_1, std::placeholders::_2);
 
-  std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    SimEntity&)> find_nearest_model_cb =
+  std::function<SimEntity(const std::vector<rmf_plugins_utils::SimEntity>&,
+    bool&)> find_nearest_model_cb =
     std::bind(&TeleportIngestorPlugin::find_nearest_model, this,
       std::placeholders::_1, std::placeholders::_2);
 

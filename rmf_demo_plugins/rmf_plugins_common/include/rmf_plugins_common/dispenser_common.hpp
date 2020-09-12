@@ -64,8 +64,9 @@ public:
   void on_update(
     std::function<void(FleetStateIt,
     std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb,
-    std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    rmf_plugins_utils::SimEntity&)> find_nearest_model_cb,
+    std::function<rmf_plugins_utils::SimEntity(
+      const std::vector<rmf_plugins_utils::SimEntity>&,
+      bool&)> find_nearest_model_cb,
     std::function<void(const rmf_plugins_utils::SimEntity&)> place_on_entity_cb,
     std::function<bool(void)> check_filled_cb);
   void init_ros_node(const rclcpp::Node::SharedPtr node);
@@ -81,8 +82,9 @@ private:
   bool dispense_on_nearest_robot(
     std::function<void(FleetStateIt,
     std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb,
-    std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    rmf_plugins_utils::SimEntity&)> find_nearest_model_cb,
+    std::function<rmf_plugins_utils::SimEntity(
+      const std::vector<rmf_plugins_utils::SimEntity>&,
+      bool&)> find_nearest_model_cb,
     std::function<void(const rmf_plugins_utils::SimEntity&)> place_on_entity_cb,
     const std::string& fleet_name);
 };

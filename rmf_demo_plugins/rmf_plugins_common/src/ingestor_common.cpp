@@ -47,8 +47,8 @@ void TeleportIngestorCommon::ingestor_request_cb(IngestorRequest::UniquePtr msg)
 bool TeleportIngestorCommon::ingest_from_nearest_robot(
   std::function<void(FleetStateIt,
   std::vector<SimEntity>&)> fill_robot_list_cb,
-  std::function<bool(const std::vector<SimEntity>&,
-  SimEntity&)> find_nearest_model_cb,
+  std::function<SimEntity(const std::vector<SimEntity>&,
+  bool&)> find_nearest_model_cb,
   std::function<bool(const SimEntity&)> get_payload_model_cb,
   std::function<void()> transport_model_cb,
   const std::string& fleet_name)
@@ -64,8 +64,9 @@ bool TeleportIngestorCommon::ingest_from_nearest_robot(
   std::vector<SimEntity> robot_list;
   fill_robot_list_cb(fleet_state_it, robot_list);
 
-  SimEntity robot_model;
-  if (!find_nearest_model_cb(robot_list, robot_model))
+  bool found = false;
+  SimEntity robot_model = find_nearest_model_cb(robot_list, found);
+  if (!found)
   {
     RCLCPP_WARN(ros_node->get_logger(),
       "No nearby robots of fleet [%s] found.", fleet_name.c_str());
@@ -87,8 +88,8 @@ bool TeleportIngestorCommon::ingest_from_nearest_robot(
 void TeleportIngestorCommon::on_update(
   std::function<void(FleetStateIt,
   std::vector<SimEntity>&)> fill_robot_list_cb,
-  std::function<bool(const std::vector<SimEntity>&,
-  SimEntity&)> find_nearest_model_cb,
+  std::function<SimEntity(const std::vector<SimEntity>&,
+  bool&)> find_nearest_model_cb,
   std::function<bool(const SimEntity&)> get_payload_model_cb,
   std::function<void()> transport_model_cb,
   std::function<void(void)> send_ingested_item_home_cb)

@@ -72,9 +72,9 @@ private:
 
   rclcpp::Node::SharedPtr _ros_node;
 
-  bool find_nearest_model(
+  SimEntity find_nearest_model(
     EntityComponentManager& ecm,
-    const std::vector<SimEntity>& entities, SimEntity& sim_obj) const;
+    const std::vector<SimEntity>& entities, bool& found) const;
   void place_on_entity(EntityComponentManager& ecm,
     const SimEntity& obj, const Entity& to_move);
   void fill_robot_list(EntityComponentManager& ecm,
@@ -95,19 +95,19 @@ TeleportDispenserPlugin::~TeleportDispenserPlugin()
   rclcpp::shutdown();
 }
 
-bool TeleportDispenserPlugin::find_nearest_model(
+SimEntity TeleportDispenserPlugin::find_nearest_model(
   EntityComponentManager& ecm,
   const std::vector<SimEntity>& entities,
-  SimEntity& robot_entity) const
+  bool& found) const
 {
   double nearest_dist = 1e6;
-  bool found = false;
+  SimEntity robot_entity(0); // Placeholder value
   const auto dispenser_pos =
     ecm.Component<components::Pose>(_dispenser)->Data().Pos();
 
   for (const auto& sim_obj : entities)
   {
-    Entity en = sim_obj.entity;
+    Entity en = sim_obj.get_entity();
     std::string name = ecm.Component<components::Name>(en)->Data();
     if (name == _dispenser_common->guid)
       continue;
@@ -121,14 +121,14 @@ bool TeleportDispenserPlugin::find_nearest_model(
       found = true;
     }
   }
-  return found;
+  return robot_entity;
 }
 
 // Move entity `to_move` onto `base_obj`
 void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   const SimEntity& base_obj, const Entity& to_move)
 {
-  Entity base = base_obj.entity;
+  Entity base = base_obj.get_entity();
   const auto base_aabb = ecm.Component<components::AxisAlignedBox>(base);
   const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
   auto new_pose = ecm.Component<components::Pose>(base)->Data();
@@ -137,7 +137,7 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
     RCLCPP_WARN(
       _dispenser_common->ros_node->get_logger(),
       "Either base entity or item to be dispensed does not have an AxisAlignedBox component. \
-      Dispensing item to approximate location.");
+      Attempting to dispense item to approximate location.");
     new_pose += ignition::math::Pose3<double>(0, 0, 0.5, 0, 0, 0);
   }
   else
@@ -287,12 +287,12 @@ void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,
   }
 
   std::function<void(FleetStateIt,
-    std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb =
+    std::vector<SimEntity>&)> fill_robot_list_cb =
     std::bind(&TeleportDispenserPlugin::fill_robot_list, this,
       std::ref(ecm), std::placeholders::_1, std::placeholders::_2);
 
-  std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    SimEntity&)> find_nearest_model_cb =
+  std::function<SimEntity(const std::vector<SimEntity>&,
+    bool&)> find_nearest_model_cb =
     std::bind(&TeleportDispenserPlugin::find_nearest_model, this,
       std::ref(ecm), std::placeholders::_1, std::placeholders::_2);
 

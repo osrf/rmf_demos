@@ -71,9 +71,9 @@ private:
 
   rclcpp::Node::SharedPtr _ros_node;
 
-  bool find_nearest_model(const EntityComponentManager& ecm,
+  SimEntity find_nearest_model(const EntityComponentManager& ecm,
     const std::vector<SimEntity>& robot_model_entities,
-    SimEntity& robot_entity) const;
+    bool& found) const;
   bool get_payload_model(const EntityComponentManager& ecm,
     const SimEntity& robot_sim_entity,
     Entity& payload_entity);
@@ -84,13 +84,13 @@ private:
   void init_non_static_models_poses(EntityComponentManager& ecm);
 };
 
-bool TeleportIngestorPlugin::find_nearest_model(
+SimEntity TeleportIngestorPlugin::find_nearest_model(
   const EntityComponentManager& ecm,
   const std::vector<SimEntity>& entities,
-  SimEntity& robot_entity) const
+  bool& found) const
 {
   double nearest_dist = 1e6;
-  bool found = false;
+  SimEntity robot_entity(0);
   const auto ingestor_pos =
     ecm.Component<components::Pose>(_ingestor)->Data().Pos();
 
@@ -98,7 +98,7 @@ bool TeleportIngestorPlugin::find_nearest_model(
   {
     // If `models` has been generated with `fill_robot_list`, it is
     // guaranteed to have a valid entity field
-    Entity en = sim_obj.entity;
+    Entity en = sim_obj.get_entity();
     std::string name = ecm.Component<components::Name>(en)->Data();
     if (name == _ingestor_common->_guid)
       continue;
@@ -112,7 +112,7 @@ bool TeleportIngestorPlugin::find_nearest_model(
       found = true;
     }
   }
-  return found;
+  return robot_entity;
 }
 
 // Identifies item to ingest and assigns it to `payload_entity`
@@ -124,7 +124,7 @@ bool TeleportIngestorPlugin::get_payload_model(
   // There might not be a better way to loop through all the models, as we
   // might consider delivering items that were spawned during run time,
   // instead of during launch.
-  const Entity robot_entity = robot_sim_entity.entity;
+  const Entity robot_entity = robot_sim_entity.get_entity();
   const auto robot_model_pos =
     ecm.Component<components::Pose>(robot_entity)->Data().Pos();
   double nearest_dist = 1.0;
@@ -282,12 +282,12 @@ void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
       this, std::ref(ecm));
 
   std::function<void(FleetStateIt,
-    std::vector<rmf_plugins_utils::SimEntity>&)> fill_robot_list_cb =
+    std::vector<SimEntity>&)> fill_robot_list_cb =
     std::bind(&TeleportIngestorPlugin::fill_robot_list, this,
       std::ref(ecm), std::placeholders::_1, std::placeholders::_2);
 
-  std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    SimEntity&)> find_nearest_model_cb =
+  std::function<SimEntity(const std::vector<SimEntity>&,
+    bool&)> find_nearest_model_cb =
     std::bind(&TeleportIngestorPlugin::find_nearest_model, this,
       std::ref(ecm), std::placeholders::_1, std::placeholders::_2);
 

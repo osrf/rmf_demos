@@ -62,9 +62,9 @@ private:
   ignition::math::AxisAlignedBox _dispenser_vicinity_box;
   #endif
 
-  bool find_nearest_model(
+  SimEntity find_nearest_model(
     const std::vector<SimEntity>& models,
-    SimEntity& nearest_model_name) const;
+    bool& found) const;
   void place_on_entity(const SimEntity& to_move);
   void fill_robot_list(FleetStateIt fleet_state_it,
     std::vector<SimEntity>& robot_model_list);
@@ -73,19 +73,19 @@ private:
   void on_update();
 };
 
-bool TeleportDispenserPlugin::find_nearest_model(
+SimEntity TeleportDispenserPlugin::find_nearest_model(
   const std::vector<SimEntity>& models,
-  SimEntity& nearest_model) const
+  bool& found) const
 {
   double nearest_dist = 1e6;
-  bool found = false;
+  SimEntity nearest_model("");
 
   for (const SimEntity& sim_obj : models)
   {
-    if (sim_obj.name == _dispenser_common->guid)
+    if (sim_obj.get_name() == _dispenser_common->guid)
       continue;
 
-    gazebo::physics::EntityPtr m = _world->EntityByName(sim_obj.name);
+    gazebo::physics::EntityPtr m = _world->EntityByName(sim_obj.get_name());
     const double dist =
       m->WorldPose().Pos().Distance(_model->WorldPose().Pos());
     if (dist < nearest_dist)
@@ -95,12 +95,12 @@ bool TeleportDispenserPlugin::find_nearest_model(
       found = true;
     }
   }
-  return found;
+  return nearest_model;
 }
 
 void TeleportDispenserPlugin::place_on_entity(const SimEntity& to_move)
 {
-  _item_model->PlaceOnEntity(to_move.name);
+  _item_model->PlaceOnEntity(to_move.get_name());
 }
 
 void TeleportDispenserPlugin::fill_robot_list(FleetStateIt fleet_state_it,
@@ -162,8 +162,8 @@ void TeleportDispenserPlugin::on_update()
     std::bind(&TeleportDispenserPlugin::fill_robot_list, this,
       std::placeholders::_1, std::placeholders::_2);
 
-  std::function<bool(const std::vector<rmf_plugins_utils::SimEntity>&,
-    SimEntity&)> find_nearest_model_cb =
+  std::function<SimEntity(const std::vector<rmf_plugins_utils::SimEntity>&,
+    bool&)> find_nearest_model_cb =
     std::bind(&TeleportDispenserPlugin::find_nearest_model, this,
       std::placeholders::_1, std::placeholders::_2);
 
