@@ -16,9 +16,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-find_package(gazebo REQUIRED)
-find_package(gazebo_ros REQUIRED)
-find_package(gazebo_dev REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -43,7 +40,6 @@ ament_target_dependencies(rmf_sim_utils
 
 target_include_directories(rmf_sim_utils
   PUBLIC
-    ${GAZEBO_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -67,7 +63,6 @@ target_include_directories(ingestor_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${GAZEBO_INCLUDE_DIRS}
 )
 
 ###################################
@@ -88,7 +83,6 @@ target_include_directories(dispenser_common
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${GAZEBO_INCLUDE_DIRS}
 )
 
 ###############################

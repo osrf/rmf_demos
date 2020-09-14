@@ -2,7 +2,6 @@
 #define SRC__RMF_PLUGINS__UTILS_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include <sdf/Element.hh>
 #include <memory>
 
 namespace rmf_plugins_utils {
@@ -77,17 +76,29 @@ double compute_desired_rate_of_change(
   const MotionParams& _motion_params,
   const double _dt);
 
-bool get_element_required(
-  const sdf::ElementPtr& _sdf,
-  const std::string& _element_name,
-  sdf::ElementPtr& _element);
-
 rclcpp::Time simulation_now(double t);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename T>
-bool get_sdf_attribute_required(const sdf::ElementPtr& sdf,
-  const std::string& attribute_name, T& value)
+template<typename SdfPtrT, typename SdfElementPtrT>
+bool get_element_required(
+  SdfPtrT& _sdf,
+  const std::string& _element_name,
+  SdfElementPtrT& _element)
+{
+  if (!_sdf->HasElement(_element_name))
+  {
+    std::cerr << "Element [" << _element_name << "] not found" << std::endl;
+    return false;
+  }
+  // using GetElementImpl() because for sdf::v9 GetElement() is not const
+  _element = _sdf->GetElementImpl(_element_name);
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+template<typename T, typename SdfPtrT>
+bool get_sdf_attribute_required(SdfPtrT& sdf, const std::string& attribute_name,
+  T& value)
 {
   if (sdf->HasAttribute(attribute_name))
   {
@@ -113,9 +124,9 @@ bool get_sdf_attribute_required(const sdf::ElementPtr& sdf,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename T>
-bool get_sdf_param_required(const sdf::ElementPtr& sdf,
-  const std::string& parameter_name, T& value)
+template<typename T, typename SdfPtrT>
+bool get_sdf_param_required(SdfPtrT& sdf, const std::string& parameter_name,
+  T& value)
 {
   if (sdf->HasElement(parameter_name))
   {
@@ -140,9 +151,9 @@ bool get_sdf_param_required(const sdf::ElementPtr& sdf,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename T>
-void get_sdf_param_if_available(const sdf::ElementPtr& sdf,
-  const std::string& parameter_name, T& value)
+template<typename T, typename SdfPtrT>
+void get_sdf_param_if_available(SdfPtrT& sdf, const std::string& parameter_name,
+  T& value)
 {
   if (sdf->HasElement(parameter_name))
   {

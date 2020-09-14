@@ -12,10 +12,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>gazebo_ros_pkgs</depend>
 
   <depend>std_msgs</depend>
-
   <depend>rmf_fleet_msgs</depend>
   <depend>rmf_dispenser_msgs</depend>
   <depend>rmf_ingestor_msgs</depend>
