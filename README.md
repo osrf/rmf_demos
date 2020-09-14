@@ -167,14 +167,25 @@ This is a hotel with a lobby and a guest level. The hotel has two lifts and two 
 
 The hotel map is truncated due to the high memory usage. The full map can be accessed [here](https://github.com/MakinoharaShouko/hotel).
 
+Hotel floor plan in `traffic_editor`:
 ![](docs/media/hotel.png)
 
+Full hotel floor plan in `traffic_editor`:
+![](docs/media/hotel_full.png)
+
 #### Demo Scenario
+
 To launch the world and the schedule visualizer,
 
 ```bash
 source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos hotel.launch.xml
+```
+
+The user can also try to launch the full hotel demo with the following command (if they have large enough memory)
+```bash
+source ~/rmf_demos_ws/install/setup.bash
+ros2 launch demos hotel_full.launch.xml
 ```
 
 To simulate a loop request, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button.
