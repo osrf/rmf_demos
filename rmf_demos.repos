@@ -11,6 +11,10 @@ repositories:
     type: git
     url: https://github.com/osrf/traffic_editor.git
     version: master
+  rmf/traffic_editor_assets:
+    type: git
+    url: https://github.com/osrf/traffic_editor_assets.git
+    version: master
   rmf/rmf_demos:
     type: git
     url: https://github.com/osrf/rmf_demos.git
