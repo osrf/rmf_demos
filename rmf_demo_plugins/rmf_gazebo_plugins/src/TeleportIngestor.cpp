@@ -24,8 +24,6 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo_ros/node.hpp>
 
-#include <ignition/math/Vector3.hh>
-
 #include <rclcpp/rclcpp.hpp>
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
 
@@ -166,7 +164,8 @@ void TeleportIngestorPlugin::send_ingested_item_home()
     if (it == _ingestor_common->non_static_models_init_poses.end())
       _world->RemoveModel(_ingested_model);
     else
-      _ingested_model->SetWorldPose(it->second);
+      _ingested_model->SetWorldPose(convert_to_pose<ignition::math::Pose3d>(
+          it->second));
 
     _ingestor_common->ingestor_filled = false; // Assumes ingestor can only hold 1 object at a time
   }
@@ -218,7 +217,10 @@ void TeleportIngestorPlugin::Load(gazebo::physics::ModelPtr _parent,
   {
     std::string m_name = m->GetName();
     if (m && !(m->IsStatic()) && m_name != _model->GetName())
-      _ingestor_common->non_static_models_init_poses[m_name] = m->WorldPose();
+    {
+      _ingestor_common->non_static_models_init_poses[m_name] = convert_pose(
+        m->WorldPose());
+    }
   }
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(

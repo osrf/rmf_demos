@@ -23,8 +23,6 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <ignition/math/Pose3.hh>
-
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
 #include <rmf_ingestor_msgs/msg/ingestor_state.hpp>
 #include <rmf_ingestor_msgs/msg/ingestor_result.hpp>
@@ -51,7 +49,7 @@ public:
   bool ingest = false;
   IngestorRequest latest;
 
-  // General params
+  // Ingestor params
   std::string _guid;
   bool ingestor_filled = false;
 
@@ -61,7 +59,7 @@ public:
 
   rclcpp::Node::SharedPtr ros_node;
 
-  std::unordered_map<std::string, ignition::math::Pose3d>
+  std::unordered_map<std::string, Eigen::Isometry3d>
   non_static_models_init_poses;
   std::unordered_map<std::string, FleetState::UniquePtr> fleet_states;
   IngestorState current_state;

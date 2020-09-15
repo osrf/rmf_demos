@@ -30,10 +30,6 @@
 #include <ignition/gazebo/components/PoseCmd.hh>
 #include <ignition/gazebo/components/Static.hh>
 
-#include <ignition/math/Vector3.hh>
-#include <ignition/math/Pose3.hh>
-#include <ignition/math/Box.hh>
-
 #include <rclcpp/rclcpp.hpp>
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
 #include <rmf_plugins_common/ingestor_common.hpp>
@@ -206,7 +202,7 @@ void TeleportIngestorPlugin::send_ingested_item_home(
           components::WorldPoseCmd(ignition::math::Pose3<double>()));
       }
       ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() =
-        it->second;
+        convert_to_pose<ignition::math::v6::Pose3d>(it->second);
     }
     _ingestor_common->ingestor_filled = false;
   }
@@ -227,7 +223,8 @@ void TeleportIngestorPlugin::init_non_static_models_poses(
     {
       if (!is_static->Data() && name->Data() != _ingestor_common->_guid)
       {
-        _ingestor_common->non_static_models_init_poses[name->Data()] = pose->Data();
+        _ingestor_common->non_static_models_init_poses[name->Data()] = convert_pose(
+          pose->Data());
       }
       return true;
     });

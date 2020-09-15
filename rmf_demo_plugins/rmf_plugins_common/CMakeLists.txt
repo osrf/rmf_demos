@@ -16,7 +16,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-find_package(ignition-math6 REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -35,11 +35,12 @@ add_library(rmf_sim_utils SHARED ${PROJECT_SOURCE_DIR}/src/utils.cpp)
 
 ament_target_dependencies(rmf_sim_utils
   rclcpp
-  rmf_ingestor_msgs
+  Eigen3
 )
 
 target_include_directories(rmf_sim_utils
   PUBLIC
+    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -56,11 +57,11 @@ ament_target_dependencies(ingestor_common
     rmf_ingestor_msgs
     rclcpp
     std_msgs
-    ignition-math6
 )
 
 target_include_directories(ingestor_common 
   PUBLIC
+    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -81,6 +82,7 @@ ament_target_dependencies(dispenser_common
 
 target_include_directories(dispenser_common 
   PUBLIC
+    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -88,7 +90,7 @@ target_include_directories(dispenser_common
 ###############################
 # Install Targets             #
 ###############################
-
+ament_export_dependencies(Eigen3)
 ament_export_include_directories(include)
 ament_export_libraries(ingestor_common)
 ament_export_libraries(dispenser_common)
