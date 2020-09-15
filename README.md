@@ -182,12 +182,6 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos hotel.launch.xml
 ```
 
-The user can also try to launch the full hotel demo with the following command (if they have large enough memory)
-```bash
-source ~/rmf_demos_ws/install/setup.bash
-ros2 launch demos hotel_full.launch.xml
-```
-
 To simulate a loop request, select desired robot fleet, `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button.
 
 Robot taking lift:
