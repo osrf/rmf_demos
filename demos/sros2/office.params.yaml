@@ -1,0 +1,34 @@
+rmf_traffic_ros2:
+  ros__parameters:
+    use_sim_time: True
+rmf_schedule_visualizer:
+  ros__parameters:
+    use_sim_time: True
+fleet_state_visualizer:
+  ros__parameters:
+    display_names: True
+building_systems_visualizer:
+  ros__parameters:
+    use_sim_time: True
+tinyRobot_fleet_adapter:
+  ros__parameters:
+    fleet_name: "tinyRobot"
+    nav_graph_file: "./install/rmf_demo_maps/share/rmf_demo_maps/maps/office/nav_graphs/0.yaml"
+    linear_velocity: 0.5
+    angular_velocity: 0.6
+    linear_acceleration: 0.75
+    angular_acceleration: 2.0
+    footprint_radius: 0.3
+    vicinity_radius: 1.5
+    perform_deliveries: True
+    delay_threshold: 15.0
+    disable_delay_threshold: False
+    retry_wait: 10.0
+    discovery_timeout: 60.0
+    reversible: True
+    use_sim_time: True
+tinyRobot_state_aggregator:
+  ros__parameters:
+    robot_prefix: "tinyRobot"
+    fleet_name: "tinyRobot"
+    use_sim_time: True 
