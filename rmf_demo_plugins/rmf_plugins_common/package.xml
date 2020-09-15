@@ -12,6 +12,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>Eigen3</depend>
 
   <depend>std_msgs</depend>
   <depend>rmf_fleet_msgs</depend>

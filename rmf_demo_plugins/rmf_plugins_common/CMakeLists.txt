@@ -35,12 +35,10 @@ add_library(rmf_sim_utils SHARED ${PROJECT_SOURCE_DIR}/src/utils.cpp)
 
 ament_target_dependencies(rmf_sim_utils
   rclcpp
-  Eigen3
 )
 
 target_include_directories(rmf_sim_utils
   PUBLIC
-    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -57,6 +55,7 @@ ament_target_dependencies(ingestor_common
     rmf_ingestor_msgs
     rclcpp
     std_msgs
+    Eigen3
 )
 
 target_include_directories(ingestor_common 
@@ -82,7 +81,6 @@ ament_target_dependencies(dispenser_common
 
 target_include_directories(dispenser_common 
   PUBLIC
-    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )

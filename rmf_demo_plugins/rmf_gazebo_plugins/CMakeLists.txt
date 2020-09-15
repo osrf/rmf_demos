@@ -65,6 +65,7 @@ ament_target_dependencies(teleport_ingestor
   rmf_fleet_msgs
   rmf_ingestor_msgs
   rmf_plugins_common
+  Eigen3
 )
 
 target_include_directories(teleport_ingestor
@@ -72,6 +73,7 @@ target_include_directories(teleport_ingestor
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################

@@ -14,6 +14,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>Eigen3</depend>
   <depend>gazebo_ros_pkgs</depend>
 
   <depend>std_msgs</depend>

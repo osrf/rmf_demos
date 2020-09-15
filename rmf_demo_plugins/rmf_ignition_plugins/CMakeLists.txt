@@ -63,10 +63,12 @@ ament_target_dependencies(teleport_ingestor
     rmf_ingestor_msgs
     rclcpp
     rmf_plugins_common
+    Eigen3
 )
 
 target_include_directories(teleport_ingestor
   PUBLIC
+    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
