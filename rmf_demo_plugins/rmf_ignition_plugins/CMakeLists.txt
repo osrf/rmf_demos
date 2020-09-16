@@ -95,6 +95,35 @@ target_include_directories(teleport_dispenser
 )
 
 ###############################
+# Readonly Plugin             #
+###############################
+
+add_library(readonly SHARED ${PROJECT_SOURCE_DIR}/src/readonly.cpp)
+
+target_link_libraries(readonly
+  PUBLIC
+    ${rmf_fleet_msgs_LIBRARIES}
+    ${building_map_msgs_LIBRARIES}
+    ${rclcpp_LIBRARIES}
+    ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
+    #${GAZEBO_LIBRARIES}
+    #${gazebo_ros_LIBRARIES}
+    ${rmf_plugins_common_LIBRARIES}
+)
+
+target_include_directories(readonly
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    #${GAZEBO_INCLUDE_DIRS}
+    ${std_msgs_INCLUDE_DIRS}
+    ${rmf_plugins_common_INCLUDE_DIRS}
+    ${rmf_fleet_msgs_INCLUDE_DIRS}
+    ${building_map_msgs_INCLUDE_DIRS}
+)
+
+###############################
 # Install Targets
 ###############################
 
@@ -102,6 +131,7 @@ install(
   TARGETS 
     teleport_dispenser
     teleport_ingestor
+    readonly
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
