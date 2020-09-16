@@ -1,4 +1,4 @@
-name: build
+name: build_eloquent
 on: [push, pull_request]
 jobs:
 
