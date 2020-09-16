@@ -2,7 +2,7 @@
 
 <launch>
 
-  <!-- Spawn caddy at "caddy_placeholder" and start the joystick teleop node -->
+  <!-- Opens a new terminal and starts the teleop keyboard node to control the "Caddy" -->
   <group>
     <!-- Launch keyboard control for Caddy -->
     <node pkg="teleop_twist_keyboard" exec="teleop_twist_keyboard" output="screen" launch-prefix="gnome-terminal --">
