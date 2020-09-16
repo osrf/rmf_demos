@@ -100,24 +100,19 @@ target_include_directories(teleport_dispenser
 
 add_library(readonly SHARED ${PROJECT_SOURCE_DIR}/src/readonly.cpp)
 
-target_link_libraries(readonly
-  PUBLIC
-    ${rmf_fleet_msgs_LIBRARIES}
-    ${building_map_msgs_LIBRARIES}
-    ${rclcpp_LIBRARIES}
-    ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
-    ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-    ${rmf_plugins_common_LIBRARIES}
+ament_target_dependencies(readonly
+    rmf_fleet_msgs
+    building_map_msgs
+    rclcpp
+    ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}
+    rmf_plugins_common
 )
 
 target_include_directories(readonly
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${std_msgs_INCLUDE_DIRS}
-    ${rmf_plugins_common_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-    ${building_map_msgs_INCLUDE_DIRS}
 )
 
 ###############################
