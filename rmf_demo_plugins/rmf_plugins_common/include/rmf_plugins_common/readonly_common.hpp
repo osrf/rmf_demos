@@ -46,6 +46,7 @@ public:
   using Location = rmf_fleet_msgs::msg::Location;
   using Path = std::vector<Location>;
 
+  rclcpp::Node::SharedPtr ros_node;
   std::string name;
   ignition::math::Pose3d pose;
   double sim_time = 0.0;
@@ -57,8 +58,6 @@ public:
   void on_update();
 
 private:
-  rclcpp::Node::SharedPtr _ros_node;
-
   rclcpp::Publisher<rmf_fleet_msgs::msg::RobotState>::SharedPtr _robot_state_pub;
   rclcpp::Subscription<BuildingMap>::SharedPtr _building_map_sub;
 
@@ -153,9 +152,8 @@ void ReadonlyCommon::read_sdf(SdfPtrT& sdf)
   RCLCPP_INFO(logger(),
     "Setting lane threshold: " + std::to_string(_lane_threshold));
 
-
 }
 
-} // namespace rmf_ingestor_common
+} // namespace rmf_readonly_common
 
 #endif

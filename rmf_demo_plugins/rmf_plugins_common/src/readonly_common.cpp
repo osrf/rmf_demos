@@ -1,6 +1,6 @@
 #include <rmf_plugins_common/readonly_common.hpp>
 
-namespace rmf_readonly_common {
+using namespace rmf_readonly_common;
 
 using BuildingMap = building_map_msgs::msg::BuildingMap;
 using Level = building_map_msgs::msg::Level;
@@ -18,15 +18,15 @@ void ReadonlyCommon::init(rclcpp::Node::SharedPtr node)
   _current_mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_MOVING;
   _current_task_id = "demo";
 
-  _ros_node = std::move(node);
+  ros_node = std::move(node);
 
   _robot_state_pub =
-    _ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
+    ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
     "/robot_state", 10);
 
   auto qos_profile = rclcpp::QoS(10);
   qos_profile.transient_local();
-  _building_map_sub = _ros_node->create_subscription<BuildingMap>(
+  _building_map_sub = ros_node->create_subscription<BuildingMap>(
     "/map",
     qos_profile,
     std::bind(&ReadonlyCommon::map_cb, this, std::placeholders::_1));
@@ -341,5 +341,3 @@ ReadonlyCommon::Path ReadonlyCommon::compute_path(
   return path;
 
 }
-
-} // namespace rmf_readonly_common

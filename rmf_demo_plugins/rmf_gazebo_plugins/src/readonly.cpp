@@ -34,8 +34,6 @@
 
 #include <rmf_plugins_common/readonly_common.hpp>
 
-using namespace rmf_readonly_common;
-
 class ReadonlyPlugin : public gazebo::ModelPlugin
 {
 public:
@@ -44,13 +42,13 @@ public:
   void OnUpdate();
 
 private:
-  std::unique_ptr<ReadonlyCommon> _readonly_common;
+  std::unique_ptr<rmf_readonly_common::ReadonlyCommon> _readonly_common;
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
 };
 
 ReadonlyPlugin::ReadonlyPlugin()
-: _readonly_common(std::make_unique<ReadonlyCommon>())
+: _readonly_common(std::make_unique<rmf_readonly_common::ReadonlyCommon>())
 {
   // We do initialization only during ::Load
 }
