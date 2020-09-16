@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(rmf_gazebo_plugins)
+project(rmf_ignition_plugins)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -19,23 +19,58 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(gazebo REQUIRED)
-find_package(gazebo_ros REQUIRED)
-find_package(gazebo_dev REQUIRED)
-find_package(gazebo_msgs REQUIRED)
+
+find_package(ignition-cmake2 QUIET)
+if (NOT ignition-cmake2_FOUND)
+  message("ignition-cmake not found, skipping ignition gazebo plugins")
+  return()
+endif()
+ign_find_package(ignition-gazebo4 QUIET)
+if (NOT ignition-gazebo4_FOUND)
+  message("Wrong ignition-gazebo version found. Plugins require ignition-gazebo4 (dome)")
+  # To generate a setup.bash and avoid CMake warnings
+  ament_package()
+  return()
+endif()
+set(IGN_GAZEBO_VER 4)
+ign_find_package(ignition-plugin1 REQUIRED COMPONENTS register)
+set(IGN_PLUGIN_VER 1)
+ign_find_package(ignition-common3 REQUIRED)
+set(IGN_COMMON_VER 3)
+ign_find_package(ignition-math6 REQUIRED)
+ign_find_package(sdformat10 REQUIRED)
+set(IGN_MATH_VER 6)
+
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
 find_package(rmf_ingestor_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
+find_package(rmf_plugins_common REQUIRED)
 
 include(GNUInstallDirs)
 
-add_library(rmf_sim_utils SHARED src/utils.cpp)
+###############################
+# TeleportIngestor Plugin
+###############################
 
-target_include_directories(rmf_sim_utils
+add_library(teleport_ingestor SHARED src/TeleportIngestor.cpp)
+
+ament_target_dependencies(teleport_ingestor
+    ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}
+    rmf_fleet_msgs
+    rmf_ingestor_msgs
+    rclcpp
+    rmf_plugins_common
+    Eigen3
+)
+
+target_include_directories(teleport_ingestor
   PUBLIC
-    ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 ###############################
@@ -45,57 +80,18 @@ target_include_directories(rmf_sim_utils
 add_library(teleport_dispenser SHARED src/TeleportDispenser.cpp)
 
 ament_target_dependencies(teleport_dispenser
-  rclcpp
-  gazebo_ros
-  rmf_fleet_msgs
-  rmf_dispenser_msgs
+    ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}
+    rmf_fleet_msgs
+    rmf_dispenser_msgs
+    rclcpp
+    rmf_plugins_common
 )
 
 target_include_directories(teleport_dispenser
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${GAZEBO_INCLUDE_DIRS}
-)
-
-###############################
-# TeleportIngestor Plugin
-###############################
-
-add_library(teleport_ingestor SHARED src/TeleportIngestor.cpp)
-
-ament_target_dependencies(teleport_ingestor
-  rclcpp
-  gazebo_ros
-  rmf_fleet_msgs
-  rmf_ingestor_msgs
-)
-
-target_include_directories(teleport_ingestor
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${GAZEBO_INCLUDE_DIRS}
-)
-
-###############################
-# Readonly Plugin
-###############################
-
-add_library(readonly SHARED ${PROJECT_SOURCE_DIR}/src/readonly.cpp)
-
-ament_target_dependencies(readonly
-    rmf_fleet_msgs
-    building_map_msgs
-    rclcpp
-    gazebo_ros
-)
-
-target_include_directories(readonly
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${GAZEBO_INCLUDE_DIRS}
 )
 
 ###############################
@@ -104,10 +100,8 @@ target_include_directories(readonly
 
 install(
   TARGETS 
-    rmf_sim_utils
     teleport_dispenser
     teleport_ingestor
-    readonly
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
