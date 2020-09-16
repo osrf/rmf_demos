@@ -1,4 +1,5 @@
 #include <rmf_plugins_common/readonly_common.hpp>
+#include <rmf_plugins_common/utils.hpp>
 
 using namespace rmf_readonly_common;
 
@@ -7,6 +8,16 @@ using Level = building_map_msgs::msg::Level;
 using Graph = building_map_msgs::msg::Graph;
 using Location = rmf_fleet_msgs::msg::Location;
 using Path = std::vector<Location>;
+
+static double compute_yaw(const Eigen::Isometry3d& pose)
+{
+  auto quat = Eigen::Quaterniond(pose.linear());
+  // Taken from ignition math quaternion Euler()
+  double yaw = std::atan2(2 * (quat.x()*quat.y() + quat.w()*quat.z()),
+      (quat.w() * quat.w()) + (quat.x() * quat.x()) - (quat.y() * quat.y()) -
+      (quat.z() * quat.z()));
+  return yaw;
+}
 
 rclcpp::Logger ReadonlyCommon::logger()
 {
@@ -41,20 +52,19 @@ void ReadonlyCommon::on_update()
     initialize_start(pose);
 
     _last_update_time = sim_time;
-    const int32_t t_sec = static_cast<int32_t>(sim_time);
-    const uint32_t t_nsec =
-      static_cast<uint32_t>((sim_time - static_cast<double>(t_sec)) * 1e9);
-    const rclcpp::Time now{t_sec, t_nsec, RCL_ROS_TIME};
+    const rclcpp::Time now(
+      std::move(rmf_plugins_utils::simulation_now(sim_time)));
 
+    constexpr double battery_percent = 98.0;
     _robot_state_msg.name = name;
     _robot_state_msg.model = "";
     _robot_state_msg.task_id = _current_task_id;
     _robot_state_msg.mode = _current_mode;
-    _robot_state_msg.battery_percent = 98.0;
+    _robot_state_msg.battery_percent = battery_percent;
 
-    _robot_state_msg.location.x = pose.Pos().X();
-    _robot_state_msg.location.y = pose.Pos().Y();
-    _robot_state_msg.location.yaw = pose.Rot().Yaw();
+    _robot_state_msg.location.x = pose.translation()[0];
+    _robot_state_msg.location.y = pose.translation()[1];
+    _robot_state_msg.location.yaw = compute_yaw(pose);
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
 
@@ -168,24 +178,27 @@ void ReadonlyCommon::initialize_graph()
   _initialized_graph = true;
 }
 
+// Returns distance between waypoint `wp` and current `pose`
 double ReadonlyCommon::compute_ds(
-  const ignition::math::Pose3d& pose,
+  const Eigen::Isometry3d& pose,
   const std::size_t& wp)
 {
   // TODO consider returning a nullptr instead
   assert(_found_graph);
   assert(wp < _graph.vertices.size());
 
-  ignition::math::Vector3d world_position{pose.Pos().X(), pose.Pos().Y(), 0};
-  ignition::math::Vector3d graph_position{
+  Eigen::Vector3d world_position(pose.translation()[0],
+    pose.translation()[1],
+    0);
+  Eigen::Vector3d graph_position(
     _graph.vertices[wp].x,
     _graph.vertices[wp].y,
-    0};
+    0);
 
-  return std::abs((world_position - graph_position).Length());
+  return std::abs((world_position - graph_position).norm());
 }
 
-void ReadonlyCommon::initialize_start(const ignition::math::Pose3d& pose)
+void ReadonlyCommon::initialize_start(const Eigen::Isometry3d& pose)
 {
   if (_initialized_start)
     return;
@@ -218,7 +231,7 @@ void ReadonlyCommon::initialize_start(const ignition::math::Pose3d& pose)
     RCLCPP_ERROR(
       logger(),
       "Spawn coordinates [%f,%f,%f] differs from that of waypoint [%s] in nav_graph [%f, %f, %f]",
-      pose.Pos().X(), pose.Pos().Y(), 0,
+      pose.translation()[0], pose.translation()[1], 0,
       _start_wp_name.c_str(),
       _graph.vertices[_start_wp].x, _graph.vertices[_start_wp].y, 0);
   }
@@ -232,7 +245,7 @@ void ReadonlyCommon::initialize_start(const ignition::math::Pose3d& pose)
 }
 
 std::size_t ReadonlyCommon::get_next_waypoint(const std::size_t start_wp,
-  const ignition::math::Vector3d& heading)
+  const Eigen::Vector3d& heading)
 {
   // Return the waypoint closest to the robot in the direction of its heading
   const auto& neighbors = _neighbor_map.find(start_wp)->second;
@@ -243,11 +256,13 @@ std::size_t ReadonlyCommon::get_next_waypoint(const std::size_t start_wp,
   for (auto it = neighbors.begin(); it != neighbors.end(); it++)
   {
     const auto& waypoint = _graph.vertices[*it];
-    ignition::math::Vector3d disp_vector{
+    Eigen::Vector3d disp_vector(
       waypoint.x - _graph.vertices[start_wp].x,
       waypoint.y - _graph.vertices[start_wp].y,
-      0};
-    const double dist = heading.Dot(disp_vector.Normalize());
+      0);
+
+    disp_vector.normalize();
+    const double dist = heading.dot(disp_vector);
     // Consider the waypoints with largest projected distance
     if (dist > max_dist)
     {
@@ -260,15 +275,15 @@ std::size_t ReadonlyCommon::get_next_waypoint(const std::size_t start_wp,
 }
 
 ReadonlyCommon::Path ReadonlyCommon::compute_path(
-  const ignition::math::Pose3d& pose)
+  const Eigen::Isometry3d& pose)
 {
   ReadonlyCommon::Path path;
   path.resize(_lookahead);
 
   auto start_wp = _start_wp;
-  const double current_yaw = pose.Rot().Euler().Z();
-  ignition::math::Vector3d heading{
-    std::cos(current_yaw), std::sin(current_yaw), 0.0};
+  const double current_yaw = compute_yaw(pose);
+  Eigen::Vector3d heading(
+    std::cos(current_yaw), std::sin(current_yaw), 0.0);
 
   auto make_location =
     [=](double x, double y) -> ReadonlyCommon::Location
@@ -289,11 +304,12 @@ ReadonlyCommon::Path ReadonlyCommon::compute_path(
     // Add to path here
     path[i] = make_location(_graph.vertices[wp].x, _graph.vertices[wp].y);
     // Update heading for next iteration
-    auto next_heading = ignition::math::Vector3d{
+    auto next_heading = Eigen::Vector3d(
       _graph.vertices[wp].x - _graph.vertices[start_wp].x,
       _graph.vertices[wp].y - _graph.vertices[start_wp].y,
-      0};
-    heading = next_heading.Normalize();
+      0);
+    heading = next_heading;
+    heading.normalize();
     start_wp = wp;
   }
 
@@ -301,24 +317,25 @@ ReadonlyCommon::Path ReadonlyCommon::compute_path(
   {
     auto target = _next_wp[0];
     // Vector from target to start_wp
-    auto lane_vector = ignition::math::Vector3d{
+    auto lane_vector = Eigen::Vector3d(
       _graph.vertices[target].x - _graph.vertices[_start_wp].x,
       _graph.vertices[target].y - _graph.vertices[_start_wp].y,
-      0};
+      0);
 
     // Vector from target to robot
-    auto disp_vector = ignition::math::Vector3d{
-      _graph.vertices[target].x - pose.Pos().X(),
-      _graph.vertices[target].y - pose.Pos().Y(),
-      0};
+    auto disp_vector = Eigen::Vector3d(
+      _graph.vertices[target].x - pose.translation()[0],
+      _graph.vertices[target].y - pose.translation()[1],
+      0);
 
     // Angle between lane_vector and disp_vector
-    double theta = std::atan2(lane_vector.Y(), lane_vector.X()) -
-      std::atan2(disp_vector.Y(), disp_vector.X());
+    double theta = std::atan2(lane_vector(1), lane_vector(0)) -
+      std::atan2(disp_vector(1), disp_vector(0));
 
-    // Compute the perpendicualr distance of robot from its lane
-    double lane_error = std::pow(disp_vector.Length(), 2) -
-      std::pow(disp_vector.Dot(lane_vector.Normalize()), 2);
+    // Compute the perpendicular distance of robot from its lane
+    lane_vector.normalize();
+    double lane_error = std::pow(disp_vector.norm(), 2) -
+      std::pow(disp_vector.dot(lane_vector), 2);
 
     // RCLCPP_ERROR(logger(), "Disp: [%f] lane: [%f], Lane error: [%f]",
     //   disp_vector.Length(), disp_vector.Dot(lane_vector.Normalize()),lane_error);
@@ -327,8 +344,8 @@ ReadonlyCommon::Path ReadonlyCommon::compute_path(
     {
       // TODO use tranformation matrices
       // Rotate position of robot about target by theta
-      auto robot_x = pose.Pos().X() - _graph.vertices[target].x;
-      auto robot_y = pose.Pos().Y() - _graph.vertices[target].y;
+      auto robot_x = pose.translation()[0] - _graph.vertices[target].x;
+      auto robot_y = pose.translation()[1] - _graph.vertices[target].y;
       robot_x = robot_x * std::cos(theta) - robot_y * std::sin(theta);
       robot_y = robot_x * std::sin(theta) + robot_y * std::cos(theta);
       robot_x += _graph.vertices[target].x;
@@ -339,5 +356,4 @@ ReadonlyCommon::Path ReadonlyCommon::compute_path(
   }
 
   return path;
-
 }

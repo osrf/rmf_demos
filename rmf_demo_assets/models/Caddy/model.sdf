@@ -28,6 +28,9 @@
       <lane_threshold>0.2</lane_threshold>
     </plugin>
 
+    <!-- Hack: we currently include both Ignition and Gazebo diff drive plugins in the same sdf file, avoiding
+    the need to modify it each time we switch simulators. This may result in an error when a simulation engine
+    cannot locate the second (unused) plugin, but is ignored for now. -->
     <plugin name="caddy_diff_controller" filename="libgazebo_ros_diff_drive.so">
       <always_on>true</always_on>
       <!-- Update rate -->

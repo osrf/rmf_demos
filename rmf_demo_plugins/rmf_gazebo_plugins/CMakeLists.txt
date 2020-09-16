@@ -23,6 +23,7 @@ find_package(gazebo REQUIRED)
 find_package(gazebo_ros REQUIRED)
 find_package(gazebo_dev REQUIRED)
 find_package(gazebo_msgs REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
@@ -44,6 +45,7 @@ ament_target_dependencies(teleport_dispenser
   rmf_fleet_msgs
   rmf_dispenser_msgs
   rmf_plugins_common
+  Eigen3
 )
 
 target_include_directories(teleport_dispenser
@@ -51,6 +53,7 @@ target_include_directories(teleport_dispenser
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -88,6 +91,7 @@ ament_target_dependencies(readonly
     rclcpp
     gazebo_ros
     rmf_plugins_common
+    Eigen3
 )
 
 target_include_directories(readonly
@@ -95,6 +99,7 @@ target_include_directories(readonly
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################

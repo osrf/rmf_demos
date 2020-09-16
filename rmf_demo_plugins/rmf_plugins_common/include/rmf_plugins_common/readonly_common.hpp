@@ -27,7 +27,7 @@
 #include <mutex>
 #include <string>
 
-#include <ignition/math6/ignition/math/Pose3.hh>
+#include <Eigen/Geometry>
 
 #include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <building_map_msgs/msg/building_map.hpp>
@@ -48,7 +48,7 @@ public:
 
   rclcpp::Node::SharedPtr ros_node;
   std::string name;
-  ignition::math::Pose3d pose;
+  Eigen::Isometry3d pose;
   double sim_time = 0.0;
 
   rclcpp::Logger logger();
@@ -101,13 +101,13 @@ private:
   void map_cb(const BuildingMap::SharedPtr msg);
   void initialize_graph();
   double compute_ds(
-    const ignition::math::Pose3d& pose,
+    const Eigen::Isometry3d& pose,
     const std::size_t& wp);
-  void initialize_start(const ignition::math::Pose3d& pose);
+  void initialize_start(const Eigen::Isometry3d& pose);
   std::size_t get_next_waypoint(const std::size_t start_wp,
-    const ignition::math::Vector3d& heading);
+    const Eigen::Vector3d& heading);
   ReadonlyCommon::Path compute_path(
-    const ignition::math::Pose3d& pose);
+    const Eigen::Isometry3d& pose);
 };
 
 template<typename SdfPtrT>
@@ -151,7 +151,6 @@ void ReadonlyCommon::read_sdf(SdfPtrT& sdf)
     _lane_threshold = sdf->template Get<double>("lane_threshold");
   RCLCPP_INFO(logger(),
     "Setting lane threshold: " + std::to_string(_lane_threshold));
-
 }
 
 } // namespace rmf_readonly_common

@@ -15,6 +15,7 @@
  *
 */
 
+#include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/World.hh>
 #include <gazebo/physics/Model.hh>
 #include <gazebo_ros/node.hpp>
@@ -25,13 +26,12 @@
 #include <memory>
 #include <unordered_map>
 
-#include <gazebo/common/Plugin.hh>
-
 #include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <building_map_msgs/msg/building_map.hpp>
 #include <building_map_msgs/msg/level.hpp>
 #include <building_map_msgs/msg/graph.hpp>
 
+#include <rmf_plugins_common/utils.hpp>
 #include <rmf_plugins_common/readonly_common.hpp>
 
 class ReadonlyPlugin : public gazebo::ModelPlugin
@@ -50,7 +50,6 @@ private:
 ReadonlyPlugin::ReadonlyPlugin()
 : _readonly_common(std::make_unique<rmf_readonly_common::ReadonlyCommon>())
 {
-  // We do initialization only during ::Load
 }
 
 void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
@@ -69,7 +68,8 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 void ReadonlyPlugin::OnUpdate()
 {
   const auto& world = _model->GetWorld();
-  _readonly_common->pose = _model->WorldPose();
+  _readonly_common->pose =
+    rmf_plugins_utils::convert_pose(_model->WorldPose());
   _readonly_common->sim_time = world->SimTime().Double();
   _readonly_common->on_update();
 }

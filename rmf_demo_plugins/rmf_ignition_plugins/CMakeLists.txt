@@ -41,6 +41,7 @@ ign_find_package(ignition-math6 REQUIRED)
 ign_find_package(sdformat10 REQUIRED)
 set(IGN_MATH_VER 6)
 
+find_package(Eigen3 REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
@@ -68,9 +69,9 @@ ament_target_dependencies(teleport_ingestor
 
 target_include_directories(teleport_ingestor
   PUBLIC
-    ${EIGEN3_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -86,12 +87,14 @@ ament_target_dependencies(teleport_dispenser
     rmf_dispenser_msgs
     rclcpp
     rmf_plugins_common
+    Eigen3
 )
 
 target_include_directories(teleport_dispenser
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -107,12 +110,14 @@ ament_target_dependencies(readonly
     ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}
     rmf_plugins_common
+    Eigen3
 )
 
 target_include_directories(readonly
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################

@@ -31,6 +31,7 @@
 #include <building_map_msgs/msg/level.hpp>
 #include <building_map_msgs/msg/graph.hpp>
 
+#include <rmf_plugins_common/utils.hpp>
 #include <rmf_plugins_common/readonly_common.hpp>
 
 using namespace ignition::gazebo;
@@ -58,7 +59,6 @@ private:
 ReadonlyPlugin::ReadonlyPlugin()
 : _readonly_common(std::make_unique<rmf_readonly_common::ReadonlyCommon>())
 {
-  // We do initialization only during ::Configure
 }
 
 void ReadonlyPlugin::Configure(const Entity& entity,
@@ -68,7 +68,7 @@ void ReadonlyPlugin::Configure(const Entity& entity,
   _en = entity;
   if (!ecm.EntityHasComponentType(_en, components::Name().TypeId()))
   {
-    _readonly_common->name = "caddy";
+    _readonly_common->name = "caddy"; // Placeholder name
   }
   else
   {
@@ -86,7 +86,8 @@ void ReadonlyPlugin::Configure(const Entity& entity,
 void ReadonlyPlugin::PreUpdate(const UpdateInfo& info,
   EntityComponentManager& ecm)
 {
-  _readonly_common->pose = ecm.Component<components::Pose>(_en)->Data();
+  _readonly_common->pose = rmf_plugins_utils::convert_pose(
+    ecm.Component<components::Pose>(_en)->Data());
   _readonly_common->sim_time =
     std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count();
   rclcpp::spin_some(_readonly_common->ros_node);
