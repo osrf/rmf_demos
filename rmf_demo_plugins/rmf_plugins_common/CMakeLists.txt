@@ -17,6 +17,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(Eigen3 REQUIRED)
+find_package(ignition-math6 REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -85,6 +86,26 @@ target_include_directories(dispenser_common
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
+###################################
+# Readonly Plugin Common #
+###################################
+
+add_library(readonly_common SHARED ${PROJECT_SOURCE_DIR}/src/readonly_common.cpp)
+
+ament_target_dependencies(readonly_common
+    rmf_fleet_msgs
+    building_map_msgs
+    rclcpp
+    std_msgs
+    ignition-math6
+)
+
+target_include_directories(readonly_common
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
 ###############################
 # Install Targets             #
 ###############################
@@ -92,10 +113,11 @@ ament_export_dependencies(Eigen3)
 ament_export_include_directories(include)
 ament_export_libraries(ingestor_common)
 ament_export_libraries(dispenser_common)
+ament_export_libraries(readonly_common)
 ament_export_libraries(rmf_sim_utils)
 
 install(
-  TARGETS ingestor_common dispenser_common rmf_sim_utils
+  TARGETS ingestor_common dispenser_common readonly_common rmf_sim_utils
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )

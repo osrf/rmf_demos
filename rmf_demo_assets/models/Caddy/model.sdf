@@ -28,8 +28,8 @@
       <lane_threshold>0.2</lane_threshold>
     </plugin>
 
-    <plugin name="ignition::gazebo::systems::DiffDrive" filename="libignition-gazebo4-diff-drive-system.so">
-    <!-- <plugin name="caddy_diff_controller" filename="libgazebo_ros_diff_drive.so"> -->
+    <!-- <plugin name="ignition::gazebo::systems::DiffDrive" filename="libignition-gazebo4-diff-drive-system.so"> -->
+    <plugin name="caddy_diff_controller" filename="libgazebo_ros_diff_drive.so">
       <always_on>true</always_on>
       <!-- Update rate -->
       <update_rate>100.0</update_rate>

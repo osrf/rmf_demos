@@ -1,229 +1,52 @@
-/*
- * Copyright (C) 2020 Open Source Robotics Foundation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
-*/
-#include <ignition/plugin/Register.hh>
-
-#include <ignition/gazebo/System.hh>
-#include <ignition/gazebo/Model.hh>
-#include <ignition/gazebo/components/Name.hh>
-#include <ignition/gazebo/components/Pose.hh>
-
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp/logger.hpp>
-
-#include <memory>
-#include <unordered_map>
-#include <mutex>
-
-#include <rmf_fleet_msgs/msg/robot_state.hpp>
-#include <building_map_msgs/msg/building_map.hpp>
-#include <building_map_msgs/msg/level.hpp>
-#include <building_map_msgs/msg/graph.hpp>
-
-#include <rmf_plugins_common/utils.hpp>
 #include <rmf_plugins_common/readonly_common.hpp>
 
-using namespace ignition::gazebo;
-using namespace rmf_plugins_utils;
+namespace rmf_readonly_common {
 
-namespace rmf_ignition_plugins {
+using BuildingMap = building_map_msgs::msg::BuildingMap;
+using Level = building_map_msgs::msg::Level;
+using Graph = building_map_msgs::msg::Graph;
+using Location = rmf_fleet_msgs::msg::Location;
+using Path = std::vector<Location>;
 
-class IGNITION_GAZEBO_VISIBLE ReadonlyPlugin
-  : public System,
-  public ISystemConfigure,
-  public ISystemPreUpdate
+rclcpp::Logger ReadonlyCommon::logger()
 {
-public:
-  using BuildingMap = building_map_msgs::msg::BuildingMap;
-  using Level = building_map_msgs::msg::Level;
-  using Graph = building_map_msgs::msg::Graph;
-  using Location = rmf_fleet_msgs::msg::Location;
-  using Path = std::vector<Location>;
-
-  ReadonlyPlugin();
-  ~ReadonlyPlugin();
-  void Configure(const Entity& entity,
-    const std::shared_ptr<const sdf::Element>&,
-    EntityComponentManager& ecm, EventManager&) override;
-  void PreUpdate(const UpdateInfo& info, EntityComponentManager& ecm) override;
-  void map_cb(const BuildingMap::SharedPtr msg);
-
-private:
-  rclcpp::Node::SharedPtr _ros_node;
-  rclcpp::Logger logger();
-
-  void set_traits();
-  void initialize_graph();
-  void initialize_start(const ignition::math::Pose3d& pose);
-  double compute_ds(const ignition::math::Pose3d& pose, const std::size_t& wp);
-  std::size_t get_next_waypoint(const std::size_t start_wp,
-    const ignition::math::Vector3d& heading);
-  Path compute_path(const ignition::math::Pose3d& pose);
-
-  //gazebo::event::ConnectionPtr _update_connection;
-  //gazebo_ros::Node::SharedPtr _ros_node;
-  //gazebo::physics::ModelPtr _model;
-  Entity _en;
-  rclcpp::Publisher<rmf_fleet_msgs::msg::RobotState>::SharedPtr _robot_state_pub;
-  rclcpp::Subscription<BuildingMap>::SharedPtr _building_map_sub;
-
-  rmf_fleet_msgs::msg::RobotState _robot_state_msg;
-  rmf_fleet_msgs::msg::RobotMode _current_mode;
-
-  Path _path;
-
-  bool _found_level = false;
-  bool _found_graph = false;
-  bool _initialized_graph = false;
-  bool _initialized_start = false;
-
-  // Store cache of BuildingMap
-  // BuildingMap _map;
-  Level _level;
-  Graph _graph;
-
-  std::string _level_name = "L1";
-  std::size_t _nav_graph_index = 1;
-  std::string _start_wp_name = "caddy";
-  // The number of waypoints to add to the predicted path. Minimum is 1.
-  std::size_t _lookahead = 1;
-  std::size_t _start_wp;
-  std::vector<std::size_t> _next_wp;
-
-  std::unordered_map<std::size_t,
-    std::unordered_set<std::size_t>> _neighbor_map;
-
-  double _last_update_time = 0.0;
-  double _update_threshold = 0.5; // Update every 0.5s
-  double _waypoint_threshold = 2.0;
-
-  bool _merge_lane = false;
-  double _lane_threshold = 0.2; // meters
-
-  int _update_count = 0;
-  std::string _name;
-  std::string _current_task_id;
-
-  std::mutex _mutex;
-};
-
-ReadonlyPlugin::ReadonlyPlugin()
-//: _dispenser_common(std::make_unique<ReadonlyCommon>())
-{
-  // We do initialization only during ::Configure
+  return rclcpp::get_logger("read_only_" + name);
 }
 
-ReadonlyPlugin::~ReadonlyPlugin()
-{
-}
-
-rclcpp::Logger ReadonlyPlugin::logger()
-{
-  return rclcpp::get_logger("read_only_" + _name);
-}
-
-void ReadonlyPlugin::Configure(const Entity& entity,
-  const std::shared_ptr<const sdf::Element>& sdf,
-  EntityComponentManager& ecm, EventManager&)
+void ReadonlyCommon::init(rclcpp::Node::SharedPtr node)
 {
   _current_mode.mode = rmf_fleet_msgs::msg::RobotMode::MODE_MOVING;
-  _en = entity;
-  _name =
-    ecm.Component<components::Name>(_en)->Data();//to check if name exists
-  RCLCPP_INFO(logger(), "Setting name to: " + _name);
-  _ros_node = std::make_shared<rclcpp::Node>(_name);//gazebo_ros::Node::Get(sdf);
+  _current_task_id = "demo";
 
-  // Getting sdf elements
-  if (sdf->HasElement("level_name"))
-    _level_name = sdf->Get<std::string>("level_name");
-  RCLCPP_INFO(logger(), "Setting level name to: " + _level_name);
-
-  if (sdf->HasElement("graph_index"))
-    _nav_graph_index = sdf->Get<std::size_t>("graph_index");
-  RCLCPP_INFO(logger(), "Setting nav graph index: " + _nav_graph_index);
-
-  if (sdf->HasElement("spawn_waypoint"))
-    _start_wp_name = sdf->Get<std::string>("spawn_waypoint");
-  RCLCPP_INFO(logger(), "Setting start wp name: " + _start_wp_name);
-
-  if (sdf->HasElement("look_ahead"))
-    _lookahead = sdf->Get<std::size_t>("look_ahead");
-  _lookahead = _lookahead < 1 ? 1 : _lookahead;
-  _next_wp.resize(_lookahead);
-  _path.resize(_lookahead);
-  RCLCPP_INFO(logger(), "Setting lookahead: " + std::to_string(_lookahead));
-
-  if (sdf->HasElement("update_rate"))
-    _update_threshold = 1.0 / sdf->Get<double>("update_rate");
-  RCLCPP_INFO(logger(),
-    "Setting update threshold: " + std::to_string(_update_threshold));
-
-  if (sdf->HasElement("waypoint_threshold"))
-    _waypoint_threshold = sdf->Get<double>("waypoint_threshold");
-  RCLCPP_INFO(logger(),
-    "Setting waypoint threshold: " + std::to_string(_waypoint_threshold));
-
-  if (sdf->HasElement("merge_lane"))
-    _merge_lane = sdf->Get<bool>("merge_lane");
-  RCLCPP_INFO(logger(), "Setting merge lane: " + std::to_string(_merge_lane));
-
-  if (sdf->HasElement("lane_threshold"))
-    _lane_threshold = sdf->Get<double>("lane_threshold");
-  RCLCPP_INFO(logger(),
-    "Setting lane threshold: " + std::to_string(_lane_threshold));
-
-  RCLCPP_INFO(logger(), "hello i am " + _name);
+  _ros_node = std::move(node);
 
   _robot_state_pub =
     _ros_node->create_publisher<rmf_fleet_msgs::msg::RobotState>(
     "/robot_state", 10);
 
-  // Subscription to /map
   auto qos_profile = rclcpp::QoS(10);
   qos_profile.transient_local();
   _building_map_sub = _ros_node->create_subscription<BuildingMap>(
     "/map",
     qos_profile,
-    std::bind(&ReadonlyPlugin::map_cb, this, std::placeholders::_1));
-
-  _current_task_id = "demo";
+    std::bind(&ReadonlyCommon::map_cb, this, std::placeholders::_1));
 }
 
-void ReadonlyPlugin::PreUpdate(const UpdateInfo& info, EntityComponentManager& ecm)
+void ReadonlyCommon::on_update()
 {
   _update_count++;
-  //const auto& world = _model->GetWorld();
-  rclcpp::spin_some(_ros_node);//_ingestor_common->ros_node);
-  auto pose = ecm.Component<components::Pose>(_en)->Data();//_model->WorldPose();
-  //const double time = world->SimTime().Double();
 
-  const double time =// to check if actually double
-    std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count();
-
-  if (time - _last_update_time > _update_threshold) // todo: be smarter, use elapsed sim time
+  if (sim_time - _last_update_time > _update_threshold)
   {
     initialize_start(pose);
-    std::cout << "initialized: " << _initialized_start << std::endl;
-    _last_update_time = time;
-    const int32_t t_sec = static_cast<int32_t>(time);
+
+    _last_update_time = sim_time;
+    const int32_t t_sec = static_cast<int32_t>(sim_time);
     const uint32_t t_nsec =
-      static_cast<uint32_t>((time-static_cast<double>(t_sec)) *1e9);
+      static_cast<uint32_t>((sim_time - static_cast<double>(t_sec)) * 1e9);
     const rclcpp::Time now{t_sec, t_nsec, RCL_ROS_TIME};
 
-    _robot_state_msg.name = _name;//_model->GetName();
+    _robot_state_msg.name = name;
     _robot_state_msg.model = "";
     _robot_state_msg.task_id = _current_task_id;
     _robot_state_msg.mode = _current_mode;
@@ -243,17 +66,14 @@ void ReadonlyPlugin::PreUpdate(const UpdateInfo& info, EntityComponentManager& e
         RCLCPP_INFO(logger(), "Reached waypoint [%d,%s]",
           _next_wp[0], _graph.vertices[_next_wp[0]].name.c_str());
       }
-      std::cout << "Computing path: " << std::endl;
       _robot_state_msg.path = compute_path(pose);
-      std::cout << _robot_state_msg.path.size() << std::endl;
     }
 
-    std::cout << "Publishing state: " << _robot_state_msg.name << " " << _robot_state_msg.location.x << std::endl;
     _robot_state_pub->publish(_robot_state_msg);
   }
 }
 
-void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
+void ReadonlyCommon::map_cb(const BuildingMap::SharedPtr msg)
 {
   if (msg->levels.empty())
   {
@@ -281,7 +101,6 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
         RCLCPP_INFO(logger(), "Graph index [%d] containts [%d] waypoints",
           _nav_graph_index,
           level.nav_graphs[_nav_graph_index].vertices.size());
-        std::cout << "initializing graph " << std::endl;
         initialize_graph();
       }
       else
@@ -300,7 +119,7 @@ void ReadonlyPlugin::map_cb(const BuildingMap::SharedPtr msg)
       _level_name.c_str());
 }
 
-void ReadonlyPlugin::initialize_graph()
+void ReadonlyCommon::initialize_graph()
 {
   if (!_found_graph)
     return;
@@ -349,7 +168,7 @@ void ReadonlyPlugin::initialize_graph()
   _initialized_graph = true;
 }
 
-double ReadonlyPlugin::compute_ds(
+double ReadonlyCommon::compute_ds(
   const ignition::math::Pose3d& pose,
   const std::size_t& wp)
 {
@@ -366,16 +185,14 @@ double ReadonlyPlugin::compute_ds(
   return std::abs((world_position - graph_position).Length());
 }
 
-void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
+void ReadonlyCommon::initialize_start(const ignition::math::Pose3d& pose)
 {
   if (_initialized_start)
     return;
 
-  std::cout << "trying to initialize " << std::endl;
   if (!_initialized_graph)
     return;
 
-  std::cout << "initializing start..................." << std::endl;
   bool found = false;
   for (std::size_t i = 0; i < _graph.vertices.size(); i++)
   {
@@ -387,11 +204,11 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
     }
   }
 
-  // TODO find the closest wp if the coordiantes do not match
+  // TODO find the closest wp if the coordinates do not match
   if (found && compute_ds(pose, _start_wp) < 1e-1)
   {
     _initialized_start = true;
-    // Here we initialzie the next waypoint
+    // Here we initialize the next waypoint
     compute_path(pose);
     RCLCPP_INFO(logger(), "Start waypoint successfully initialized");
   }
@@ -414,7 +231,7 @@ void ReadonlyPlugin::initialize_start(const ignition::math::Pose3d& pose)
   }
 }
 
-std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
+std::size_t ReadonlyCommon::get_next_waypoint(const std::size_t start_wp,
   const ignition::math::Vector3d& heading)
 {
   // Return the waypoint closest to the robot in the direction of its heading
@@ -442,10 +259,10 @@ std::size_t ReadonlyPlugin::get_next_waypoint(const std::size_t start_wp,
   return *wp_it;
 }
 
-ReadonlyPlugin::Path ReadonlyPlugin::compute_path(
+ReadonlyCommon::Path ReadonlyCommon::compute_path(
   const ignition::math::Pose3d& pose)
 {
-  Path path;
+  ReadonlyCommon::Path path;
   path.resize(_lookahead);
 
   auto start_wp = _start_wp;
@@ -454,9 +271,9 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(
     std::cos(current_yaw), std::sin(current_yaw), 0.0};
 
   auto make_location =
-    [=](double x, double y) -> Location
+    [=](double x, double y) -> ReadonlyCommon::Location
     {
-      Location location;
+      ReadonlyCommon::Location location;
       location.x = x;
       location.y = y;
       location.level_name = _level_name;
@@ -525,13 +342,4 @@ ReadonlyPlugin::Path ReadonlyPlugin::compute_path(
 
 }
 
-IGNITION_ADD_PLUGIN(
-  ReadonlyPlugin,
-  System,
-  ReadonlyPlugin::ISystemConfigure,
-  ReadonlyPlugin::ISystemPreUpdate)
-
-// TODO would prefer namespaced
-IGNITION_ADD_PLUGIN_ALIAS(ReadonlyPlugin, "readonly")
-
-} // namespace rmf_ignition_plugins
+} // namespace rmf_readonly_common
