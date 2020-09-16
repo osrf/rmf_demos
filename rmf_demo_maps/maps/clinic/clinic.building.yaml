@@ -17,6 +17,8 @@ levels:
       - [59, 60, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L1_ward6_door], type: [1, hinged]}]
       - [61, 62, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L1_ward7_door], type: [1, hinged]}]
       - [64, 63, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, L1_pantry_door], type: [1, hinged]}]
+    drawing:
+      filename: clinic.png
     elevation: 0
     fiducials:
       - [497.467, 676.42, 1]
