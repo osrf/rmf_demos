@@ -109,7 +109,7 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos office_delivery.launch.xml
 ```
 
-![](docs/docs/media/delivery_request.gif)
+![](docs/media/delivery_request.gif)
 
 To request each of the TinyRobot to loop between two points,
 Select desired `Start` and `End` waypoints using the `RMF Panel` and click the `Send Loop Request` button. Alternatively,
