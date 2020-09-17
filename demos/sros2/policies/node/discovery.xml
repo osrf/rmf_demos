@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<profile>
-  <topics publish="ALLOW" subscribe="ALLOW" >
-    <topic>/ros_discovery_info</topic>
-  </topics>
-</profile>
