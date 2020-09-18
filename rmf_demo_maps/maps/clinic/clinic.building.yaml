@@ -19,13 +19,13 @@ levels:
       - [64, 63, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, L1_pantry_door], type: [1, hinged]}]
     drawing:
       filename: clinic.png
-    elevation: 0.01
+    elevation: 0.05
     fiducials:
       - [31.331, 19.383, 1]
       - [356.029, 19.896, 2]
       - [35.111, 795.04, 3]
-    flattened_x_offset: -400
-    flattened_y_offset: -530
+    flattened_x_offset: 0
+    flattened_y_offset: 0
     floors:
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [65, 68, 67, 66, 86, 85, 84, 83, 82, 81, 80, 6, 5, 73, 74, 75, 76, 77, 78, 79]
