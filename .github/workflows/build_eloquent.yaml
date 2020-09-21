@@ -52,4 +52,4 @@ jobs:
           rmf_demo_maps \
           rmf_demo_tasks \
           rmf_gazebo_plugins \
-          rmf_rviz_plugin 
+          rmf_rviz_plugin
