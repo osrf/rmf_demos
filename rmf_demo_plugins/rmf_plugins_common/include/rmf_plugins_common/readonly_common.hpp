@@ -47,17 +47,22 @@ public:
   using Path = std::vector<Location>;
 
   rclcpp::Node::SharedPtr ros_node;
-  std::string name;
-  Eigen::Isometry3d pose;
-  double sim_time = 0.0;
 
+  void set_name(const std::string& name);
+  std::string get_name() const;
   rclcpp::Logger logger();
   template<typename SdfPtrT>
   void read_sdf(SdfPtrT& sdf);
   void init(rclcpp::Node::SharedPtr node);
-  void on_update();
+  void on_update(Eigen::Isometry3d& pose, double sim_time);
 
 private:
+  std::string _name = "caddy"; // Placeholder
+
+  // Updated in each on_update() call
+  Eigen::Isometry3d _pose;
+  double _sim_time = 0.0;
+
   rclcpp::Publisher<rmf_fleet_msgs::msg::RobotState>::SharedPtr _robot_state_pub;
   rclcpp::Subscription<BuildingMap>::SharedPtr _building_map_sub;
 
@@ -70,7 +75,6 @@ private:
   bool _initialized_start = false;
 
   // Store cache of BuildingMap
-  // BuildingMap _map;
   Path _path;
   Level _level;
   Graph _graph;
@@ -91,12 +95,11 @@ private:
   double _waypoint_threshold = 2.0;
 
   bool _merge_lane = false;
-  double _lane_threshold = 0.2; // meters
+  double _lane_threshold = 0.2; // Meters
 
-  int _update_count = 0;
   std::string _current_task_id;
 
-  std::mutex _mutex;
+  std::mutex _graph_update_mutex;
 
   void map_cb(const BuildingMap::SharedPtr msg);
   void initialize_graph();

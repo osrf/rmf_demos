@@ -26,6 +26,8 @@
 #include <memory>
 #include <unordered_map>
 
+#include <Eigen/Geometry>
+
 #include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <building_map_msgs/msg/building_map.hpp>
 #include <building_map_msgs/msg/level.hpp>
@@ -45,6 +47,8 @@ private:
   std::unique_ptr<rmf_readonly_common::ReadonlyCommon> _readonly_common;
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
+  Eigen::Isometry3d _pose;
+  double _sim_time = 0.0;
 };
 
 ReadonlyPlugin::ReadonlyPlugin()
@@ -55,11 +59,9 @@ ReadonlyPlugin::ReadonlyPlugin()
 void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 {
   _model = model;
-  _readonly_common->name = _model->GetName();
+  _readonly_common->set_name(_model->GetName());
   _readonly_common->read_sdf(sdf);
   _readonly_common->init(gazebo_ros::Node::Get(sdf));
-
-  RCLCPP_INFO(_readonly_common->logger(), "hello i am " + model->GetName());
 
   _update_connection = gazebo::event::Events::ConnectWorldUpdateBegin(
     std::bind(&ReadonlyPlugin::OnUpdate, this));
@@ -68,10 +70,9 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 void ReadonlyPlugin::OnUpdate()
 {
   const auto& world = _model->GetWorld();
-  _readonly_common->pose =
-    rmf_plugins_utils::convert_pose(_model->WorldPose());
-  _readonly_common->sim_time = world->SimTime().Double();
-  _readonly_common->on_update();
+  _pose = rmf_plugins_utils::convert_pose(_model->WorldPose());
+  _sim_time = world->SimTime().Double();
+  _readonly_common->on_update(_pose, _sim_time);
 }
 
 GZ_REGISTER_MODEL_PLUGIN(ReadonlyPlugin)

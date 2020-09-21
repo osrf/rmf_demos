@@ -19,9 +19,19 @@ static double compute_yaw(const Eigen::Isometry3d& pose)
   return yaw;
 }
 
+void ReadonlyCommon::set_name(const std::string& name)
+{
+  _name = name;
+}
+
+std::string ReadonlyCommon::get_name() const
+{
+  return _name;
+}
+
 rclcpp::Logger ReadonlyCommon::logger()
 {
-  return rclcpp::get_logger("read_only_" + name);
+  return rclcpp::get_logger("read_only_" + _name);
 }
 
 void ReadonlyCommon::init(rclcpp::Node::SharedPtr node)
@@ -41,42 +51,45 @@ void ReadonlyCommon::init(rclcpp::Node::SharedPtr node)
     "/map",
     qos_profile,
     std::bind(&ReadonlyCommon::map_cb, this, std::placeholders::_1));
+
+  RCLCPP_INFO(logger(), "hello i am " + _name);
 }
 
-void ReadonlyCommon::on_update()
+void ReadonlyCommon::on_update(Eigen::Isometry3d& pose, double sim_time)
 {
-  _update_count++;
+  _sim_time = sim_time;
+  _pose = pose;
 
-  if (sim_time - _last_update_time > _update_threshold)
+  if (_sim_time - _last_update_time > _update_threshold)
   {
-    initialize_start(pose);
+    initialize_start(_pose);
 
-    _last_update_time = sim_time;
+    _last_update_time = _sim_time;
     const rclcpp::Time now(
-      std::move(rmf_plugins_utils::simulation_now(sim_time)));
+      std::move(rmf_plugins_utils::simulation_now(_sim_time)));
 
     constexpr double battery_percent = 98.0;
-    _robot_state_msg.name = name;
+    _robot_state_msg.name = _name;
     _robot_state_msg.model = "";
     _robot_state_msg.task_id = _current_task_id;
     _robot_state_msg.mode = _current_mode;
     _robot_state_msg.battery_percent = battery_percent;
 
-    _robot_state_msg.location.x = pose.translation()[0];
-    _robot_state_msg.location.y = pose.translation()[1];
-    _robot_state_msg.location.yaw = compute_yaw(pose);
+    _robot_state_msg.location.x = _pose.translation()[0];
+    _robot_state_msg.location.y = _pose.translation()[1];
+    _robot_state_msg.location.yaw = compute_yaw(_pose);
     _robot_state_msg.location.t = now;
     _robot_state_msg.location.level_name = _level_name;
 
     if (_initialized_start)
     {
-      if (compute_ds(pose, _next_wp[0]) <= _waypoint_threshold)
+      if (compute_ds(_pose, _next_wp[0]) <= _waypoint_threshold)
       {
         _start_wp = _next_wp[0];
         RCLCPP_INFO(logger(), "Reached waypoint [%d,%s]",
           _next_wp[0], _graph.vertices[_next_wp[0]].name.c_str());
       }
-      _robot_state_msg.path = compute_path(pose);
+      _robot_state_msg.path = compute_path(_pose);
     }
 
     _robot_state_pub->publish(_robot_state_msg);
@@ -134,7 +147,7 @@ void ReadonlyCommon::initialize_graph()
   if (!_found_graph)
     return;
 
-  std::lock_guard<std::mutex> lock(_mutex);
+  std::lock_guard<std::mutex> lock(_graph_update_mutex);
 
   _initialized_graph = false;
 
@@ -298,7 +311,7 @@ ReadonlyCommon::Path ReadonlyCommon::compute_path(
 
   for (std::size_t i = 0; i < _lookahead; i++)
   {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::mutex> lock(_graph_update_mutex);
     auto wp = get_next_waypoint(start_wp, heading);
     _next_wp[i] = wp;
     // Add to path here

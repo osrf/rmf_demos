@@ -26,6 +26,8 @@
 
 #include <memory>
 
+#include <Eigen/Geometry>
+
 #include <rmf_fleet_msgs/msg/robot_state.hpp>
 #include <building_map_msgs/msg/building_map.hpp>
 #include <building_map_msgs/msg/level.hpp>
@@ -54,6 +56,8 @@ private:
   std::unique_ptr<rmf_readonly_common::ReadonlyCommon> _readonly_common;
   rclcpp::Node::SharedPtr _ros_node;
   Entity _en;
+  Eigen::Isometry3d _pose;
+  double _sim_time = 0.0;
 };
 
 ReadonlyPlugin::ReadonlyPlugin()
@@ -66,32 +70,26 @@ void ReadonlyPlugin::Configure(const Entity& entity,
   EntityComponentManager& ecm, EventManager&)
 {
   _en = entity;
-  if (!ecm.EntityHasComponentType(_en, components::Name().TypeId()))
-  {
-    _readonly_common->name = "caddy"; // Placeholder name
-  }
-  else
-  {
-    _readonly_common->name =
-      ecm.Component<components::Name>(_en)->Data();
-  }
-  _readonly_common->read_sdf(sdf);
-  _ros_node = std::make_shared<rclcpp::Node>(_readonly_common->name);
-  _readonly_common->init(_ros_node);
 
-  RCLCPP_INFO(_readonly_common->logger(),
-    "hello i am " + _readonly_common->name);
+  if (ecm.EntityHasComponentType(_en, components::Name().TypeId()))
+  {
+    _readonly_common->set_name(ecm.Component<components::Name>(_en)->Data());
+  }
+
+  _readonly_common->read_sdf(sdf);
+  _ros_node = std::make_shared<rclcpp::Node>(_readonly_common->get_name());
+  _readonly_common->init(_ros_node);
 }
 
 void ReadonlyPlugin::PreUpdate(const UpdateInfo& info,
   EntityComponentManager& ecm)
 {
-  _readonly_common->pose = rmf_plugins_utils::convert_pose(
+  _pose = rmf_plugins_utils::convert_pose(
     ecm.Component<components::Pose>(_en)->Data());
-  _readonly_common->sim_time =
+  _sim_time =
     std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count();
   rclcpp::spin_some(_readonly_common->ros_node);
-  _readonly_common->on_update();
+  _readonly_common->on_update(_pose, _sim_time);
 }
 
 IGNITION_ADD_PLUGIN(
