@@ -3,24 +3,21 @@ on: [push, pull_request]
 jobs:
 
   ros2:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     container:
-      image: docker://ros:eloquent-ros-base-bionic
+      image: docker://ros:foxy-ros-base-focal
     steps:
     - name: non-ros-deps
       run: |
         sudo apt update
         sudo apt install -y wget
-        echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
+        sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
         wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add -
         
         sudo apt update && sudo apt install \
           git cmake python3-vcstool curl \
           qt5-default \
-          libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-random-dev \
           python3-shapely python3-yaml python3-requests \
-          libignition-common3-dev libignition-plugin-dev \
-          g++-8 \
           -y
 
     - name: workspace
@@ -40,16 +37,10 @@ jobs:
       run: |
         cd rmf_demos_ws
         rosdep update
-        rosdep install --from-paths src --ignore-src --rosdistro eloquent -yr
+        rosdep install --from-paths src --ignore-src --rosdistro foxy -yr
     - name: build
       shell: bash
       run: |
         cd rmf_demos_ws
-        source /opt/ros/eloquent/setup.bash
-        CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE -DNO_DOWNLOAD_MODELS=True --packages-up-to \
-          demos \
-          rmf_demo_assets \
-          rmf_demo_maps \
-          rmf_demo_tasks \
-          rmf_gazebo_plugins \
-          rmf_rviz_plugin 
+        source /opt/ros/foxy/setup.bash
+        colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE -DNO_DOWNLOAD_MODELS=True

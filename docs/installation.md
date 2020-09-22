@@ -16,10 +16,7 @@ Install all non-ROS dependencies of RMF packages,
 sudo apt update && sudo apt install \
   git cmake python3-vcstool curl \
   qt5-default \
-  libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-random-dev \
   python3-shapely python3-yaml python3-requests \
-  libignition-common3-dev libignition-plugin-dev \
-  g++-8 \
   -y
 ```
 
@@ -43,7 +40,7 @@ The models required for each of the demo worlds will be automatically downloaded
 
 ## Compiling Instructions
 
-#### Ubuntu 20.04 and ROS 2 Foxy:
+#### Ubuntu 20.04:
 
 ```bash
 cd ~/rmf_demos_ws
@@ -51,11 +48,17 @@ source /opt/ros/foxy/setup.bash
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
 ```
 
-#### Ubuntu 18.04 and ROS 2 Eloquent:
+#### Ubuntu 18.04:
+
+Running on Ubuntu 18.04 is not officially supported and requires building [Foxy from source](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Development-Setup/), you will also need to install g++8 and the ignition libraries manually:
+
+```
+sudo apt install g++-8 libignition-common3-dev libigion-plugin-dev -y
+```
 
 ```bash
 cd ~/rmf_demos_ws
-source /opt/ros/eloquent/setup.bash
+source ~/ros2_foxy/install/setup.bash
 CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
 ```
 > Note: The build will fail if the compiler is not set to g++ version 8 or above.
