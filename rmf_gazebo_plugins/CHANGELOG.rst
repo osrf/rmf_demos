@@ -5,6 +5,12 @@ Changelog for package rmf_gazebo_plugins
 Forthcoming
 -----------
 
+1.1.0 (2020-09-23)
+------------------
+* Support cross-compiling with ROS 2 Foxy and Eloquent. [#103](https://github.com/osrf/rmf_demos/pull/103)
+* TeleportIngestorPlugin uses rmf_ingestor_msgs. [#117](https://github.com/osrf/rmf_demos/pull/117)
+* Modularized Readonly TeleportIngestorPlugin and TeleportDispenserPlugin to support both Gazebo and Ignition simulations. [#124, #134](https://github.com/osrf/rmf_demos/pull/124) 
+
 1.0.0 (2020-06-24)
 ------------------
 * Provides the `readonly` Gazebo plugin that emulates the behavior of a `read_only` fleet type. When attached to a steerable vehicle that operates on a known traffic graph, the plugin publishes a prediction of the vehicle's intended path to the `rmf traffic database` via its configured `read_only_fleet_adapter`. Other fleets operating in the space can plan routes to avoid the path of this vehicle.
