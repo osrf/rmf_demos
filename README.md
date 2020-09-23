@@ -152,7 +152,7 @@ gzserver --verbose -s libgazebo_ros_factory.so -s libgazebo_ros_init.so install/
 
 ```bash
 source gazebo_environment.sh
-gzclient --verbose ./rmf_demo_maps/share/rmf_demo_maps/maps/office/office.world
+gzclient --verbose ./install/rmf_demo_maps/share/rmf_demo_maps/maps/office/office.world
 ```
 
 ```bash
