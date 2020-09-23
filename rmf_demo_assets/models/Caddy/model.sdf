@@ -126,6 +126,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -528,6 +534,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -588,6 +600,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -647,6 +665,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -728,6 +752,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -795,6 +825,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -839,6 +875,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -894,6 +936,12 @@
           </mesh>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -960,6 +1008,12 @@
           </cylinder-->
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/Ranger_Diffuse.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -1004,6 +1058,12 @@
           </box>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/FNR_switch_F.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
@@ -1019,6 +1079,12 @@
           </box>
         </geometry>
         <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <pbr>
+            <metal>
+              <albedo_map>model://Caddy/materials/textures/FNR_switch_R.png</albedo_map>
+            </metal>
+          </pbr>
           <script>
             <uri>model://Caddy/materials/scripts</uri>
             <uri>model://Caddy/materials/textures</uri>
