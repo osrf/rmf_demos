@@ -56,8 +56,6 @@ private:
   std::unique_ptr<rmf_readonly_common::ReadonlyCommon> _readonly_common;
   rclcpp::Node::SharedPtr _ros_node;
   Entity _en;
-  Eigen::Isometry3d _pose;
-  double _sim_time = 0.0;
 };
 
 ReadonlyPlugin::ReadonlyPlugin()
@@ -84,12 +82,12 @@ void ReadonlyPlugin::Configure(const Entity& entity,
 void ReadonlyPlugin::PreUpdate(const UpdateInfo& info,
   EntityComponentManager& ecm)
 {
-  _pose = rmf_plugins_utils::convert_pose(
+  auto pose = rmf_plugins_utils::convert_pose(
     ecm.Component<components::Pose>(_en)->Data());
-  _sim_time =
+  auto sim_time =
     std::chrono::duration_cast<std::chrono::seconds>(info.simTime).count();
   rclcpp::spin_some(_readonly_common->ros_node);
-  _readonly_common->on_update(_pose, _sim_time);
+  _readonly_common->on_update(pose, sim_time);
 }
 
 IGNITION_ADD_PLUGIN(

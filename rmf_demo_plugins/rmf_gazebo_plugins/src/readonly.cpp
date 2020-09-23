@@ -47,8 +47,6 @@ private:
   std::unique_ptr<rmf_readonly_common::ReadonlyCommon> _readonly_common;
   gazebo::event::ConnectionPtr _update_connection;
   gazebo::physics::ModelPtr _model;
-  Eigen::Isometry3d _pose;
-  double _sim_time = 0.0;
 };
 
 ReadonlyPlugin::ReadonlyPlugin()
@@ -70,9 +68,9 @@ void ReadonlyPlugin::Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf)
 void ReadonlyPlugin::OnUpdate()
 {
   const auto& world = _model->GetWorld();
-  _pose = rmf_plugins_utils::convert_pose(_model->WorldPose());
-  _sim_time = world->SimTime().Double();
-  _readonly_common->on_update(_pose, _sim_time);
+  auto pose = rmf_plugins_utils::convert_pose(_model->WorldPose());
+  auto sim_time = world->SimTime().Double();
+  _readonly_common->on_update(pose, sim_time);
 }
 
 GZ_REGISTER_MODEL_PLUGIN(ReadonlyPlugin)
