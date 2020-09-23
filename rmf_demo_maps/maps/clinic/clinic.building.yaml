@@ -207,7 +207,7 @@ levels:
       - {model_name: OpenRobotics/KitchenSink, name: KitchenSink, static: true, x: 77.827, y: 155.626, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/FemaleVisitor, name: FemaleVisitor, static: true, x: 171.032, y: 46.783, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/FemaleVisitor, name: FemaleVisitor, static: true, x: 128.802, y: 690.617, yaw: 0.0002, z: 0}
-      - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 258.034, y: 728.849, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 272.678, y: 713.038, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 104.976, y: 45.468, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/Ambulance2, name: Ambulance2, static: true, x: -106.441, y: 482.943, yaw: -3.1367, z: 0}
       - {model_name: OpenRobotics/SUV, name: SUV, static: true, x: -299.6, y: 625.228, yaw: 1.571, z: 0}
@@ -252,8 +252,8 @@ levels:
       - [134.425, 703.01, 0, ""]
       - [257.124, 19.037, 0, ""]
       - [258.157, 798.718, 0, ""]
-      - [134.113, 723.362, 0, ""]
-      - [258.39, 722.362, 0, ""]
+      - [134.381, 727.652, 0, ""]
+      - [258.488, 727.886, 0, ""]
       - [257.977, 665.476, 0, ""]
       - [353.421, 666.013, 0, ""]
       - [257.937, 582.905, 0, ""]
@@ -284,10 +284,10 @@ levels:
       - [-478.301, 840.218, 0, ""]
       - [393.535, 840.218, 0, ""]
       - [393.633, -27.674, 0, ""]
-      - [150.966, 722.778, 0, ""]
-      - [181.504, 722.804, 0, ""]
-      - [211.463, 722.549, 0, ""]
-      - [241.435, 722.37, 0, ""]
+      - [151.399, 727.669, 0, ""]
+      - [183.088, 727.717, 0, ""]
+      - [210, 727.622, 0, ""]
+      - [241.5, 727.811, 0, ""]
       - [-35.586, 350.184, 0, ""]
       - [-142.097, 350.184, 0, ""]
       - [-239.649, 349.17, 0, ""]
@@ -618,7 +618,7 @@ levels:
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 344.188, y: 171.723, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 345.351, y: 78.264, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/BloodPressureMonitor, name: BloodPressureMonitor, static: true, x: 43.871, y: 69.017, yaw: 1.571, z: 0}
-      - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 249.144, y: 714.497, yaw: 1.571, z: 0}
+      - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 247.449, y: 711.645, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 168.765, y: 55.767, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MaleVisitorOnPhone, name: MaleVisitorOnPhone, static: true, x: 283.085, y: 45.616, yaw: 1.571, z: 0}
       - {model_name: OpenRobotics/MiniSofa, name: MiniSofa, static: true, x: 44.142, y: 88.551, yaw: 3.1418, z: 0}
@@ -633,8 +633,8 @@ levels:
       - [136.163, 19.526, 0, ""]
       - [259.919, 19.526, 0, ""]
       - [260.458, 794.0410000000001, 0, ""]
-      - [135.114, 723.3579999999999, 0, ""]
-      - [260.245, 723.357, 0, ""]
+      - [135.286, 726.866, 0, ""]
+      - [259.771, 727.047, 0, ""]
       - [136.02, 660.6559999999999, 0, ""]
       - [31.524, 661.701, 0, ""]
       - [136.182, 588.5599999999999, 0, ""]
@@ -689,10 +689,10 @@ levels:
       - [259.935, 133.172, 0, ""]
       - [260.336, 108.211, 0, ""]
       - [259.835, 76.13200000000001, 0, ""]
-      - [240.103, 723.254, 0, ""]
-      - [212.945, 723.273, 0, ""]
-      - [180.175, 723.27, 0, ""]
-      - [153.114, 723.3049999999999, 0, ""]
+      - [241.577, 727.139, 0, ""]
+      - [210.377, 727.139, 0, ""]
+      - [182.581, 727.092, 0, ""]
+      - [150.53, 726.997, 0, ""]
       - [93.447, 302.389, 0, L2_dispensary2, {is_holding_point: [4, true]}]
       - [153.884, 303.408, 0, "", {is_passthrough_point: [4, true]}]
       - [153.353, 461.688, 0, "", {is_passthrough_point: [4, true]}]
@@ -1030,8 +1030,8 @@ levels:
       - [134.201, 588.921, 0, ""]
       - [33.769, 661.25, 0, ""]
       - [134.218, 661.25, 0, ""]
-      - [134.084, 723.117, 0, ""]
-      - [258.467, 723.109, 0, ""]
+      - [133.592, 726.501, 0, ""]
+      - [257.918, 726.683, 0, ""]
       - [258.466, 660.8869999999999, 0, ""]
       - [356.352, 660.789, 0, ""]
       - [356.352, 580.355, 0, ""]
@@ -1070,10 +1070,10 @@ levels:
       - [135.977, 150.545, 0, ""]
       - [135.848, 179.843, 0, ""]
       - [135.568, 207.738, 0, ""]
-      - [152.715, 723.138, 0, ""]
-      - [179.992, 723.1180000000001, 0, ""]
-      - [212.425, 723.1079999999999, 0, ""]
-      - [240.393, 723.21, 0, ""]
+      - [150.212, 726.802, 0, ""]
+      - [183.089, 726.912, 0, ""]
+      - [209.039, 727.022, 0, ""]
+      - [241.751, 727.022, 0, ""]
       - [85.321, 523.755, 0, deliveryRobot_charger3, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true]}]
       - [151.833, 570.256, 0, "", {is_passthrough_point: [4, true]}]
       - [86.30200000000001, 570.308, 0, L3_office2, {is_passthrough_point: [4, true]}]
