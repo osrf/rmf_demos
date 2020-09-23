@@ -70,7 +70,7 @@ ros2 launch demos office_loop.launch.xml
 
 ![](docs/media/loop_request.gif)
 
-#### Secure Ros2 Office Demo
+#### Secure ROS 2 Office Demo
 
 The office demo can be run in secure mode using the [ROS 2 DDS-Security integration](https://design.ros2.org/articles/ros2_dds_security.html) (SROS2) capabilities. This security features will provide encryption, authentication and access control to the whole ROS2 setup of RMF.
 
