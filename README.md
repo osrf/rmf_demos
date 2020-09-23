@@ -74,7 +74,7 @@ ros2 launch demos office_loop.launch.xml
 
 The office demo can be run in secure mode using the [ROS 2 DDS-Security integration](https://design.ros2.org/articles/ros2_dds_security.html) (SROS2) capabilities. This security features will provide encryption, authentication and access control to the whole ROS2 setup of RMF.
 
-To use ROS2 to secure the office demo a few environmental variables need to be set. Adding them to a script would make it easier to source them in any shell where we need to run ros2 secured nodes.
+To use ROS 2 to secure the office demo a few environmental variables need to be set. Adding them to a script would make it easier to source them in any shell where we need to run ROS 2 secured nodes.
 
 ```bash
 echo 'export ROS_SECURITY_KEYSTORE=~/rmf_demos_ws/keystore
