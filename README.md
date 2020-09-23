@@ -97,7 +97,7 @@ It is recommended to use `cyclone dds` with the secure version of the demo, make
 echo 'export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp' >> sros2_environment.sh
 ```
 
-Because SROS2 does not support `ros2 launch` yet all the different nodes will have to be launched individually. A `yaml` file with the parameters of all the nodes is provided. One terminal per execution is recommended for an easier debug of the system. Make sure you `source /opt/ros/foxy/setup.bash` and `source ~/rmf_demos_ws/install/setup.bash` in each of them before executing the different commands.
+Because SROS2 does not support `ros2 launch` yet all the different nodes will have to be launched individually. A `yaml` file with the parameters of all the nodes is provided. One terminal per execution is recommended for an easier debug of the system. Make sure you `source ~/rmf_demos_ws/install/setup.bash` in each of them before executing the different commands.
 
 ```bash
 source sros2_environment.sh
