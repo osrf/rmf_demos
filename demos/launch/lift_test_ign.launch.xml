@@ -28,6 +28,10 @@
         name="IGN_GAZEBO_SYSTEM_PLUGIN_PATH"
         value="$(var plugin_path)"/>
 
+     <env
+        name="IGN_GUI_PLUGIN_PATH"
+        value="$(var plugin_path)"/>
+
     </executable>
   </group>
 
