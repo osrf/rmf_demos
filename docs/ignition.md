@@ -1,9 +1,4 @@
-# Install ignition from source
-
-Note! ROS2 Foxy is recommended since it includes a fix in urdfdom that breaks builds
-
-Until ignition-dome gets released (Estimated end of 2020) it is needed to build it from source.
-To do so:
+Note, ROS2 Foxy on Ubuntu 20.04 with Ignition Dome is the only supported setup.
 
 1. Start by setting up your system dependencies:
 
@@ -12,14 +7,25 @@ To do so:
     wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
     sudo apt-get update
     
-    sudo apt install git python3-pip g++-8
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+    sudo apt install git python3-pip
     
     pip3 install vcstool
     pip3 install -U colcon-common-extensions
     ```
 
-1. Install `ignition-dome` from source. Currently needs some specific branches from the file included in the wiki:
+# Binary installation
+
+The easiest way to setup ignition is to install from binaries:
+
+    ```
+    sudo apt install ignition-dome
+    ```
+
+Alternatively you can install it from source.
+
+# Source installation
+
+1. Install `ignition-dome` from source. The branches in the official guide can be used
 
     ```
     mkdir ws_dome/src -p
@@ -29,7 +35,8 @@ To do so:
 1. Use the provided `ign-dome.yaml` file and initialise the sources:
 
     ```
-    vcs import src < ~/demos_ws/src/rmf/rmf_demos/docs/ign-dome.yaml
+    wget https://raw.githubusercontent.com/ignition-tooling/gazebodistro/master/collection-dome.yaml
+    vcs import src < collection-dome.yaml
 
     ```
 
