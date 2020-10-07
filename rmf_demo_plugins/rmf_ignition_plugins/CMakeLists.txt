@@ -38,8 +38,12 @@ set(IGN_PLUGIN_VER 1)
 ign_find_package(ignition-common3 REQUIRED)
 set(IGN_COMMON_VER 3)
 ign_find_package(ignition-math6 REQUIRED)
-ign_find_package(sdformat10 REQUIRED)
 set(IGN_MATH_VER 6)
+ign_find_package(ignition-msgs6 REQUIRED)
+set(IGN_MSGS_VER 6)
+ign_find_package(ignition-transport9 REQUIRED)
+set(IGN_TRANSPORT_VER 9)
+ign_find_package(sdformat10 REQUIRED)
 
 find_package(Eigen3 REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -60,6 +64,8 @@ add_library(teleport_ingestor SHARED src/TeleportIngestor.cpp)
 ament_target_dependencies(teleport_ingestor
     ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}
+    ignition-msgs${IGN_MSGS_VER}
+    ignition-transport${IGN_TRANSPORT_VER}
     rmf_fleet_msgs
     rmf_ingestor_msgs
     rclcpp
@@ -83,6 +89,8 @@ add_library(teleport_dispenser SHARED src/TeleportDispenser.cpp)
 ament_target_dependencies(teleport_dispenser
     ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}
+    ignition-msgs${IGN_MSGS_VER}
+    ignition-transport${IGN_TRANSPORT_VER}
     rmf_fleet_msgs
     rmf_dispenser_msgs
     rclcpp
