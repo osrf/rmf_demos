@@ -28,6 +28,10 @@
         name="IGN_GAZEBO_SYSTEM_PLUGIN_PATH"
         value="$(var plugin_path)"/>
 
+     <env
+        name="IGN_GUI_PLUGIN_PATH"
+        value="$(var plugin_path)"/>
+
     </executable>
   </group>
 
@@ -37,7 +41,7 @@
     <include file="$(find-pkg-share demos)/include/adapters/tinyRobot_adapter.launch.xml">
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="$(var use_sim_time)"/>
-      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/office/nav_graphs/0.yaml" />
+      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/lift_test/nav_graphs/0.yaml" />
     </include>
     <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
       <arg name="robot_prefix" value="tinyRobot"/>
