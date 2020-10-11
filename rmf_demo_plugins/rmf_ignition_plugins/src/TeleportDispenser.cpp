@@ -136,12 +136,9 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
 {
   Entity base = base_obj.get_entity();
   const auto base_aabb = ecm.Component<components::AxisAlignedBox>(base);
-  std::cout << "Base aabb: " << base_aabb->Data().Max().X() << " " << base_aabb->Data().Max().Y() << " " << base_aabb->Data().Max().Z() << std::endl;
-  std::cout << "Base aabb size: " << base_aabb->Data().XLength() << " " << base_aabb->Data().YLength() << " " << base_aabb->Data().ZLength() << std::endl;
-  const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
-  std::cout << "Coke aabb: " << to_move_aabb->Data().Max().X() << " " << to_move_aabb->Data().Max().Y() << " " << to_move_aabb->Data().Max().Z() << std::endl;
-  std::cout << "Coke aabb size: " << to_move_aabb->Data().XLength() << " " << to_move_aabb->Data().YLength() << " " << to_move_aabb->Data().ZLength() << std::endl;
   const auto base_pose = ecm.Component<components::Pose>(base);
+  const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
+
   auto new_pose = ecm.Component<components::Pose>(base)->Data();
   if (!base_aabb || !to_move_aabb)
   {
@@ -153,10 +150,8 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   }
   else
   {
-    // Assumes base_pose is centered at corner of object
-    new_pose.SetZ(base_pose->Data().Pos().Z() + base_aabb->Data().ZLength()
-      + (0.5 * (to_move_aabb->Data().ZLength())));
-    std::cout << "new z value: " << new_pose.Z() << std::endl;
+    // Assumes new_pose z_value refers to bottom of object
+    new_pose.SetZ(base_aabb->Data().Max().Z());
   }
 
   auto cmd = ecm.Component<components::WorldPoseCmd>(to_move);
@@ -170,7 +165,7 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   // For Ignition slotcar plugin to know when an item has been dispensed to it
   // Necessary for TPE Plugin
   ignition::msgs::UInt64_V dispense_msg;
-  dispense_msg.add_data(google::protobuf::uint64(base));
+  dispense_msg.add_data(google::protobuf::uint64(base)); //Conversion from Entity -> uint64
   dispense_msg.add_data(google::protobuf::uint64(to_move));
   _item_dispensed_pub.Publish(dispense_msg);
 }
@@ -274,14 +269,16 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
   RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
     "Started TeleportIngestorPlugin node...");
 
-  create_dispenser_bounding_box(ecm);
-
+  // Needed for TPE plugin, so that subscriber knows when to move a payload that
+  // has been dispensed to it
   _item_dispensed_pub = _ign_node.Advertise<ignition::msgs::UInt64_V>(
     "/item_dispensed");
   if (!_item_dispensed_pub)
   {
     std::cerr << "Error advertising topic [/item_dispensed]" << std::endl;
   }
+
+  create_dispenser_bounding_box(ecm);
 }
 
 void TeleportDispenserPlugin::PreUpdate(const UpdateInfo& info,

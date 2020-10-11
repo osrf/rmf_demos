@@ -29,6 +29,8 @@
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/PoseCmd.hh>
 #include <ignition/gazebo/components/Static.hh>
+#include <ignition/gazebo/components/LinearVelocityCmd.hh>
+#include <ignition/gazebo/components/AngularVelocityCmd.hh>
 
 #include <ignition/msgs.hh>
 #include <ignition/transport.hh>
@@ -175,15 +177,28 @@ void TeleportIngestorPlugin::fill_robot_list(EntityComponentManager& ecm,
 // Moves the identified item to ingest from its current position to the ingestor
 void TeleportIngestorPlugin::transport_model(EntityComponentManager& ecm)
 {
+  // Ingestor assumes control of entity. Set its pose and cancel any pre-existing velocity cmds
   auto cmd = ecm.Component<components::WorldPoseCmd>(_ingested_entity);
   if (!cmd)
   {
     ecm.CreateComponent(_ingested_entity,
       components::WorldPoseCmd(ignition::math::Pose3<double>()));
   }
-
   auto new_pose = ecm.Component<components::Pose>(_ingestor)->Data();
   ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() = new_pose;
+
+  if (ecm.EntityHasComponentType(_ingested_entity,
+    components::LinearVelocityCmd().TypeId()))
+  {
+    ecm.Component<components::LinearVelocityCmd>(_ingested_entity)->Data() = {
+      0, 0, 0};
+  }
+  if (ecm.EntityHasComponentType(_ingested_entity,
+    components::AngularVelocityCmd().TypeId()))
+  {
+    ecm.Component<components::AngularVelocityCmd>(_ingested_entity)->Data() = {
+      0, 0, 0};
+  }
 
   // For Ignition slotcar plugin to know when an item has been ingested from it
   // Necessary for TPE Plugin
@@ -267,7 +282,9 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
   _ingestor_common->init_ros_node(_ros_node);
   RCLCPP_INFO(_ingestor_common->ros_node->get_logger(),
     "Started TeleportIngestorPlugin node...");
-  
+
+  // Needed for TPE plugin, so that subscriber knows when to stop moving a payload that
+  // has been ingested from it
   _item_ingested_pub = _ign_node.Advertise<ignition::msgs::UInt64>(
     "/item_ingested");
   if (!_item_ingested_pub)

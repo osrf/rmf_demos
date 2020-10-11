@@ -100,8 +100,6 @@ SimEntity TeleportDispenserPlugin::find_nearest_model(
 
 void TeleportDispenserPlugin::place_on_entity(const SimEntity& to_move)
 {
-  std::cout << "can: " << _item_model->BoundingBox() << std::endl;
-  std::cout << "robot: " << _world->ModelByName(to_move.get_name())->BoundingBox() << std::endl;
   _item_model->PlaceOnEntity(to_move.get_name());
 }
 
