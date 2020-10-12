@@ -136,7 +136,6 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
 {
   Entity base = base_obj.get_entity();
   const auto base_aabb = ecm.Component<components::AxisAlignedBox>(base);
-  const auto base_pose = ecm.Component<components::Pose>(base);
   const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
 
   auto new_pose = ecm.Component<components::Pose>(base)->Data();
@@ -255,7 +254,7 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
   EntityComponentManager& ecm, EventManager&)
 {
   char const** argv = NULL;
-  if (!rclcpp::is_initialized())
+  if (!rclcpp::ok())
     rclcpp::init(0, argv);
 
   _dispenser = entity;
@@ -275,7 +274,7 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
     "/item_dispensed");
   if (!_item_dispensed_pub)
   {
-    std::cerr << "Error advertising topic [/item_dispensed]" << std::endl;
+    ignwarn << "Error advertising topic [/item_dispensed]" << std::endl;
   }
 
   create_dispenser_bounding_box(ecm);

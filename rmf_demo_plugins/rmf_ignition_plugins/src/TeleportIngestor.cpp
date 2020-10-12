@@ -202,8 +202,8 @@ void TeleportIngestorPlugin::transport_model(EntityComponentManager& ecm)
 
   // For Ignition slotcar plugin to know when an item has been ingested from it
   // Necessary for TPE Plugin
-  ignition::msgs::UInt64 ingest_msg;
-  ingest_msg.set_data(google::protobuf::uint64(_ingested_entity));
+  ignition::msgs::Entity ingest_msg;
+  ingest_msg.set_id(_ingested_entity); // Implicit conversion to protobuf::uint64
   _item_ingested_pub.Publish(ingest_msg);
 }
 
@@ -271,7 +271,7 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
   EntityComponentManager& ecm, EventManager&)
 {
   char const** argv = NULL;
-  if (!rclcpp::is_initialized())
+  if (!rclcpp::ok())
     rclcpp::init(0, argv);
 
   _ingestor = entity;
@@ -285,11 +285,11 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
 
   // Needed for TPE plugin, so that subscriber knows when to stop moving a payload that
   // has been ingested from it
-  _item_ingested_pub = _ign_node.Advertise<ignition::msgs::UInt64>(
+  _item_ingested_pub = _ign_node.Advertise<ignition::msgs::Entity>(
     "/item_ingested");
   if (!_item_ingested_pub)
   {
-    std::cerr << "Error advertising topic [/item_ingested]" << std::endl;
+    ignwarn << "Error advertising topic [/item_ingested]" << std::endl;
   }
 }
 
