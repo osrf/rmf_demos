@@ -61,6 +61,7 @@
           <topics publish="ALLOW">
             <topic>map_markers</topic>
             <topic>schedule_markers</topic>
+            <topic>floorplan</topic>
           </topics>
         </profile>
         <profile node="viz" ns="/">
@@ -204,6 +205,17 @@
           <topics publish="ALLOW">
             <topic>door_requests</topic>
             <topic>door_supervisor_heartbeat</topic>
+          </topics>
+        </profile>
+      </profiles>
+    </enclave>
+    <enclave path="/office/gzclient">
+      <profiles>
+        <profile node="toggle_floors" ns="/">
+          <xi:include href="node.xml"
+            xpointer="xpointer(/profile/*)"/>
+          <topics subscribe="ALLOW">
+            <topic>fleet_states</topic>
           </topics>
         </profile>
       </profiles>
