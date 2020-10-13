@@ -74,6 +74,8 @@ ros2 launch demos office_loop.launch.xml
 
 The office demo can be run in secure mode using the [ROS 2 DDS-Security integration](https://design.ros2.org/articles/ros2_dds_security.html) (SROS2) capabilities. This security features will provide encryption, authentication and access control to the whole ROS2 setup of RMF.
 
+Because of the heavy development undergoing RMF, changes happen in a very fast manner. Therefore, the ROS 2 Access Control Policies declared in the `office.policy.xml` file are only guaranteed to work with the RMF release 1.1.X, so please set all the git repos of your RMF workspace to point to the tag `1.1.0`. Alternatively you could update the policies yourself to any later version of RMF (PRs are welcome if you do so :smirk:).
+
 To use ROS 2 to secure the office demo a few environmental variables need to be set. Adding them to a script would make it easier to source them in any shell where we need to run ROS 2 secured nodes.
 
 ```bash
@@ -147,8 +149,9 @@ export GAZEBO_MODEL_DATABASE_URI=""' > gazebo_environment.sh
 source sros2_environment.sh
 source gazebo_environment.sh
 gzserver --verbose -s libgazebo_ros_factory.so -s libgazebo_ros_init.so install/./rmf_demo_maps/share/rmf_demo_maps/maps/office/office.world --ros-args --enclave /office/gzserver
-
 ```
+
+Because of [#151](https://github.com/osrf/rmf_demos/issues/151), the ros node created by plugins run on gzclient will be left out of the secured network. This should only affect the `toggle_floors` plugin that runs on gzclient and is intended for multilevel demos.
 
 ```bash
 source gazebo_environment.sh
