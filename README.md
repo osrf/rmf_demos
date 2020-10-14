@@ -76,13 +76,13 @@ The office demo can be run in secure mode using the [ROS 2 DDS-Security integrat
 
 Because of the heavy development undergoing RMF, changes happen in a very fast manner. Therefore, the ROS 2 Access Control Policies declared in the `office.policy.xml` file are only guaranteed to work with the RMF release 1.1.X, so please set all the git repos of your RMF workspace to point to the tag `1.1.0`. Alternatively you could update the policies yourself to any later version of RMF (PRs are welcome if you do so :smirk:).
 
-There is an `tmux` based script that automates pane spliting and the execution of all the required commands to run the office demo. In order to run it this way just open a tmux terminal and run the script.
+There is a `tmux` based script that automates pane splitting and the execution of all the required commands to run the office demo. In order to run it this way just open a tmux terminal and run the script.
 
 ```
 bash ./install/demos/share/demos/sros2/office_deploy.bash
 ```
 
-Alongside the following steps can be used to run all required commands individually.
+Alongside, the following steps can be used to run all required commands individually.
 
 To use ROS 2 to secure the office demo a few environmental variables need to be set. Adding them to a script would make it easier to source them in any shell where we need to run ROS 2 secured nodes.
 
