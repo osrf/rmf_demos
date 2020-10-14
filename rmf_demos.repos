@@ -23,3 +23,7 @@ repositories:
     type: git
     url: https://github.com/osrf/ros_ign.git
     version: dashing
+  thirdparty/menge_core:
+    type: git
+    url: https://github.com/osrf/menge_core.git
+    version: master
