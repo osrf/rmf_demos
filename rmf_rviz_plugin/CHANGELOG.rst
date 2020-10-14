@@ -2,8 +2,13 @@
 Changelog for package rmf_rviz_plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.0 (2020-09-23)
+------------------
+* Use relative plugin path. [#95](https://github.com/osrf/rmf_demos/pull/95)
+* Foxy support. [#103](https://github.com/osrf/rmf_demos/issues/103)
+* Switch to using ament_target_dependencies. [#106](https://github.com/osrf/rmf_demos/pull/106)
+* Switch to using ament_export_targets. [#126](https://github.com/osrf/rmf_demos/pull/126)
+* Contributors: Aaron Chong, Kevin_Skywalker, Michael X. Grey, Yadu, ddengster, kevinskwk, mrushyendra
 
 1.0.0 (2020-06-24)
 ------------------
