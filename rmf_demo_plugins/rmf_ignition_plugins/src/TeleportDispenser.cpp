@@ -31,6 +31,9 @@
 
 #include <ignition/math/AxisAlignedBox.hh>
 
+#include <ignition/msgs.hh>
+#include <ignition/transport.hh>
+
 #include <rclcpp/rclcpp.hpp>
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
 
@@ -63,6 +66,9 @@ public:
 private:
   // Stores params representing state of Dispenser, and handles the main dispenser logic
   std::unique_ptr<TeleportDispenserCommon> _dispenser_common;
+
+  ignition::transport::Node _ign_node;
+  ignition::transport::Node::Publisher _item_dispensed_pub;
 
   Entity _dispenser;
   Entity _item_en; // Item that dispenser may contain
@@ -131,6 +137,7 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   Entity base = base_obj.get_entity();
   const auto base_aabb = ecm.Component<components::AxisAlignedBox>(base);
   const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
+
   auto new_pose = ecm.Component<components::Pose>(base)->Data();
   if (!base_aabb || !to_move_aabb)
   {
@@ -142,8 +149,8 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   }
   else
   {
-    new_pose.SetZ(base_aabb->Data().Max().Z() +
-      0.5*(to_move_aabb->Data().ZLength()));
+    // Assumes new_pose z_value refers to bottom of object
+    new_pose.SetZ(base_aabb->Data().Max().Z());
   }
 
   auto cmd = ecm.Component<components::WorldPoseCmd>(to_move);
@@ -153,6 +160,13 @@ void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
       components::WorldPoseCmd(ignition::math::Pose3<double>()));
   }
   ecm.Component<components::WorldPoseCmd>(to_move)->Data() = new_pose;
+
+  // For Ignition slotcar plugin to know when an item has been dispensed to it
+  // Necessary for TPE Plugin
+  ignition::msgs::UInt64_V dispense_msg;
+  dispense_msg.add_data(google::protobuf::uint64(base)); //Conversion from Entity -> uint64
+  dispense_msg.add_data(google::protobuf::uint64(to_move));
+  _item_dispensed_pub.Publish(dispense_msg);
 }
 
 void TeleportDispenserPlugin::fill_robot_list(EntityComponentManager& ecm,
@@ -240,7 +254,7 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
   EntityComponentManager& ecm, EventManager&)
 {
   char const** argv = NULL;
-  if (!rclcpp::is_initialized())
+  if (!rclcpp::ok())
     rclcpp::init(0, argv);
 
   _dispenser = entity;
@@ -253,6 +267,15 @@ void TeleportDispenserPlugin::Configure(const Entity& entity,
   _dispenser_common->init_ros_node(_ros_node);
   RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
     "Started TeleportIngestorPlugin node...");
+
+  // Needed for TPE plugin, so that subscriber knows when to move a payload that
+  // has been dispensed to it
+  _item_dispensed_pub = _ign_node.Advertise<ignition::msgs::UInt64_V>(
+    "/item_dispensed");
+  if (!_item_dispensed_pub)
+  {
+    ignwarn << "Error advertising topic [/item_dispensed]" << std::endl;
+  }
 
   create_dispenser_bounding_box(ecm);
 }

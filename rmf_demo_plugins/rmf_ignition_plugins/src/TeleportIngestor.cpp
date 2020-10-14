@@ -29,6 +29,11 @@
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/PoseCmd.hh>
 #include <ignition/gazebo/components/Static.hh>
+#include <ignition/gazebo/components/LinearVelocityCmd.hh>
+#include <ignition/gazebo/components/AngularVelocityCmd.hh>
+
+#include <ignition/msgs.hh>
+#include <ignition/transport.hh>
 
 #include <rclcpp/rclcpp.hpp>
 #include <rmf_fleet_msgs/msg/fleet_state.hpp>
@@ -66,6 +71,8 @@ private:
   Entity _ingested_entity; // Item that ingestor may contain
 
   rclcpp::Node::SharedPtr _ros_node;
+  ignition::transport::Node _ign_node;
+  ignition::transport::Node::Publisher _item_ingested_pub;
 
   SimEntity find_nearest_model(const EntityComponentManager& ecm,
     const std::vector<SimEntity>& robot_model_entities,
@@ -170,15 +177,34 @@ void TeleportIngestorPlugin::fill_robot_list(EntityComponentManager& ecm,
 // Moves the identified item to ingest from its current position to the ingestor
 void TeleportIngestorPlugin::transport_model(EntityComponentManager& ecm)
 {
+  // Ingestor assumes control of entity. Set its pose and cancel any pre-existing velocity cmds
   auto cmd = ecm.Component<components::WorldPoseCmd>(_ingested_entity);
   if (!cmd)
   {
     ecm.CreateComponent(_ingested_entity,
       components::WorldPoseCmd(ignition::math::Pose3<double>()));
   }
-
   auto new_pose = ecm.Component<components::Pose>(_ingestor)->Data();
   ecm.Component<components::WorldPoseCmd>(_ingested_entity)->Data() = new_pose;
+
+  if (ecm.EntityHasComponentType(_ingested_entity,
+    components::LinearVelocityCmd().TypeId()))
+  {
+    ecm.Component<components::LinearVelocityCmd>(_ingested_entity)->Data() = {
+      0, 0, 0};
+  }
+  if (ecm.EntityHasComponentType(_ingested_entity,
+    components::AngularVelocityCmd().TypeId()))
+  {
+    ecm.Component<components::AngularVelocityCmd>(_ingested_entity)->Data() = {
+      0, 0, 0};
+  }
+
+  // For Ignition slotcar plugin to know when an item has been ingested from it
+  // Necessary for TPE Plugin
+  ignition::msgs::Entity ingest_msg;
+  ingest_msg.set_id(_ingested_entity); // Implicit conversion to protobuf::uint64
+  _item_ingested_pub.Publish(ingest_msg);
 }
 
 void TeleportIngestorPlugin::send_ingested_item_home(
@@ -245,7 +271,7 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
   EntityComponentManager& ecm, EventManager&)
 {
   char const** argv = NULL;
-  if (!rclcpp::is_initialized())
+  if (!rclcpp::ok())
     rclcpp::init(0, argv);
 
   _ingestor = entity;
@@ -256,6 +282,15 @@ void TeleportIngestorPlugin::Configure(const Entity& entity,
   _ingestor_common->init_ros_node(_ros_node);
   RCLCPP_INFO(_ingestor_common->ros_node->get_logger(),
     "Started TeleportIngestorPlugin node...");
+
+  // Needed for TPE plugin, so that subscriber knows when to stop moving a payload that
+  // has been ingested from it
+  _item_ingested_pub = _ign_node.Advertise<ignition::msgs::Entity>(
+    "/item_ingested");
+  if (!_item_ingested_pub)
+  {
+    ignwarn << "Error advertising topic [/item_ingested]" << std::endl;
+  }
 }
 
 void TeleportIngestorPlugin::PreUpdate(const UpdateInfo& info,
