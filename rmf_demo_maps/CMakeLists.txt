@@ -47,17 +47,19 @@ foreach(path ${traffic_editor_paths})
     DEPENDS ${output_world_path}
   )
 
-  # second, generate the navmesh and required files
-  set(crowd_sim_config_resource ${output_dir}/config_resource/)
+  # second, generate the navmesh and required files for office as of now
+  if (${world_name} MATCHES "office")
+    set(crowd_sim_config_resource ${output_dir}/config_resource/)
 
-  add_custom_command(
-    OUTPUT ${world_name}_crowdsim
-    COMMAND ros2 run building_map_tools building_crowdsim ${map_path} ${crowd_sim_config_resource} ${output_world_path}
-    DEPENDS ${output_world_path}
-  )
-  add_custom_target(generate_${world_name}_crowdsim ALL
-    DEPENDS ${world_name}_crowdsim
-  )
+    add_custom_command(
+      OUTPUT ${world_name}_crowdsim
+      COMMAND ros2 run building_map_tools building_crowdsim ${map_path} ${crowd_sim_config_resource} ${output_world_path}
+      DEPENDS ${output_world_path}
+    )
+    add_custom_target(generate_${world_name}_crowdsim ALL
+      DEPENDS ${world_name}_crowdsim
+    )
+  endif()
 
   # now, generate the nav graphs
   set(output_nav_graphs_dir ${output_dir}/nav_graphs/)
