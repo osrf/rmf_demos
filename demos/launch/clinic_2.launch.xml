@@ -29,6 +29,21 @@
     </executable>
   </group>
 
+  <!-- DeliveryRobot fleet adapter and robot state aggregator needed for DeliveryRobot slotcar_plugin -->
+  <group>
+    <let name="fleet_name" value="deliveryRobot"/>
+    <include file="$(find-pkg-share demos)/include/adapters/deliveryRobot_adapter.launch.xml">
+      <arg name="fleet_name" value="$(var fleet_name)"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/clinic_2/nav_graphs/0.yaml" />
+    </include>
+    <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
+      <arg name="robot_prefix" value="deliveryRobot"/>
+      <arg name="fleet_name" value="$(var fleet_name)"/>
+      <arg name="use_sim_time" value="true"/>
+    </include>
+  </group>
+
   <!-- HospitalRobot fleet adapter and robot state aggregator needed for hospitalRobot slotcar_plugin -->
   <!-- <group>
     <let name="fleet_name" value="hospitalRobot"/>
@@ -54,21 +69,6 @@
     </include>
     <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
       <arg name="robot_prefix" value="tinyRobot"/>
-      <arg name="fleet_name" value="$(var fleet_name)"/>
-      <arg name="use_sim_time" value="true"/>
-    </include>
-  </group> -->
-
-  <!-- DeliveryRobot fleet adapter and robot state aggregator needed for DeliveryRobot slotcar_plugin -->
-  <!-- <group>
-    <let name="fleet_name" value="deliveryRobot"/>
-    <include file="$(find-pkg-share demos)/include/adapters/deliveryRobot_adapter.launch.xml">
-      <arg name="fleet_name" value="$(var fleet_name)"/>
-      <arg name="use_sim_time" value="true"/>
-      <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/clinic/nav_graphs/1.yaml" />
-    </include>
-    <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
-      <arg name="robot_prefix" value="deliveryRobot"/>
       <arg name="fleet_name" value="$(var fleet_name)"/>
       <arg name="use_sim_time" value="true"/>
     </include>
