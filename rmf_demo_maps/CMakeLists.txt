@@ -47,8 +47,8 @@ foreach(path ${traffic_editor_paths})
     DEPENDS ${output_world_path}
   )
 
-  # second, generate the navmesh and required files for office as of now
-  if (${world_name} MATCHES "office")
+  # second, generate the navmesh and required files for office and airport_terminal as of now
+  if (${world_name} MATCHES "office" OR ${world_name} MATCHES "airport_terminal")
     set(crowd_sim_config_resource ${output_dir}/config_resource/)
 
     add_custom_command(
