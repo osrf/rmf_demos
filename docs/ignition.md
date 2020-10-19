@@ -52,8 +52,8 @@ Alternatively you can install it from source.
     
 # Launch
 
-To launch any demo just append `_ign` to the launch file name, i.e. to launch the office demo:
+To launch a demo in ignition set the `use_ignition` parameter to 1, i.e. to launch the office demo:
 
   ```
-  ros2 launch demos office_ign.launch.xml
+  ros2 launch demos office.launch.xml use_ignition:=1
   ```
