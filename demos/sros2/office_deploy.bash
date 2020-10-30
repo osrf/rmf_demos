@@ -82,7 +82,7 @@ sleep 2
 
 ## Pane 8 ##
 
-echo "export GAZEBO_MODEL_PATH=$WORKSPACE/install/rmf_demo_maps/share/rmf_demo_maps/maps/office/models:$WORKSPACE/rmf_demos_ws/install/rmf_demo_assets/share/rmf_demo_assets/models:/usr/share/gazebo-11/models
+echo "export GAZEBO_MODEL_PATH=$WORKSPACE/install/rmf_demo_maps/share/rmf_demo_maps/maps/office/models:$WORKSPACE/install/rmf_demo_assets/share/rmf_demo_assets/models:/usr/share/gazebo-11/models
 export GAZEBO_RESOURCE_PATH=$WORKSPACE/install/rmf_demo_assets/share/rmf_demo_assets:/usr/share/gazebo-11
 export GAZEBO_PLUGIN_PATH=$WORKSPACE/install/rmf_gazebo_plugins/lib:$WORKSPACE/install/building_gazebo_plugins/lib/
 export GAZEBO_MODEL_DATABASE_URI=\"\"" > $WORKSPACE/gazebo_environment.bash
