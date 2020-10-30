@@ -171,6 +171,8 @@
             <topic>schedule_markers</topic>
             <topic>tf</topic>
             <topic>tf_static</topic>
+            <topic>floorplan_updates</topic>
+            <topic>floorplan</topic>
           </topics>
           <topics publish="ALLOW">
             <topic>clicked_point</topic>
