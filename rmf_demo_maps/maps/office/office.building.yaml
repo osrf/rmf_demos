@@ -1,45 +1,43 @@
-crowd_sim:
-  agent_groups:
-    - {agents_name: [tinyRobot2, tinyRobot1], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
-    - {agents_name: [], agents_number: 2, group_id: 1, profile_selector: human, state_selector: entry_lane, x: 13.16, y: -3.679}
-    - {agents_name: [], agents_number: 1, group_id: 2, profile_selector: human, state_selector: table_area, x: 13.39, y: -7.145}
-    - {agents_name: [], agents_number: 1, group_id: 3, profile_selector: human, state_selector: conf1, x: 22.67, y: -5.497}
-    - {agents_name: [], agents_number: 1, group_id: 4, profile_selector: human, state_selector: conf2, x: 6.14, y: -5.144}
-  agent_profiles:
-    - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
-    - {ORCA_tau: 1, ORCA_tauObst: 1, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: human, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.18}
-  enable: 1
-  goal_sets:
-    - {capacity: 3, set_area: [entry_lane], set_id: 0}
-    - {capacity: 3, set_area: [supplies], set_id: 1}
-    - {capacity: 3, set_area: [table_area], set_id: 2}
-    - {capacity: 10, set_area: [common], set_id: 3}
-    - {capacity: 5, set_area: [conf1], set_id: 4}
-    - {capacity: 5, set_area: [conf2], set_id: 5}
-    - {capacity: 2, set_area: [pantry], set_id: 6}
-  model_types:
-    - {animation: walk, animation_speed: 1.0, init_pose: [0, 0, 0, 0, 0, 0], model_uri: model://MaleVisitorPhone, typename: human}
-  obstacle_set: {class: 1, file_name: L1_navmesh.nav, type: nav_mesh}
-  states:
-    - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
-    - {final: 0, goal_set: 0, name: entry_lane, navmesh_file_name: L1_navmesh.nav}
-    - {final: 0, goal_set: 1, name: supplies, navmesh_file_name: L1_navmesh.nav}
-    - {final: 0, goal_set: 2, name: table_area, navmesh_file_name: L1_navmesh.nav}
-    - {final: 0, goal_set: 3, name: common, navmesh_file_name: L1_navmesh.nav}
-    - {final: 0, goal_set: 4, name: conf1, navmesh_file_name: L1_navmesh.nav}
-    - {final: 0, goal_set: 5, name: conf2, navmesh_file_name: L1_navmesh.nav}
-    - {final: 0, goal_set: 6, name: pantry, navmesh_file_name: L1_navmesh.nav}
-  transitions:
-    - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: common, weight: 1}, {name: entry_lane, weight: 1}, {name: table_area, weight: 1}], from: entry_lane, to: ""}
-    - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 25}, type: and}, Target: [{name: common, weight: 1}, {name: entry_lane, weight: 1}, {name: table_area, weight: 1}], from: supplies, to: ""}
-    - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: common, weight: 1}, {name: conf1, weight: 0.5}, {name: pantry, weight: 0.3}, {name: supplies, weight: 0.5}, {name: table_area, weight: 1}], from: table_area, to: ""}
-    - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: common, weight: 1}, {name: conf1, weight: 0.5}, {name: conf2, weight: 0.5}, {name: entry_lane, weight: 1}, {name: table_area, weight: 1}], from: common, to: ""}
-    - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 25}, type: and}, Target: [{name: common, weight: 1}, {name: conf1, weight: 1}, {name: entry_lane, weight: 1.5}, {name: table_area, weight: 1}], from: conf1, to: ""}
-    - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 25}, type: and}, Target: [{name: conf2, weight: 1}, {name: table_area, weight: 1}], from: conf2, to: ""}
-    - {Condition: {distance: 0.8, type: goal_reached}, Target: [{name: table_area, weight: 1}], from: pantry, to: table_area}
-  update_time_step: 0.1
 levels:
   L1:
+    crowd_sim:
+      external_agent_groups:
+        - {agents_name: [tinyRobot1, tinyRobot2], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
+      agent_profiles:
+        - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
+        - {ORCA_tau: 1, ORCA_tauObst: 1, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: human, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.18}
+        - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: basic, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.2}
+      enable: 1
+      goal_sets:
+        - {capacity: 3, set_area: [entry_lane], set_id: 0}
+        - {capacity: 3, set_area: [supplies], set_id: 1}
+        - {capacity: 3, set_area: [table_area], set_id: 2}
+        - {capacity: 10, set_area: [common], set_id: 3}
+        - {capacity: 5, set_area: [conf1], set_id: 4}
+        - {capacity: 5, set_area: [conf2], set_id: 5}
+        - {capacity: 2, set_area: [pantry], set_id: 6}
+      model_types:
+        - {animation: walk, animation_speed: 1.0,  typename: human}
+        - {animation: walk, animation_speed: 0.3, typename: basic}
+      obstacle_set: {class: 1, file_name: L1_navmesh.nav, type: nav_mesh}
+      states:
+        - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
+        - {final: 0, goal_set: 0, name: entry_lane, navmesh_file_name: L1_navmesh.nav}
+        - {final: 0, goal_set: 1, name: supplies, navmesh_file_name: L1_navmesh.nav}
+        - {final: 0, goal_set: 2, name: table_area, navmesh_file_name: L1_navmesh.nav}
+        - {final: 0, goal_set: 3, name: common, navmesh_file_name: L1_navmesh.nav}
+        - {final: 0, goal_set: 4, name: conf1, navmesh_file_name: L1_navmesh.nav}
+        - {final: 0, goal_set: 5, name: conf2, navmesh_file_name: L1_navmesh.nav}
+        - {final: 0, goal_set: 6, name: pantry, navmesh_file_name: L1_navmesh.nav}
+      transitions:
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: common, weight: 1}, {name: entry_lane, weight: 1}, {name: table_area, weight: 1}], from: entry_lane, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 25}, type: and}, Target: [{name: common, weight: 1}, {name: entry_lane, weight: 1}, {name: table_area, weight: 1}], from: supplies, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: common, weight: 1}, {name: conf1, weight: 0.5}, {name: pantry, weight: 0.3}, {name: supplies, weight: 0.5}, {name: table_area, weight: 1}], from: table_area, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: common, weight: 1}, {name: conf1, weight: 0.5}, {name: conf2, weight: 0.5}, {name: entry_lane, weight: 1}, {name: table_area, weight: 1}], from: common, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 25}, type: and}, Target: [{name: common, weight: 1}, {name: conf1, weight: 1}, {name: entry_lane, weight: 1.5}, {name: table_area, weight: 1}], from: conf1, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 25}, type: and}, Target: [{name: conf2, weight: 1}, {name: table_area, weight: 1}], from: conf2, to: ""}
+        - {Condition: {distance: 0.8, type: goal_reached}, Target: [{name: table_area, weight: 1}], from: pantry, to: table_area}
+      update_time_step: 0.1
     doors:
       - [31, 13, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, main_door], type: [1, double_hinged]}]
       - [35, 37, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, coe_door], type: [1, hinged]}]
@@ -138,6 +136,11 @@ levels:
       - [5, 4, {distance: [3, 8.409000000000001]}]
       - [2, 3, {distance: [3, 20.089]}]
     models:
+      - {model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, static: false, x: 1554.184, y: 434.535, yaw: 0, z: 0, agent_group_id: 1, profile_selector: human, state_selector: entry_lane}
+      - {model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, static: false, x: 1554.184, y: 434.535, yaw: 0, z: 0, agent_group_id: 1, profile_selector: human, state_selector: entry_lane}
+      - {model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, static: false, x: 1580.409, y: 844.044, yaw: 0, z: 0, agent_group_id: 2, profile_selector: human, state_selector: table_area}
+      - {model_name: OpenRobotics/actor, name: actor, static: false, x: 2678.205, y: 649.336, yaw: 0, z: 0, agent_group_id: 3, profile_selector: basic, state_selector: conf1}
+      - {model_name: OpenRobotics/actor, name: actor, static: false, x: 725.296, y: 607.681, yaw: 0, z: 0, agent_group_id: 4, profile_selector: basic, state_selector: conf2}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 775.16, y: 794.006, yaw: 4.2503, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 737, y: 884, yaw: 4.2239, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 680.226, y: 975.778, yaw: 4.247, z: 0}
