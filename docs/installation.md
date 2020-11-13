@@ -71,7 +71,7 @@ As a result, the first build can take a very long time depending on the server l
 Running on Ubuntu 18.04 is not officially supported and requires building [Foxy from source](https://index.ros.org/doc/ros2/Installation/Foxy/Linux-Development-Setup/), you will also need to install g++8 and the ignition libraries manually:
 
 ```
-sudo apt install g++-8 libignition-common3-dev libigion-plugin-dev -y
+sudo apt install g++-8 libignition-common3-dev libignition-plugin-dev -y
 ```
 
 ```bash
