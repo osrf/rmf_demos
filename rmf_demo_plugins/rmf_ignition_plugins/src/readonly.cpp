@@ -20,7 +20,6 @@
 #include <ignition/gazebo/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/Pose.hh>
-#include <ignition/gazebo/Events.hh>
 
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/logger.hpp>
@@ -36,8 +35,6 @@
 
 #include <rmf_plugins_common/utils.hpp>
 #include <rmf_plugins_common/readonly_common.hpp>
-
-#include <sdf/sdf.hh>
 
 using namespace ignition::gazebo;
 
@@ -68,7 +65,7 @@ ReadonlyPlugin::ReadonlyPlugin()
 
 void ReadonlyPlugin::Configure(const Entity& entity,
   const std::shared_ptr<const sdf::Element>& sdf,
-  EntityComponentManager& ecm, EventManager& event_manager)
+  EntityComponentManager& ecm, EventManager&)
 {
   _en = entity;
 
@@ -80,18 +77,6 @@ void ReadonlyPlugin::Configure(const Entity& entity,
   _readonly_common->read_sdf(sdf);
   _ros_node = std::make_shared<rclcpp::Node>(_readonly_common->get_name());
   _readonly_common->init(_ros_node);
-
-  auto sub_plugin = sdf->GetElementImpl("plugin");
-  if(sub_plugin)
-  {
-    std::cout << sub_plugin->ToString("sub plugin: ") << std::endl;
-    sdf->GetParent()->InsertElement(sub_plugin);
-    event_manager.Emit<events::LoadPlugins>(entity, sub_plugin); // May still work without this line
-  }
-  else
-  {
-    std::cout << "unable to find " << std::endl;
-  }
 }
 
 void ReadonlyPlugin::PreUpdate(const UpdateInfo& info,

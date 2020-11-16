@@ -8,8 +8,29 @@
   =========================================================================== -->
 
   <model name="caddy">
-
     <plugin name="readonly" filename="libreadonly.so">
+      <!-- Map name where the robot is spawned -->
+      <level_name>L1</level_name>
+      <!-- Index of navigation graph for the robot as stored in BuildingMap msg -->
+      <graph_index>1</graph_index>
+      <!-- Name of waypoint where caddy is spawned in the map -->
+      <spawn_waypoint>caddy</spawn_waypoint>
+      <!-- Number of waypoints to include in predicted path -->
+      <look_ahead>3</look_ahead>
+      <!-- Update rate (hz) at which robot_state is published -->
+      <update_rate>15</update_rate> 
+      <!-- Waypoint threshold (m). Radius around the waypoint to determine if caddy is at that waypoint   -->
+      <waypoint_threshold>2.0</waypoint_threshold>
+      <!-- If true, predicted path will merge robot with nearest lane -->
+      <merge_lane>false</merge_lane>
+      <!-- Normal distance of robot from its lane, greater than which its path will merge with the lane -->
+      <lane_threshold>0.2</lane_threshold>
+    </plugin>
+
+    <!-- Plugin that launches its child ignition plugins. Useful when adding both Ignition and Gazebo plugins
+    to the same sdf file, since Gazebo classic will only search for the top level plugins, and not inadvertently
+    issue errors when attempting to load the Ignition plugins. -->
+    <plugin name="plugin_launcher" filename="libplugin_launcher.so">
       <plugin name="ignition::gazebo::systems::DiffDrive" filename="libignition-gazebo4-diff-drive-system.so">
         <always_on>true</always_on>
         <update_rate>100.0</update_rate>
@@ -36,26 +57,7 @@
         <odometry_frame>odom</odometry_frame>
         <robot_base_frame>chassis</robot_base_frame>
       </plugin>
-      <!-- Map name where the robot is spawned -->
-      <level_name>L1</level_name>
-      <!-- Index of navigation graph for the robot as stored in BuildingMap msg -->
-      <graph_index>1</graph_index>
-      <!-- Name of waypoint where caddy is spawned in the map -->
-      <spawn_waypoint>caddy</spawn_waypoint>
-      <!-- Number of waypoints to include in predicted path -->
-      <look_ahead>3</look_ahead>
-      <!-- Update rate (hz) at which robot_state is published -->
-      <update_rate>15</update_rate> 
-      <!-- Waypoint threshold (m). Radius around the waypoint to determine if caddy is at that waypoint   -->
-      <waypoint_threshold>2.0</waypoint_threshold>
-      <!-- If true, predicted path will merge robot with nearest lane -->
-      <merge_lane>false</merge_lane>
-      <!-- Normal distance of robot from its lane, greater than which its path will merge with the lane -->
-      <lane_threshold>0.2</lane_threshold>
     </plugin>
-
-    <!-- <plugin name="simple" filename="libsimple.so">
-    </plugin> -->
 
     <!-- Hack: we currently include both Ignition and Gazebo diff drive plugins in the same sdf file, avoiding
     the need to modify it each time we switch simulators. This may result in an error when a simulation engine

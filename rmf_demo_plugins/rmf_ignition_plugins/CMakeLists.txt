@@ -128,24 +128,21 @@ target_include_directories(readonly
     ${EIGEN3_INCLUDE_DIRS}
 )
 
-###############################
-# Simple Plugin             #
-###############################
+###################################
+# Ignition PluginLauncher Plugin #
+###################################
 
-add_library(simple SHARED ${PROJECT_SOURCE_DIR}/src/simple.cpp)
+add_library(plugin_launcher SHARED ${PROJECT_SOURCE_DIR}/src/PluginLauncher.cpp)
 
-ament_target_dependencies(simple
-    rclcpp
+ament_target_dependencies(plugin_launcher
     ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}
-    rmf_plugins_common
 )
 
-target_include_directories(simple
+target_include_directories(plugin_launcher
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -157,7 +154,7 @@ install(
     teleport_dispenser
     teleport_ingestor
     readonly
-    simple
+    plugin_launcher
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
