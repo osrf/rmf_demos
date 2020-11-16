@@ -129,6 +129,26 @@ target_include_directories(readonly
 )
 
 ###############################
+# Simple Plugin             #
+###############################
+
+add_library(simple SHARED ${PROJECT_SOURCE_DIR}/src/simple.cpp)
+
+ament_target_dependencies(simple
+    rclcpp
+    ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}
+    rmf_plugins_common
+)
+
+target_include_directories(simple
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    ${EIGEN3_INCLUDE_DIRS}
+)
+
+###############################
 # Install Targets
 ###############################
 
@@ -137,6 +157,7 @@ install(
     teleport_dispenser
     teleport_ingestor
     readonly
+    simple
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
