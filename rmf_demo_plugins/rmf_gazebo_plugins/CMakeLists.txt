@@ -23,20 +23,15 @@ find_package(gazebo REQUIRED)
 find_package(gazebo_ros REQUIRED)
 find_package(gazebo_dev REQUIRED)
 find_package(gazebo_msgs REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rmf_fleet_msgs REQUIRED)
 find_package(rmf_dispenser_msgs REQUIRED)
 find_package(rmf_ingestor_msgs REQUIRED)
 find_package(building_map_msgs REQUIRED)
+find_package(rmf_plugins_common REQUIRED)
 
 include(GNUInstallDirs)
-
-add_library(rmf_sim_utils SHARED src/utils.cpp)
-
-target_include_directories(rmf_sim_utils
-  PUBLIC
-    ${GAZEBO_INCLUDE_DIRS}
-)
 
 ###############################
 # TeleportDispenser Plugin
@@ -49,6 +44,8 @@ ament_target_dependencies(teleport_dispenser
   gazebo_ros
   rmf_fleet_msgs
   rmf_dispenser_msgs
+  rmf_plugins_common
+  Eigen3
 )
 
 target_include_directories(teleport_dispenser
@@ -56,6 +53,7 @@ target_include_directories(teleport_dispenser
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -69,6 +67,8 @@ ament_target_dependencies(teleport_ingestor
   gazebo_ros
   rmf_fleet_msgs
   rmf_ingestor_msgs
+  rmf_plugins_common
+  Eigen3
 )
 
 target_include_directories(teleport_ingestor
@@ -76,6 +76,7 @@ target_include_directories(teleport_ingestor
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -89,6 +90,8 @@ ament_target_dependencies(readonly
     building_map_msgs
     rclcpp
     gazebo_ros
+    rmf_plugins_common
+    Eigen3
 )
 
 target_include_directories(readonly
@@ -96,6 +99,7 @@ target_include_directories(readonly
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     ${GAZEBO_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ###############################
@@ -103,8 +107,7 @@ target_include_directories(readonly
 ###############################
 
 install(
-  TARGETS 
-    rmf_sim_utils
+  TARGETS
     teleport_dispenser
     teleport_ingestor
     readonly

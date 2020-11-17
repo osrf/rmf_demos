@@ -1,9 +1,9 @@
 #include <cmath>
 #include <algorithm>
 
-#include "utils.hpp"
+#include <rmf_plugins_common/utils.hpp>
 
-namespace rmf_gazebo_plugins {
+namespace rmf_plugins_utils {
 
 //==============================================================================
 double compute_ds(
@@ -99,19 +99,13 @@ double compute_desired_rate_of_change(
   return sign * v_next;
 }
 
-//==============================================================================
-bool get_element_required(
-  const sdf::ElementPtr& _sdf,
-  const std::string& _element_name,
-  sdf::ElementPtr& _element)
+//================================================================================
+rclcpp::Time simulation_now(double t)
 {
-  if (!_sdf->HasElement(_element_name))
-  {
-    std::cerr << "Element [" << _element_name << "] not found" << std::endl;
-    return false;
-  }
-  _element = _sdf->GetElement(_element_name);
-  return true;
+  const int32_t t_sec = static_cast<int32_t>(t);
+  const uint32_t t_nsec =
+    static_cast<uint32_t>((t-static_cast<double>(t_sec)) * 1e9);
+  return rclcpp::Time{t_sec, t_nsec, RCL_ROS_TIME};
 }
 
-} // namespace rmf_gazebo_plugins
+} // namespace rmf_plugins_utils
