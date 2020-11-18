@@ -8,6 +8,7 @@
   =========================================================================== -->
 
   <model name="caddy">
+
     <plugin name="readonly" filename="libreadonly.so">
       <!-- Map name where the robot is spawned -->
       <level_name>L1</level_name>
@@ -27,10 +28,17 @@
       <lane_threshold>0.2</lane_threshold>
     </plugin>
 
-    <!-- Plugin that launches its child ignition plugins. Useful when adding both Ignition and Gazebo plugins
-    to the same sdf file, since Gazebo classic will only search for the top level plugins, and not inadvertently
-    issue errors when attempting to load the Ignition plugins. -->
-    <plugin name="plugin_launcher" filename="libplugin_launcher.so">
+    <!-- Plugin that launches its child ignition plugins.
+
+    We currently include both Ignition and Gazebo plugins in the same sdf file, avoiding the need to modify it
+    each time we switch simulators. This plugin serves as a workaround for including Ignition plugins that are
+    part of the default installation, so that Gazebo classic does not crash when trying to load them. With this
+    plugin, Gazebo classic will simply issue an error when attempting to load the plugin_launcher and ignore any
+    inner plugins instead of crashing.
+
+    Note: The forward slash before `libplugin_launcher.so` is necessary so that `dlopen` in Gazebo Classic
+    interprets it as a pathname and avoids searching LD_LIBRARY_PATH. -->
+    <plugin name="plugin_launcher" filename="/libplugin_launcher.so">
       <plugin name="ignition::gazebo::systems::DiffDrive" filename="libignition-gazebo4-diff-drive-system.so">
         <always_on>true</always_on>
         <update_rate>100.0</update_rate>
@@ -59,9 +67,8 @@
       </plugin>
     </plugin>
 
-    <!-- Hack: we currently include both Ignition and Gazebo diff drive plugins in the same sdf file, avoiding
-    the need to modify it each time we switch simulators. This may result in an error when a simulation engine
-    cannot locate the second (unused) plugin, but is ignored for now. -->
+    <!-- Hack: May result in an error in Ignition when the simulation engine cannot locate this (unused) plugin,
+    but is ignored for now. -->
     <plugin name="caddy_diff_controller" filename="libgazebo_ros_diff_drive.so">
       <always_on>true</always_on>
       <!-- Update rate -->

@@ -26,10 +26,12 @@ using namespace ignition::gazebo;
 
 namespace rmf_ignition_plugins {
 
-// Plugin that launches any nested child plugins. Useful when adding both
-// Ignition and Gazebo plugins to the same sdf file, since Gazebo classic will
-// only search for the top level plugins, and not attempt to load the nested
-// Ignition plugins.
+// Plugin that launches its child ignition plugins. Useful when adding both
+// Ignition and Gazebo plugins to the same sdf file. Serves as a workaround
+// for including Ignition plugins that are part of the default installation,
+// so that Gazebo classic does not attempt to load them and crash. With this
+// plugin, Gazebo classic will simply issue an error when attempting to load
+// the PluginLauncher and ignore any inner plugins instead of crashing.
 class IGNITION_GAZEBO_VISIBLE PluginLauncher
   : public System,
   public ISystemConfigure
@@ -45,19 +47,19 @@ void PluginLauncher::Configure(const Entity& entity,
   const std::shared_ptr<const sdf::Element>& sdf,
   EntityComponentManager&, EventManager& event_manager)
 {
-  sdf::ElementPtr pluginElem = sdf->GetElementImpl("plugin");
-  while (pluginElem)
+  sdf::ElementPtr plugin_elem = sdf->GetElementImpl("plugin");
+  while (plugin_elem)
   {
-    if (pluginElem->Get<std::string>("filename") != "__default__" &&
-      pluginElem->Get<std::string>("name") != "__default__")
+    if (plugin_elem->Get<std::string>("filename") != "__default__" &&
+      plugin_elem->Get<std::string>("name") != "__default__")
     {
-      // Assumes that parent is the entity to which pluginElem must be attached
-      sdf->GetParent()->InsertElement(pluginElem);
+      // Assumes that parent is the entity to which plugin_elem must be attached
+      sdf->GetParent()->InsertElement(plugin_elem);
       // Could still work without the following line
-      event_manager.Emit<events::LoadPlugins>(entity, pluginElem);
+      event_manager.Emit<events::LoadPlugins>(entity, plugin_elem);
     }
 
-    pluginElem = pluginElem->GetNextElement("plugin");
+    plugin_elem = plugin_elem->GetNextElement("plugin");
   }
 }
 

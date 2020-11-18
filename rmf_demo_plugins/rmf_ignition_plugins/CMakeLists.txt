@@ -129,7 +129,7 @@ target_include_directories(readonly
 )
 
 ###################################
-# Ignition PluginLauncher Plugin #
+# PluginLauncher Plugin           #
 ###################################
 
 add_library(plugin_launcher SHARED ${PROJECT_SOURCE_DIR}/src/PluginLauncher.cpp)
