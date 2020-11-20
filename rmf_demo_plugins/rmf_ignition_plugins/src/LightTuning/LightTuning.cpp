@@ -30,64 +30,326 @@
 #include <ignition/transport.hh>
 
 using namespace ignition;
-//using namespace gui;
+
+// Helper functions to parse various inputs from the GUI
+std::optional<sdf::LightType> parse_light_type(const std::string& type)
+{
+  if (type == "Point")
+  {
+    return sdf::LightType::POINT;
+  }
+  else if (type == "Directional")
+  {
+    return sdf::LightType::DIRECTIONAL;
+  }
+  else if (type == "Spot")
+  {
+    return sdf::LightType::SPOT;
+  }
+  ignwarn << "Unable to parse \"" << type <<
+    "\" as a light type. Using previous value." << std::endl;
+  return std::nullopt;
+}
+
+std::optional<ignition::math::Pose3d> parse_pose(const std::string& pose_str)
+{
+  std::stringstream ss(pose_str);
+  double x, y, z, roll, pitch, yaw;
+  ss >> x >> y >> z >> roll >> pitch >> yaw;
+  if (!ss.fail())
+  {
+    return ignition::math::Pose3d(x, y, z, roll, pitch, yaw);
+  }
+  else
+  {
+    ignwarn << "Unable to parse \"" << pose_str <<
+      "\" as a pose. Using previous value." << std::endl;
+    return std::nullopt;
+  }
+}
+
+std::optional<ignition::math::Color> parse_color(const std::string& color_str)
+{
+  std::stringstream ss(color_str);
+  float r, g, b, a;
+  ss >> r >> g >> b >> a;
+  if (!ss.fail())
+  {
+    return ignition::math::Color(r, g, b, a);
+  }
+  else
+  {
+    ignwarn << "Unable to parse \"" << color_str <<
+      "\" as a color. Using previous value." << std::endl;
+    return std::nullopt;
+  }
+}
+
+std::optional<double> parse_double(const std::string& double_str)
+{
+  std::stringstream ss(double_str);
+  double d;
+  ss >> d;
+  if (!ss.fail())
+  {
+    return d;
+  }
+  else
+  {
+    ignwarn << "Unable to parse \"" << double_str <<
+      "\" as a double. Using previous value." << std::endl;
+    return std::nullopt;
+  }
+}
+
+std::optional<ignition::math::Vector3d> parse_vector(
+  const std::string& vector_str)
+{
+  std::stringstream ss(vector_str);
+  double x, y, z;
+  ss >> x >> y >> z;
+  if (!ss.fail())
+  {
+    return ignition::math::Vector3d(x, y, z);
+  }
+  else
+  {
+    ignwarn << "Unable to parse \"" << vector_str <<
+      "\" as a vector. Using previous value." << std::endl;
+    return std::nullopt;
+  }
+}
+
+class LightsModel : public QAbstractListModel
+{
+  Q_OBJECT
+  Q_ENUMS(Roles)
+
+public:
+  enum Roles
+  {
+    NameRole = Qt::UserRole + 1,
+    PoseRole,
+    IndexRole,
+    DiffuseRole,
+    SpecularRole,
+    AttenuationRangeRole,
+    AttenuationConstantRole,
+    AttenuationLinearRole,
+    AttenuationQuadraticRole,
+    DirectionRole
+  };
+
+  using QAbstractListModel::QAbstractListModel;
+
+  QHash<int, QByteArray> roleNames() const override;
+  int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+  QVariant data(const QModelIndex& index,
+    int role = Qt::DisplayRole) const override;
+  // Note: We do not need to override and define the setData() function since
+  // we only update our model in `OnCreateLight`
+
+  void add_new_light(const QString& name_qstr);
+  void remove_light(int idx);
+
+  sdf::Light& get_light(int idx);
+  sdf::Light& get_light(const std::string& name);
+  const QVector<sdf::Light>& get_lights() const;
+
+private:
+  QVector<sdf::Light> _lights;
+};
+
+QHash<int, QByteArray> LightsModel::roleNames() const
+{
+  return {{ NameRole, "name"},
+    { PoseRole, "pose"},
+    { IndexRole, "idx"},
+    { DiffuseRole, "diffuse"},
+    { SpecularRole, "specular"},
+    { AttenuationRangeRole, "attenuation_range"},
+    { AttenuationConstantRole, "attenuation_constant"},
+    { AttenuationLinearRole, "attenuation_linear"},
+    { AttenuationQuadraticRole, "attenuation_quadratic"},
+    { DirectionRole, "direction"}};
+}
+
+int LightsModel::rowCount(const QModelIndex& parent) const
+{
+  if (parent.isValid())
+    return 0;
+  return _lights.size();
+}
+
+QVariant LightsModel::data(const QModelIndex& index, int role) const
+{
+  if (!hasIndex(index.row(), index.column(), index.parent()))
+    return {};
+
+  const sdf::Light& light = _lights.at(index.row());
+
+  switch (role)
+  {
+    case NameRole:
+    {
+      return QString(light.Name().c_str());
+    }
+    case PoseRole:
+    {
+      std::ostringstream ss;
+      ss << light.RawPose();
+      return QString(ss.str().c_str());
+    }
+    case IndexRole:
+    {
+      return index.row();
+    }
+    case DiffuseRole:
+    {
+      std::ostringstream ss;
+      ss << light.Diffuse();
+      return QString(ss.str().c_str());
+    }
+    case SpecularRole:
+    {
+      std::ostringstream ss;
+      ss << light.Specular();
+      return QString(ss.str().c_str());
+    }
+    case AttenuationRangeRole:
+    {
+      return light.AttenuationRange();
+    }
+    case AttenuationConstantRole:
+    {
+      return light.ConstantAttenuationFactor();
+    }
+    case AttenuationLinearRole:
+    {
+      return light.LinearAttenuationFactor();
+    }
+    case AttenuationQuadraticRole:
+    {
+      return light.QuadraticAttenuationFactor();
+    }
+    case DirectionRole:
+    {
+      std::ostringstream ss;
+      ss << light.Direction();
+      return QString(ss.str().c_str());
+    }
+    default:
+      break;
+  }
+  return {};
+}
+
+void LightsModel::add_new_light(const QString& name_qstr)
+{
+  std::string name = name_qstr.toStdString();
+  auto existing_it = std::find_if(
+    _lights.begin(), _lights.end(), [&name](const sdf::Light& light)
+    {
+      return light.Name() == name;
+    });
+  if (existing_it != _lights.end() || name.size() < 1)
+  {
+    ignerr << "Light names must be unique and at least 1 character long." <<
+      std::endl;
+    return;
+  }
+
+  beginInsertRows(QModelIndex(), _lights.size(), _lights.size());
+  sdf::Light light;
+  light.SetName(name);
+  _lights.push_back(light);
+  endInsertRows();
+}
+
+void LightsModel::remove_light(int idx)
+{
+  if (idx >= _lights.size())
+  {
+    ignerr << "Light to remove does not exist." << std::endl;
+    return;
+  }
+
+  beginRemoveRows(QModelIndex(), idx, idx);
+  _lights.erase(_lights.begin() + idx);
+  endRemoveRows();
+}
+
+sdf::Light& LightsModel::get_light(int idx)
+{
+  return _lights[idx];
+}
+
+sdf::Light& LightsModel::get_light(const std::string& name)
+{
+  auto it = std::find_if(
+    _lights.begin(), _lights.end(), [&name](const sdf::Light& light)
+    {
+      return light.Name() == name;
+    });
+  return *it;
+}
+
+const QVector<sdf::Light>& LightsModel::get_lights() const
+{
+  return _lights;
+}
 
 class LightTuning : public gazebo::GuiSystem
 {
   Q_OBJECT
 
+public:
+  virtual void LoadConfig(const tinyxml2::XMLElement* _pluginElem)
+  override;
+
+  void Update(const ignition::gazebo::UpdateInfo& _info,
+    ignition::gazebo::EntityComponentManager& _ecm) override;
+
+public slots:
+  void OnLightTypeSelect(sdf::Light& light, const QString& type);
+  void OnCreateLightBtnPress(
+    int idx, bool cast_shadow, const QString& type,
+    const QString& name, const QString& pose_str,
+    const QString& diffuse_str, const QString& specular_str,
+    const QString& attentuation_range_str,
+    const QString& attentuation_constant_str,
+    const QString& attentuation_linear_str,
+    const QString& attentuation_quadratic_str,
+    const QString& direction_str);
+  void OnRemoveLightBtnPress(int idx, const QString& name);
+  void OnAddLightFormBtnPress(const QString& name);
+  void OnSaveLightsBtnPress(const QString& url, bool save_all = true,
+    int idx = -1);
+
 private:
-  sdf::Light light;
   ignition::transport::Node _node;
+  LightsModel _model;
 
   enum class Action {REMOVE, CREATE};
   std::unordered_map<std::string, std::queue<Action>> actions;
 
-  void add_light();
-  void remove_light();
-  std::string lightToString(sdf::Light&);
-
-public slots:
-  void OnLightTypeSelect(const QString&);
-  void OnShadowSelect(bool);
-  void OnCreateLight(bool, const QString&,
-    const QString&, const QString&, const QString&, const QString&,
-    const QString&, const QString&, const QString&, const QString&, const QString&);
-
-public:
-  LightTuning();
-
-  virtual void LoadConfig(const tinyxml2::XMLElement* _pluginElem)
-  override;
-
-  void Update(const ignition::gazebo::UpdateInfo &_info,
-    ignition::gazebo::EntityComponentManager &_ecm) override;
+  void create_light_service(const std::string& name);
+  void remove_light_service(const std::string& name);
+  std::string light_to_sdf_string(const sdf::Light&);
 };
 
-LightTuning::LightTuning()
-{
-  light.SetName("sun");
-  light.SetType(sdf::LightType::DIRECTIONAL);
-  light.SetCastShadows(true);
-  light.SetRawPose(ignition::math::Pose3d(0, 0, 10, 0, 0, 0));
-  light.SetDiffuse(ignition::math::Color(1, 1, 1, 1));
-  light.SetSpecular(ignition::math::Color(0.2, 0.2, 0.2, 1));
-  light.SetAttenuationRange(1000);
-  light.SetConstantAttenuationFactor(0.09);
-  light.SetQuadraticAttenuationFactor(0.001);
-  light.SetDirection(ignition::math::Vector3d(-0.5, 0.1, -0.9));
-
-  actions.insert({light.Name(), std::queue<Action>()});
-}
-
-void LightTuning::LoadConfig(const tinyxml2::XMLElement* _pluginElem)
+void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
 {
   if (this->title.empty())
     this->title = "Light Tuning";
+
+  // Connect model to view
+  this->Context()->setContextProperty(
+    "LightsModel", &this->_model);
 }
 
-void LightTuning::Update(const ignition::gazebo::UpdateInfo &_info,
-  ignition::gazebo::EntityComponentManager &_ecm)
+void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
+  ignition::gazebo::EntityComponentManager&)
 {
   auto light_queue_it = actions.begin();
   while (light_queue_it != actions.end())
@@ -97,12 +359,12 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo &_info,
     {
       if (light_queue_it->second.front() == Action::CREATE)
       {
-        add_light();
+        create_light_service(light_queue_it->first);
         light_queue_it->second.pop();
       }
       else
       {
-        remove_light();
+        remove_light_service(light_queue_it->first);
         light_queue_it->second.pop();
         if (light_queue_it->second.empty())
         {
@@ -123,43 +385,44 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo &_info,
   return;
 }
 
-void addLightCb(const ignition::msgs::Boolean &_rep, const bool result)
+// Necesary to supply callbacks to the service requests in order for the
+// requests to execute properly, though they are not used for anything here.
+void create_light_service_cb(const ignition::msgs::Boolean&, const bool)
 {
-  std::cout << "added light " << std::endl;
 }
 
-void removeLightCb(const ignition::msgs::Boolean &_rep, const bool result)
+void remove_light_service_cb(const ignition::msgs::Boolean&, const bool)
 {
-  std::cout << "removed light " << std::endl;
 }
 
-
-void LightTuning::add_light()
+void LightTuning::create_light_service(const std::string& name)
 {
   ignition::msgs::EntityFactory create_light;
-  create_light.set_sdf(lightToString(light));
-  _node.Request("/world/sim_world/create", create_light, addLightCb);
+  const sdf::Light& light = _model.get_light(name);
+  create_light.set_sdf(light_to_sdf_string(light));
+  _node.Request("/world/sim_world/create", create_light,
+    create_light_service_cb);
 }
 
-void LightTuning::remove_light()
+void LightTuning::remove_light_service(const std::string& name)
 {
   ignition::msgs::Entity remove_light;
-  remove_light.set_name(light.Name());
+  remove_light.set_name(name);
   remove_light.set_type(ignition::msgs::Entity_Type_LIGHT);
-  _node.Request("/world/sim_world/remove", remove_light, removeLightCb);
+  _node.Request("/world/sim_world/remove", remove_light,
+    remove_light_service_cb);
 }
 
-std::string LightTuning::lightToString(sdf::Light& light)
+std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
 {
-  // to check if name is empty
   std::ostringstream ss;
   ss << "<sdf version=\"1.7\"> \n";
   ss << "<light type=\""
-    << (light.Type() == sdf::LightType::POINT ? "point" : 
+     << (light.Type() == sdf::LightType::POINT ? "point" :
     (light.Type() == sdf::LightType::DIRECTIONAL ? "directional" : "spot"))
-    << "\" name=\"" << light.Name() << "\"> \n";
+     << "\" name=\"" << light.Name() << "\"> \n";
   ss << "<cast_shadows>"
-    << (light.CastShadows() ? "true" : "false") << "</cast_shadows> \n";
+     << (light.CastShadows() ? "true" : "false") << "</cast_shadows> \n";
   ss << "<pose>" << light.RawPose() << "</pose>\n";
   ss << "<diffuse>" << light.Diffuse() << "</diffuse>\n";
   ss << "<specular>" << light.Specular() << "</specular>\n";
@@ -172,146 +435,49 @@ std::string LightTuning::lightToString(sdf::Light& light)
   ss << "<direction>" << light.Direction() << "</direction>\n";
   ss << "</light>\n";
   ss << "</sdf>";
-  std::cout << "Result: " << ss.str() << std::endl;
+  //std::cout << "Result: " << ss.str() << std::endl;
   return ss.str();
 }
 
-// to also pass light name
-void LightTuning::OnLightTypeSelect(const QString& type)
+// Helper template function to parse GUI input and update the sdf Light element
+template<typename T, typename F>
+void update_light(std::optional<T>(*parse_fn)(const std::string&),
+  F set_fn, sdf::Light& light, const QString& val_str)
 {
-  std::string std_type = type.toStdString();
-  if (std_type == "Point")
+  std::optional<T> val = parse_fn(val_str.toStdString());
+  if (val)
   {
-    light.SetType(sdf::LightType::POINT);
-  }
-  else if(std_type == "Directional")
-  {
-    light.SetType(sdf::LightType::DIRECTIONAL);
-  }
-  else
-  {
-    light.SetType(sdf::LightType::SPOT);
+    (light.*set_fn)(*val);
   }
 }
 
-void LightTuning::OnShadowSelect(bool cast_shadow)
-{
-  light.SetCastShadows(cast_shadow);
-}
-
-std::optional<ignition::math::Pose3d> parse_pose(const std::string& pose_str)
-{
-  std::stringstream ss(pose_str);
-  double x, y, z, roll, pitch, yaw;
-  ss >> x >> y >> z >> roll >> pitch >> yaw;
-  if (!ss.fail())
-  {
-    return ignition::math::Pose3d(x, y, z, roll, pitch, yaw);
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
-
-std::optional<ignition::math::Color> parse_color(const std::string& color_str)
-{
-  std::stringstream ss(color_str);
-  float r, g, b, a;
-  ss >> r >> g >> b >> a;
-  if (!ss.fail())
-  {
-    return ignition::math::Color(r, g, b, a);
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
-
-std::optional<double> parse_double(const std::string& double_str)
-{
-  std::stringstream ss(double_str);
-  double d;
-  ss >> d;
-  if (!ss.fail())
-  {
-    return d;
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
-
-std::optional<ignition::math::Vector3d> parse_vector(const std::string& vector_str)
-{
-  std::stringstream ss(vector_str);
-  double x, y, z;
-  ss >> x >> y >> z;
-  if (!ss.fail())
-  {
-    return ignition::math::Vector3d(x, y, z);
-  }
-  else
-  {
-    return std::nullopt;
-  }
-}
-
-void LightTuning::OnCreateLight(
-  bool cast_shadow, const QString& type,
+void LightTuning::OnCreateLightBtnPress(
+  int idx, bool cast_shadow, const QString& type_str,
   const QString& name, const QString& pose_str,
   const QString& diffuse_str, const QString& specular_str,
-  const QString& attentuation_range_str,
-  const QString& attentuation_constant_str,
-  const QString& attentuation_linear_str,
-  const QString& attentuation_quadratic_str,
+  const QString& attenuation_range_str,
+  const QString& attenuation_constant_str,
+  const QString& attenuation_linear_str,
+  const QString& attenuation_quadratic_str,
   const QString& direction_str)
 {
-  OnShadowSelect(cast_shadow);
-  OnLightTypeSelect(type);
+  sdf::Light& light = _model.get_light(idx);
+
   light.SetName(name.toStdString());
-  std::optional<ignition::math::Pose3d> pose = parse_pose(pose_str.toStdString());
-  if (pose)
-  {
-    light.SetRawPose(*pose);
-  }
-  std::optional<ignition::math::Color> diffuse = parse_color(diffuse_str.toStdString());
-  if (diffuse)
-  {
-    light.SetDiffuse(*diffuse);
-  }
-  std::optional<ignition::math::Color> specular = parse_color(specular_str.toStdString());
-  if (specular)
-  {
-    light.SetSpecular(*specular);
-  }
-  std::optional<double> attentuation_range = parse_double(attentuation_range_str.toStdString());
-  if (attentuation_range)
-  {
-    light.SetAttenuationRange(*attentuation_range);
-  }
-  std::optional<double> attentuation_constant = parse_double(attentuation_constant_str.toStdString());
-  if (attentuation_constant)
-  {
-    light.SetConstantAttenuationFactor(*attentuation_constant);
-  }
-  std::optional<double> attentuation_linear = parse_double(attentuation_linear_str.toStdString());
-  if (attentuation_range)
-  {
-    light.SetLinearAttenuationFactor(*attentuation_linear);
-  }
-  std::optional<double> attentuation_quadratic = parse_double(attentuation_quadratic_str.toStdString());
-  if (attentuation_quadratic)
-  {
-    light.SetQuadraticAttenuationFactor(*attentuation_quadratic);
-  }
-  std::optional<ignition::math::Vector3d> direction = parse_vector(direction_str.toStdString());
-  if (direction)
-  {
-    light.SetDirection(*direction);
-  }
+  light.SetCastShadows(cast_shadow);
+  update_light(&parse_light_type, &sdf::Light::SetType, light, type_str);
+  update_light(&parse_pose, &sdf::Light::SetRawPose, light, pose_str);
+  update_light(&parse_color, &sdf::Light::SetDiffuse, light, diffuse_str);
+  update_light(&parse_color, &sdf::Light::SetSpecular, light, specular_str);
+  update_light(&parse_double, &sdf::Light::SetAttenuationRange,
+    light, attenuation_range_str);
+  update_light(&parse_double, &sdf::Light::SetConstantAttenuationFactor,
+    light, attenuation_constant_str);
+  update_light(&parse_double, &sdf::Light::SetLinearAttenuationFactor,
+    light, attenuation_linear_str);
+  update_light(&parse_double, &sdf::Light::SetQuadraticAttenuationFactor,
+    light, attenuation_quadratic_str);
+  update_light(&parse_vector, &sdf::Light::SetDirection, light, direction_str);
 
   auto light_queue_it = actions.find(light.Name());
   if (light_queue_it != actions.end())
@@ -327,6 +493,56 @@ void LightTuning::OnCreateLight(
     light_queue_it = actions.insert({light.Name(), std::queue<Action>()}).first;
   }
   light_queue_it->second.push(Action::CREATE);
+}
+
+void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
+{
+  auto light_queue_it = actions.find(name.toStdString());
+  if (light_queue_it != actions.end())
+  {
+    if (!(light_queue_it->second.size()
+      && light_queue_it->second.back() == Action::REMOVE))
+    {
+      light_queue_it->second.push(Action::REMOVE);
+    }
+  }
+  _model.remove_light(idx);
+}
+
+void LightTuning::OnAddLightFormBtnPress(const QString& name)
+{
+  _model.add_new_light(name);
+}
+
+void LightTuning::OnSaveLightsBtnPress(const QString& url,
+  bool save_all, int idx)
+{
+  std::string path = QUrl(url).toLocalFile().toStdString();
+  std::ofstream file(path);
+  if (!file)
+  {
+    ignerr << "Unable to open file for writing." << std::endl;
+    return;
+  }
+
+  const QVector<sdf::Light>& lights = _model.get_lights();
+  if (save_all)
+  {
+    for (auto& light : lights)
+    {
+      file << light_to_sdf_string(light);
+    }
+  }
+  else if (idx >= 0 && idx < (int)lights.size())
+  {
+    file << light_to_sdf_string(lights[idx]);
+  }
+  else
+  {
+    ignerr << "Invalid index given. No light saved to file." << std::endl;
+  }
+  file.close();
+  ignmsg << "File saved to: " << path << std::endl;
 }
 
 // Register this plugin
