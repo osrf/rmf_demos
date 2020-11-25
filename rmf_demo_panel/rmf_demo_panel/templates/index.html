@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<script type=text/javascript>
+
+// temp hack to submit list in interval
+let global_list_count = 0;
+let global_task_list = [];
+
+let selected_robot_name = null;
+let selected_task_ids = [];
+
+function submitTaskForm(){
+  let start_time = document.getElementById("submitTaskForm").start_time.value;
+  let cleaning_zone = document.getElementById("submitTaskForm").cleaning_zone.value;
+  let evaluator = document.getElementById("submitTaskForm").evaluator.value;
+  console.log("submit task: ", start_time, cleaning_zone, evaluator );
+  console.log("Submitting Task")
+  $.ajax({
+    type: 'POST',
+    url : "/submit_task",
+    contentType: 'application/json',
+    data : JSON.stringify({
+      'task_type': 'Clean', 
+      'start_time': parseInt(start_time),
+      'evaluator': evaluator,
+      'description': {'cleaning_zone': cleaning_zone}
+    }),
+    success: function(data) {
+      document.getElementById("submitted_task_id").innerHTML = data;
+      getTaskStatus(); // update status
+    },
+  })
+};
+
+function submitTaskListForm(){
+  global_list_count = 0;
+  global_task_list = [];
+  let i = 0; // to set time "delay"
+  let res = "Task List Submitted";
+
+  try{
+    let json_task_list = document.getElementById("task_list_box").value;
+    let task_list = JSON.parse(json_task_list);
+
+    for(task of task_list)
+    {
+      if (!("task_type" && "start_time" && "description" in task)){
+        throw "Incorrect Task Json Format";
+      }
+       
+      global_task_list.push(task);
+      setTimeout(function(i)
+      {
+        console.log(" Submit Task!", global_task_list[global_list_count]);
+        $.ajax({
+          type: 'POST',
+          url : "/submit_task",
+          contentType: 'application/json',
+          data : JSON.stringify(global_task_list[global_list_count]),
+          success: function(data) {
+            getTaskStatus(); // update status
+          },
+        })
+        global_list_count++;
+      }, 800*(++i));
+    }
+  }
+  catch(err)
+  {
+    res = "ERROR! " + err;
+  }
+  document.getElementById("res_submit_list").innerHTML = res;
+};
+
+function cancelTask(){
+  let id = document.getElementById("cancelForm").task_id.value;
+  console.log("cancel task: ", id );
+  $.ajax({
+    type: 'POST',
+    url : "/cancel_task",
+    contentType: 'application/json',
+    data : JSON.stringify({'task_id': id}),
+    success: function(data) {
+      document.getElementById("delete_result").innerHTML = data;
+      getTaskStatus(); // update status
+    },
+  });
+}
+
+function getTaskStatus(){
+  $.ajax({
+    type: 'GET',
+    url : "/get_task",
+    success: function(data) {
+      console.log(" Get Task and populate table: ", data);
+      
+      // potential failed get task, ignore
+      if (data == null || data.length == 0)
+        return;
+      
+      $("#task_status_table tbody tr").remove(); 
+      $.each(data,function(i,item){
+        var el = $(
+          "<tr class='task_summary_row progress_bar' style='--progress: " + item.progress + ";'>"
+              +"<td>"+item.task_id+"</td>"
+              +"<td>"+item.description+"</td>"
+              +"<td>"+item.robot_name+"</td>"
+              +"<td>"+item.state+"</td>"
+              +"<td>"+item.task_type+"</td>"
+              +"<td>"+item.start_time+"s ("+(item.start_time/60.0).toFixed(1)+"mins)</td>"
+              +"<td>"+item.end_time+"s ("+(item.end_time/60.0).toFixed(1)+"mins)</td>"
+              +"<td>"+item.progress+"</td>"
+          +"</tr>");
+        $("#task_status_table tbody").append(el);
+        if (selected_task_ids.includes(item.task_id)) {
+          el.addClass("selected");
+        }
+      });
+    },
+  });
+}
+
+function getRobotStates(){
+  $.ajax({
+    type: 'GET',
+    url : "/get_robots",
+    success: function(data) {
+      console.log(" Get robot states and populate table: ", data.time, data.robots);
+      document.getElementById("rmf_time").innerHTML = 
+        Math.floor(data.time/3600)+":"+Math.floor(data.time/60)%60+":"+data.time%60;
+      $("#robot_states_table tbody tr").remove(); 
+      $.each(data.robots,function(i,item){
+        chging_icon = "%  ";
+        if (item.mode == "Charging-1"){
+          chging_icon += "<i class='fa fa-charging-station icons'></i>";
+        }
+        var el = $(
+          "<tr class='robot_summary_row'>"
+          +"<td>"+item.robot_name+"</td>"
+          +"<td>"+item.fleet_name+"</td>"
+          +"<td>"+item.assignments+"</td>"
+          +"<td>"+item.mode+"</td>"
+          +"<td>"+item.battery_percent.toFixed(2)+chging_icon+"</td>"
+          +"<td>"+item.level_name+" - {"
+          +item.location_x.toFixed(2)+", "
+          +item.location_y.toFixed(2)+", "
+          +item.location_yaw.toFixed(2)+"}</td>"
+          +"</tr>");
+        $("#robot_states_table tbody").append(el);
+        if (item.robot_name === selected_robot_name) {
+          el.addClass("selected");
+        }
+      });
+    },
+  });
+}
+
+// Periodic ajax polling or for task and robot states, 
+// Table will refresh periodically
+setInterval(getRobotStates, 2000);
+setInterval(getTaskStatus, 2500);
+
+$(document).ready(function(){
+  $(document).on("mouseenter", ".robot_summary_row", function(){
+    $(this).addClass("selected");
+    selected_robot_name = $(this).children(":nth-child(1)").text();
+    selected_task_ids = [];
+    $(".task_summary_row").each(function(){
+      var task_id = $(this).children(":nth-child(1)").text();
+      var assigned_robot_name = $(this).children(":nth-child(3)").text();
+      if (assigned_robot_name === selected_robot_name) {
+        $(this).addClass("selected");
+        selected_task_ids.push(task_id);
+      }
+    });
+  });
+  $(document).on("mouseenter", ".task_summary_row", function(){
+    $(this).addClass("selected");
+    selected_robot_name = $(this).children(":nth-child(3)").text();
+    selected_task_ids = [$(this).children(":nth-child(1)").text()];
+    $(".robot_summary_row").each(function(){
+      var robot_states_table_robot_name = $(this).children(":nth-child(1)").text();
+      if (robot_states_table_robot_name === selected_robot_name){
+        $(this).addClass("selected");
+      }
+    });
+  });
+  $(document).on("mouseleave", ".robot_summary_row, .task_summary_row", function(){
+    selected_robot_name = null;
+    selected_task_ids = [];
+    $(".robot_summary_row").each(function(){
+      $(this).removeClass("selected");
+    });
+    $(".task_summary_row").each(function(){
+      $(this).removeClass("selected");
+    });
+  });
+});
+
+</script>
+
+<head>
+  <title>Changi Airport T3 Cleaning Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Style the body */
+    body {
+      font-family: Arial;
+      margin: 0;
+    }
+
+    /* Header/Logo Title */
+    .header {
+      text-align: left;
+      padding: 1px;
+      padding-left: 20px;
+      background-image: url('https://www.changiairport.com/content/dam/cacorp/home/D%20-%20Lvl1%20%20CorporateV6.jpg');
+      background-size: 100% 100%;
+      color: DimGray;
+      font-size: 18px;
+    }
+
+    /* Page Content */
+    .content {
+      padding: 10px;
+      background-color: whitesmoke;
+    }
+    .content h1{
+      color:white;
+      font-size: 18px;
+      background-color: steelblue;
+      padding: 10px;
+    }
+
+    select, input, textarea{
+      margin-bottom: 10px;
+    }
+
+    .submission h2{
+      color: indianred;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+      background-color: Lavender;
+      margin-bottom: 10px;
+    }
+
+    td,
+    th {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #ddd;
+    }
+
+    .selected {
+      border: 2px solid #cc9225 !important;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 3px;
+      background-color: WhiteSmoke;
+      color: SlateGrey;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .progress_bar {
+      background-image: linear-gradient(to right, lightgreen var(--progress), white var(--progress));
+    }
+
+    .icons {
+      font-size: 20px;
+      color: darkgreen;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="header" style="display: flex;">
+    <div style="width: 90%;">
+      <h1>CHANGI AIRPORT T3 CLEANING DASHBOARD</h1>
+      <p  float="initial"> - Powered by RMF - </p>
+      <br><br>
+    </div>
+    <div style="flex-grow: 1;">
+      <img src="https://www.changiairport.com/content/dam/cacorp/home/header-logo/logo-dark.png"
+      alt="cag_logo" width="100" height="30" style="vertical-align:middle;margin:20px 5px">
+      <img src="https://static1.squarespace.com/static/57daacd7f7e0ab084d5efbf0/t/5e3a197c40f86549694b35a7/1604624644022/?format=1500w"
+      alt="osrf_logo" width="80" height="30" style="vertical-align:middle;margin:5px 5px">
+      <img src="https://www.a-star.edu.sg/images/librariesprovider1/default-album/logo_astar260a6302b97b44ffa1029cfcc87fc485.png"
+      alt="astar_logo" width="80" height="30" style="vertical-align:middle;margin:5px 5px">
+    </div>
+  </div>
+  
+  <div style="display:table-cell; vertical-align:middle; text-align:center">
+  </div>
+ 
+  <div class="content">
+    <h1 >Cleaning Task Submission</h1>
+    <p style="float: left;font-weight:bold;padding: 3px;">Time:   </p>
+    <p id="rmf_time" style="float:left;font-weight:bold;">0:00:00</p>
+    <br><br>
+    <img src="{{url_for('static', filename='/cleaning_zone_map.png')}}">
+
+    <div class="submission" style="display: flex;">
+      <form id="submitTaskForm" style="width: 50%; margin-bottom:20px;" onsubmit="return false">
+        <h2> Ad-Hoc Task</h2>
+        Start Time (Mins from now):
+        <input type="number" id="start_time" value="0" min="0" max="1000" />
+        <br>
+
+        <!-- This should vary according to the map/world -->
+        Cleaning Zone: <select id="cleaning_zone" name="cleaning_zone">
+          <option>zone_1</option>
+          <option>zone_2</option>
+          <option>zone_3</option>
+          <option>zone_4</option>
+        </select>
+        <br>
+        Choose Evaluator: <select id="evaluator" name="evaluator">
+          <option selected="selected">lowest_delta_cost</option>
+          <option>lowest_cost</option>
+          <option>quickest_time</option>
+        </select>
+        <br>
+        <button onclick="submitTaskForm()">Submit Task</button>
+        <p id="submitted_task_id" style="color:#2f00ff" ;>...</p>
+      </form>
+  
+      <form id="TaskListForm" style="flex-grow: 1;" onsubmit="return false">
+        <h2>Scheduled Task List</h2>
+        <input type="file" id="task_file" name="task_file">
+        <script>
+          // Read Task List Text file
+          document.getElementById('task_file')
+            .addEventListener('change', function(){ 
+              var fr=new FileReader(); 
+              fr.onload=function(){
+              document.getElementById('task_list_box').value=fr.result; 
+            } 
+            fr.readAsText(this.files[0]); 
+          })
+        </script>
+        <br>
+        <textarea id="task_list_box" name="task_list_box" rows="6" cols="85"></textarea>
+        <br>
+        <button onclick="submitTaskListForm()">Submit Task List</button>
+        <p id="res_submit_list" style="color:#2f00ff" ;></p>
+      </form>
+    </div>
+  </div>
+ 
+  <div class="content">
+    <h1>Robot Summary</h1>
+    <table id="robot_states_table">
+      <thead>
+        <tr>
+          <th>Robot Name</th>
+          <th>Fleet Name</th>
+          <th>Tasks Assignment</th>
+          <th>Mode</th>
+          <th>Battery</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <br><br>
+
+    <h1>Task Summary</h1>
+    
+    <input type="button" onclick="getTaskStatus()" value="Refresh"/>
+    <table id="task_status_table">
+      <thead>
+        <tr>
+          <th>Task ID</th>
+          <th>Description</th>
+          <th>Robot Name</th>
+          <th>State</th>
+          <th>Task Type</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Progress</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+  </div>
+ 
+  <!-- Hidden cancel feature -->
+  <div class="content" style="display: none;">
+    <form id="cancelForm" onsubmit="return false">
+      <h1>Cancel Active Cleaning Task</h1>
+      Cancel Task ID : <input id="task_id" type="text" id="" name="name" />
+      <br />
+      <input type="button" onclick="cancelTask()" value="Cancel Task">
+
+      <p id="delete_result" style="color:#2f00ff" ></p>
+    </form>
+    <hr>
+  </div>
+</body>
+
+<br><br><hr>
+
+<footer>
+  <p>Developed by Open Robotics 2020</p>
+  <p>CAG GUI is Powered by RMF</p>
+</footer>
+
+</html>
