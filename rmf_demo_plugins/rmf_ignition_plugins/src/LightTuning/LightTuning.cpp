@@ -25,13 +25,14 @@
 #include <ignition/gazebo/SdfEntityCreator.hh>
 #include <ignition/gazebo/components/Light.hh>
 #include <ignition/gazebo/components/Name.hh>
+#include <ignition/gazebo/components/World.hh>
 
 #include <ignition/msgs.hh>
 #include <ignition/transport.hh>
 
 using namespace ignition;
 
-// Helper functions to parse various inputs from the GUI
+// Helper functions to parse inputs of various types from the GUI
 std::optional<sdf::LightType> parse_light_type(const std::string& type)
 {
   if (type == "Point")
@@ -120,6 +121,26 @@ std::optional<ignition::math::Vector3d> parse_vector(
   }
 }
 
+std::optional<ignition::math::Angle> parse_angle(
+  const std::string& angle_str)
+{
+  std::stringstream ss(angle_str);
+  double angle;
+  ss >> angle;
+  if (!ss.fail())
+  {
+    return ignition::math::Angle(angle);
+  }
+  else
+  {
+    ignwarn << "Unable to parse \"" << angle_str <<
+      "\" as an angle in radians. Using previous value." << std::endl;
+    return std::nullopt;
+  }
+}
+
+// Data model representing a list of lights. Provides data for delegates to display
+// in QML via a series of roles which the delegates bind to.
 class LightsModel : public QAbstractListModel
 {
   Q_OBJECT
@@ -137,26 +158,38 @@ public:
     AttenuationConstantRole,
     AttenuationLinearRole,
     AttenuationQuadraticRole,
-    DirectionRole
+    DirectionRole,
+    SpotInnerAngleRole,
+    SpotOuterAngleRole,
+    SpotFalloffRole
   };
-
-  using QAbstractListModel::QAbstractListModel;
 
   QHash<int, QByteArray> roleNames() const override;
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
   QVariant data(const QModelIndex& index,
     int role = Qt::DisplayRole) const override;
   // Note: We do not need to override and define the setData() function since
-  // we only update our model in `OnCreateLight`
+  // we only update our model from the GUI in `LightTuning::OnCreateLight`
 
+  // Inserts a default light with the name specified in `name_qstr`,
+  // if it does not exist
   void add_new_light(const QString& name_qstr);
+  // Deletes the light at index `idx` if it exists from LightsModel
   void remove_light(int idx);
 
+  // Returns a reference to the light at index `idx` in `_lights`.
+  // Assumes `idx` is valid.
   sdf::Light& get_light(int idx);
+  // Returns a reference to the light with name `name` in `_lights`.
+  // Assumes `name` is a valid name belonging to some light in `_lights`.
   sdf::Light& get_light(const std::string& name);
+  // Returns a const reference to a QVector of all lights in the LightsModel
+  // object
   const QVector<sdf::Light>& get_lights() const;
 
 private:
+  // Collection of lights, each with a unique name (enforced by
+  // add_new_light)
   QVector<sdf::Light> _lights;
 };
 
@@ -171,7 +204,10 @@ QHash<int, QByteArray> LightsModel::roleNames() const
     { AttenuationConstantRole, "attenuation_constant"},
     { AttenuationLinearRole, "attenuation_linear"},
     { AttenuationQuadraticRole, "attenuation_quadratic"},
-    { DirectionRole, "direction"}};
+    { DirectionRole, "direction"},
+    { SpotInnerAngleRole, "spot_inner_angle"},
+    { SpotOuterAngleRole, "spot_outer_angle"},
+    { SpotFalloffRole, "spot_falloff"}};
 }
 
 int LightsModel::rowCount(const QModelIndex& parent) const
@@ -187,7 +223,7 @@ QVariant LightsModel::data(const QModelIndex& index, int role) const
     return {};
 
   const sdf::Light& light = _lights.at(index.row());
-
+  // Returns displayable value corresponding to the light property requested
   switch (role)
   {
     case NameRole:
@@ -237,6 +273,22 @@ QVariant LightsModel::data(const QModelIndex& index, int role) const
       std::ostringstream ss;
       ss << light.Direction();
       return QString(ss.str().c_str());
+    }
+    case SpotInnerAngleRole:
+    {
+      std::ostringstream ss;
+      ss << light.SpotInnerAngle();
+      return QString(ss.str().c_str());
+    }
+    case SpotOuterAngleRole:
+    {
+      std::ostringstream ss;
+      ss << light.SpotOuterAngle();
+      return QString(ss.str().c_str());
+    }
+    case SpotFalloffRole:
+    {
+      return light.SpotFalloff();
     }
     default:
       break;
@@ -299,6 +351,8 @@ const QVector<sdf::Light>& LightsModel::get_lights() const
   return _lights;
 }
 
+// Class that handles all GUI interactions and their associated
+// light creations/deletions
 class LightTuning : public gazebo::GuiSystem
 {
   Q_OBJECT
@@ -320,21 +374,33 @@ public slots:
     const QString& attentuation_constant_str,
     const QString& attentuation_linear_str,
     const QString& attentuation_quadratic_str,
-    const QString& direction_str);
+    const QString& direction_str,
+    const QString& spot_inner_angle_str,
+    const QString& spot_outer_angle_str,
+    const QString& spot_falloff_str);
   void OnRemoveLightBtnPress(int idx, const QString& name);
   void OnAddLightFormBtnPress(const QString& name);
   void OnSaveLightsBtnPress(const QString& url, bool save_all = true,
     int idx = -1);
 
 private:
+  std::string _world_name;
   ignition::transport::Node _node;
   LightsModel _model;
 
   enum class Action {REMOVE, CREATE};
+  // Map from a light name to a queue of create/remove service requests
+  // for that corresponding light
   std::unordered_map<std::string, std::queue<Action>> actions;
 
+  // Sends a service request to render the light with name `name`
+  // in the world named `sim_world` using Ignition transport
   void create_light_service(const std::string& name);
+  // Sends a service request to delete a light with name `name`
+  // from the Ignition Gazebo world `sim_world` using Ignition transport
   void remove_light_service(const std::string& name);
+  // Returns a string representation of the specified light in the
+  // SDF v1.7 format
   std::string light_to_sdf_string(const sdf::Light&);
 };
 
@@ -343,14 +409,35 @@ void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
   if (this->title.empty())
     this->title = "Light Tuning";
 
-  // Connect model to view
+  // Connect data model to view
   this->Context()->setContextProperty(
     "LightsModel", &this->_model);
 }
 
 void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
-  ignition::gazebo::EntityComponentManager&)
+  ignition::gazebo::EntityComponentManager& ecm)
 {
+  // Get world name in order to send create/remove requests later.
+  // Assumes there is only 1 world in the simulation
+  if (!_world_name.size())
+  {
+    ecm.Each<ignition::gazebo::components::World,
+      ignition::gazebo::components::Name>(
+      [&](const ignition::gazebo::Entity&,
+      const ignition::gazebo::components::World*,
+      const ignition::gazebo::components::Name* name)
+      -> bool
+      {
+        _world_name = name->Data();
+        return false; // Only look at first entity found
+      });
+  }
+
+  // When multiple create/remove requests for the same entity are sent
+  // in the same update step, the order of processing may be non-deterministic.
+  // To workaround this, in each Update() call, we ensure only 1 create/
+  // remove request is sent per light. This ensures that entities are created/
+  // removed in Ignition in the order requested.
   auto light_queue_it = actions.begin();
   while (light_queue_it != actions.end())
   {
@@ -366,6 +453,8 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       {
         remove_light_service(light_queue_it->first);
         light_queue_it->second.pop();
+        // Mark light for erasure from map if last request is a remove request
+        // and no other requests remain
         if (light_queue_it->second.empty())
         {
           erase = true;
@@ -397,22 +486,23 @@ void remove_light_service_cb(const ignition::msgs::Boolean&, const bool)
 
 void LightTuning::create_light_service(const std::string& name)
 {
-  ignition::msgs::EntityFactory create_light;
+  ignition::msgs::EntityFactory create_light_req;
   const sdf::Light& light = _model.get_light(name);
-  create_light.set_sdf(light_to_sdf_string(light));
-  _node.Request("/world/sim_world/create", create_light,
-    create_light_service_cb);
+  create_light_req.set_sdf(light_to_sdf_string(light));
+  _node.Request("/world/" + _world_name + "/create",
+    create_light_req, create_light_service_cb);
 }
 
 void LightTuning::remove_light_service(const std::string& name)
 {
-  ignition::msgs::Entity remove_light;
-  remove_light.set_name(name);
-  remove_light.set_type(ignition::msgs::Entity_Type_LIGHT);
-  _node.Request("/world/sim_world/remove", remove_light,
-    remove_light_service_cb);
+  ignition::msgs::Entity remove_light_req;
+  remove_light_req.set_name(name);
+  remove_light_req.set_type(ignition::msgs::Entity_Type_LIGHT);
+  _node.Request("/world/" + _world_name + "/remove",
+    remove_light_req, remove_light_service_cb);
 }
 
+// Could possibly use some xml library instead
 std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
 {
   std::ostringstream ss;
@@ -433,13 +523,17 @@ std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
   ss << "<quadratic>" << light.QuadraticAttenuationFactor() << "</quadratic>\n";
   ss << "</attenuation>\n";
   ss << "<direction>" << light.Direction() << "</direction>\n";
+  ss << "<spot>\n";
+  ss << "<inner_angle>" << light.SpotInnerAngle() << "</inner_angle>\n";
+  ss << "<outer_angle>" << light.SpotOuterAngle() << "</outer_angle>\n";
+  ss << "<falloff>" << light.SpotFalloff() << "</falloff>\n";
+  ss << "</spot>\n";
   ss << "</light>\n";
   ss << "</sdf>";
-  //std::cout << "Result: " << ss.str() << std::endl;
   return ss.str();
 }
 
-// Helper template function to parse GUI input and update the sdf Light element
+// Helper template function to parse GUI input and update the sdf Light's property
 template<typename T, typename F>
 void update_light(std::optional<T>(*parse_fn)(const std::string&),
   F set_fn, sdf::Light& light, const QString& val_str)
@@ -459,7 +553,10 @@ void LightTuning::OnCreateLightBtnPress(
   const QString& attenuation_constant_str,
   const QString& attenuation_linear_str,
   const QString& attenuation_quadratic_str,
-  const QString& direction_str)
+  const QString& direction_str,
+  const QString& spot_inner_angle_str,
+  const QString& spot_outer_angle_str,
+  const QString& spot_falloff_str)
 {
   sdf::Light& light = _model.get_light(idx);
 
@@ -478,7 +575,14 @@ void LightTuning::OnCreateLightBtnPress(
   update_light(&parse_double, &sdf::Light::SetQuadraticAttenuationFactor,
     light, attenuation_quadratic_str);
   update_light(&parse_vector, &sdf::Light::SetDirection, light, direction_str);
+  update_light(&parse_angle, &sdf::Light::SetSpotInnerAngle,
+    light, spot_inner_angle_str);
+  update_light(&parse_angle, &sdf::Light::SetSpotOuterAngle,
+    light, spot_outer_angle_str);
+  update_light(&parse_double, &sdf::Light::SetSpotFalloff,
+    light, spot_falloff_str);
 
+  // Update the light's queue of actions, or create one if necessary
   auto light_queue_it = actions.find(light.Name());
   if (light_queue_it != actions.end())
   {
@@ -498,6 +602,7 @@ void LightTuning::OnCreateLightBtnPress(
 void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
 {
   auto light_queue_it = actions.find(name.toStdString());
+  // Remove from simulation by adding it to queue of requests
   if (light_queue_it != actions.end())
   {
     if (!(light_queue_it->second.size()
@@ -506,9 +611,11 @@ void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
       light_queue_it->second.push(Action::REMOVE);
     }
   }
+  // Remove from data model (and GUI)
   _model.remove_light(idx);
 }
 
+// Adds a new light to the model, but does not render in simulation yet
 void LightTuning::OnAddLightFormBtnPress(const QString& name)
 {
   _model.add_new_light(name);

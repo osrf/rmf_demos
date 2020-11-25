@@ -26,14 +26,9 @@ import QtQuick.Dialogs 1.0
 
 Rectangle {
   id: lightTuningPlugin
-  //color: lightGrey
   Layout.minimumWidth: 280
-  Layout.minimumHeight: 800
+  Layout.minimumHeight: 1200
   anchors.fill: parent
-
-  property color darkGrey: (Material.theme == Material.Light) ?
-    Material.color(Material.Grey, Material.Shade200) :
-    Material.color(Material.Grey, Material.Shade900)
 
   property color lightGrey: (Material.theme == Material.Light) ?
     Material.color(Material.Grey, Material.Shade100) :
@@ -75,6 +70,7 @@ Rectangle {
       }
 
       RowLayout {
+        // Creates a form to fill in parameters for a new light
         Button {
             id: addButton
             text: "Add Light"
@@ -90,6 +86,7 @@ Rectangle {
 
       RowLayout {
         Button {
+            // Saves all current lights to file in the SDF format
             id: saveButton
             text: "Save All"
             onClicked: {
@@ -150,18 +147,26 @@ Rectangle {
             id: header
             width: parent.width
             height: nameId.height + (margin * 2)
-            color: darkGrey
+            color: lightGrey
 
             RowLayout {
               anchors.fill: parent
+              Image {
+                sourceSize.height: nameId.height - 3
+                sourceSize.width: nameId.height - 3
+                fillMode: Image.Pad
+                Layout.alignment: Qt.AlignVCenter
+                Layout.leftMargin: margin
+                source: content.show ?
+                    "minus.png" : "plus.png"
+              }
               Label {
                   id: nameId
                   text: model.name
                   font.weight: Font.Bold
                   font.pointSize: 13
                   wrapMode: Label.Wrap
-                  horizontalAlignment: Qt.AlignHCenter
-                  Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                  Layout.alignment: Qt.AlignVCenter | Qt.AlignHLeft
                   Layout.margins: margin
               }
             }
@@ -177,7 +182,7 @@ Rectangle {
                 header.color = highlightColor
               }
               onExited: {
-                header.color = "transparent"
+                header.color = lightGrey
               }
             }
           }
@@ -394,6 +399,64 @@ Rectangle {
               RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Label {
+                    wrapMode: Label.Wrap
+                    text: "Spot Inner Angle"
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    Layout.leftMargin: margin
+                    Layout.bottomMargin: 5
+                }
+
+                TextField {
+                    id: spot_inner_angle
+                    text: model.spot_inner_angle
+                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
+                    placeholderText: "1.0"
+                }
+              }
+
+              RowLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Label {
+                    wrapMode: Label.Wrap
+                    text: "Spot Outer Angle"
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    Layout.leftMargin: margin
+                    Layout.bottomMargin: 5
+                }
+
+                TextField {
+                    id: spot_outer_angle
+                    text: model.spot_outer_angle
+                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
+                    placeholderText: "1.0"
+                }
+              }
+
+              RowLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Label {
+                    wrapMode: Label.Wrap
+                    text: "Spot Falloff"
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    Layout.leftMargin: margin
+                    Layout.bottomMargin: 5
+                }
+
+                TextField {
+                    id: spot_falloff
+                    text: model.spot_falloff
+                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
+                    placeholderText: "0"
+                }
+              }
+
+              RowLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                // Renders light in the Ignition Gazebo simulation
                 Button {
                   text: "Create"
                   onClicked: {
@@ -403,12 +466,15 @@ Rectangle {
                       model.name, pose.text, diffuse.text,
                       specular.text, attentuation_range.text,
                       attentuation_constant.text, attentuation_linear.text,
-                      attentuation_quadratic.text, direction.text)
+                      attentuation_quadratic.text, direction.text,
+                      spot_inner_angle.text, spot_outer_angle.text,
+                      spot_falloff.text)
                   }
                   Layout.leftMargin: margin
                   Layout.bottomMargin: 5
                 }
 
+                  // Deletes the light and it's associated form
                 Button {
                   text: "Remove"
                   onClicked: {
@@ -418,6 +484,7 @@ Rectangle {
                   Layout.bottomMargin: 5
                 }
 
+                // Saves the individual light as a file in SDF form
                 Button {
                   id: saveButton
                   text: "Save"

@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
   <qresource prefix="LightTuning/">
     <file>LightTuning.qml</file>
+    <file>plus.png</file>
+    <file>minus.png</file>
   </qresource>
 </RCC>
