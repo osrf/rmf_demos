@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+"""
+The main Interfaces to the front end GUI are:
+1) HTTP interfaces are:  /submit_task, /cancel_task, /get_task, /get_robots
+2) socketIO broadcast states: /task_status, /robot_states, /ros_time
+"""
+
 import sys
 import os
 import rclpy
@@ -37,8 +44,9 @@ from rmf_task_msgs.msg import TaskType
 from rmf_fleet_msgs.msg import FleetState
 
 from flask import Flask, render_template, request, jsonify
+from flask_socketio import SocketIO, emit, disconnect
 
-#####################################################################################
+###############################################################################
 
 
 class DispatcherClient(Node):
@@ -60,7 +68,7 @@ class DispatcherClient(Node):
 
         # just check one srv endpoint
         while not self.submit_task_srv.wait_for_service(timeout_sec=1.0):
-            self.get_logger().warn('Dispatcher node is not available, waiting...')
+            self.get_logger().warn('Dispatcher node is not avail, waiting...')
 
     def fleet_state_cb(self, msg: FleetState):
         fleet_name = msg.name
@@ -82,13 +90,14 @@ class DispatcherClient(Node):
             future = self.submit_task_srv.call_async(req_msg)
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
-            if (response == None):
+            if response is None:
                 self.get_logger().error('Failed to get srv result !!!')
             else:
-                self.get_logger().info(' New Dispatch task_id %s' % (response.task_id))
+                self.get_logger().info(
+                    f'New Dispatch task_id {response.task_id}')
                 return response.task_id
         except Exception as e:
-            self.get_logger().error('Error! Service call failed !!!  %r' % (e,))
+            self.get_logger().error('Error! Srv call failed !!!  %r' % (e,))
         return "FAILED"
 
     def cancel_task_request(self, task_id) -> bool:
@@ -103,31 +112,32 @@ class DispatcherClient(Node):
             future = self.cancel_task_srv.call_async(req)
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
-            if (response == None):
+            if response is None:
                 self.get_logger().error('Failed to get srv result !!!')
             else:
-                self.get_logger().info('Cancel Task, success? %d' % (response.success))
+                self.get_logger().info(
+                    f'Cancel Task, success? {response.success}')
                 return response.success
         except Exception as e:
-            self.get_logger().error('Service call failed %r' % (e,))
+            self.get_logger().error('Error! Srv call failed %r' % (e,))
         return False
 
     # either from DB or via srv call
     def get_task_status(self):
         """
-        Get all task status - This function will trigger a ros srv call to acquire 
-        all submitted tasks to dispatcher node. Function returns an object of tasks
+        Get all task status - This fn will trigger a ros srv call to acquire 
+        all submitted tasks to dispatcher node. Fn returns an object of tasks
         """
-        print("Getting all Task Status!")
         req = GetTask.Request()
         try:
             future = self.get_task_srv.call_async(req)
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
-            if (response == None):
+            if response is None:
                 self.get_logger().error('Failed to get srv result !!!')
             else:
-                self.get_logger().info('Get Task, success? %d' % (response.success))
+                # self.get_logger().info(f'Get Task, success? \
+                #   {response.success}')
                 active_tasks = self.__convert_task_status_msg(
                     response.active_tasks, False)
                 terminated_tasks = self.__convert_task_status_msg(
@@ -136,7 +146,7 @@ class DispatcherClient(Node):
                 return active_tasks + terminated_tasks
         except Exception as e:
             self.get_logger().error('Service call failed %r' % (e,))
-        return None
+        return []  # empty list
 
     def get_robot_states(self):
         """
@@ -144,13 +154,9 @@ class DispatcherClient(Node):
         front end UI when a ajax GET is requested.
         """
         agg_robot_states = []
-
         for fleet_name, robot_states in self.fleet_states_dict.items():
             robots = self.__convert_robot_states_msg(fleet_name, robot_states)
             agg_robot_states = agg_robot_states + robots
-
-        print(f"Getting robot states from: {len(self.fleet_states_dict)} fleets,\
-              {len(agg_robot_states)} bots")
         return agg_robot_states
 
     def __convert_task_status_msg(self, task_summaries, is_done=True):
@@ -167,49 +173,49 @@ class DispatcherClient(Node):
         now = self.get_clock().now().to_msg().sec  # only use sec
         for task in task_summaries:
             desc = task.task_profile
-            task_status = {}
-            task_status["task_id"] = desc.task_id
-            task_status["state"] = states_enum[task.state]
-            task_status["done"] = is_done
-            task_status["fleet_name"] = task.fleet_name
-            task_status["robot_name"] = task.robot_name
-            task_status["task_type"] = type_enum[desc.task_type.type]
-            task_status["start_time"] = task.start_time.sec     # only use sec
-            task_status["end_time"] = task.end_time.sec         # only use sec
+            status = {}
+            status["task_id"] = desc.task_id
+            status["state"] = states_enum[task.state]
+            status["done"] = is_done
+            status["fleet_name"] = task.fleet_name
+            status["robot_name"] = task.robot_name
+            status["task_type"] = type_enum[desc.task_type.type]
+            status["submited_start_time"] = task.task_profile.start_time.sec
+            status["start_time"] = task.start_time.sec     # only use sec
+            status["end_time"] = task.end_time.sec         # only use sec
 
-            if task_status["task_type"] == "Clean":
-                task_status["description"] = desc.clean.start_waypoint
-            elif task_status["task_type"] == "Loop":
-                task_status["description"] = desc.loop.start_name + " --> " + \
+            if status["task_type"] == "Clean":
+                status["description"] = desc.clean.start_waypoint
+            elif status["task_type"] == "Loop":
+                status["description"] = desc.loop.start_name + " --> " + \
                     desc.loop.finish_name + " x" + str(desc.loop.num_loops)
-            elif task_status["task_type"] == "Delivery":
-                task_status["description"] = desc.delivery.pickup_place_name + \
+            elif status["task_type"] == "Delivery":
+                status["description"] = desc.delivery.pickup_place_name + \
                     " --> " + desc.delivery.dropoff_place_name
-            elif task_status["task_type"] == "Charging":
-                task_status["description"] = "Back to Charging Station"
+            elif status["task_type"] == "Charging":
+                status["description"] = "Back to Charging Station"
 
             # Current hack to generate a progress percentage
             duration = abs(task.end_time.sec - task.start_time.sec)
             if is_done and states_enum[task.state] == "Completed":
-                task_status["progress"] = "100%"
-            elif duration == 0 or task_status["state"] == "Queued":
-                task_status["progress"] = "0%"
+                status["progress"] = "100%"
+            elif duration == 0 or status["state"] == "Queued":
+                status["progress"] = "0%"
             else:
                 percent = int(100*(now - task.start_time.sec)/float(duration))
                 if (percent < 0):
-                    task_status["progress"] = "queued"
+                    status["progress"] = "queued"
                 elif (percent > 100):
-                    task_status["progress"] = "in-progress"
+                    status["progress"] = "in-progress"
                 else:
-                    task_status["progress"] = f"{percent}%"
-            status_list.insert(0, task_status)  # insert front
+                    status["progress"] = f"{percent}%"
+            status_list.insert(0, status)  # insert front
         return status_list
 
     def __generate_assignments_list(self, active_task_list):
         """
         Input as active task list, which is in the form of jsonified format
         The assignment here is a format of {bot_name: "string of task IDs"}
-        This is an internal function which updates is triggered from "get_tasks"
         """
         self.tasks_assignments.clear()
         temp_assignments = {}
@@ -230,7 +236,7 @@ class DispatcherClient(Node):
         bots = []
         mode_enum = {0: "Idle-0", 1: "Charging-1", 2: "Moving-2",
                      3: "Paused-3", 4: "Waiting-4", 5: "Emengency-5",
-                     6: "GoingHome-6", 7: "Dock/Cleaning-7", 8: "AdpterError-8"}
+                     6: "GoingHome-6", 7: "Dock/Clean-7", 8: "AdpterError-8"}
         for bot in robot_states:
             state = {}
             state["robot_name"] = bot.name
@@ -295,16 +301,16 @@ class DispatcherClient(Node):
             elif task_json["task_type"] == "Delivery":
                 req_msg.task_type.type = TaskType.TYPE_DELIVERY
                 print(task_config)
-                option = task_config["option"][desc["option"]]
-                req_msg.delivery.pickup_place_name = option["pickup_place_name"]
-                req_msg.delivery.pickup_dispenser = option["pickup_dispenser"]
-                req_msg.delivery.dropoff_ingestor = option["dropoff_ingestor"]
-                req_msg.delivery.dropoff_place_name = option["dropoff_place_name"]
+                opt = task_config["option"][desc["option"]]
+                req_msg.delivery.pickup_place_name = opt["pickup_place_name"]
+                req_msg.delivery.pickup_dispenser = opt["pickup_dispenser"]
+                req_msg.delivery.dropoff_ingestor = opt["dropoff_ingestor"]
+                req_msg.delivery.dropoff_place_name = opt["dropoff_place_name"]
             else:
                 print("ERROR! Invalid format")
                 return None
 
-            # Calc start time, convert min to sec: TODO better time represenation
+            # Calc start time, convert min to sec: TODO better represenation
             rclpy.spin_once(self, timeout_sec=0.0)
             ros_start_time = self.get_clock().now().to_msg()
             ros_start_time.sec += int(task_json["start_time"]*60)
@@ -316,13 +322,14 @@ class DispatcherClient(Node):
 
         return req_msg
 
-#####################################################################################
+###############################################################################
 
 
 app = Flask(__name__, static_url_path="/static")
+socketio = SocketIO(app, async_mode='threading')
 
-# TODO: Layout of frontend gui will depends on dashboard_config.json file. This can
-# retrived via static get reqeust, and configure the Adhoc task submit form layout.
+# TODO: Layout of frontend gui will depends on this config.json file. This can
+# retrived via static file, and configure layout of Adhoc task submisison form.
 json_config = {}
 with app.open_resource('static/dashboard_config.json') as f:
     contents = f.read()
@@ -332,13 +339,13 @@ rclpy.init(args=None)
 dispatcher_client = DispatcherClient(json_config)
 
 # logging config
-logging.getLogger('werkzeug').setLevel(logging.ERROR) # hide logs from flask
+logging.getLogger('werkzeug').setLevel(logging.ERROR)  # hide logs from flask
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(levelname)s %(message)s',
                     filename='web_server.log',
                     filemode='w')
 
-#####################################################################################
+###############################################################################
 
 
 @app.route("/")
@@ -366,7 +373,7 @@ def cancel():
     return " Failed to cancel"
 
 
-# TODO: use socket broadcast
+# TODO: use socket broadcast.
 @app.route('/get_task', methods=['GET'])
 def status():
     task_status = jsonify(dispatcher_client.get_task_status())
@@ -378,16 +385,13 @@ def status():
 # TODO: use socket broadcast
 @app.route('/get_robots', methods=['GET'])
 def robots():
-    robot_status = jsonify({
-        "time": dispatcher_client.ros_time(), 
-        "robots": dispatcher_client.get_robot_states()    
-    })
+    robot_status = jsonify(dispatcher_client.get_robot_states())
     logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
         Robot Status: {json.dumps(robot_status.json)}")
     return robot_status
 
 
-#####################################################################################
+###############################################################################
 
 def load_cleaning_tasks(yaml_file):
     try:
@@ -408,6 +412,28 @@ def web_server_spin():
     while rclpy.ok():
         dispatcher_client.spin_once()
         time.sleep(0.2)
+
+
+def broadcast_states():
+    """
+    Robot_states, tasks_status, and ros_time are being broadcasted
+    to frontend UIs via socketIO, periodically (every 2s)
+    """
+    ns = '/status_updates'
+    while rclpy.ok():
+        with app.test_request_context():
+            tasks = dispatcher_client.get_task_status()
+            robots = dispatcher_client.get_robot_states()
+            ros_time = dispatcher_client.ros_time()
+            socketio.emit('task_status', tasks, broadcast=True, namespace=ns)
+            socketio.emit('robot_states', robots, broadcast=True, namespace=ns)
+            socketio.emit('ros_time', ros_time, broadcast=True, namespace=ns)
+
+            logging.debug(f" ROS Time: {ros_time} | tasks num: {len(tasks)} \
+                active robots: {len(robots)}")
+        time.sleep(2)
+
+###############################################################################
 
 
 def main(args=None):
@@ -433,6 +459,9 @@ def main(args=None):
 
     spin_thread = Thread(target=web_server_spin, args=())
     spin_thread.start()
+
+    broadcast_thread = Thread(target=broadcast_states, args=())
+    broadcast_thread.start()
 
     print("Starting Dispatcher GUI Server")
     app.run(host=server_ip, port=5000, debug=False)

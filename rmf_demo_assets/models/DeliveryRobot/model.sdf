@@ -27,7 +27,7 @@
 
       <!-- Battery params -->
       <nominal_voltage>24.0</nominal_voltage>
-      <nominal_capacity>2.0</nominal_capacity>
+      <nominal_capacity>40.0</nominal_capacity>
       <charging_current>24.0</charging_current>
 
       <!-- Physical params -->
@@ -377,4 +377,3 @@
 
   </model>
 </sdf>
-

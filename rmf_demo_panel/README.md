@@ -11,12 +11,18 @@ colcon build --packages-select rmf_demo_panel
 ```
 
 # Run 
-```
+Test Run
+```bash
 # first terminal
 ros2 run rmf_demo_panel dispatcher_gui
 
 # second terminal
 ros2 run rmf_task_ros2 rmf_task_dispatcher
+```
+
+Run with gazebo simulation
+```bash
+ros2 launch demos dispatcher.launch.xml
 ```
 
 ## Run Sample Tasks
