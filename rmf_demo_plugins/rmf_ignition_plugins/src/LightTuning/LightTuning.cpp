@@ -19,18 +19,50 @@
 #include <string>
 #include <iostream>
 
-#include <ignition/plugin/Register.hh>
-#include <ignition/gui/qt.h>
 #include <ignition/gazebo/gui/GuiSystem.hh>
+#include <ignition/gazebo/gui/GuiEvents.hh>
 #include <ignition/gazebo/SdfEntityCreator.hh>
 #include <ignition/gazebo/components/Light.hh>
+#include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
+#include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/World.hh>
+
+#include <ignition/gui/Application.hh>
+#include <ignition/gui/MainWindow.hh>
+
+#include <ignition/plugin/Register.hh>
 
 #include <ignition/msgs.hh>
 #include <ignition/transport.hh>
 
-using namespace ignition;
+// Helper function that creates a simple cube sdf model string
+std::string create_light_marker_str(const std::string& name,
+  const ignition::math::Pose3d& pose)
+{
+  std::ostringstream ss;
+  ss << std::string(
+      "<?xml version=\"1.0\"?>"
+      "<sdf version=\"1.7\">");
+  ss << "<model name=\"" << name << "\">" << std::endl;
+  ss << "<pose>" << pose << "</pose>" << std::endl;
+  ss << std::string(
+      "<static>true</static>"
+      "<link name=\"box_link\">"
+      "<visual name=\"box_visual\">"
+      "<cast_shadows>false</cast_shadows>"
+      "<transparency>0.5</transparency>"
+      "<geometry>"
+      "<box>"
+      "<size>0.5 0.5 0.5</size>"
+      "</box>"
+      "</geometry>"
+      "</visual>"
+      "</link>"
+      "</model>"
+      "</sdf>");
+  return ss.str();
+}
 
 // Helper functions to parse inputs of various types from the GUI
 std::optional<sdf::LightType> parse_light_type(const std::string& type)
@@ -139,6 +171,14 @@ std::optional<ignition::math::Angle> parse_angle(
   }
 }
 
+template<typename T>
+std::string to_string(const T& value)
+{
+  std::ostringstream ss;
+  ss << value;
+  return ss.str();
+}
+
 // Data model representing a list of lights. Provides data for delegates to display
 // in QML via a series of roles which the delegates bind to.
 class LightsModel : public QAbstractListModel
@@ -174,7 +214,7 @@ public:
   // Inserts a default light with the name specified in `name_qstr`,
   // if it does not exist
   void add_new_light(const QString& name_qstr);
-  // Deletes the light at index `idx` if it exists from LightsModel
+  // Deletes the light from LightsModel at index `idx` if it exists
   void remove_light(int idx);
 
   // Returns a reference to the light at index `idx` in `_lights`.
@@ -232,9 +272,7 @@ QVariant LightsModel::data(const QModelIndex& index, int role) const
     }
     case PoseRole:
     {
-      std::ostringstream ss;
-      ss << light.RawPose();
-      return QString(ss.str().c_str());
+      return QString(to_string(light.RawPose()).c_str());
     }
     case IndexRole:
     {
@@ -242,15 +280,11 @@ QVariant LightsModel::data(const QModelIndex& index, int role) const
     }
     case DiffuseRole:
     {
-      std::ostringstream ss;
-      ss << light.Diffuse();
-      return QString(ss.str().c_str());
+      return QString(to_string(light.Diffuse()).c_str());
     }
     case SpecularRole:
     {
-      std::ostringstream ss;
-      ss << light.Specular();
-      return QString(ss.str().c_str());
+      return QString(to_string(light.Specular()).c_str());
     }
     case AttenuationRangeRole:
     {
@@ -270,21 +304,15 @@ QVariant LightsModel::data(const QModelIndex& index, int role) const
     }
     case DirectionRole:
     {
-      std::ostringstream ss;
-      ss << light.Direction();
-      return QString(ss.str().c_str());
+      return QString(to_string(light.Direction()).c_str());
     }
     case SpotInnerAngleRole:
     {
-      std::ostringstream ss;
-      ss << light.SpotInnerAngle();
-      return QString(ss.str().c_str());
+      return QString(to_string(light.SpotInnerAngle()).c_str());
     }
     case SpotOuterAngleRole:
     {
-      std::ostringstream ss;
-      ss << light.SpotOuterAngle();
-      return QString(ss.str().c_str());
+      return QString(to_string(light.SpotOuterAngle()).c_str());
     }
     case SpotFalloffRole:
     {
@@ -353,7 +381,7 @@ const QVector<sdf::Light>& LightsModel::get_lights() const
 
 // Class that handles all GUI interactions and their associated
 // light creations/deletions
-class LightTuning : public gazebo::GuiSystem
+class LightTuning : public ignition::gazebo::GuiSystem
 {
   Q_OBJECT
 
@@ -363,6 +391,10 @@ public:
 
   void Update(const ignition::gazebo::UpdateInfo& _info,
     ignition::gazebo::EntityComponentManager& _ecm) override;
+
+signals:
+  void poseChanged(QString nm, QString new_pose);
+  void markerSelected(QString nm);
 
 public slots:
   void OnLightTypeSelect(sdf::Light& light, const QString& type);
@@ -383,31 +415,60 @@ public slots:
   void OnSaveLightsBtnPress(const QString& url, bool save_all = true,
     int idx = -1);
 
+protected: bool eventFilter(QObject* _obj, QEvent* _event) override;
+
 private:
   std::string _world_name;
   ignition::transport::Node _node;
   LightsModel _model;
+
+  // Contains an Entity that serves as a physical representation of
+  // the light on the screen, so that a user can move it around to set the
+  // light pose
+  struct LightMarker
+  {
+    std::string name; // Name of the LightMarker
+    ignition::gazebo::Entity en;
+  };
+  // List of pairs of light name and corresponding marker name being spawned
+  std::vector<std::pair<std::string, std::string>> _markers_spawn_pipeline;
+  // Map from light name to its corresponding marker
+  std::unordered_map<std::string, LightMarker> _markers;
 
   enum class Action {REMOVE, CREATE};
   // Map from a light name to a queue of create/remove service requests
   // for that corresponding light
   std::unordered_map<std::string, std::queue<Action>> actions;
 
-  // Sends a service request to render the light with name `name`
-  // in the world named `sim_world` using Ignition transport
-  void create_light_service(const std::string& name);
-  // Sends a service request to delete a light with name `name`
-  // from the Ignition Gazebo world `sim_world` using Ignition transport
-  void remove_light_service(const std::string& name);
   // Returns a string representation of the specified light in the
   // SDF v1.7 format
   std::string light_to_sdf_string(const sdf::Light&);
+
+  // Sends a service request to render the light with name `name`
+  // using Ignition transport. Also creates a corresponding LightMarker
+  void create_light_service(const ignition::gazebo::EntityComponentManager& ecm,
+    const std::string& name);
+  // Sends a service request to delete the light with name `name`
+  // as well as its corresponding LightMarker
+  void remove_light_service(const std::string& name);
+  // Sends a service request to render the LightMarker corresponding to the light
+  // with name `light_name` using Ignition transport
+  void create_marker_service(
+    const ignition::gazebo::EntityComponentManager& ecm,
+    const std::string& light_name, const ignition::math::Pose3d& pose);
+  // Sends a service request to remove the LightMarker corresponding to the light
+  // with name `light_name` using Ignition transport
+  void remove_marker_service(const std::string& light_name);
 };
 
 void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
 {
   if (this->title.empty())
     this->title = "Light Tuning";
+
+  // Monitor any Light entity selection in order to open relevant dropdown
+  ignition::gui::App()->findChild<
+    ignition::gui::MainWindow*>()->installEventFilter(this);
 
   // Connect data model to view
   this->Context()->setContextProperty(
@@ -417,7 +478,7 @@ void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
 void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
   ignition::gazebo::EntityComponentManager& ecm)
 {
-  // Get world name in order to send create/remove requests later.
+  // Get world name for sending create/remove requests later.
   // Assumes there is only 1 world in the simulation
   if (!_world_name.size())
   {
@@ -433,11 +494,45 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       });
   }
 
+  // Check if any LightMarkers have been spawned and add the
+  // generated Entity to _markers if so
+  auto _new_markers_it = _markers_spawn_pipeline.begin();
+  while (_new_markers_it != _markers_spawn_pipeline.end())
+  {
+    std::string& light_name = _new_markers_it->first;
+    std::string& marker_name = _new_markers_it->second;
+
+    auto marker_en = ecm.EntityByComponents(
+      ignition::gazebo::components::Name(marker_name),
+      ignition::gazebo::components::Model());
+    if (marker_en != ignition::gazebo::kNullEntity)
+    {
+      _markers[light_name] = LightMarker {marker_name, marker_en};
+      _new_markers_it = _markers_spawn_pipeline.erase(_new_markers_it);
+    }
+    else
+    {
+      ++_new_markers_it;
+    }
+  }
+
+  // Update GUI to show latest poses of LightMarkers
+  for (auto it = _markers.begin(); it != _markers.end(); ++it)
+  {
+    auto pose =
+      ecm.Component<ignition::gazebo::components::Pose>(it->second.en);
+    if (pose)
+    {
+      poseChanged(QString(it->first.c_str()),
+        QString(to_string(pose->Data()).c_str()));
+    }
+  }
+
   // When multiple create/remove requests for the same entity are sent
   // in the same update step, the order of processing may be non-deterministic.
-  // To workaround this, in each Update() call, we ensure only 1 create/
-  // remove request is sent per light. This ensures that entities are created/
-  // removed in Ignition in the order requested.
+  // To workaround this, in each Update() call, we use a queue to ensure we only
+  // issue one create/remove request per light. This ensures that entities are
+  // created/removed in Ignition in the order requested.
   auto light_queue_it = actions.begin();
   while (light_queue_it != actions.end())
   {
@@ -446,7 +541,7 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
     {
       if (light_queue_it->second.front() == Action::CREATE)
       {
-        create_light_service(light_queue_it->first);
+        create_light_service(ecm, light_queue_it->first);
         light_queue_it->second.pop();
       }
       else
@@ -474,35 +569,34 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
   return;
 }
 
-// Necesary to supply callbacks to the service requests in order for the
-// requests to execute properly, though they are not used for anything here.
-void create_light_service_cb(const ignition::msgs::Boolean&, const bool)
+// Monitor and emit signal when a LightMarker is selected, so that
+// the relevant menu in GUI can be expanded
+bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
 {
+  if (_event->type() == ignition::gazebo::gui::events::EntitiesSelected::kType)
+  {
+    auto event =
+      reinterpret_cast<ignition::gazebo::gui::events::EntitiesSelected*>(_event);
+    if (event && !event->Data().empty())
+    {
+      const ignition::gazebo::Entity en = *event->Data().begin();
+      auto it = std::find_if(_markers.begin(), _markers.end(),
+          [&en](const std::pair<std::string, LightMarker>& marker)
+          {
+            return marker.second.en == en;
+          });
+      if (it != _markers.end())
+      {
+        emit markerSelected(QString(it->first.c_str()));
+      }
+    }
+  }
+
+  // Standard event processing
+  return QObject::eventFilter(_obj, _event);
 }
 
-void remove_light_service_cb(const ignition::msgs::Boolean&, const bool)
-{
-}
-
-void LightTuning::create_light_service(const std::string& name)
-{
-  ignition::msgs::EntityFactory create_light_req;
-  const sdf::Light& light = _model.get_light(name);
-  create_light_req.set_sdf(light_to_sdf_string(light));
-  _node.Request("/world/" + _world_name + "/create",
-    create_light_req, create_light_service_cb);
-}
-
-void LightTuning::remove_light_service(const std::string& name)
-{
-  ignition::msgs::Entity remove_light_req;
-  remove_light_req.set_name(name);
-  remove_light_req.set_type(ignition::msgs::Entity_Type_LIGHT);
-  _node.Request("/world/" + _world_name + "/remove",
-    remove_light_req, remove_light_service_cb);
-}
-
-// Could possibly use some xml library instead
+// Could possibly use an XML library instead
 std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
 {
   std::ostringstream ss;
@@ -533,6 +627,81 @@ std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
   return ss.str();
 }
 
+// Necesary to supply callbacks to the service requests in order for the
+// requests to execute properly, though they are not used for anything here.
+void light_service_cb(const ignition::msgs::Boolean&, const bool)
+{
+}
+
+// Assumes any service requests will be successful
+void LightTuning::create_light_service(
+  const ignition::gazebo::EntityComponentManager& ecm, const std::string& name)
+{
+  ignition::msgs::EntityFactory create_light_req;
+  const sdf::Light& light = _model.get_light(name);
+  create_light_req.set_sdf(light_to_sdf_string(light));
+  _node.Request("/world/" + _world_name + "/create",
+    create_light_req, light_service_cb);
+
+  create_marker_service(ecm, name, light.RawPose());
+}
+
+void LightTuning::remove_light_service(const std::string& name)
+{
+  ignition::msgs::Entity remove_light_req;
+  remove_light_req.set_name(name);
+  remove_light_req.set_type(ignition::msgs::Entity_Type_LIGHT);
+  _node.Request("/world/" + _world_name + "/remove",
+    remove_light_req, light_service_cb);
+
+  remove_marker_service(name);
+}
+
+void marker_service_cb(const ignition::msgs::Boolean&, const bool)
+{
+}
+
+void LightTuning::create_marker_service(
+  const ignition::gazebo::EntityComponentManager& ecm,
+  const std::string& light_name, const ignition::math::Pose3d& pose)
+{
+  std::string marker_name = light_name + "_marker";
+  while (
+    ecm.EntityByComponents(ignition::gazebo::components::Name(marker_name))
+    != ignition::gazebo::kNullEntity)
+  {
+    marker_name += "_"; // Avoid name collisions
+  }
+
+  ignition::msgs::EntityFactory create_marker_req;
+  create_marker_req.set_sdf(create_light_marker_str(marker_name, pose));
+  _node.Request("/world/" + _world_name + "/create",
+    create_marker_req, marker_service_cb);
+
+  _markers_spawn_pipeline.push_back({light_name, marker_name});
+}
+
+void LightTuning::remove_marker_service(const std::string& light_name)
+{
+  const std::unordered_map<std::string, LightMarker>::iterator it =
+    _markers.find(light_name);
+  if (it == _markers.end())
+  {
+    ignwarn << "Unable to remove any marker belonging to light with name " <<
+      light_name << std::endl;
+    return;
+  }
+  const std::string& marker_name = it->second.name;
+
+  ignition::msgs::Entity remove_marker_req;
+  remove_marker_req.set_name(marker_name);
+  remove_marker_req.set_type(ignition::msgs::Entity_Type_MODEL);
+  _node.Request("/world/" + _world_name + "/remove",
+    remove_marker_req, marker_service_cb);
+
+  _markers.erase(it);
+}
+
 // Helper template function to parse GUI input and update the sdf Light's property
 template<typename T, typename F>
 void update_light(std::optional<T>(*parse_fn)(const std::string&),
@@ -559,7 +728,6 @@ void LightTuning::OnCreateLightBtnPress(
   const QString& spot_falloff_str)
 {
   sdf::Light& light = _model.get_light(idx);
-
   light.SetName(name.toStdString());
   light.SetCastShadows(cast_shadow);
   update_light(&parse_light_type, &sdf::Light::SetType, light, type_str);
@@ -602,7 +770,7 @@ void LightTuning::OnCreateLightBtnPress(
 void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
 {
   auto light_queue_it = actions.find(name.toStdString());
-  // Remove from simulation by adding it to queue of requests
+  // Add to queue of requests to remove from simulation
   if (light_queue_it != actions.end())
   {
     if (!(light_queue_it->second.size()
@@ -655,6 +823,5 @@ void LightTuning::OnSaveLightsBtnPress(const QString& url,
 // Register this plugin
 IGNITION_ADD_PLUGIN(LightTuning,
   ignition::gui::Plugin)
-
 
 #include "LightTuning.moc"

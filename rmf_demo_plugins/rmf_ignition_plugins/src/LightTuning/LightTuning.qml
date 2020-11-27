@@ -26,13 +26,18 @@ import QtQuick.Dialogs 1.0
 
 Rectangle {
   id: lightTuningPlugin
-  Layout.minimumWidth: 280
-  Layout.minimumHeight: 1200
+  Layout.minimumWidth: 350
+  Layout.minimumHeight: 1000
   anchors.fill: parent
+  color: lightGrey
 
   property color lightGrey: (Material.theme == Material.Light) ?
     Material.color(Material.Grey, Material.Shade100) :
     Material.color(Material.Grey, Material.Shade800)
+
+  property color darkGrey: (Material.theme == Material.Light) ?
+    Material.color(Material.Grey, Material.Shade200) :
+    Material.color(Material.Grey, Material.Shade900)
 
   property color highlightColor: Qt.rgba(
     Material.accent.r,
@@ -62,7 +67,7 @@ Rectangle {
             id: newLightName
             placeholderText: "Enter new unique light name"
             font.pointSize: 13
-            Layout.minimumWidth: 250
+            Layout.minimumWidth: 320
             Layout.leftMargin: margin
             Layout.rightMargin: margin
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
@@ -117,8 +122,8 @@ Rectangle {
   }
 
   ListView {
-    anchors.bottom: parent.bottom
     anchors.top: addSaveForm.bottom
+    anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     id: listView
@@ -162,12 +167,15 @@ Rectangle {
               }
               Label {
                   id: nameId
+                  width: text.width
                   text: model.name
-                  font.weight: Font.Bold
                   font.pointSize: 13
                   wrapMode: Label.Wrap
                   Layout.alignment: Qt.AlignVCenter | Qt.AlignHLeft
                   Layout.margins: margin
+              }
+              Item {
+                Layout.fillWidth: true
               }
             }
 
@@ -175,8 +183,21 @@ Rectangle {
               anchors.fill: parent
               hoverEnabled: true
               cursorShape: Qt.PointingHandCursor
+              Connections {
+                target: LightTuning
+                onMarkerSelected: {
+                  if (nm == model.name)
+                  {
+                    content.show = true;
+                  }
+                  else
+                  {
+                    content.show = false;
+                  }
+                }
+              }
               onClicked: {
-                content.show = !content.show
+                content.show = !content.show;
               }
               onEntered: {
                 header.color = highlightColor
@@ -213,7 +234,8 @@ Rectangle {
                 Layout.fillHeight: true
                 spacing: 10
                 Text {
-                  text: "Type:"
+                  text: "Type"
+                  font.pointSize: 10
                   Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                   Layout.leftMargin: margin
                   Layout.bottomMargin: 5
@@ -236,13 +258,18 @@ Rectangle {
               RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                CheckBox {
-                  id: cast_shadow
-                  text: "Cast Shadow"
-                  Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                  Layout.leftMargin: margin
-                  Layout.bottomMargin: 5
-                  checked: false
+                MenuItem {
+                    text: 'Cast Shadow'
+                    id: cast_shadow
+                    font.pointSize: 10
+                    checkable: true
+                    indicator.anchors.right: right
+                    indicator.anchors.rightMargin: rightPadding
+                    contentItem.anchors.left: left
+                    contentItem.anchors.leftMargin: leftPadding
+                    Component.onCompleted: {
+                        contentItem.leftPadding = 0
+                    }
                 }
               }
 
@@ -251,6 +278,7 @@ Rectangle {
                 Layout.fillHeight: true
                 spacing: 10
                 Label {
+                    id: bar
                     wrapMode: Label.Wrap
                     text: "Pose"
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
@@ -263,6 +291,18 @@ Rectangle {
                     text: model.pose
                     placeholderText: "0 0 0 0 0 0"
                     horizontalAlignment: Qt.AlignHCenter
+                    Connections {
+                      target: LightTuning
+                      onPoseChanged: {
+                        pose.text = (nm == model.name && !pose_manual_toggle.checked) ?
+                          new_pose : pose.text;
+                      }
+                    }
+                }
+
+                Switch {
+                    id: pose_manual_toggle
+                    text: qsTr("Manual")
                 }
               }
 
@@ -281,6 +321,7 @@ Rectangle {
                     id: diffuse
                     placeholderText: "1 1 1 1"
                     text: model.diffuse
+                    horizontalAlignment: Qt.AlignHCenter
                 }
               }
 
@@ -299,6 +340,7 @@ Rectangle {
                     id: specular
                     text: model.specular
                     placeholderText: "1 1 1 1"
+                    horizontalAlignment: Qt.AlignHCenter
                 }
               }
 
@@ -314,10 +356,11 @@ Rectangle {
                 }
 
                 TextField {
-                    id: attentuation_range
+                    id: attenuation_range
                     text: model.attenuation_range
                     validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
                     placeholderText: "10"
+                    horizontalAlignment: Qt.AlignHCenter
                 }
               }
 
@@ -326,17 +369,26 @@ Rectangle {
                 Layout.fillHeight: true
                 Label {
                     wrapMode: Label.Wrap
-                    text: "Constant Attenuation Factor"
+                    text: "Constant Attenuation"
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     Layout.leftMargin: margin
                     Layout.bottomMargin: 5
                 }
 
-                TextField {
-                    id: attentuation_constant
-                    text: model.attenuation_constant
-                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation; bottom:0.0; top:1.0;}
-                    placeholderText: "1.0"
+                Slider {
+                  id: attenuation_constant
+                  from: 0.0
+                  to: 1.0
+                  value: model.attenuation_constant
+                  Layout.preferredWidth: 100
+                }
+
+                Label {
+                    wrapMode: Label.Wrap
+                    text: attenuation_constant.value.toFixed(2)
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    Layout.leftMargin: margin
+                    Layout.bottomMargin: 5
                 }
               }
 
@@ -345,17 +397,26 @@ Rectangle {
                 Layout.fillHeight: true
                 Label {
                     wrapMode: Label.Wrap
-                    text: "Linear Attenuation Factor"
+                    text: "Linear Attenuation"
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     Layout.leftMargin: margin
                     Layout.bottomMargin: 5
                 }
 
-                TextField {
-                    id: attentuation_linear
-                    text: model.attenuation_linear
-                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation; bottom:0.0; top:1.0;}
-                    placeholderText: "1.0"
+                Slider {
+                  id: attenuation_linear
+                  from: 0.0
+                  to: 1.0
+                  value: model.attenuation_linear
+                  Layout.preferredWidth: 100
+                }
+
+                Label {
+                    wrapMode: Label.Wrap
+                    text: attenuation_linear.value.toFixed(2)
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    Layout.leftMargin: margin
+                    Layout.bottomMargin: 5
                 }
               }
 
@@ -364,17 +425,26 @@ Rectangle {
                 Layout.fillHeight: true
                 Label {
                     wrapMode: Label.Wrap
-                    text: "Quadratic Attenuation Factor"
+                    text: "Quadratic Attenuation"
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                     Layout.leftMargin: margin
                     Layout.bottomMargin: 5
                 }
 
-                TextField {
-                    id: attentuation_quadratic
-                    text: model.attenuation_quadratic
-                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation; bottom:0.0; top:1.0;}
-                    placeholderText: "1.0"
+                Slider {
+                  id: attenuation_quadratic
+                  from: 0.0
+                  to: 1.0
+                  value: model.attenuation_quadratic
+                  Layout.preferredWidth: 100
+                }
+
+                Label {
+                    wrapMode: Label.Wrap
+                    text: attenuation_quadratic.value.toFixed(2)
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    Layout.leftMargin: margin
+                    Layout.bottomMargin: 5
                 }
               }
 
@@ -393,70 +463,118 @@ Rectangle {
                     id: direction
                     text: model.direction
                     placeholderText: "0 0 -1"
+                    horizontalAlignment: Qt.AlignHCenter
+                }
+              }
+
+              GroupBox {
+                title: "Spot Light Only"
+                label: Rectangle {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: parent.top
+                    anchors.bottomMargin: -height/2
+                    color: lightGrey
+                    width: parent.width * 0.4
+                    height: title.font.pixelSize
+                    Text {
+                        id: title
+                        text: "Spot Light Only"
+                        anchors.centerIn: parent
+                        font.pointSize: 10
+                    }
+                }
+                Layout.margins: margin
+
+                background: Rectangle {
+                    color: "transparent"
+                    border.color: "dimgrey"
+                    radius: 5
+                }
+
+                Column {
+                  RowLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Label {
+                        wrapMode: Label.Wrap
+                        text: "Spot Inner Angle"
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        Layout.leftMargin: margin
+                        Layout.bottomMargin: 5
+                    }
+
+                    Slider {
+                      id: spot_inner_angle
+                      from: 0.0
+                      to: Math.PI
+                      value: model.spot_inner_angle
+                      Layout.preferredWidth: 100
+                    }
+
+                    Label {
+                        wrapMode: Label.Wrap
+                        text: spot_inner_angle.value.toFixed(2)
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        Layout.leftMargin: margin
+                        Layout.bottomMargin: 5
+                    }
+                  }
+
+                  RowLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Label {
+                        wrapMode: Label.Wrap
+                        text: "Spot Outer Angle"
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        Layout.leftMargin: margin
+                        Layout.bottomMargin: 5
+                    }
+
+                    Slider {
+                      id: spot_outer_angle
+                      from: 0.0
+                      to: Math.PI
+                      value: model.spot_outer_angle
+                      Layout.preferredWidth: 100
+                    }
+
+                    Label {
+                        wrapMode: Label.Wrap
+                        text: spot_outer_angle.value.toFixed(2)
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        Layout.leftMargin: margin
+                        Layout.bottomMargin: 5
+                    }
+                  }
+
+                  RowLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Label {
+                        wrapMode: Label.Wrap
+                        text: "Spot Falloff"
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        Layout.leftMargin: margin
+                        Layout.bottomMargin: 5
+                    }
+
+                    TextField {
+                        id: spot_falloff
+                        text: model.spot_falloff
+                        validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
+                        placeholderText: "0"
+                        horizontalAlignment: Qt.AlignHCenter
+                    }
+                  }
                 }
               }
 
               RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Label {
-                    wrapMode: Label.Wrap
-                    text: "Spot Inner Angle"
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    Layout.leftMargin: margin
-                    Layout.bottomMargin: 5
-                }
-
-                TextField {
-                    id: spot_inner_angle
-                    text: model.spot_inner_angle
-                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
-                    placeholderText: "1.0"
-                }
-              }
-
-              RowLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Label {
-                    wrapMode: Label.Wrap
-                    text: "Spot Outer Angle"
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    Layout.leftMargin: margin
-                    Layout.bottomMargin: 5
-                }
-
-                TextField {
-                    id: spot_outer_angle
-                    text: model.spot_outer_angle
-                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
-                    placeholderText: "1.0"
-                }
-              }
-
-              RowLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Label {
-                    wrapMode: Label.Wrap
-                    text: "Spot Falloff"
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    Layout.leftMargin: margin
-                    Layout.bottomMargin: 5
-                }
-
-                TextField {
-                    id: spot_falloff
-                    text: model.spot_falloff
-                    validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
-                    placeholderText: "0"
-                }
-              }
-
-              RowLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                // Renders light in the Ignition Gazebo simulation
+                // Renders light in the Ignition Gazebo simulation as well as a
+                // marker at its pose
                 Button {
                   text: "Create"
                   onClicked: {
@@ -464,17 +582,17 @@ Rectangle {
                       cast_shadow.checked,
                       lightTypeList.get(light_type.currentIndex).text,
                       model.name, pose.text, diffuse.text,
-                      specular.text, attentuation_range.text,
-                      attentuation_constant.text, attentuation_linear.text,
-                      attentuation_quadratic.text, direction.text,
-                      spot_inner_angle.text, spot_outer_angle.text,
+                      specular.text, attenuation_range.text,
+                      attenuation_constant.value, attenuation_linear.value,
+                      attenuation_quadratic.value, direction.text,
+                      spot_inner_angle.value, spot_outer_angle.value,
                       spot_falloff.text)
                   }
                   Layout.leftMargin: margin
                   Layout.bottomMargin: 5
                 }
 
-                  // Deletes the light and it's associated form
+                // Deletes the light and its associated form and light marker
                 Button {
                   text: "Remove"
                   onClicked: {
