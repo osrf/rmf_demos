@@ -60,7 +60,7 @@ The models required for each of the demo worlds will be automatically downloaded
 ```bash
 cd ~/rmf_demos_ws
 source /opt/ros/foxy/setup.bash
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
 NOTE: The first time the build occurs, many simulation models will be downloaded from Ignition Fuel to populate the scene when the simulation is run.
@@ -77,6 +77,6 @@ sudo apt install g++-8 libignition-common3-dev libignition-plugin-dev -y
 ```bash
 cd ~/rmf_demos_ws
 source ~/ros2_foxy/install/setup.bash
-CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
+CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 > Note: The build will fail if the compiler is not set to g++ version 8 or above.
