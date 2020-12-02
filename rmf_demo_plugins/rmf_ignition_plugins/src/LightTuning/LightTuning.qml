@@ -163,7 +163,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.leftMargin: margin
                 source: content.show ?
-                    "minus.png" : "plus.png"
+                    "images/minus.png" : "images/plus.png"
               }
               Label {
                   id: nameId
@@ -323,6 +323,35 @@ Rectangle {
                     text: model.diffuse
                     horizontalAlignment: Qt.AlignHCenter
                 }
+
+                // Pick diffuse color with GUI instead
+                Button {
+                  id: pickDiffuseColorButton
+                  text: "Pick"
+                  icon.source: "images/Colorwheel.png"
+                  icon.color: "transparent"
+                  onClicked: {
+                    diffuseColorDialog.open()
+                  }
+                  Layout.leftMargin: margin
+                  Layout.bottomMargin: 5
+
+                  ColorDialog {
+                      id: diffuseColorDialog
+                      title: "Please choose a color"
+                      showAlphaChannel: true
+                      onAccepted: {
+                          diffuse.text = diffuseColorDialog.color.r.toFixed(2)
+                            + ' ' + diffuseColorDialog.color.g.toFixed(2)
+                            + ' ' + diffuseColorDialog.color.b.toFixed(2)
+                            + ' ' + diffuseColorDialog.color.a.toFixed(2);
+                          close()
+                      }
+                      onRejected: {
+                          close()
+                      }
+                  }
+                }
               }
 
               RowLayout {
@@ -341,6 +370,34 @@ Rectangle {
                     text: model.specular
                     placeholderText: "1 1 1 1"
                     horizontalAlignment: Qt.AlignHCenter
+                }
+                // Pick specular color with GUI instead
+                Button {
+                  id: pickSpecularColorButton
+                  text: "Pick"
+                  icon.source: "images/Colorwheel.png"
+                  icon.color: "transparent"
+                  onClicked: {
+                    specularColorDialog.open()
+                  }
+                  Layout.leftMargin: margin
+                  Layout.bottomMargin: 5
+
+                  ColorDialog {
+                      id: specularColorDialog
+                      title: "Please choose a color"
+                      showAlphaChannel: true
+                      onAccepted: {
+                          specular.text = specularColorDialog.color.r.toFixed(2)
+                            + ' ' + specularColorDialog.color.g.toFixed(2)
+                            + ' ' + specularColorDialog.color.b.toFixed(2)
+                            + ' ' + specularColorDialog.color.a.toFixed(2);
+                          close()
+                      }
+                      onRejected: {
+                          close()
+                      }
+                  }
                 }
               }
 
