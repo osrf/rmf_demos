@@ -179,6 +179,34 @@ std::string to_string(const T& value)
   return ss.str();
 }
 
+// Helper function that inserts an SDF element representation of the light to the stream `os`
+std::ostream& operator<<(std::ostream& os, const sdf::Light& light)
+{
+  os << "<light type=\""
+     << (light.Type() == sdf::LightType::POINT ? "point" :
+    (light.Type() == sdf::LightType::DIRECTIONAL ? "directional" : "spot"))
+     << "\" name=\"" << light.Name() << "\"> \n";
+  os << "<cast_shadows>"
+     << (light.CastShadows() ? "true" : "false") << "</cast_shadows> \n";
+  os << "<pose>" << light.RawPose() << "</pose>\n";
+  os << "<diffuse>" << light.Diffuse() << "</diffuse>\n";
+  os << "<specular>" << light.Specular() << "</specular>\n";
+  os << "<attenuation>\n";
+  os << "<range>" << light.AttenuationRange() << "</range>\n";
+  os << "<constant>" << light.ConstantAttenuationFactor() << "</constant>\n";
+  os << "<linear>" << light.LinearAttenuationFactor() << "</linear>\n";
+  os << "<quadratic>" << light.QuadraticAttenuationFactor() << "</quadratic>\n";
+  os << "</attenuation>\n";
+  os << "<direction>" << light.Direction() << "</direction>\n";
+  os << "<spot>\n";
+  os << "<inner_angle>" << light.SpotInnerAngle() << "</inner_angle>\n";
+  os << "<outer_angle>" << light.SpotOuterAngle() << "</outer_angle>\n";
+  os << "<falloff>" << light.SpotFalloff() << "</falloff>\n";
+  os << "</spot>\n";
+  os << "</light>\n";
+  return os;
+}
+
 // Data model representing a list of lights. Provides data for delegates to display
 // in QML via a series of roles which the delegates bind to.
 class LightsModel : public QAbstractListModel
@@ -418,6 +446,9 @@ public slots:
 protected: bool eventFilter(QObject* _obj, QEvent* _event) override;
 
 private:
+  const std::string sdf_open_tag = "<sdf version=\"1.7\"> \n";
+  const std::string sdf_close_tag = "</sdf>";
+
   std::string _world_name;
   ignition::transport::Node _node;
   LightsModel _model;
@@ -600,30 +631,9 @@ bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
 std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
 {
   std::ostringstream ss;
-  ss << "<sdf version=\"1.7\"> \n";
-  ss << "<light type=\""
-     << (light.Type() == sdf::LightType::POINT ? "point" :
-    (light.Type() == sdf::LightType::DIRECTIONAL ? "directional" : "spot"))
-     << "\" name=\"" << light.Name() << "\"> \n";
-  ss << "<cast_shadows>"
-     << (light.CastShadows() ? "true" : "false") << "</cast_shadows> \n";
-  ss << "<pose>" << light.RawPose() << "</pose>\n";
-  ss << "<diffuse>" << light.Diffuse() << "</diffuse>\n";
-  ss << "<specular>" << light.Specular() << "</specular>\n";
-  ss << "<attenuation>\n";
-  ss << "<range>" << light.AttenuationRange() << "</range>\n";
-  ss << "<constant>" << light.ConstantAttenuationFactor() << "</constant>\n";
-  ss << "<linear>" << light.LinearAttenuationFactor() << "</linear>\n";
-  ss << "<quadratic>" << light.QuadraticAttenuationFactor() << "</quadratic>\n";
-  ss << "</attenuation>\n";
-  ss << "<direction>" << light.Direction() << "</direction>\n";
-  ss << "<spot>\n";
-  ss << "<inner_angle>" << light.SpotInnerAngle() << "</inner_angle>\n";
-  ss << "<outer_angle>" << light.SpotOuterAngle() << "</outer_angle>\n";
-  ss << "<falloff>" << light.SpotFalloff() << "</falloff>\n";
-  ss << "</spot>\n";
-  ss << "</light>\n";
-  ss << "</sdf>";
+  ss << sdf_open_tag;
+  ss << light;
+  ss << sdf_close_tag;
   return ss.str();
 }
 
@@ -803,10 +813,12 @@ void LightTuning::OnSaveLightsBtnPress(const QString& url,
   const QVector<sdf::Light>& lights = _model.get_lights();
   if (save_all)
   {
+    file << sdf_open_tag;
     for (auto& light : lights)
     {
-      file << light_to_sdf_string(light);
+      file << light;
     }
+    file << sdf_close_tag;
   }
   else if (idx >= 0 && idx < (int)lights.size())
   {
