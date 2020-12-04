@@ -47,7 +47,8 @@ Rectangle {
   // Horizontal margins
   property int margin: 15
 
- Rectangle {
+  // Form to add a new light-edit menu and to save all lights to file
+  Rectangle {
     id: addSaveForm
     height: newLightName.height + addButton.height
       + saveButton.height + (addSaveBtnsCol.spacing * 2)
@@ -106,7 +107,6 @@ Rectangle {
         FileDialog {
           id: saveAllDialog
           title: "Save lights as SDF file"
-          //folder: shortcuts.home
           selectExisting: false
 
           onAccepted: {
@@ -121,6 +121,8 @@ Rectangle {
     }
   }
 
+  // Displays the light parameters for each light and propagates any updates to
+  // the LightTuning/LightsModel C++ classes
   ListView {
     anchors.top: addSaveForm.bottom
     anchors.bottom: parent.bottom
@@ -143,6 +145,18 @@ Rectangle {
         height: header.height + content.height
         width: parent.width
         color: lightGrey
+
+        function createLight() {
+          LightTuning.OnCreateLightBtnPress(model.idx,
+            cast_shadow.checked,
+            lightTypeList.get(light_type.currentIndex).text,
+            model.name, pose.text, diffuse.text,
+            specular.text, attenuation_range.text,
+            attenuation_constant.value, attenuation_linear.value,
+            attenuation_quadratic.value, direction.text,
+            spot_inner_angle.value, spot_outer_angle.value,
+            spot_falloff.text)
+        }
 
         Column {
           anchors.fill: parent
@@ -208,7 +222,7 @@ Rectangle {
             }
           }
 
-          // Content
+          // Collapsible content
           Rectangle {
             id: content
             property bool show: false
@@ -253,6 +267,7 @@ Rectangle {
                     ListElement { text: "Spot" }
                   }
                   onCurrentIndexChanged: {
+                    createLight();
                     if (lightTypeList.get(currentIndex).text == "Spot") {
                       spotlightParams.show = true;
                     } else {
@@ -280,6 +295,9 @@ Rectangle {
                     Component.onCompleted: {
                         contentItem.leftPadding = 0
                     }
+                    onTriggered: {
+                      createLight();
+                    }
                 }
               }
 
@@ -306,6 +324,12 @@ Rectangle {
                       onPoseChanged: {
                         pose.text = (nm == model.name && !pose_manual_toggle.checked) ?
                           new_pose : pose.text;
+                        createLight();
+                      }
+                    }
+                    onEditingFinished : {
+                      if (pose_manual_toggle.checked) {
+                        createLight();
                       }
                     }
                 }
@@ -332,6 +356,9 @@ Rectangle {
                     placeholderText: "1 1 1 1"
                     text: model.diffuse
                     horizontalAlignment: Qt.AlignHCenter
+                    onEditingFinished : {
+                      createLight()
+                    }
                 }
 
                 // Pick diffuse color with GUI instead
@@ -355,7 +382,8 @@ Rectangle {
                             + ' ' + diffuseColorDialog.color.g.toFixed(2)
                             + ' ' + diffuseColorDialog.color.b.toFixed(2)
                             + ' ' + diffuseColorDialog.color.a.toFixed(2);
-                          close()
+                          createLight();
+                          close();
                       }
                       onRejected: {
                           close()
@@ -380,6 +408,9 @@ Rectangle {
                     text: model.specular
                     placeholderText: "1 1 1 1"
                     horizontalAlignment: Qt.AlignHCenter
+                    onEditingFinished : {
+                      createLight()
+                    }
                 }
                 // Pick specular color with GUI instead
                 Button {
@@ -402,6 +433,7 @@ Rectangle {
                             + ' ' + specularColorDialog.color.g.toFixed(2)
                             + ' ' + specularColorDialog.color.b.toFixed(2)
                             + ' ' + specularColorDialog.color.a.toFixed(2);
+                          createLight();
                           close()
                       }
                       onRejected: {
@@ -428,6 +460,9 @@ Rectangle {
                     validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
                     placeholderText: "10"
                     horizontalAlignment: Qt.AlignHCenter
+                    onEditingFinished : {
+                      createLight()
+                    }
                 }
               }
 
@@ -448,6 +483,11 @@ Rectangle {
                   to: 1.0
                   value: model.attenuation_constant
                   Layout.preferredWidth: 100
+                  onPressedChanged: {
+                    if (!pressed) {
+                      createLight();
+                    }
+                  }
                 }
 
                 Label {
@@ -476,6 +516,11 @@ Rectangle {
                   to: 1.0
                   value: model.attenuation_linear
                   Layout.preferredWidth: 100
+                  onPressedChanged: {
+                    if (!pressed) {
+                      createLight();
+                    }
+                  }
                 }
 
                 Label {
@@ -504,6 +549,11 @@ Rectangle {
                   to: 1.0
                   value: model.attenuation_quadratic
                   Layout.preferredWidth: 100
+                  onPressedChanged: {
+                    if (!pressed) {
+                      createLight();
+                    }
+                  }
                 }
 
                 Label {
@@ -531,6 +581,9 @@ Rectangle {
                     text: model.direction
                     placeholderText: "0 0 -1"
                     horizontalAlignment: Qt.AlignHCenter
+                    onEditingFinished : {
+                      createLight()
+                    }
                 }
               }
 
@@ -564,6 +617,11 @@ Rectangle {
                     to: Math.PI
                     value: model.spot_inner_angle
                     Layout.preferredWidth: 100
+                    onPressedChanged: {
+                      if (!pressed) {
+                        createLight();
+                      }
+                    }
                   }
 
                   Label {
@@ -592,6 +650,11 @@ Rectangle {
                     to: Math.PI
                     value: model.spot_outer_angle
                     Layout.preferredWidth: 100
+                    onPressedChanged: {
+                      if (!pressed) {
+                        createLight();
+                      }
+                    }
                   }
 
                   Label {
@@ -620,6 +683,9 @@ Rectangle {
                       validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
                       placeholderText: "0"
                       horizontalAlignment: Qt.AlignHCenter
+                      onEditingFinished : {
+                        createLight();
+                      }
                   }
                 }
               }
@@ -632,15 +698,7 @@ Rectangle {
                 Button {
                   text: "Create"
                   onClicked: {
-                    LightTuning.OnCreateLightBtnPress(model.idx,
-                      cast_shadow.checked,
-                      lightTypeList.get(light_type.currentIndex).text,
-                      model.name, pose.text, diffuse.text,
-                      specular.text, attenuation_range.text,
-                      attenuation_constant.value, attenuation_linear.value,
-                      attenuation_quadratic.value, direction.text,
-                      spot_inner_angle.value, spot_outer_angle.value,
-                      spot_falloff.text)
+                    createLight()
                   }
                   Layout.leftMargin: margin
                   Layout.bottomMargin: 5

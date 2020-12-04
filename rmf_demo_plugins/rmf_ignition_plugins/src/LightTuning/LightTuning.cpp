@@ -408,6 +408,7 @@ sdf::Light& LightsModel::get_light(const std::string& name)
     {
       return light.Name() == name;
     });
+
   return *it;
 }
 
@@ -482,6 +483,7 @@ private:
   {
     std::string name; // Name of the LightMarker
     ignition::gazebo::Entity en;
+    ignition::math::Pose3d last_set_pose;
   };
   // List of pairs of light name and corresponding marker name being spawned
   std::vector<std::pair<std::string, std::string>> _markers_spawn_pipeline;
@@ -565,7 +567,11 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       ignition::gazebo::components::Model());
     if (marker_en != ignition::gazebo::kNullEntity)
     {
-      _markers[light_name] = LightMarker {marker_name, marker_en};
+      auto pose_component =
+        ecm.Component<ignition::gazebo::components::Pose>(marker_en);
+      auto pose =
+        pose_component ? pose_component->Data() : ignition::math::Pose3d();
+      _markers[light_name] = LightMarker {marker_name, marker_en, pose};
       _new_markers_it = _markers_spawn_pipeline.erase(_new_markers_it);
     }
     else
@@ -579,11 +585,12 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
   {
     auto pose =
       ecm.Component<ignition::gazebo::components::Pose>(it->second.en);
-    if (pose)
+    if (pose && pose->Data() != it->second.last_set_pose)
     {
       // Possibly cache old poses and more selectively emit signals in the future
       poseChanged(QString(it->first.c_str()),
         QString(to_string(pose->Data()).c_str()));
+      it->second.last_set_pose = pose->Data();
     }
   }
 
