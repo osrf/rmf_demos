@@ -27,7 +27,7 @@ import QtQuick.Dialogs 1.0
 Rectangle {
   id: lightTuningPlugin
   Layout.minimumWidth: 350
-  Layout.minimumHeight: 1000
+  Layout.minimumHeight: 1050
   anchors.fill: parent
   color: lightGrey
 
@@ -251,6 +251,16 @@ Rectangle {
                     ListElement { text: "Point" }
                     ListElement { text: "Directional" }
                     ListElement { text: "Spot" }
+                  }
+                  onCurrentIndexChanged: {
+                    if (lightTypeList.get(currentIndex).text == "Spot") {
+                      spotlightParams.show = true;
+                    } else {
+                      spotlightParams.show = false;
+                    }
+                  }
+                  Component.onCompleted: {
+                    spotlightParams.show = false; // Set initial show value to trigger height change
                   }
                 }
               }
@@ -524,105 +534,92 @@ Rectangle {
                 }
               }
 
-              GroupBox {
-                title: "Spot Light Only"
-                label: Rectangle {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.top
-                    anchors.bottomMargin: -height/2
-                    color: lightGrey
-                    width: parent.width * 0.4
-                    height: title.font.pixelSize
-                    Text {
-                        id: title
-                        text: "Spot Light Only"
-                        anchors.centerIn: parent
-                        font.pointSize: 10
-                    }
-                }
-                Layout.margins: margin
+              Column {
+                id: spotlightParams
 
-                background: Rectangle {
-                    color: "transparent"
-                    border.color: "dimgrey"
-                    radius: 5
+                property bool show: true
+                height: { show ? Layout.implicitHeight : 0 }
+                clip: true
+                Behavior on height {
+                  NumberAnimation {
+                    duration: 50;
+                    easing.type: Easing.InOutQuad
+                  }
                 }
 
-                Column {
-                  RowLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Label {
-                        wrapMode: Label.Wrap
-                        text: "Spot Inner Angle"
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        Layout.leftMargin: margin
-                        Layout.bottomMargin: 5
-                    }
-
-                    Slider {
-                      id: spot_inner_angle
-                      from: 0.0
-                      to: Math.PI
-                      value: model.spot_inner_angle
-                      Layout.preferredWidth: 100
-                    }
-
-                    Label {
-                        wrapMode: Label.Wrap
-                        text: spot_inner_angle.value.toFixed(2)
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        Layout.leftMargin: margin
-                        Layout.bottomMargin: 5
-                    }
+                RowLayout {
+                  Layout.fillWidth: true
+                  Layout.fillHeight: true
+                  Label {
+                      wrapMode: Label.Wrap
+                      text: "Spot Inner Angle"
+                      Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                      Layout.leftMargin: margin
+                      Layout.bottomMargin: 5
                   }
 
-                  RowLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Label {
-                        wrapMode: Label.Wrap
-                        text: "Spot Outer Angle"
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        Layout.leftMargin: margin
-                        Layout.bottomMargin: 5
-                    }
-
-                    Slider {
-                      id: spot_outer_angle
-                      from: 0.0
-                      to: Math.PI
-                      value: model.spot_outer_angle
-                      Layout.preferredWidth: 100
-                    }
-
-                    Label {
-                        wrapMode: Label.Wrap
-                        text: spot_outer_angle.value.toFixed(2)
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        Layout.leftMargin: margin
-                        Layout.bottomMargin: 5
-                    }
+                  Slider {
+                    id: spot_inner_angle
+                    from: 0.0
+                    to: Math.PI
+                    value: model.spot_inner_angle
+                    Layout.preferredWidth: 100
                   }
 
-                  RowLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Label {
-                        wrapMode: Label.Wrap
-                        text: "Spot Falloff"
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        Layout.leftMargin: margin
-                        Layout.bottomMargin: 5
-                    }
+                  Label {
+                      wrapMode: Label.Wrap
+                      text: spot_inner_angle.value.toFixed(2)
+                      Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                      Layout.leftMargin: margin
+                      Layout.bottomMargin: 5
+                  }
+                }
 
-                    TextField {
-                        id: spot_falloff
-                        text: model.spot_falloff
-                        validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
-                        placeholderText: "0"
-                        horizontalAlignment: Qt.AlignHCenter
-                    }
+                RowLayout {
+                  Layout.fillWidth: true
+                  Layout.fillHeight: true
+                  Label {
+                      wrapMode: Label.Wrap
+                      text: "Spot Outer Angle"
+                      Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                      Layout.leftMargin: margin
+                      Layout.bottomMargin: 5
+                  }
+
+                  Slider {
+                    id: spot_outer_angle
+                    from: 0.0
+                    to: Math.PI
+                    value: model.spot_outer_angle
+                    Layout.preferredWidth: 100
+                  }
+
+                  Label {
+                      wrapMode: Label.Wrap
+                      text: spot_outer_angle.value.toFixed(2)
+                      Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                      Layout.leftMargin: margin
+                      Layout.bottomMargin: 5
+                  }
+                }
+
+                RowLayout {
+                  Layout.fillWidth: true
+                  Layout.fillHeight: true
+                  Label {
+                      wrapMode: Label.Wrap
+                      text: "Spot Falloff"
+                      Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                      Layout.leftMargin: margin
+                      Layout.bottomMargin: 5
+                  }
+
+                  TextField {
+                      id: spot_falloff
+                      text: model.spot_falloff
+                      validator: DoubleValidator {notation: DoubleValidator.StandardNotation;}
+                      placeholderText: "0"
+                      horizontalAlignment: Qt.AlignHCenter
                   }
                 }
               }

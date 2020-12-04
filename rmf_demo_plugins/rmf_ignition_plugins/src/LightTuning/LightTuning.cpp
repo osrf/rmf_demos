@@ -255,10 +255,17 @@ public:
   // object
   const QVector<sdf::Light>& get_lights() const;
 
+  // Fill _existing_names with names from the ecm
+  void populate_names(ignition::gazebo::EntityComponentManager& ecm);
+
 private:
   // Collection of lights, each with a unique name (enforced by
   // add_new_light)
   QVector<sdf::Light> _lights;
+
+  // Set of existing names in the simulation. Used to ensure no name collisions
+  // when creating new lights
+  std::unordered_set<std::string> _pre_existing_names;
 };
 
 QHash<int, QByteArray> LightsModel::roleNames() const
@@ -355,12 +362,14 @@ QVariant LightsModel::data(const QModelIndex& index, int role) const
 void LightsModel::add_new_light(const QString& name_qstr)
 {
   std::string name = name_qstr.toStdString();
-  auto existing_it = std::find_if(
+  auto pre_existing_it = _pre_existing_names.find(name);
+  auto lights_it = std::find_if(
     _lights.begin(), _lights.end(), [&name](const sdf::Light& light)
     {
       return light.Name() == name;
     });
-  if (existing_it != _lights.end() || name.size() < 1)
+  if (pre_existing_it != _pre_existing_names.end()
+    || lights_it != _lights.end() || name.size() < 1)
   {
     ignerr << "Light names must be unique and at least 1 character long." <<
       std::endl;
@@ -407,6 +416,18 @@ const QVector<sdf::Light>& LightsModel::get_lights() const
   return _lights;
 }
 
+void LightsModel::populate_names(ignition::gazebo::EntityComponentManager& ecm)
+{
+  ecm.Each<ignition::gazebo::components::Name>(
+    [&](const ignition::gazebo::Entity&,
+    const ignition::gazebo::components::Name* name)
+    -> bool
+    {
+      _pre_existing_names.insert(name->Data());
+      return true;
+    });
+}
+
 // Class that handles all GUI interactions and their associated
 // light creations/deletions
 class LightTuning : public ignition::gazebo::GuiSystem
@@ -446,6 +467,7 @@ public slots:
 protected: bool eventFilter(QObject* _obj, QEvent* _event) override;
 
 private:
+  bool first_update_call = true;
   const std::string sdf_open_tag = "<sdf version=\"1.7\"> \n";
   const std::string sdf_close_tag = "</sdf>";
 
@@ -509,10 +531,11 @@ void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
 void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
   ignition::gazebo::EntityComponentManager& ecm)
 {
-  // Get world name for sending create/remove requests later.
-  // Assumes there is only 1 world in the simulation
-  if (!_world_name.size())
+
+  if (first_update_call)
   {
+    // Get world name for sending create/remove requests later.
+    // Assumes there is only 1 world in the simulation
     ecm.Each<ignition::gazebo::components::World,
       ignition::gazebo::components::Name>(
       [&](const ignition::gazebo::Entity&,
@@ -523,6 +546,10 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
         _world_name = name->Data();
         return false; // Only look at first entity found
       });
+
+    _model.populate_names(ecm);
+
+    first_update_call = false;
   }
 
   // Check if any LightMarkers have been spawned and add the
@@ -554,6 +581,7 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       ecm.Component<ignition::gazebo::components::Pose>(it->second.en);
     if (pose)
     {
+      // Possibly cache old poses and more selectively emit signals in the future
       poseChanged(QString(it->first.c_str()),
         QString(to_string(pose->Data()).c_str()));
     }
@@ -597,7 +625,6 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       ++light_queue_it;
     }
   }
-  return;
 }
 
 // Monitor and emit signal when a LightMarker is selected, so that
@@ -637,7 +664,7 @@ std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
   return ss.str();
 }
 
-// Necesary to supply callbacks to the service requests in order for the
+// Necessary to supply callbacks to the service requests in order for the
 // requests to execute properly, though they are not used for anything here.
 void light_service_cb(const ignition::msgs::Boolean&, const bool)
 {
@@ -764,11 +791,7 @@ void LightTuning::OnCreateLightBtnPress(
   auto light_queue_it = actions.find(light.Name());
   if (light_queue_it != actions.end())
   {
-    if (!(light_queue_it->second.size()
-      && light_queue_it->second.back() == Action::REMOVE))
-    {
-      light_queue_it->second.push(Action::REMOVE);
-    }
+    light_queue_it->second.push(Action::REMOVE);
   }
   else
   {
@@ -783,11 +806,7 @@ void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
   // Add to queue of requests to remove from simulation
   if (light_queue_it != actions.end())
   {
-    if (!(light_queue_it->second.size()
-      && light_queue_it->second.back() == Action::REMOVE))
-    {
-      light_queue_it->second.push(Action::REMOVE);
-    }
+    light_queue_it->second.push(Action::REMOVE);
   }
   // Remove from data model (and GUI)
   _model.remove_light(idx);
