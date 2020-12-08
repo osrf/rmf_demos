@@ -1,0 +1,45 @@
+{
+  "name": "rmf_demo_panel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --config webpack.config.js",
+    "dev-build": "webpack --progress --config webpack.config.js",
+    "watch": "webpack --progress --config webpack.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osrf/rmf_demos.git"
+  },
+  "author": "OSRF",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osrf/rmf_demos/issues"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "babel-loader": "^8.2.1",
+    "ts-loader": "^8.0.11",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0"
+  }
+}

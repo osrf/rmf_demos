@@ -1,0 +1,130 @@
+2020-12-08 16:05:11,133 DEBUG  ROS Time: 1607414711 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:13,137 DEBUG  ROS Time: 1607414713 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:15,139 DEBUG  ROS Time: 1607414715 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:17,143 DEBUG  ROS Time: 1607414717 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:19,148 DEBUG  ROS Time: 1607414719 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:21,553 DEBUG  ROS Time: 1607414721 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:21,969 DEBUG  ROS Time: 1607414721 |         Robot Status: []
+2020-12-08 16:05:23,559 DEBUG  ROS Time: 1607414723 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:23,993 DEBUG  ROS Time: 1607414723 |         Robot Status: []
+2020-12-08 16:05:24,984 DEBUG  ROS Time: 1607414724 |         Task Status: []
+2020-12-08 16:05:25,565 DEBUG  ROS Time: 1607414725 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:26,018 DEBUG  ROS Time: 1607414726 |         Robot Status: []
+2020-12-08 16:05:27,570 DEBUG  ROS Time: 1607414727 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:28,785 DEBUG  ROS Time: 1607414728 |         Robot Status: []
+2020-12-08 16:05:29,575 DEBUG  ROS Time: 1607414729 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:30,805 DEBUG  ROS Time: 1607414730 |         Robot Status: []
+2020-12-08 16:05:31,581 DEBUG  ROS Time: 1607414731 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:31,794 DEBUG  ROS Time: 1607414731 |         Task Status: []
+2020-12-08 16:05:32,831 DEBUG  ROS Time: 1607414732 |         Robot Status: []
+2020-12-08 16:05:33,587 DEBUG  ROS Time: 1607414733 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:34,842 DEBUG  ROS Time: 1607414734 |         Robot Status: []
+2020-12-08 16:05:35,592 DEBUG  ROS Time: 1607414735 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:36,825 DEBUG  ROS Time: 1607414736 |         Task Status: []
+2020-12-08 16:05:36,862 DEBUG  ROS Time: 1607414736 |         Robot Status: []
+2020-12-08 16:05:37,596 DEBUG  ROS Time: 1607414737 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:38,884 DEBUG  ROS Time: 1607414738 |         Robot Status: []
+2020-12-08 16:05:39,599 DEBUG  ROS Time: 1607414739 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:40,901 DEBUG  ROS Time: 1607414740 |         Robot Status: []
+2020-12-08 16:05:41,604 DEBUG  ROS Time: 1607414741 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:41,855 DEBUG  ROS Time: 1607414741 |         Task Status: []
+2020-12-08 16:05:42,926 DEBUG  ROS Time: 1607414742 |         Robot Status: []
+2020-12-08 16:05:43,607 DEBUG  ROS Time: 1607414743 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:44,946 DEBUG  ROS Time: 1607414744 |         Robot Status: []
+2020-12-08 16:05:45,610 DEBUG  ROS Time: 1607414745 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:46,885 DEBUG  ROS Time: 1607414746 |         Task Status: []
+2020-12-08 16:05:46,964 DEBUG  ROS Time: 1607414746 |         Robot Status: []
+2020-12-08 16:05:47,614 DEBUG  ROS Time: 1607414747 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:48,990 DEBUG  ROS Time: 1607414748 |         Robot Status: []
+2020-12-08 16:05:49,615 DEBUG  ROS Time: 1607414749 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:51,006 DEBUG  ROS Time: 1607414751 |         Robot Status: []
+2020-12-08 16:05:51,618 DEBUG  ROS Time: 1607414751 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:51,910 DEBUG  ROS Time: 1607414751 |         Task Status: []
+2020-12-08 16:05:53,031 DEBUG  ROS Time: 1607414753 |         Robot Status: []
+2020-12-08 16:05:53,622 DEBUG  ROS Time: 1607414753 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:55,051 DEBUG  ROS Time: 1607414755 |         Robot Status: []
+2020-12-08 16:05:55,626 DEBUG  ROS Time: 1607414755 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:56,932 DEBUG  ROS Time: 1607414756 |         Task Status: []
+2020-12-08 16:05:57,062 DEBUG  ROS Time: 1607414757 |         Robot Status: []
+2020-12-08 16:05:57,629 DEBUG  ROS Time: 1607414757 | tasks num: 0                 active robots: 0
+2020-12-08 16:05:59,081 DEBUG  ROS Time: 1607414759 |         Robot Status: []
+2020-12-08 16:05:59,632 DEBUG  ROS Time: 1607414759 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:01,111 DEBUG  ROS Time: 1607414761 |         Robot Status: []
+2020-12-08 16:06:01,637 DEBUG  ROS Time: 1607414761 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:01,960 DEBUG  ROS Time: 1607414761 |         Task Status: []
+2020-12-08 16:06:03,141 DEBUG  ROS Time: 1607414763 |         Robot Status: []
+2020-12-08 16:06:03,643 DEBUG  ROS Time: 1607414763 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:05,171 DEBUG  ROS Time: 1607414765 |         Robot Status: []
+2020-12-08 16:06:05,648 DEBUG  ROS Time: 1607414765 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:06,989 DEBUG  ROS Time: 1607414766 |         Task Status: []
+2020-12-08 16:06:07,197 DEBUG  ROS Time: 1607414767 |         Robot Status: []
+2020-12-08 16:06:07,655 DEBUG  ROS Time: 1607414767 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:09,226 DEBUG  ROS Time: 1607414769 |         Robot Status: []
+2020-12-08 16:06:09,662 DEBUG  ROS Time: 1607414769 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:11,291 DEBUG  ROS Time: 1607414771 |         Robot Status: []
+2020-12-08 16:06:11,668 DEBUG  ROS Time: 1607414771 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:12,010 DEBUG  ROS Time: 1607414772 |         Task Status: []
+2020-12-08 16:06:13,320 DEBUG  ROS Time: 1607414773 |         Robot Status: []
+2020-12-08 16:06:13,674 DEBUG  ROS Time: 1607414773 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:15,346 DEBUG  ROS Time: 1607414775 |         Robot Status: []
+2020-12-08 16:06:15,680 DEBUG  ROS Time: 1607414775 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:17,033 DEBUG  ROS Time: 1607414777 |         Task Status: []
+2020-12-08 16:06:17,372 DEBUG  ROS Time: 1607414777 |         Robot Status: []
+2020-12-08 16:06:17,686 DEBUG  ROS Time: 1607414777 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:19,391 DEBUG  ROS Time: 1607414779 |         Robot Status: []
+2020-12-08 16:06:19,692 DEBUG  ROS Time: 1607414779 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:21,416 DEBUG  ROS Time: 1607414781 |         Robot Status: []
+2020-12-08 16:06:21,696 DEBUG  ROS Time: 1607414781 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:22,060 DEBUG  ROS Time: 1607414782 |         Task Status: []
+2020-12-08 16:06:23,438 DEBUG  ROS Time: 1607414783 |         Robot Status: []
+2020-12-08 16:06:23,702 DEBUG  ROS Time: 1607414783 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:25,459 DEBUG  ROS Time: 1607414785 |         Robot Status: []
+2020-12-08 16:06:25,709 DEBUG  ROS Time: 1607414785 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:27,087 DEBUG  ROS Time: 1607414787 |         Task Status: []
+2020-12-08 16:06:27,493 DEBUG  ROS Time: 1607414787 |         Robot Status: []
+2020-12-08 16:06:27,714 DEBUG  ROS Time: 1607414787 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:29,524 DEBUG  ROS Time: 1607414789 |         Robot Status: []
+2020-12-08 16:06:29,721 DEBUG  ROS Time: 1607414789 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:31,554 DEBUG  ROS Time: 1607414791 |         Robot Status: []
+2020-12-08 16:06:31,726 DEBUG  ROS Time: 1607414791 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:32,117 DEBUG  ROS Time: 1607414792 |         Task Status: []
+2020-12-08 16:06:33,583 DEBUG  ROS Time: 1607414793 |         Robot Status: []
+2020-12-08 16:06:33,732 DEBUG  ROS Time: 1607414793 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:35,608 DEBUG  ROS Time: 1607414795 |         Robot Status: []
+2020-12-08 16:06:35,738 DEBUG  ROS Time: 1607414795 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:37,148 DEBUG  ROS Time: 1607414797 |         Task Status: []
+2020-12-08 16:06:37,642 DEBUG  ROS Time: 1607414797 |         Robot Status: []
+2020-12-08 16:06:37,745 DEBUG  ROS Time: 1607414797 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:39,664 DEBUG  ROS Time: 1607414799 |         Robot Status: []
+2020-12-08 16:06:39,748 DEBUG  ROS Time: 1607414799 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:41,693 DEBUG  ROS Time: 1607414801 |         Robot Status: []
+2020-12-08 16:06:41,754 DEBUG  ROS Time: 1607414801 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:42,178 DEBUG  ROS Time: 1607414802 |         Task Status: []
+2020-12-08 16:06:43,738 DEBUG  ROS Time: 1607414803 |         Robot Status: []
+2020-12-08 16:06:43,759 DEBUG  ROS Time: 1607414803 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:45,761 DEBUG  ROS Time: 1607414805 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:45,769 DEBUG  ROS Time: 1607414805 |         Robot Status: []
+2020-12-08 16:06:47,218 DEBUG  ROS Time: 1607414807 |         Task Status: []
+2020-12-08 16:06:47,764 DEBUG  ROS Time: 1607414807 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:47,787 DEBUG  ROS Time: 1607414807 |         Robot Status: []
+2020-12-08 16:06:49,770 DEBUG  ROS Time: 1607414809 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:49,815 DEBUG  ROS Time: 1607414809 |         Robot Status: []
+2020-12-08 16:06:51,777 DEBUG  ROS Time: 1607414811 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:51,844 DEBUG  ROS Time: 1607414811 |         Robot Status: []
+2020-12-08 16:06:52,256 DEBUG  ROS Time: 1607414812 |         Task Status: []
+2020-12-08 16:06:53,782 DEBUG  ROS Time: 1607414813 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:53,880 DEBUG  ROS Time: 1607414813 |         Robot Status: []
+2020-12-08 16:06:55,788 DEBUG  ROS Time: 1607414815 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:55,915 DEBUG  ROS Time: 1607414815 |         Robot Status: []
+2020-12-08 16:06:57,286 DEBUG  ROS Time: 1607414817 |         Task Status: []
+2020-12-08 16:06:57,791 DEBUG  ROS Time: 1607414817 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:57,942 DEBUG  ROS Time: 1607414817 |         Robot Status: []
+2020-12-08 16:06:59,796 DEBUG  ROS Time: 1607414819 | tasks num: 0                 active robots: 0
+2020-12-08 16:06:59,956 DEBUG  ROS Time: 1607414819 |         Robot Status: []
+2020-12-08 16:07:01,801 DEBUG  ROS Time: 1607414821 | tasks num: 0                 active robots: 0
+2020-12-08 16:07:01,971 DEBUG  ROS Time: 1607414821 |         Robot Status: []
+2020-12-08 16:07:02,313 DEBUG  ROS Time: 1607414822 |         Task Status: []
+2020-12-08 16:07:03,806 DEBUG  ROS Time: 1607414823 | tasks num: 0                 active robots: 0
+2020-12-08 16:07:04,002 DEBUG  ROS Time: 1607414824 |         Robot Status: []
+2020-12-08 16:07:05,814 DEBUG  ROS Time: 1607414825 | tasks num: 0                 active robots: 0
+2020-12-08 16:07:06,035 DEBUG  ROS Time: 1607414826 |         Robot Status: []
