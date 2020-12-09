@@ -582,28 +582,6 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       ++_new_markers_it;
     }
   }
-
-  // Update GUI to show latest poses of LightMarkers
-  for (auto it = _markers.begin(); it != _markers.end(); ++it)
-  {
-    auto pose =
-      ecm.Component<ignition::gazebo::components::Pose>(it->second.en);
-    if (pose && pose->Data() != it->second.last_set_pose)
-    {
-      poseChanged(QString(it->first.c_str()),
-        QString(to_string(pose->Data()).c_str()));
-      it->second.last_set_pose = pose->Data();
-    }
-    else
-    {
-      sdf::Light& light = _model.get_light(it->first);
-      if (light.RawPose() != it->second.last_set_pose)
-      {
-        it->second.last_set_pose = light.RawPose();
-        pose->Data() = light.RawPose();
-      }
-    }
-  }
 }
 
 bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
@@ -680,6 +658,24 @@ void LightTuning::render_lights()
   {
     ignerr << "Internal error: scene is null." << std::endl;
     return;
+  }
+
+  // Monitor light markers in order to update lights. We use
+  // the rendering API instead of changing the pose component
+  // in order to update lights in real time as they are moved
+  for (auto it = _markers.begin(); it != _markers.end(); ++it)
+  {
+    auto marker_node = scene_ptr->NodeByName(it->second.name);
+    if (marker_node)
+    {
+      auto pose = marker_node->LocalPose();
+      if (pose != it->second.last_set_pose)
+      {
+        poseChanged(QString(it->first.c_str()),
+          QString(to_string(pose).c_str()));
+        it->second.last_set_pose = pose;
+      }
+    }
   }
 
   auto light_queue_it = actions.begin();
