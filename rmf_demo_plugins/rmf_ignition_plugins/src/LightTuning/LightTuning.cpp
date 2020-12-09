@@ -493,9 +493,9 @@ private:
   std::unordered_map<std::string, LightMarker> _markers;
 
   enum class Action {REMOVE, CREATE};
-  // Map from a light name to a queue of create/remove requests
+  // Map from a light name to the latest update/creation/removal request
   // for that corresponding light
-  std::unordered_map<std::string, std::queue<Action>> light_actions;
+  std::unordered_map<std::string, Action> actions;
 
   // Returns a string representation of the specified light in the
   // SDF v1.7 format
@@ -509,9 +509,9 @@ private:
   // with name `light_name` using Ignition transport
   void remove_marker_service(const std::string& light_name);
 
-  // Stores pointer to scene from the Rendering singleton
+  // Gets and stores a pointer to scene from the Rendering singleton
   void load_scene();
-  // Handles light creation/update/deletion requests stored in `light_actions`
+  // Handles light creation/update/deletion requests stored in `actions`
   void render_lights();
   // Displays the light in `_model` that has the name `light_name`
   void create_light_rendering(const std::string& light_name);
@@ -524,7 +524,7 @@ void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
   if (this->title.empty())
     this->title = "Light Tuning";
 
-  // Monitor any Light entity selection in order to open relevant dropdown
+  // To monitor and intercept rendering and entity selection events
   ignition::gui::App()->findChild<
     ignition::gui::MainWindow*>()->installEventFilter(this);
 
@@ -606,8 +606,6 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
   }
 }
 
-// Monitor and emit signal when a LightMarker is selected, so that
-// the relevant menu in GUI can be expanded
 bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
 {
   if (_event->type() == ignition::gazebo::gui::events::Render::kType)
@@ -620,7 +618,8 @@ bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
     // rendering calls here
     render_lights();
   }
-  else if (_event->type() == ignition::gazebo::gui::events::EntitiesSelected::kType)
+  else if (_event->type() ==
+    ignition::gazebo::gui::events::EntitiesSelected::kType)
   {
     auto event =
       reinterpret_cast<ignition::gazebo::gui::events::EntitiesSelected*>(_event);
@@ -634,7 +633,8 @@ bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
           });
       if (it != _markers.end())
       {
-        // Used to expand the relevant drop down menu in the GUI
+        // Emit signal when a LightMarker is selected, so that
+        // the relevant drop down menu in GUI can be expanded
         emit markerSelected(QString(it->first.c_str()));
       }
     }
@@ -654,15 +654,15 @@ void LightTuning::load_scene()
   const std::string& engineName = loadedEngNames[0];
   if (loadedEngNames.size() > 1)
   {
-    igndbg << "More than one engine is available. "
-      << "Grid config plugin will use engine ["
-        << engineName << "]" << std::endl;
+    igndbg << "More than one engine is available. " <<
+      "Grid config plugin will use engine [" <<
+      engineName << "]" << std::endl;
   }
   auto engine = ignition::rendering::engine(engineName);
   if (!engine)
   {
-    ignerr << "Internal error: failed to load engine [" << engineName
-      << "]. Grid plugin won't work." << std::endl;
+    ignerr << "Internal error: failed to load engine [" << engineName <<
+      "]. Grid plugin won't work." << std::endl;
     return;
   }
 
@@ -682,50 +682,33 @@ void LightTuning::render_lights()
     return;
   }
 
-  auto light_queue_it = light_actions.begin();
-  while (light_queue_it != light_actions.end())
+  auto light_queue_it = actions.begin();
+  while (light_queue_it != actions.end())
   {
-    bool erase = false;
-    while (light_queue_it->second.size()) // Pending actions to complete
+    if (light_queue_it->second == Action::CREATE)
     {
-      if (light_queue_it->second.front() == Action::CREATE)
+      create_light_rendering(light_queue_it->first);
+      // Create a light marker if the CREATE request is for a brand new light
+      auto marker_it = _markers.find(light_queue_it->first);
+      if (marker_it == _markers.end())
       {
-        create_light_rendering(light_queue_it->first);
-        auto marker_it = _markers.find(light_queue_it->first);
-        if (marker_it == _markers.end())
-        {
-          create_marker_service(light_queue_it->first, ignition::math::Pose3d());
-        }
-        light_queue_it->second.pop();
+        create_marker_service(light_queue_it->first, ignition::math::Pose3d());
       }
-      else
-      {
-        remove_light_rendering(light_queue_it->first);
-        remove_marker_service(light_queue_it->first);
-        light_queue_it->second.pop();
-        // Mark light for erasure from map if last request is a remove request
-        // and no other requests remain
-        if (light_queue_it->second.empty())
-        {
-          erase = true;
-        }
-      }
-    }
-
-    if (erase)
-    {
-      light_queue_it = light_actions.erase(light_queue_it);
     }
     else
     {
-      ++light_queue_it;
+      remove_light_rendering(light_queue_it->first);
+      remove_marker_service(light_queue_it->first);
     }
+
+    light_queue_it = actions.erase(light_queue_it);
   }
 }
 
 sdf::LightType get_light_ptr_type(const ignition::rendering::LightPtr light_ptr)
 {
-  if (std::dynamic_pointer_cast<ignition::rendering::DirectionalLight>(light_ptr))
+  if (std::dynamic_pointer_cast<ignition::rendering::DirectionalLight>(
+      light_ptr))
   {
     return sdf::LightType::DIRECTIONAL;
   }
@@ -773,8 +756,8 @@ void LightTuning::create_light_rendering(const std::string& name)
 
     if (!light_ptr)
     {
-      ignerr << "Unable to create or update light with name "
-        << name << std::endl;
+      ignerr << "Unable to create or update light with name " <<
+        name << std::endl;
       return;
     }
   }
@@ -794,7 +777,8 @@ void LightTuning::create_light_rendering(const std::string& name)
     case sdf::LightType::DIRECTIONAL:
     {
       auto dir_light =
-        std::dynamic_pointer_cast<ignition::rendering::DirectionalLight>(light_ptr);
+        std::dynamic_pointer_cast<ignition::rendering::DirectionalLight>(
+        light_ptr);
       dir_light->SetDirection(light.Direction());
       break;
     }
@@ -920,23 +904,14 @@ void LightTuning::OnCreateLightBtnPress(
   update_light(&parse_double, &sdf::Light::SetSpotFalloff,
     light, spot_falloff_str);
 
-  // Update the light's queue of actions, or create one if necessary
-  auto light_queue_it = light_actions.find(light.Name());
-  if (light_queue_it == light_actions.end())
-  {
-    light_queue_it = light_actions.insert({light.Name(), std::queue<Action>()}).first;
-  }
-  light_queue_it->second.push(Action::CREATE);
+  // Mark for update or creation in render
+  actions[light.Name()] = Action::CREATE;
 }
 
 void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
 {
-  auto light_queue_it = light_actions.find(name.toStdString());
-  // Add to queue of requests to remove from simulation
-  if (light_queue_it != light_actions.end())
-  {
-    light_queue_it->second.push(Action::REMOVE);
-  }
+  // Mark for removal from render
+  actions[name.toStdString()] = Action::REMOVE;
   // Remove from data model (and GUI)
   _model.remove_light(idx);
 }
