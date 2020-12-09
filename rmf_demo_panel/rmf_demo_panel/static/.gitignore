@@ -1,1 +1,6 @@
 node_modules
+dist
+rmf_demo_panel/rmf_demo_panel/static/dist/app.bundle.js
+rmf_demo_panel/rmf_demo_panel/web_server.log
+rmf_demo_panel/web_server.log
+rmf_demo_panel/rmf_demo_panel/static/web_server.log

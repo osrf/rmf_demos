@@ -14,7 +14,6 @@ export enum World {
 
 export type WorldContextType = {
     currentWorld: World;
-    setWorld: React.Dispatch<React.SetStateAction<World>>
 }
 
-export const WorldContext = React.createContext<WorldContextType>({ currentWorld: World.Office, setWorld: newWorld => console.warn('no world provider')});
+export const WorldContext = React.createContext<WorldContextType>({ currentWorld: World.Office});

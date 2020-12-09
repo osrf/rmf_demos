@@ -44,4 +44,4 @@ const OfficeDashboard = (): React.ReactElement => {
     )
 }
 
-export default OfficeDashboard
+export default OfficeDashboard;
