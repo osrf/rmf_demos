@@ -38,7 +38,7 @@ const RequestForm = (): React.ReactElement => {
                 openOnFocus
                 defaultValue={formType}
                 onChange={(_, value) => setFormType(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Pick a zone" variant="outlined" margin="normal" />}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select a request type" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.divForm}>

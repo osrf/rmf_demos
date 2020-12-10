@@ -23,8 +23,9 @@ interface DeliveryFormProps {
 const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const { deliveryOptions } = props;
   const classes = useFormStyles();
-  const [deliveryTask, setDeliveryTask] = React.useState('');
+  const [deliveryTask, setDeliveryTask] = React.useState("");
   const [deliveryOptionKeys, setDeliveryOptionKeys] = React.useState([]);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   React.useEffect(() => {
     let optionKeys = [];
@@ -34,8 +35,27 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
     setDeliveryOptionKeys(optionKeys);
   }, []);
 
-  const submitDeliveryRequest = () => { 
-    //TODO: implement submission of deliveries
+  const isFormValid = () => {
+    if(deliveryTask === "") {
+      setErrorMessage("Please select a delivery task");
+      return false;
+    }
+    return true;
+  }
+  
+  const submitDeliveryRequest = () => {
+    //TODO: submission of request
+    console.log("delivery request submitted");
+  }
+
+  const handleSubmit = (ev: React.FormEvent): void => {
+    //TOOD: submit loop task (make use of romi-js-core-interface lib?)
+    ev.preventDefault();
+    if(isFormValid()) {
+      submitDeliveryRequest();
+      setDeliveryTask("");
+      setErrorMessage("");
+    }
   }
 
   return (
@@ -48,12 +68,13 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           id="set-delivery-task"
           openOnFocus
           onChange={(_, value) => setDeliveryTask(value)}
-          renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select start location" variant="outlined" margin="normal" />}
+          renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" />}
         />
       </div>
       <div className={classes.buttonContainer}>
-        <Button variant="contained" color="primary" onClick={submitDeliveryRequest} className={classes.button}>Submit Request</Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Request</Button>
       </div>
+      <Typography variant="h6">{errorMessage}</Typography>
     </Box>
   )
 }

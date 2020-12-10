@@ -12,15 +12,41 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   const [startLocation, setStartLocation] = React.useState("");
   const [endLocation, setEndLocation] = React.useState("");
   const [places, setPlaces] = React.useState(availablePlaces);
-  const [numLoops, setNumLoops] = React.useState(0);
+  const [numLoops, setNumLoops] = React.useState(1);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const classes = useFormStyles();
-  const validateForm = () => {
+  const isFormValid = () => {
     //TODO: check that form inputs are valid before submitting
+    if(startLocation == endLocation) {
+      setErrorMessage("Start and end locations cannot be the same");
+      return false;
+    } else if(numLoops <= 0) {
+      setErrorMessage("Number of loops can only be > 0")
+      return false;
+    }
+    return true;
+  }
+
+  const clearForm = () => {
+    setStartLocation("");
+    setEndLocation("");
+    setNumLoops(1);
+    setErrorMessage('');
   }
 
   const submitLoopRequest = () => {
+    //TODO: submission of request
+    console.log("loop request submitted");
+  }
+
+  const handleSubmit = (ev: React.FormEvent): void => {
     //TOOD: submit loop task (make use of romi-js-core-interface lib?)
+    ev.preventDefault();
+    if(isFormValid()) {
+      submitLoopRequest();
+      clearForm();
+    }
   }
 
   return (
@@ -60,8 +86,9 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 />
             </div>
             <div className={classes.buttonContainer}>
-                <Button variant="contained" color="primary" onClick={submitLoopRequest} className={classes.button}>Submit Request</Button>
+                <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Request</Button>
             </div>
+            <Typography variant="h6">{errorMessage}</Typography>
         </Box>
     );
 }
