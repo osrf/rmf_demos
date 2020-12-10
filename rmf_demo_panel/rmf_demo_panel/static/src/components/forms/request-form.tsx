@@ -10,13 +10,14 @@ import dashboardConfig from '../../../dashboard_config';
 const RequestForm = (): React.ReactElement => {
     const [formType, setFormType] = React.useState('loop request');
     const loopPlaces = dashboardConfig.task.Loop.places;
+    const deliveryOptions = dashboardConfig.task.Delivery.option;
 
     const returnFormType = (formType: string) => {
         switch (formType) {
             case "loop request":
-                return <LoopRequestForm availablePlaces={loopPlaces}/>
+                return <LoopRequestForm availablePlaces={loopPlaces} />
             case "delivery": 
-                return <DeliveryForm />
+                return <DeliveryForm deliveryOptions={deliveryOptions} />
             case "cleaning":
                 return <CleaningForm />
         }

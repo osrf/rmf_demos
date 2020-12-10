@@ -60,7 +60,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 />
             </div>
             <div className={classes.buttonContainer}>
-                <Button variant="contained" color="primary" onClick={submitLoopRequest} className={classes.button}>Submit Task</Button>
+                <Button variant="contained" color="primary" onClick={submitLoopRequest} className={classes.button}>Submit Request</Button>
             </div>
         </Box>
     );

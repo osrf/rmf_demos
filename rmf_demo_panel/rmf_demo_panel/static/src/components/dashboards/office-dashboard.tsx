@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Divider, Typography } from '@material-ui/core';
 import RequestForm from "../forms/request-form";
-import ScheduledTaskForm from "../forms/delivery-form";
+import ScheduledTaskForm from "../forms/scheduled-task-form";
 import RobotContainer from "../robots/robot-cards-container";
 import TasksContainer from "../tasks/tasks-container";
 import { usePanelContainerStyles } from "../styles";
