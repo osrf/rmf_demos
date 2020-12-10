@@ -134,23 +134,33 @@ SimEntity TeleportDispenserPlugin::find_nearest_model(
 void TeleportDispenserPlugin::place_on_entity(EntityComponentManager& ecm,
   const SimEntity& base_obj, const Entity& to_move)
 {
-  Entity base = base_obj.get_entity();
-  const auto base_aabb = ecm.Component<components::AxisAlignedBox>(base);
-  const auto to_move_aabb = ecm.Component<components::AxisAlignedBox>(to_move);
-
+  const Entity base = base_obj.get_entity();
   auto new_pose = ecm.Component<components::Pose>(base)->Data();
-  if (!base_aabb || !to_move_aabb)
+
+  // Make service request to Slotcar to get its height instead of accessing
+  // it's AABB component directly
+  ignition::msgs::Entity req;
+  req.set_id(base);
+
+  const unsigned int timeout = 5000;
+  bool result = false;
+  ignition::msgs::Double rep;
+  const std::string height_srv_name = "/slotcar_height_" + std::to_string(base);
+
+  bool executed = _ign_node.Request(height_srv_name, req, timeout, rep, result);
+  if (executed && result)
+  {
+    // Assumes that the base pose's Z value refers to bottom of object
+    new_pose.SetZ(ecm.Component<components::Pose>(base)->Data().Z()
+      + rep.data());
+  }
+  else
   {
     RCLCPP_WARN(
       _dispenser_common->ros_node->get_logger(),
       "Either base entity or item to be dispensed does not have an AxisAlignedBox component. \
       Attempting to dispense item to approximate location.");
     new_pose += ignition::math::Pose3<double>(0, 0, 0.5, 0, 0, 0);
-  }
-  else
-  {
-    // Assumes new_pose z_value refers to bottom of object
-    new_pose.SetZ(base_aabb->Data().Max().Z());
   }
 
   auto cmd = ecm.Component<components::WorldPoseCmd>(to_move);
@@ -227,13 +237,6 @@ void TeleportDispenserPlugin::fill_dispenser(EntityComponentManager& ecm)
     RCLCPP_INFO(_dispenser_common->ros_node->get_logger(),
       "Found dispenser item: [%s]",
       ecm.Component<components::Name>(_item_en)->Data().c_str());
-
-    // Create Bounding Box component to enable dispensing item later
-    if (!ecm.EntityHasComponentType(_item_en,
-      components::AxisAlignedBox().TypeId()))
-    {
-      ecm.CreateComponent(_item_en, components::AxisAlignedBox());
-    }
   }
 }
 
