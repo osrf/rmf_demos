@@ -47,6 +47,8 @@ ign_find_package(ignition-msgs6 REQUIRED)
 set(IGN_MSGS_VER 6)
 ign_find_package(ignition-transport9 REQUIRED)
 set(IGN_TRANSPORT_VER 9)
+ign_find_package(ignition-rendering4 REQUIRED)
+set(IGN_RENDERING_VER 4)
 ign_find_package(sdformat10 REQUIRED)
 
 find_package(Eigen3 REQUIRED)
@@ -155,6 +157,7 @@ ament_target_dependencies(LightTuning
   ignition-gazebo${IGN_GAZEBO_VER}
   ignition-msgs${IGN_MSGS_VER}
   ignition-transport${IGN_TRANSPORT_VER}
+  ignition-rendering${IGN_RENDERING_VER}
   Qt5Core
   Qt5Qml
   Qt5Quick
