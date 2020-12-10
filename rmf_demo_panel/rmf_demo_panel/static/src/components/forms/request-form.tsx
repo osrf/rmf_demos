@@ -5,19 +5,20 @@ import { useFormStyles } from "../styles";
 import CleaningForm from './cleaning-form';
 import LoopRequestForm from './loop-request-form';
 import DeliveryForm from './delivery-form';
+import dashboardConfig from '../../../dashboard_config';
 
 const RequestForm = (): React.ReactElement => {
     const [formType, setFormType] = React.useState('loop request');
+    const loopPlaces = dashboardConfig.task.Loop.places;
 
     const returnFormType = (formType: string) => {
         switch (formType) {
             case "loop request":
-                return <LoopRequestForm />
+                return <LoopRequestForm availablePlaces={loopPlaces}/>
             case "delivery": 
                 return <DeliveryForm />
             case "cleaning":
                 return <CleaningForm />
-            
         }
     }
   
