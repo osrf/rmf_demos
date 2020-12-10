@@ -34,6 +34,7 @@
 #include <ignition/plugin/Register.hh>
 
 #include <ignition/msgs.hh>
+#include <ignition/rendering.hh>
 #include <ignition/transport.hh>
 
 // Helper function that creates a simple cube sdf model string
@@ -475,6 +476,7 @@ private:
   std::string _world_name;
   ignition::transport::Node _node;
   LightsModel _model;
+  ignition::rendering::ScenePtr scene_ptr;
 
   // Contains an Entity that serves as a physical representation of
   // the light on the screen, so that a user can move it around to set the
@@ -491,29 +493,30 @@ private:
   std::unordered_map<std::string, LightMarker> _markers;
 
   enum class Action {REMOVE, CREATE};
-  // Map from a light name to a queue of create/remove service requests
+  // Map from a light name to the latest update/creation/removal request
   // for that corresponding light
-  std::unordered_map<std::string, std::queue<Action>> actions;
+  std::unordered_map<std::string, Action> actions;
 
   // Returns a string representation of the specified light in the
   // SDF v1.7 format
   std::string light_to_sdf_string(const sdf::Light&);
 
-  // Sends a service request to render the light with name `name`
-  // using Ignition transport. Also creates a corresponding LightMarker
-  void create_light_service(const ignition::gazebo::EntityComponentManager& ecm,
-    const std::string& name);
-  // Sends a service request to delete the light with name `name`
-  // as well as its corresponding LightMarker
-  void remove_light_service(const std::string& name);
   // Sends a service request to render the LightMarker corresponding to the light
   // with name `light_name` using Ignition transport
   void create_marker_service(
-    const ignition::gazebo::EntityComponentManager& ecm,
     const std::string& light_name, const ignition::math::Pose3d& pose);
   // Sends a service request to remove the LightMarker corresponding to the light
   // with name `light_name` using Ignition transport
   void remove_marker_service(const std::string& light_name);
+
+  // Gets and stores a pointer to scene from the Rendering singleton
+  void load_scene();
+  // Handles light creation/update/deletion requests stored in `actions`
+  void render_lights();
+  // Displays the light in `_model` that has the name `light_name`
+  void create_light_rendering(const std::string& light_name);
+  // Removes from the scene the light with name `light_name`
+  void remove_light_rendering(const std::string& light_name);
 };
 
 void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
@@ -521,7 +524,7 @@ void LightTuning::LoadConfig(const tinyxml2::XMLElement*)
   if (this->title.empty())
     this->title = "Light Tuning";
 
-  // Monitor any Light entity selection in order to open relevant dropdown
+  // To monitor and intercept rendering and entity selection events
   ignition::gui::App()->findChild<
     ignition::gui::MainWindow*>()->installEventFilter(this);
 
@@ -579,66 +582,22 @@ void LightTuning::Update(const ignition::gazebo::UpdateInfo&,
       ++_new_markers_it;
     }
   }
-
-  // Update GUI to show latest poses of LightMarkers
-  for (auto it = _markers.begin(); it != _markers.end(); ++it)
-  {
-    auto pose =
-      ecm.Component<ignition::gazebo::components::Pose>(it->second.en);
-    if (pose && pose->Data() != it->second.last_set_pose)
-    {
-      // Possibly cache old poses and more selectively emit signals in the future
-      poseChanged(QString(it->first.c_str()),
-        QString(to_string(pose->Data()).c_str()));
-      it->second.last_set_pose = pose->Data();
-    }
-  }
-
-  // When multiple create/remove requests for the same entity are sent
-  // in the same update step, the order of processing may be non-deterministic.
-  // To workaround this, in each Update() call, we use a queue to ensure we only
-  // issue one create/remove request per light. This ensures that entities are
-  // created/removed in Ignition in the order requested.
-  auto light_queue_it = actions.begin();
-  while (light_queue_it != actions.end())
-  {
-    bool erase = false;
-    if (light_queue_it->second.size()) // Pending actions to complete
-    {
-      if (light_queue_it->second.front() == Action::CREATE)
-      {
-        create_light_service(ecm, light_queue_it->first);
-        light_queue_it->second.pop();
-      }
-      else
-      {
-        remove_light_service(light_queue_it->first);
-        light_queue_it->second.pop();
-        // Mark light for erasure from map if last request is a remove request
-        // and no other requests remain
-        if (light_queue_it->second.empty())
-        {
-          erase = true;
-        }
-      }
-    }
-
-    if (erase)
-    {
-      light_queue_it = actions.erase(light_queue_it);
-    }
-    else
-    {
-      ++light_queue_it;
-    }
-  }
 }
 
-// Monitor and emit signal when a LightMarker is selected, so that
-// the relevant menu in GUI can be expanded
 bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
 {
-  if (_event->type() == ignition::gazebo::gui::events::EntitiesSelected::kType)
+  if (_event->type() == ignition::gazebo::gui::events::Render::kType)
+  {
+    if (!scene_ptr)
+    {
+      load_scene();
+    }
+    // This event is called in Scene3d's RenderThread, so it's safe to make
+    // rendering calls here
+    render_lights();
+  }
+  else if (_event->type() ==
+    ignition::gazebo::gui::events::EntitiesSelected::kType)
   {
     auto event =
       reinterpret_cast<ignition::gazebo::gui::events::EntitiesSelected*>(_event);
@@ -652,6 +611,8 @@ bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
           });
       if (it != _markers.end())
       {
+        // Emit signal when a LightMarker is selected, so that
+        // the relevant drop down menu in GUI can be expanded
         emit markerSelected(QString(it->first.c_str()));
       }
     }
@@ -659,6 +620,188 @@ bool LightTuning::eventFilter(QObject* _obj, QEvent* _event)
 
   // Standard event processing
   return QObject::eventFilter(_obj, _event);
+}
+
+void LightTuning::load_scene()
+{
+  auto loadedEngNames = ignition::rendering::loadedEngines();
+  if (loadedEngNames.empty())
+    return;
+
+  // Assume there is only one engine loaded
+  const std::string& engineName = loadedEngNames[0];
+  if (loadedEngNames.size() > 1)
+  {
+    igndbg << "More than one engine is available. " <<
+      "Grid config plugin will use engine [" <<
+      engineName << "]" << std::endl;
+  }
+  auto engine = ignition::rendering::engine(engineName);
+  if (!engine)
+  {
+    ignerr << "Internal error: failed to load engine [" << engineName <<
+      "]. Grid plugin won't work." << std::endl;
+    return;
+  }
+
+  if (engine->SceneCount() == 0)
+    return;
+
+  // Assume there is only one scene
+  scene_ptr = engine->SceneByIndex(0);
+}
+
+void LightTuning::render_lights()
+{
+  if (!scene_ptr || !scene_ptr->IsInitialized()
+    || nullptr == scene_ptr->RootVisual())
+  {
+    ignerr << "Internal error: scene is null." << std::endl;
+    return;
+  }
+
+  // Monitor light markers in order to update lights. We use
+  // the rendering API instead of changing the pose component
+  // in order to update lights in real time as they are moved
+  for (auto it = _markers.begin(); it != _markers.end(); ++it)
+  {
+    auto marker_node = scene_ptr->NodeByName(it->second.name);
+    if (marker_node)
+    {
+      auto pose = marker_node->LocalPose();
+      if (pose != it->second.last_set_pose)
+      {
+        poseChanged(QString(it->first.c_str()),
+          QString(to_string(pose).c_str()));
+        it->second.last_set_pose = pose;
+      }
+    }
+  }
+
+  auto light_queue_it = actions.begin();
+  while (light_queue_it != actions.end())
+  {
+    if (light_queue_it->second == Action::CREATE)
+    {
+      create_light_rendering(light_queue_it->first);
+      // Create a light marker if the CREATE request is for a brand new light
+      auto marker_it = _markers.find(light_queue_it->first);
+      if (marker_it == _markers.end())
+      {
+        create_marker_service(light_queue_it->first, ignition::math::Pose3d());
+      }
+    }
+    else
+    {
+      remove_light_rendering(light_queue_it->first);
+      remove_marker_service(light_queue_it->first);
+    }
+
+    light_queue_it = actions.erase(light_queue_it);
+  }
+}
+
+sdf::LightType get_light_ptr_type(const ignition::rendering::LightPtr light_ptr)
+{
+  if (std::dynamic_pointer_cast<ignition::rendering::DirectionalLight>(
+      light_ptr))
+  {
+    return sdf::LightType::DIRECTIONAL;
+  }
+  else if (std::dynamic_pointer_cast<ignition::rendering::PointLight>(light_ptr))
+  {
+    return sdf::LightType::POINT;
+  }
+  else if (std::dynamic_pointer_cast<ignition::rendering::SpotLight>(light_ptr))
+  {
+    return sdf::LightType::SPOT;
+  }
+  return sdf::LightType::INVALID;
+}
+
+void LightTuning::create_light_rendering(const std::string& name)
+{
+  sdf::Light& light = _model.get_light(name);
+  auto light_ptr = scene_ptr->LightByName(name);
+
+  // If the current light_ptr is null or of the wrong type, create
+  // a new light of the correct type
+  if (light_ptr)
+  {
+    sdf::LightType type = get_light_ptr_type(light_ptr);
+    if (type != light.Type())
+    {
+      scene_ptr->DestroyLight(light_ptr);
+      light_ptr = nullptr;
+    }
+  }
+  if (!light_ptr)
+  {
+    if (light.Type() == sdf::LightType::POINT)
+    {
+      light_ptr = scene_ptr->CreatePointLight(name);
+    }
+    else if (light.Type() == sdf::LightType::DIRECTIONAL)
+    {
+      light_ptr = scene_ptr->CreateDirectionalLight(name);
+    }
+    else if (light.Type() == sdf::LightType::SPOT)
+    {
+      light_ptr = scene_ptr->CreateSpotLight(name);
+    }
+
+    if (!light_ptr)
+    {
+      ignerr << "Unable to create or update light with name " <<
+        name << std::endl;
+      return;
+    }
+  }
+
+  // Set parameters that are specific to the light type
+  switch (light.Type())
+  {
+    case sdf::LightType::SPOT:
+    {
+      auto spot_light =
+        std::dynamic_pointer_cast<ignition::rendering::SpotLight>(light_ptr);
+      spot_light->SetInnerAngle(light.SpotInnerAngle());
+      spot_light->SetOuterAngle(light.SpotOuterAngle());
+      spot_light->SetFalloff(light.SpotFalloff());
+      break;
+    }
+    case sdf::LightType::DIRECTIONAL:
+    {
+      auto dir_light =
+        std::dynamic_pointer_cast<ignition::rendering::DirectionalLight>(
+        light_ptr);
+      dir_light->SetDirection(light.Direction());
+      break;
+    }
+    default:
+      break;
+  }
+
+  // Set parameters that are common to all lights
+  light_ptr->SetLocalPose(light.RawPose());
+  light_ptr->SetDiffuseColor(light.Diffuse());
+  light_ptr->SetSpecularColor(light.Specular());
+
+  light_ptr->SetAttenuationConstant(light.ConstantAttenuationFactor());
+  light_ptr->SetAttenuationLinear(light.LinearAttenuationFactor());
+  light_ptr->SetAttenuationQuadratic(light.QuadraticAttenuationFactor());
+  light_ptr->SetAttenuationRange(light.AttenuationRange());
+
+  light_ptr->SetCastShadows(light.CastShadows());
+}
+
+void LightTuning::remove_light_rendering(const std::string& name)
+{
+  auto light_ptr = scene_ptr->LightByName(name);
+  if (light_ptr)
+  {
+    scene_ptr->DestroyLight(light_ptr);
+  }
 }
 
 // Could possibly use an XML library instead
@@ -671,52 +814,15 @@ std::string LightTuning::light_to_sdf_string(const sdf::Light& light)
   return ss.str();
 }
 
-// Necessary to supply callbacks to the service requests in order for the
-// requests to execute properly, though they are not used for anything here.
-void light_service_cb(const ignition::msgs::Boolean&, const bool)
-{
-}
-
-// Assumes any service requests will be successful
-void LightTuning::create_light_service(
-  const ignition::gazebo::EntityComponentManager& ecm, const std::string& name)
-{
-  ignition::msgs::EntityFactory create_light_req;
-  const sdf::Light& light = _model.get_light(name);
-  create_light_req.set_sdf(light_to_sdf_string(light));
-  _node.Request("/world/" + _world_name + "/create",
-    create_light_req, light_service_cb);
-
-  create_marker_service(ecm, name, light.RawPose());
-}
-
-void LightTuning::remove_light_service(const std::string& name)
-{
-  ignition::msgs::Entity remove_light_req;
-  remove_light_req.set_name(name);
-  remove_light_req.set_type(ignition::msgs::Entity_Type_LIGHT);
-  _node.Request("/world/" + _world_name + "/remove",
-    remove_light_req, light_service_cb);
-
-  remove_marker_service(name);
-}
-
 void marker_service_cb(const ignition::msgs::Boolean&, const bool)
 {
 }
 
 void LightTuning::create_marker_service(
-  const ignition::gazebo::EntityComponentManager& ecm,
   const std::string& light_name, const ignition::math::Pose3d& pose)
 {
+  // Assumes name is unique
   std::string marker_name = light_name + "_marker";
-  while (
-    ecm.EntityByComponents(ignition::gazebo::components::Name(marker_name))
-    != ignition::gazebo::kNullEntity)
-  {
-    marker_name += "_"; // Avoid name collisions
-  }
-
   ignition::msgs::EntityFactory create_marker_req;
   create_marker_req.set_sdf(create_light_marker_str(marker_name, pose));
   _node.Request("/world/" + _world_name + "/create",
@@ -794,27 +900,14 @@ void LightTuning::OnCreateLightBtnPress(
   update_light(&parse_double, &sdf::Light::SetSpotFalloff,
     light, spot_falloff_str);
 
-  // Update the light's queue of actions, or create one if necessary
-  auto light_queue_it = actions.find(light.Name());
-  if (light_queue_it != actions.end())
-  {
-    light_queue_it->second.push(Action::REMOVE);
-  }
-  else
-  {
-    light_queue_it = actions.insert({light.Name(), std::queue<Action>()}).first;
-  }
-  light_queue_it->second.push(Action::CREATE);
+  // Mark for update or creation in render
+  actions[light.Name()] = Action::CREATE;
 }
 
 void LightTuning::OnRemoveLightBtnPress(int idx, const QString& name)
 {
-  auto light_queue_it = actions.find(name.toStdString());
-  // Add to queue of requests to remove from simulation
-  if (light_queue_it != actions.end())
-  {
-    light_queue_it->second.push(Action::REMOVE);
-  }
+  // Mark for removal from render
+  actions[name.toStdString()] = Action::REMOVE;
   // Remove from data model (and GUI)
   _model.remove_light(idx);
 }
