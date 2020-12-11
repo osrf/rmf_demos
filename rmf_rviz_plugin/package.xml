@@ -7,28 +7,28 @@
   <maintainer email="yadunund@openrobotics.org">yadu</maintainer>
   <license>Apache License 2.0</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_rolling</buildtool_depend>
 
-  <depend>rclcpp</depend>
+  <depend>rclcpp_rolling</depend>
 
-  <depend>rviz_common</depend>
-  <depend>rviz_default_plugins</depend>
-  <depend>rviz_rendering</depend>
-  <depend>pluginlib</depend>
-  <depend>resource_retriever</depend>
+  <depend>rviz_common_rolling</depend>
+  <depend>rviz_default_plugins_rolling</depend>
+  <depend>rviz_rendering_rolling</depend>
+  <depend>pluginlib_rolling</depend>
+  <depend>resource_retriever_rolling</depend>
 
   <build_depend>qtbase5-dev</build_depend>
   <exec_depend>libqt5-core</exec_depend>
   <exec_depend>libqt5-gui</exec_depend>
   <exec_depend>libqt5-widgets</exec_depend>
 
-  <depend>rmf_task_msgs</depend>
-  <depend>rmf_traffic</depend>
-  <depend>rmf_fleet_msgs</depend>
-  <depend>rmf_door_msgs</depend>
-  <depend>rmf_lift_msgs</depend>
-  <depend>rmf_dispenser_msgs</depend>
-  <depend>std_msgs</depend>
+  <depend>rmf_task_msgs_rolling</depend>
+  <depend>rmf_traffic_rolling</depend>
+  <depend>rmf_fleet_msgs_rolling</depend>
+  <depend>rmf_door_msgs_rolling</depend>
+  <depend>rmf_lift_msgs_rolling</depend>
+  <depend>rmf_dispenser_msgs_rolling</depend>
+  <depend>std_msgs_rolling</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

@@ -11,19 +11,19 @@
   <maintainer email="luca@openrobotics.org">Luca Della Vedova</maintainer>
   <license>Apache 2.0</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_rolling</buildtool_depend>
 
-  <depend>rclcpp</depend>
+  <depend>rclcpp_rolling</depend>
   <depend>eigen</depend>
-  <depend>gazebo_ros_pkgs</depend>
+  <depend>gazebo_ros_pkgs_rolling</depend>
 
-  <depend>std_msgs</depend>
+  <depend>std_msgs_rolling</depend>
   
-  <depend>rmf_fleet_msgs</depend>
-  <depend>rmf_dispenser_msgs</depend>
-  <depend>rmf_ingestor_msgs</depend>
-  <depend>building_map_msgs</depend>
-  <depend>rmf_plugins_common</depend>
+  <depend>rmf_fleet_msgs_rolling</depend>
+  <depend>rmf_dispenser_msgs_rolling</depend>
+  <depend>rmf_ingestor_msgs_rolling</depend>
+  <depend>building_map_msgs_rolling</depend>
+  <depend>rmf_plugins_common_rolling</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
