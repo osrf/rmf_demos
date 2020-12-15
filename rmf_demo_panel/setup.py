@@ -20,8 +20,12 @@ setup(
         ),
         (
             site_pkgs_path + '/static',
-            glob(package_name + '/static/*')
+            glob(package_name + '/static/*.*')
         ),
+        (
+            site_pkgs_path + '/static/dist',
+            glob(package_name + '/static/dist/*.*')
+        )
     ],
     install_requires=['setuptools'],
     zip_safe=True,
