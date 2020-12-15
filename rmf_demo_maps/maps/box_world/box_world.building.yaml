@@ -1,0 +1,20 @@
+levels:
+  L1:
+    elevation: 0
+    flattened_x_offset: 0
+    flattened_y_offset: 0
+    lanes:
+      - [0, 1, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [1, 2, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [2, 0, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+    layers:
+      {}
+    vertices:
+      - [84.08799999999999, 12.735, 0, station_1]
+      - [11.421, 12.735, 0, ""]
+      - [11.421, 87.626, 0, station_2]
+    x_meters: 5
+    y_meters: 5
+lifts:
+  {}
+name: box_world

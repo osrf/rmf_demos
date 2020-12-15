@@ -1,0 +1,6 @@
+building:
+  filename: box_world.building.yaml
+name: box_world
+traffic_maps:
+  {}
+version: 1
