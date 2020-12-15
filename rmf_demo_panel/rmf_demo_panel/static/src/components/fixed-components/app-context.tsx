@@ -1,4 +1,5 @@
 import * as React from 'react';
+import officeConfig from "../config/office/dashboard_config.json";
 
 export const Worlds = {
     0: "Office",
@@ -13,7 +14,8 @@ export enum World {
 }
 
 export type WorldContextType = {
-    currentWorld: World;
+    map: World;
+    config: object;
 }
 
-export const WorldContext = React.createContext<WorldContextType>({ currentWorld: World.Office});
+export const WorldContext = React.createContext<WorldContextType>({ map: World.Office, config: {} });

@@ -3,6 +3,7 @@ import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/s
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { WorldContextType, World } from './app-context';
+import { getConfigFile } from "../services";
 
 interface StyledTabsProps {
   value: number;
@@ -66,9 +67,10 @@ const NavTabs: React.FC<NavTabsProps> = (props: NavTabsProps) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = async (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
-    handleWorldChange({currentWorld: newValue});
+    const config = await getConfigFile(World[newValue]);
+    handleWorldChange({ map: newValue, config: config });
   };
 
   return (

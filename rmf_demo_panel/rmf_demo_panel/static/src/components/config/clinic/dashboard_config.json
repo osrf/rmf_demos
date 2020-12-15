@@ -1,0 +1,36 @@
+{ 
+  "valid_task" : ["Delivery", "Clean", "Loop"],
+  "task": {
+    "Delivery": {
+      "option": {
+        "food": {
+          "pickup_place_name": "kitchen",
+          "pickup_dispenser": "food_dispenser",
+          "dropoff_place_name": "ward 2 bed 2",
+          "dropoff_ingestor": "food_ingestor"
+        },
+        "mop": {
+          "pickup_place_name": "mopcart_pickup",
+          "pickup_dispenser": "mopcart_dispenser",
+          "dropoff_place_name": "spill",
+          "dropoff_ingestor": "mopcart_collector"
+        }
+      }
+    },
+    "Loop": {
+      "places": [
+        "nurse counter",
+        "pharmarcy"
+      ]
+    },
+    "Clean": {
+      "option": [
+        "zone_1",
+        "zone_2"
+      ]
+    },
+    "Station": {},
+    "Patrol": {},
+    "Charging": {}
+  }
+}

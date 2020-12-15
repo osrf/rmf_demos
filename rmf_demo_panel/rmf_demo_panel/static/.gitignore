@@ -1,3 +1,4 @@
 node_modules
 dist/
-rmf_demo_panel/rmf_demo_panel/static/web_server.log
+web_server.log
+package-lock.json
