@@ -1,0 +1,8 @@
+<?xml version='1.0' ?>
+
+<launch>
+<include file="$(find-pkg-share demos)/common.launch.xml">
+    <arg name="headless" value="true"/>
+    <arg name="config_file" value="$(find-pkg-share rmf_demo_maps)/box_world/box_world.building.yaml"/>
+</include>
+</launch>
