@@ -20,8 +20,8 @@ levels:
       - [0, 100, 0, ""]
       - [100, 100, 0, ""]
       - [100, 0, 0, ""]
-    x_meters: 2
-    y_meters: 2
+    x_meters: 5
+    y_meters: 5
 lifts:
   {}
 name: box_world
