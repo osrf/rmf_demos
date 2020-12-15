@@ -4,20 +4,7 @@ import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { useFormStyles } from '../styles';
 
 interface DeliveryFormProps {
-  deliveryOptions: {
-    coke: {
-      pickup_place_name: string,
-      pickup_dispenser: string,
-      dropoff_place_name: string,
-      dropoff_ingestor: string
-    },
-    mop: {
-      pickup_place_name: string,
-      pickup_dispenser: string,
-      dropoff_place_name: string,
-      dropoff_ingestor: string
-    }
-  }
+  deliveryOptions: {}
 }
 
 const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {

@@ -7,8 +7,6 @@ import NavTabs from './components/fixed-components/tabs';
 import { WorldContext, World } from './components/fixed-components/app-context';
 import { getDefaultConfig } from './components/services';
 
-const defaultConfig = getDefaultConfig();
-
 export default function App(): React.ReactElement {
     const currWorld = React.useContext(WorldContext);
     const [currentWorld, setCurrentWorld] = React.useState(currWorld);
@@ -22,7 +20,7 @@ export default function App(): React.ReactElement {
     };
 
     React.useEffect(() => {
-        setDefaultConfig();
+       setDefaultConfig();
     }, []);
 
     React.useEffect(() => {

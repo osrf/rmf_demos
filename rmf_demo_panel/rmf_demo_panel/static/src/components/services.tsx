@@ -31,7 +31,7 @@ export const getTasks = async () => {
 //calling config files
 import officeConfig from "./config/office/dashboard_config.json";
 import airportConfig from "./config/airport/dashboard_config.json";
-import clinicConfig from "./config/airport/dashboard_config.json";
+import clinicConfig from "./config/clinic/dashboard_config.json";
 
 export const getDefaultConfig = async () => {
     let response = await fetch(officeConfig.toString()).then(resp => resp.json());
@@ -45,19 +45,16 @@ export const getConfigFile = async (folderName: string) => {
         case 'Office':
             config = await fetch(officeConfig.toString())
             .then(resp => resp.json());
-            console.log("config file", config);
             return config;
 
         case 'Airport':
             config = await fetch(airportConfig.toString())
             .then(resp => resp.json());
-            console.log("config file", config);
             return config;
 
         case 'Clinic':
             config = await fetch(clinicConfig.toString())
             .then(resp => resp.json());
-            console.log("config file", config);
             return config;
     }
 }

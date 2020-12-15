@@ -5,28 +5,41 @@ import { useFormStyles } from "../styles";
 import CleaningForm from './cleaning-form';
 import LoopRequestForm from './loop-request-form';
 import DeliveryForm from './delivery-form';
-import dashboardConfig from '../../../dashboard_config';
+import { WorldContext } from '../fixed-components/app-context';
 
 const RequestForm = (): React.ReactElement => {
-    const [formType, setFormType] = React.useState('loop request');
-    const loopPlaces = dashboardConfig.task.Loop.places;
-    const deliveryOptions = dashboardConfig.task.Delivery.option;
+    const { config } = React.useContext(WorldContext);
+    const [requestTypes, setRequestTypes] = React.useState([]);
+    const [formType, setFormType] = React.useState('');
+    const [loopPlaces, setLoopPlaces] = React.useState([]);
+    const [deliveryOptions, setDeliveryOptions] = React.useState({});
+    
+    React.useEffect(() => {
+        if(Object.keys(config).length > 0) {
+            setRequestTypes(config.valid_task);
+            setLoopPlaces(config.task.Loop.places);
+            setDeliveryOptions(config.task.Delivery.option);
+        } else {
+            setRequestTypes([]);
+            setFormType('');
+            setLoopPlaces([]);
+            setDeliveryOptions({});
+        }
+    }, [config]);
 
     const returnFormType = (formType: string) => {
         switch (formType) {
-            case "loop request":
+            case "Loop":
                 return <LoopRequestForm availablePlaces={loopPlaces} />
-            case "delivery": 
+            case "Delivery": 
                 return <DeliveryForm deliveryOptions={deliveryOptions} />
-            case "cleaning":
+            case "Clean":
                 return <CleaningForm />
         }
     }
   
     const classes = useFormStyles();
     
-    const requestTypes: string[] = ["loop request", "delivery", "cleaning"];
-
     return (
          <Box className={classes.form}>
             <div className={classes.divForm}>
