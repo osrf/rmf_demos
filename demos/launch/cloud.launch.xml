@@ -1,8 +1,24 @@
 <?xml version='1.0' ?>
 
 <launch>
+<!-- This file is to be run headlessly on the server. -->
 <include file="$(find-pkg-share demos)/common.launch.xml">
-    <arg name="headless" value="true"/>
-    <arg name="config_file" value="$(find-pkg-share rmf_demo_maps)/box_world/box_world.building.yaml"/>
+  <arg name="headless" value="true"/>
+  <arg name="config_file" value="$(find-pkg-share rmf_demo_maps)/box_world/box_world.building.yaml"/>
 </include>
+
+<!-- Here be fleet adapters. -->
+<group>
+  <let name="fleet_name" value="tinyRobot"/>
+  <include file="$(find-pkg-share demos)/include/adapters/tinyRobot_adapter.launch.xml">
+    <arg name="fleet_name" value="$(var fleet_name)"/>
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="nav_graph_file" value="$(find-pkg-share rmf_demo_maps)/maps/box_world/nav_graphs/0.yaml" />
+  </include>
+  <include file="$(find-pkg-share rmf_fleet_adapter)/robot_state_aggregator.launch.xml">
+    <arg name="robot_prefix" value="tinyRobot"/>
+    <arg name="fleet_name" value="$(var fleet_name)"/>
+    <arg name="use_sim_time" value="true"/>
+  </include>
+</group>
 </launch>
