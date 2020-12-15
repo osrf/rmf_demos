@@ -115,24 +115,42 @@ target_include_directories(readonly_common
 ###############################
 ament_export_dependencies(Eigen3)
 ament_export_include_directories(include)
-ament_export_libraries(ingestor_common)
-ament_export_libraries(dispenser_common)
-ament_export_libraries(readonly_common)
-ament_export_libraries(rmf_sim_utils)
+ament_export_targets(ingestor_common HAS_LIBRARY_TARGET)
+ament_export_targets(dispenser_common HAS_LIBRARY_TARGET)
+ament_export_targets(readonly_common HAS_LIBRARY_TARGET)
+ament_export_targets(rmf_sim_utils HAS_LIBRARY_TARGET)
 
 install(
-  TARGETS
-    ingestor_common
-    dispenser_common
-    readonly_common
-    rmf_sim_utils
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  TARGETS ingestor_common
+  EXPORT ingestor_common
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+
+install(
+  TARGETS dispenser_common
+  EXPORT dispenser_common
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+
+install(
+  TARGETS readonly_common
+  EXPORT readonly_common
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+
+install(
+  TARGETS rmf_sim_utils
+  EXPORT rmf_sim_utils
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
 )
 
 install(
   DIRECTORY include/
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  DESTINATION include
 )
 
 ament_package()
