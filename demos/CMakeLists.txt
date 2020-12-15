@@ -4,15 +4,9 @@ project(demos)
 
 find_package(ament_cmake REQUIRED)
 
-install(
-  PROGRAMS
-    scripts/airport_terminal/airport_terminal_scenario.sh
-    scripts/airport_terminal/airport_terminal_spawn_robots.sh
-  DESTINATION lib/${PROJECT_NAME}
-)
-
 install(DIRECTORY
   launch/
+  sros2
   DESTINATION share/${PROJECT_NAME}
 )
 

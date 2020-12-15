@@ -1,10 +1,10 @@
 levels:
   L1:
     doors:
-      - [1205, 1206, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n02_door], type: [1, double_hinged]}]
-      - [1207, 1208, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n01_door], type: [1, double_hinged]}]
-      - [1222, 1223, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, 1], name: [1, s04_door], type: [1, hinged]}]
-      - [1225, 1224, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, s08_door], type: [1, hinged]}]
+      - [1205, 1206, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n02_door], type: [1, double_hinged], plugin: [1, normal]}]
+      - [1207, 1208, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, -1], name: [1, n01_door], type: [1, double_hinged], plugin: [1, normal]}]
+      - [1222, 1223, {motion_axis: [1, start], motion_degrees: [3, 95], motion_direction: [2, 1], name: [1, s04_door], type: [1, hinged], plugin: [1, normal]}]
+      - [1225, 1224, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, -1], name: [1, s08_door], type: [1, hinged], plugin: [1, normal]}]
     drawing:
       filename: airport_terminal.png
     elevation: 0
@@ -1889,7 +1889,11 @@ levels:
       - [349.72, 623.377, 0, s03, {spawn_robot_name: [1, tinyRobot_0], spawn_robot_type: [1, TinyRobot]}]
       - [829.973, 515.119, 0, ""]
       - [827.6369999999999, 601.074, 0, s07, {spawn_robot_name: [1, tinyRobot_1], spawn_robot_type: [1, TinyRobot]}]
+<<<<<<< HEAD
       - [490.243, 493.246, 0, caddy, {spawn_robot_name: [1, caddy_placeholder], spawn_robot_type: [1, RobotPlaceholder]}]
+=======
+      - [490.243, 493.246, 0, caddy, {spawn_robot_name: [1, caddy], spawn_robot_type: [1, Caddy]}]
+>>>>>>> fd2aa9023734942fd8fb34ee251d317eba14d4b0
       - [897.3440000000001, 121.785, 0, ""]
       - [342.521, 575.905, 0, ""]
       - [357.266, 575.412, 0, ""]
