@@ -18,6 +18,7 @@ jobs:
           git cmake python3-vcstool curl \
           qt5-default \
           python3-shapely python3-yaml python3-requests \
+          ignition-dome \
           -y
 
     - name: workspace
@@ -43,4 +44,4 @@ jobs:
       run: |
         cd rmf_demos_ws
         source /opt/ros/foxy/setup.bash
-        colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE -DNO_DOWNLOAD_MODELS=True
+        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DNO_DOWNLOAD_MODELS=True

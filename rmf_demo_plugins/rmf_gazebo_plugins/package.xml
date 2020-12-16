@@ -1,0 +1,32 @@
+<package format="3">
+  <name>rmf_gazebo_plugins</name>
+  <version>1.1.0</version>
+  <description>
+    ROS 2 Gazebo plugins for TeleportIngestors, TeleportDispensers and Readonly Objects
+  </description>
+  <author>Luca Della Vedova</author>
+  <author>Yadu</author>
+  <author>Aaron Chong</author>
+  <author>Rushyendra Maganty</author>
+  <maintainer email="luca@openrobotics.org">Luca Della Vedova</maintainer>
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>eigen</depend>
+  <depend>gazebo_ros_pkgs</depend>
+
+  <depend>std_msgs</depend>
+  
+  <depend>rmf_fleet_msgs</depend>
+  <depend>rmf_dispenser_msgs</depend>
+  <depend>rmf_ingestor_msgs</depend>
+  <depend>building_map_msgs</depend>
+  <depend>rmf_plugins_common</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>
