@@ -21,7 +21,7 @@ export default function App(): React.ReactElement {
 
     React.useEffect(() => {
        setDefaultConfig();
-    }, []);
+    }, [currentWorld]);
 
     React.useEffect(() => {
         setConfig(currentWorld.config);

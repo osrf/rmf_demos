@@ -3,27 +3,32 @@ import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { useFormStyles } from "../styles";
 
-//TODO: implement form validation & getting task status upon submission
-
-export const CleaningForm = (): React.ReactElement => {
-  const [zone, setZone] = React.useState('');
+interface CleaningFormProps {
+  cleaningZones: string[]
+}
+export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
+  const { cleaningZones } = props;
+  const [allZones, setZones] = React.useState(cleaningZones);
+  const [targetZone, setTargetZone] = React.useState('');
   const [evaluator, setEvaluator] = React.useState('');
   const [minsFromNow, setMinsFromNow] = React.useState(0);
   
   const classes = useFormStyles();
-  
-  const zones: string[] = ["zone_1", "zone_2", "zone_3", "zone_4"];
   const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "shortest_time"];
+  
+  React.useEffect(() => {
+    setZones(cleaningZones);
+  }, [cleaningZones]);
 
   const cleanUpForm = () => {
-    setZone('');
+    setTargetZone('');
     setEvaluator('');
     setMinsFromNow(0);
   }
   
   const submitTaskForm = () => {
       let start_time = minsFromNow;
-      let cleaning_zone = zone;
+      let cleaning_zone = targetZone;
       let evaluator_option = evaluator;
       console.log("submit task: ", start_time, cleaning_zone, evaluator_option );
       console.log("Submitting Task");
@@ -44,7 +49,7 @@ export const CleaningForm = (): React.ReactElement => {
         .then(data => JSON.stringify(data));
         
       } catch (err) {
-        console.log('Unable to submit task request');
+        console.log('Unable to submit cleaning request');
       }
       cleanUpForm();
   }
@@ -54,11 +59,11 @@ export const CleaningForm = (): React.ReactElement => {
             <div className={classes.divForm}>
             <Typography variant="h6">Schedule an Ad-Hoc Task</Typography>
                 <Autocomplete
-                options={zones}
+                options={allZones}
                 getOptionLabel={(zone) => zone}
                 id="set-cleaning-zone"
                 openOnFocus
-                onChange={(_, value) => setZone(value)}
+                onChange={(_, value) => setTargetZone(value)}
                 renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Pick a zone" variant="outlined" margin="normal" />}
                 />
             </div>
@@ -68,7 +73,7 @@ export const CleaningForm = (): React.ReactElement => {
                 options={evaluators}
                 getOptionLabel={(evaluator) => evaluator}
                 onChange={(_, value) => setEvaluator(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator" variant="outlined" margin="normal" />}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.divForm}>

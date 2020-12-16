@@ -23,6 +23,11 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const classes = useFormStyles();
+
+  React.useEffect(() => {
+    setPlaces(availablePlaces)
+  }, [availablePlaces]);
+  
   const isFormValid = () => {
     if(startLocation == endLocation) {
       setErrorMessage("Start and end locations cannot be the same");

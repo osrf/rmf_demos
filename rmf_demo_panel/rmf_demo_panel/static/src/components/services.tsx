@@ -39,7 +39,7 @@ export const getDefaultConfig = async () => {
 }
 
 export const getConfigFile = async (folderName: string) => {
-    let config;
+    let config: object;
 
     switch(folderName) {
         case 'Office':

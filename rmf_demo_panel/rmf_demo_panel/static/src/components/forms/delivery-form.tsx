@@ -23,7 +23,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
         optionKeys.push(key);
     }
     setDeliveryOptionKeys(optionKeys);
-  }, []);
+  }, [deliveryOptions]);
 
   React.useEffect(() => {
     {deliveryTask.length > 0 && 
