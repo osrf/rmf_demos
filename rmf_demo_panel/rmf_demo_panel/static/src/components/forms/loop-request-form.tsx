@@ -13,6 +13,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   const [endLocation, setEndLocation] = React.useState("");
   const [places, setPlaces] = React.useState(availablePlaces);
   const [numLoops, setNumLoops] = React.useState(1);
+  const [minsFromNow, setMinsFromNow] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const classes = useFormStyles();
@@ -83,6 +84,20 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 label="Number of Loops"
                 variant="outlined"
                 id="set-num-loops"
+                />
+            </div>
+            <div className={classes.divForm}>
+                <TextField
+                  className={classes.input}
+                  onChange={(e) => {
+                  setMinsFromNow(e.target.value ? parseInt(e.target.value) : 0);
+                  }}
+                  placeholder="Set start time (mins from now)"
+                  type="number"
+                  value={minsFromNow || 0}
+                  label="Set start time (mins from now)"
+                  variant="outlined"
+                  id="set-start-time"
                 />
             </div>
             <div className={classes.buttonContainer}>

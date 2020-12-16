@@ -12,6 +12,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const classes = useFormStyles();
   const [deliveryTask, setDeliveryTask] = React.useState("");
   const [deliveryOptionKeys, setDeliveryOptionKeys] = React.useState([]);
+  const [minsFromNow, setMinsFromNow] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   React.useEffect(() => {
@@ -58,6 +59,20 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" />}
         />
       </div>
+      <div className={classes.divForm}>
+                <TextField
+                  className={classes.input}
+                  onChange={(e) => {
+                  setMinsFromNow(e.target.value ? parseInt(e.target.value) : 0);
+                  }}
+                  placeholder="Set start time (mins from now)"
+                  type="number"
+                  value={minsFromNow || 0}
+                  label="Set start time (mins from now)"
+                  variant="outlined"
+                  id="set-start-time"
+                />
+            </div>
       <div className={classes.buttonContainer}>
         <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Request</Button>
       </div>
