@@ -3,6 +3,12 @@ import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { useFormStyles } from '../styles';
 
+interface LoopDescription {
+  num_loops: number,
+  start_name: string,
+  finish_name: string
+}
+
 interface LoopFormProps {
   availablePlaces: string[]
 }
@@ -18,7 +24,6 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
 
   const classes = useFormStyles();
   const isFormValid = () => {
-    //TODO: check that form inputs are valid before submitting
     if(startLocation == endLocation) {
       setErrorMessage("Start and end locations cannot be the same");
       return false;
@@ -29,7 +34,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
     return true;
   }
 
-  const clearForm = () => {
+  const cleanUpForm = () => {
     setStartLocation("");
     setEndLocation("");
     setNumLoops(1);
@@ -37,16 +42,40 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   }
 
   const submitLoopRequest = () => {
-    //TODO: submission of request
-    console.log("loop request submitted");
+    let description: LoopDescription = {
+      num_loops: numLoops,
+      start_name: startLocation,
+      finish_name: endLocation,
+    }
+    let start_time = minsFromNow;
+      console.log("submit task: ", start_time, description);
+      console.log("Submitting Task");
+      try {
+        fetch('/submit_task', {
+        method: "POST",
+        body: JSON.stringify({
+                task_type: "Loop", 
+                start_time: start_time,
+                description: description
+              }),
+        headers: { 
+            "Content-type": "application/json; charset=UTF-8"
+        } 
+      })
+        .then(res => res.json())
+        .then(data => JSON.stringify(data));
+      } catch (err) {
+        setErrorMessage("Unable to submit loop request");
+        console.log('Unable to submit loop request');
+      }
+      cleanUpForm();
+      console.log("loop request submitted");
   }
 
   const handleSubmit = (ev: React.FormEvent): void => {
-    //TOOD: submit loop task (make use of romi-js-core-interface lib?)
     ev.preventDefault();
     if(isFormValid()) {
       submitLoopRequest();
-      clearForm();
     }
   }
 
