@@ -20,6 +20,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   const [places, setPlaces] = React.useState(availablePlaces);
   const [numLoops, setNumLoops] = React.useState(1);
   const [minsFromNow, setMinsFromNow] = React.useState(0);
+  const [evaluator, setEvaluator] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const classes = useFormStyles();
@@ -27,7 +28,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   React.useEffect(() => {
     setPlaces(availablePlaces)
   }, [availablePlaces]);
-  
+
   const isFormValid = () => {
     if(startLocation == endLocation) {
       setErrorMessage("Start and end locations cannot be the same");
@@ -53,6 +54,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
       finish_name: endLocation,
     }
     let start_time = minsFromNow;
+    let evaluator_option = evaluator;
       console.log("submit task: ", start_time, description);
       console.log("Submitting Task");
       try {
@@ -61,6 +63,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
         body: JSON.stringify({
                 task_type: "Loop", 
                 start_time: start_time,
+                evaluator: evaluator_option,
                 description: description
               }),
         headers: { 
@@ -83,6 +86,8 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
       submitLoopRequest();
     }
   }
+
+  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
 
   return (
         <Box className={classes.form}>
@@ -132,6 +137,15 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                   label="Set start time (mins from now)"
                   variant="outlined"
                   id="set-start-time"
+                />
+            </div>
+            <div className={classes.divForm}>
+                <Autocomplete id="set-evaluator"
+                openOnFocus
+                options={evaluators}
+                getOptionLabel={(evaluator) => evaluator}
+                onChange={(_, value) => setEvaluator(value)}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.buttonContainer}>

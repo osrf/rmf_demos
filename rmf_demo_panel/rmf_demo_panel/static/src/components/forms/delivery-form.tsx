@@ -15,7 +15,12 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const [deliveryOption, setDeliveryOption] = React.useState({});
   const [deliveryOptionKeys, setDeliveryOptionKeys] = React.useState([]);
   const [minsFromNow, setMinsFromNow] = React.useState(0);
+  const [evaluator, setEvaluator] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState("");
+
+  //errors
+  const [timeError, setTimeError] = React.useState("");
+  const [taskError, setTaskError] = React.useState("");
 
   React.useEffect(() => {
     let optionKeys = [];
@@ -47,6 +52,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const submitDeliveryRequest = () => {
       let start_time = minsFromNow;
       let description = deliveryOption;
+      let evaluator_option = evaluator;
       console.log("submit task: ", start_time, description);
       console.log("Submitting Task");
       try {
@@ -55,6 +61,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
         body: JSON.stringify({
                 task_type: "Delivery", 
                 start_time: start_time,
+                evaluator: evaluator_option,
                 description: description
               }),
         headers: { 
@@ -77,6 +84,8 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
       submitDeliveryRequest();
     }
   }
+
+  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
 
   return (
     <Box className={classes.form}>
@@ -103,6 +112,15 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           label="Set start time (mins from now)"
           variant="outlined"
           id="set-start-time"
+        />
+      </div>
+      <div className={classes.divForm}>
+        <Autocomplete id="set-evaluator"
+          openOnFocus
+          options={evaluators}
+          getOptionLabel={(evaluator) => evaluator}
+          onChange={(_, value) => setEvaluator(value)}
+          renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
         />
       </div>
       <div className={classes.buttonContainer}>

@@ -12,9 +12,13 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
   const [targetZone, setTargetZone] = React.useState('');
   const [evaluator, setEvaluator] = React.useState('');
   const [minsFromNow, setMinsFromNow] = React.useState(0);
+
+  //errors
+  const [timeError, setTimeError] = React.useState("");
+  const [zoneError, setZoneError] = React.useState("");
   
   const classes = useFormStyles();
-  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "shortest_time"];
+  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
   
   React.useEffect(() => {
     setZones(cleaningZones);
@@ -25,8 +29,20 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
     setEvaluator('');
     setMinsFromNow(0);
   }
+
+  const isFormValid = () => {
+    if(minsFromNow < 0) {
+      setTimeError("Start time cannot be negative");
+      return false;
+    }
+    if(targetZone.length === 0) {
+      setZoneError("Cleaning zone cannot be an empty field");
+      return false;
+    }
+    return true;
+  }
   
-  const submitTaskForm = () => {
+  const submitCleaningRequest = () => {
       let start_time = minsFromNow;
       let cleaning_zone = targetZone;
       let evaluator_option = evaluator;
@@ -54,6 +70,13 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
       cleanUpForm();
   }
 
+  const handleSubmit = (ev: React.FormEvent): void => {
+    ev.preventDefault();
+    if(isFormValid()) {
+      submitCleaningRequest();
+    }
+  }
+
     return (
         <Box className={classes.form}>
             <div className={classes.divForm}>
@@ -64,7 +87,7 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
                 id="set-cleaning-zone"
                 openOnFocus
                 onChange={(_, value) => setTargetZone(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Pick a zone" variant="outlined" margin="normal" />}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Pick a zone" variant="outlined" margin="normal" helperText={zoneError} error={!!zoneError}/>}
                 />
             </div>
             <div className={classes.divForm}>
@@ -88,10 +111,12 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
                 label="Set start time (mins from now)"
                 variant="outlined"
                 id="set-start-time"
+                helperText={timeError}
+                error={!!timeError}
                 />
             </div>
             <div className={classes.buttonContainer}>
-                <Button variant="contained" color="primary" onClick={submitTaskForm} className={classes.button}>Submit Task</Button>
+                <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Task</Button>
             </div>
         </Box>
     );
