@@ -18,11 +18,11 @@
 
   <depend>std_msgs_rolling</depend>
 
-  <depend>rmf_fleet_msgs_rolling</depend>
-  <depend>rmf_dispenser_msgs_rolling</depend>
-  <depend>rmf_ingestor_msgs_rolling</depend>
-  <depend>building_map_msgs_rolling</depend>
-  <depend>rmf_plugins_common_rolling</depend>
+  <depend>rmf_fleet_msgs</depend>
+  <depend>rmf_dispenser_msgs</depend>
+  <depend>rmf_ingestor_msgs</depend>
+  <depend>building_map_msgs</depend>
+  <depend>rmf_plugins_common</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

@@ -9,8 +9,8 @@
 
   <buildtool_depend>ament_cmake_rolling</buildtool_depend>
 
-  <exec_depend>rmf_gazebo_plugins_rolling</exec_depend>
-  <exec_depend>building_gazebo_plugins_rolling</exec_depend>
+  <exec_depend>rmf_gazebo_plugins</exec_depend>
+  <exec_depend>building_gazebo_plugins</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

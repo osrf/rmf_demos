@@ -22,12 +22,12 @@
   <exec_depend>libqt5-gui</exec_depend>
   <exec_depend>libqt5-widgets</exec_depend>
 
-  <depend>rmf_task_msgs_rolling</depend>
-  <depend>rmf_traffic_rolling</depend>
-  <depend>rmf_fleet_msgs_rolling</depend>
-  <depend>rmf_door_msgs_rolling</depend>
-  <depend>rmf_lift_msgs_rolling</depend>
-  <depend>rmf_dispenser_msgs_rolling</depend>
+  <depend>rmf_task_msgs</depend>
+  <depend>rmf_traffic</depend>
+  <depend>rmf_fleet_msgs</depend>
+  <depend>rmf_door_msgs</depend>
+  <depend>rmf_lift_msgs</depend>
+  <depend>rmf_dispenser_msgs</depend>
   <depend>std_msgs_rolling</depend>
 
   <export>
