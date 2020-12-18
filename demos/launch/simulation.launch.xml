@@ -34,6 +34,7 @@
     <let name="world_path" value="$(find-pkg-share rmf_demo_maps)/maps/$(var map_name)_ign/$(var map_name).world" />
     <let name="model_path" value="$(find-pkg-share rmf_demo_maps)/maps/$(var map_name)_ign/models:$(find-pkg-share rmf_demo_assets)/models:$(env HOME)/.gazebo/models" />
     <let name="plugin_path" value="$(find-pkg-prefix rmf_ignition_plugins)/lib:$(find-pkg-prefix building_ignition_plugins)/lib" />
+    <let name="menge_resource_path" value="$(find-pkg-share rmf_demo_maps)/maps/$(var map_name)_ign/config_resource" />
     <executable cmd="ign gazebo -r -v 4 $(var world_path)" output="both">
 
       <env
@@ -44,9 +45,13 @@
         name="IGN_GAZEBO_SYSTEM_PLUGIN_PATH"
         value="$(var plugin_path)"/>
 
-     <env
+      <env
         name="IGN_GUI_PLUGIN_PATH"
         value="$(var plugin_path)"/>
+
+      <env
+        name="MENGE_RESOURCE_PATH"
+        value="$(var menge_resource_path)"/>
 
     </executable>
 

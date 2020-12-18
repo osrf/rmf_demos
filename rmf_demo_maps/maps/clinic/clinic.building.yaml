@@ -1,21 +1,26 @@
-crowd_sim:
-  agent_groups:
-    - {agents_name: [deliveryRobot_1, deliveryRobot_2, tinyRobot_1, tinyRobot_2], agents_number: 4, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
-  agent_profiles:
-    - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
-  enable: 0
-  goal_sets:
-    []
-  model_types:
-    []
-  obstacle_set: {class: 1, file_name: L1_navmesh.nav, type: nav_mesh}
-  states:
-    - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
-  transitions:
-    []
-  update_time_step: 0.1
 levels:
   L1:
+    crowd_sim:
+      agent_profiles:
+        - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
+        - {ORCA_tau: 1, ORCA_tauObst: 1, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: human, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.25}
+      enable: 1
+      external_agent_groups:
+        - {agents_name: [deliveryRobot_1, deliveryRobot_2], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
+      goal_sets:
+        - {capacity: 2, set_area: [L1_reception1], set_id: 0}
+        - {capacity: 1, set_area: [L1_outdoor], set_id: 1}
+      model_types:
+        - {animation: walk, animation_speed: 1, typename: human}
+      obstacle_set: {class: 1, file_name: navmesh.nav, type: nav_mesh}
+      states:
+        - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
+        - {final: 0, goal_set: 0, name: work_at_L1_reception1, navmesh_file_name: navmesh.nav}
+        - {final: 0, goal_set: 1, name: breath_fresh_air, navmesh_file_name: navmesh.nav}
+      transitions:
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: breath_fresh_air, weight: 1}, {name: work_at_L1_reception1, weight: 1}], from: work_at_L1_reception1, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: breath_fresh_air, weight: 1}, {name: work_at_L1_reception1, weight: 1}], from: breath_fresh_air, to: ""}
+      update_time_step: 0.1
     doors:
       - [24, 35, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L1_clinic_a], plugin: [1, normal], type: [1, double_sliding]}]
       - [210, 211, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L1_left_consult_rm_13_outer], plugin: [1, none], type: [1, sliding]}]
@@ -109,6 +114,16 @@ levels:
         vertices: [2, 75, 76, 53, 52, 57, 56, 77, 78, 79, 80, 81, 63, 58, 59, 60, 82, 83, 84, 85, 86, 65, 64, 69, 68, 87, 88, 92, 70, 73, 42, 43, 44, 46, 47, 48, 49, 51, 140, 141, 142, 143, 144, 41, 40, 39, 38, 470, 363, 364, 365, 362, 361, 3, 11, 10, 9, 8, 7, 6, 5, 4]
       - parameters: {texture_name: [1, brown_marble], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [363, 470, 38, 39, 40, 41, 386, 387, 364]
+    human_lanes:
+      - [476, 475, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [475, 474, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [474, 473, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [473, 472, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [472, 471, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [471, 477, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [477, 478, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [478, 463, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [463, 464, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
     lanes:
       - [367, 390, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
       - [390, 391, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
@@ -191,6 +206,8 @@ levels:
     measurements:
       - [0, 1, {distance: [3, 0.7]}]
     models:
+      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_L1_reception1, static: false, x: 890.283, y: 1359.973, yaw: 0, z: 0}
+      - {agent_group_id: 2, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_L1_reception1, static: false, x: 765.571, y: 1397.069, yaw: 0, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 992.989, y: 1539.645, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 1084.49, y: 1539.645, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 1175.725, y: 1539.645, yaw: 1.5708, z: 0}
@@ -1085,13 +1102,21 @@ levels:
       - [497.337, 684.277, 0, ""]
       - [504.68, 1330.445, 0, ""]
       - [646.03, 1525.948, 0, ""]
-      - [643.276, 1611.308, 0, ""]
+      - [643.276, 1611.308, 0, "", {human_goal_set_name: [1, L1_outdoor]}]
       - [341.303, 1562.662, 0, ""]
       - [1325.241, 1614.062, 0, ""]
       - [1438.136, 1614.98, 0, ""]
       - [1808.949, 1375.42, 0, ""]
       - [1803.442, 455.732, 0, ""]
       - [434.749, 1671.08, 0, ""]
+      - [703.745, 1395.302, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [741.547, 1356.794, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [765.571, 1397.069, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [867.672, 1332.063, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [890.283, 1359.973, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [925.965, 1302.74, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [673.362, 1433.458, 0, "", {human_goal_set_name: [1, L1_reception1]}]
+      - [672.303, 1468.787, 0, ""]
     walls:
       - [2, 4, {alpha: [3, 1], texture_name: [1, default]}]
       - [4, 5, {alpha: [3, 1], texture_name: [1, default]}]
