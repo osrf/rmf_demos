@@ -3,13 +3,12 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { TaskCard } from './task-card';
 import { useContainerStyles } from '../styles';
 import { getTasks } from "../services";
-import { Progress } from 'antd';
 
 const TasksContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
     const [taskStates, setTaskStates] = React.useState([]);
     const exampleState  = {
-        taskID: 4000,
+        task_id: "4000",
         description: "zone_x",
         robot_name: "magnus",
         state: "Active",
