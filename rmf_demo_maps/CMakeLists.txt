@@ -68,18 +68,28 @@ foreach(path ${traffic_editor_paths})
     DESTINATION share/${PROJECT_NAME}/maps
   )
 
-  if (${world_name} MATCHES "clinic")
-    set(crowd_sim_config_resource ${output_dir}/config_resource/)
+  set(crowd_sim_config_resource ${output_dir}/config_resource/)
 
-    add_custom_command(
-      OUTPUT ${world_name}_crowdsim
-      COMMAND ros2 run building_map_tools building_crowdsim ${map_path} ${crowd_sim_config_resource} ${output_world_path}
-      DEPENDS ${output_world_path}
-    )
-    add_custom_target(generate_${world_name}_crowdsim ALL
-      DEPENDS ${world_name}_crowdsim
-    )
-  endif()
+  add_custom_command(
+    OUTPUT ${world_name}_crowdsim
+    COMMAND ros2 run building_map_tools building_crowdsim ${map_path} ${crowd_sim_config_resource} ${output_world_path}
+    DEPENDS ${output_world_path}
+  )
+  add_custom_target(generate_${world_name}_crowdsim ALL
+    DEPENDS ${world_name}_crowdsim
+  )
+
+  set(crowd_sim_config_resource ${ign_output_dir}/config_resource/)
+
+  add_custom_command(
+    OUTPUT ${world_name}_crowdsim_ign
+    COMMAND ros2 run building_map_tools building_crowdsim ${map_path} ${crowd_sim_config_resource} ${ign_output_world_path}
+    DEPENDS ${ign_output_world_path}
+  )
+
+  add_custom_target(generate_${world_name}_crowdsim_ign ALL
+    DEPENDS ${world_name}_crowdsim_ign
+  )
 
   # now, generate the nav graphs
   set(output_nav_graphs_dir ${output_dir}/nav_graphs/)
