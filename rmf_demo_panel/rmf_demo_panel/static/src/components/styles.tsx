@@ -56,6 +56,8 @@ export const useFormStyles = makeStyles({
   },
   divForm: {
     width: '100%',
+    marginTop: 0,
+    marginBottom: 0
   },
   input: {
     width: '100%',

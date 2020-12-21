@@ -12,7 +12,7 @@ const RobotContainer = () : React.ReactElement => {
             fleet_name: "fleet1",
             assignments: "4000",
             mode: "Active",
-            battery_percent: "98%",
+            battery_percent: "90",
             level_name: "Level 2"
         };
 

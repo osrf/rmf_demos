@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Progress } from 'antd';
 
 interface RobotCardProps {
   robotState: {
@@ -35,7 +36,9 @@ export const RobotCard = (props: RobotCardProps) : React.ReactElement => {
                       Battery
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{robotState.battery_percent}</Grid>
+                  <Grid item xs={6}>
+                    <Progress percent={parseInt(robotState.battery_percent)} size="small" width={50}/>
+                  </Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" color="textSecondary" gutterBottom>
                       Task ID

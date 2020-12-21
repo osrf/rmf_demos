@@ -3,6 +3,7 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { TaskCard } from './task-card';
 import { useContainerStyles } from '../styles';
 import { getTasks } from "../services";
+import { Progress } from 'antd';
 
 const TasksContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
@@ -15,7 +16,7 @@ const TasksContainer = () : React.ReactElement => {
         task_type: "Clean",
         start_time: 1500,
         end_time: 1540,
-        progress: "42%"
+        progress: "42"
     };
 
     const refreshTaskData = async () => {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Progress } from 'antd';
 
 interface TaskCardProps {
     taskState: {
@@ -22,6 +23,9 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
         <Card className={classes.root} variant="outlined">
             <CardContent>
               <Grid container>
+                  <Grid item xs={12}>
+                    <Progress type="dashboard" gapDegree={120} percent={parseInt(taskState.progress)} />
+                  </Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" color="textSecondary" gutterBottom>
                       Task ID
@@ -52,24 +56,18 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>{taskState.state}</Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={3}>
                     <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                      Start Time
+                      Start: 
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{taskState.start_time}</Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={3}>{taskState.start_time}</Grid>
+                  <Grid item xs={3}>
                     <Typography variant="subtitle2" color="textSecondary">
-                      End Time
+                      End: 
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{taskState.end_time}</Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="subtitle2" color="textSecondary">
-                      Progress
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>{taskState.progress}</Grid>
+                  <Grid item xs={3}>{taskState.end_time}</Grid>
               </Grid>
             </CardContent>
         </Card>
@@ -79,7 +77,8 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
 const useStyles = makeStyles({
   root: {
     maxWidth: 200,
-    maxHeight: 240,
-    margin: "0.5em"
+    maxHeight: 300,
+    margin: "0.5em",
+    overflow: 'auto',
   },
 });
