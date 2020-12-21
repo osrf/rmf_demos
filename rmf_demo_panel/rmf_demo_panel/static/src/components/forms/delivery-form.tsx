@@ -16,7 +16,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const [deliveryOptionKeys, setDeliveryOptionKeys] = React.useState([]);
   const [minsFromNow, setMinsFromNow] = React.useState(0);
   const [evaluator, setEvaluator] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState("");
 
   //errors
   const [timeError, setTimeError] = React.useState("");
@@ -37,7 +36,11 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
 
   const isFormValid = () => {
     if(deliveryTask === "") {
-      setErrorMessage("Please select a delivery task");
+      setTaskError("Please select a delivery task");
+      return false;
+    }
+    if(timeError) {
+      setTimeError("Start time cannot be negative");
       return false;
     }
     return true;
@@ -46,7 +49,8 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const cleanUpForm = () => {
     setDeliveryOption({});
     setDeliveryTask("");
-    setErrorMessage("");
+    setTaskError("");
+    setTimeError("");
   }
   
   const submitDeliveryRequest = () => {
@@ -77,7 +81,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
         .then(res => res.json())
         .then(data => JSON.stringify(data));
       } catch (err) {
-        setErrorMessage("Unable to submit delivery request");
+        alert("Unable to submit delivery request");
         console.log('Unable to submit delivery request');
       }
       cleanUpForm();
@@ -103,7 +107,8 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           id="set-delivery-task"
           openOnFocus
           onChange={(_, value) => setDeliveryTask(value)}
-          renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" />}
+          renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" error={!!taskError} helperText={taskError} />}
+          value={deliveryTask ? deliveryTask : null}
         />
       </div>
       <div className={classes.divForm}>
@@ -118,6 +123,8 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           label="Set start time (mins from now)"
           variant="outlined"
           id="set-start-time"
+          error={!!timeError}
+          helperText={timeError}
         />
       </div>
       <div className={classes.divForm}>
@@ -132,7 +139,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
       <div className={classes.buttonContainer}>
         <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Request</Button>
       </div>
-      <Typography variant="h6">{errorMessage}</Typography>
     </Box>
   )
 }

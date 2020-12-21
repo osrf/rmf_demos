@@ -3,11 +3,11 @@
   "task": {
     "Delivery": {
       "option": {
-        "food": {
-          "pickup_place_name": "kitchen",
-          "pickup_dispenser": "food_dispenser",
-          "dropoff_place_name": "ward 2 bed 2",
-          "dropoff_ingestor": "food_ingestor"
+        "coke": {
+          "pickup_place_name": "pantry",
+          "pickup_dispenser": "coke_dispenser",
+          "dropoff_place_name": "hardware_2",
+          "dropoff_ingestor": "coke_ingestor"
         },
         "mop": {
           "pickup_place_name": "mopcart_pickup",

@@ -15,37 +15,57 @@ interface LoopFormProps {
 
 const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   const { availablePlaces } = props;
+  const classes = useFormStyles();
   const [startLocation, setStartLocation] = React.useState("");
   const [endLocation, setEndLocation] = React.useState("");
   const [places, setPlaces] = React.useState(availablePlaces);
   const [numLoops, setNumLoops] = React.useState(1);
   const [minsFromNow, setMinsFromNow] = React.useState(0);
   const [evaluator, setEvaluator] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const classes = useFormStyles();
+  //errors
+  const [timeError, setTimeError] = React.useState("");
+  const [numLoopsError, setNumLoopsError] = React.useState("");
+  const [locationError, setLocationError] = React.useState("");
 
-  React.useEffect(() => {
-    setPlaces(availablePlaces)
+  React.useLayoutEffect(() => {
+    setPlaces(availablePlaces);
   }, [availablePlaces]);
 
-  const isFormValid = () => {
+  const isFormValid = (): boolean => {
+    let isValid = true;
     if(startLocation == endLocation) {
-      setErrorMessage("Start and end locations cannot be the same");
-      return false;
-    } else if(numLoops <= 0) {
-      setErrorMessage("Number of loops can only be > 0")
-      return false;
+      setLocationError("Start and end locations cannot be the same");
+      isValid = false;
     }
-    return true;
+    if(startLocation == '' || endLocation == '') {
+      setLocationError('Please select a location');
+      isValid = false;
+    }
+    if(numLoops <= 0) {
+      setNumLoopsError("Number of loops can only be > 0");
+      isValid = false;
+    }
+    if(minsFromNow < 0) {
+      setTimeError("Start time can only be >= 0");
+      isValid = false;
+    }
+    return isValid;
   }
 
   const cleanUpForm = () => {
     setStartLocation("");
     setEndLocation("");
     setNumLoops(1);
-    setErrorMessage('');
+    setMinsFromNow(0);
+    cleanUpError();
   }
+
+  const cleanUpError = () => {
+      setLocationError('');
+      setNumLoopsError('');
+      setTimeError('');
+    };
 
   const submitLoopRequest = () => {
     let description: LoopDescription = {
@@ -54,18 +74,24 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
       finish_name: endLocation,
     }
     let start_time = minsFromNow;
-    let evaluator_option = evaluator;
+    let request = {};
+    if (evaluator.length > 0 ){
+        let evaluator_option = evaluator;
+        request = { task_type: "Loop",
+                    start_time: start_time,
+                    evaluator: evaluator_option,
+                    description: description }
+      } else {
+        request = { task_type: "Loop",
+                    start_time: start_time,
+                    description: description }
+      }
       console.log("submit task: ", start_time, description);
       console.log("Submitting Task");
       try {
         fetch('/submit_task', {
         method: "POST",
-        body: JSON.stringify({
-                task_type: "Loop", 
-                start_time: start_time,
-                evaluator: evaluator_option,
-                description: description
-              }),
+        body: JSON.stringify(request),
         headers: { 
             "Content-type": "application/json; charset=UTF-8"
         } 
@@ -73,7 +99,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
         .then(res => res.json())
         .then(data => JSON.stringify(data));
       } catch (err) {
-        setErrorMessage("Unable to submit loop request");
+        alert("Unable to submit loop request");
         console.log('Unable to submit loop request');
       }
       cleanUpForm();
@@ -99,7 +125,15 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 id="set-start-location"
                 openOnFocus
                 onChange={(_, value) => setStartLocation(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select start location" variant="outlined" margin="normal" />}
+                renderInput={(params: AutocompleteRenderInputParams) => 
+                  <TextField {...params} 
+                    label="Select start location" 
+                    variant="outlined" 
+                    margin="normal"
+                    error={!!locationError}
+                    helperText={locationError} 
+                  />}
+                value={startLocation ? startLocation : null}
                 />
             </div>
             <div className={classes.divForm}>
@@ -108,21 +142,24 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 options={places}
                 getOptionLabel={(place) => place}
                 onChange={(_, value) => setEndLocation(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select end location" variant="outlined" margin="normal" />}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select end location" variant="outlined" margin="normal" error={!!locationError} helperText={locationError}/>}
+                value={endLocation ? endLocation : null}
                 />
             </div>
             <div className={classes.divForm}>
                 <TextField
-                className={classes.input}
-                onChange={(e) => {
-                setNumLoops(e.target.value ? parseInt(e.target.value) : 0);
-                }}
-                placeholder="Set number of loops"
-                type="number"
-                value={numLoops || 0}
-                label="Number of Loops"
-                variant="outlined"
-                id="set-num-loops"
+                  className={classes.input}
+                  onChange={(e) => {
+                  setNumLoops(e.target.value ? parseInt(e.target.value) : 0);
+                  }}
+                  placeholder="Set number of loops"
+                  type="number"
+                  value={numLoops || ''}
+                  label="Number of Loops"
+                  variant="outlined"
+                  id="set-num-loops"
+                  error={!!numLoopsError}
+                  helperText={numLoopsError}
                 />
             </div>
             <div className={classes.divForm}>
@@ -137,6 +174,8 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                   label="Set start time (mins from now)"
                   variant="outlined"
                   id="set-start-time"
+                  error={!!timeError}
+                  helperText={timeError}
                 />
             </div>
             <div className={classes.divForm}>
@@ -151,7 +190,6 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
             <div className={classes.buttonContainer}>
                 <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Request</Button>
             </div>
-            <Typography variant="h6">{errorMessage}</Typography>
         </Box>
     );
 }

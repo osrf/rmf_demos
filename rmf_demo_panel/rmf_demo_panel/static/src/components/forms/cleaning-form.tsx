@@ -45,18 +45,24 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
   const submitCleaningRequest = () => {
       let start_time = minsFromNow;
       let cleaning_zone = targetZone;
-      let evaluator_option = evaluator;
-      console.log("submit task: ", start_time, cleaning_zone, evaluator_option );
+      let request = {};
+      if (evaluator.length > 0 ){
+        let evaluator_option = evaluator;
+        request = { task_type: "Clean",
+                    start_time: start_time,
+                    evaluator: evaluator_option,
+                    description: {'cleaning_zone': cleaning_zone} }
+      } else {
+        request = { task_type: "Clean",
+                    start_time: start_time,
+                    description: {'cleaning_zone': cleaning_zone} }
+      }
+      console.log("submit task: ", start_time, cleaning_zone);
       console.log("Submitting Task");
       try {
         fetch('/submit_task', {
         method: "POST",
-        body: JSON.stringify({
-                task_type: 'Clean', 
-                start_time: start_time,
-                evaluator: evaluator_option,
-                description: {'cleaning_zone': cleaning_zone}
-              }),
+        body: JSON.stringify(request),
         headers: { 
             "Content-type": "application/json; charset=UTF-8"
         } 
