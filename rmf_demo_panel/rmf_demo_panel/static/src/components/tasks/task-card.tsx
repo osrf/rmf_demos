@@ -86,9 +86,8 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
 const useStyles = makeStyles({
   root: {
     maxWidth: 210,
-    maxHeight: 300,
-    margin: "0.5em",
-    overflow: 'auto',
+    maxHeight: 330,
+    margin: "0.25em",
     textAlign: 'center',
     justifyContent: 'center'
   },
