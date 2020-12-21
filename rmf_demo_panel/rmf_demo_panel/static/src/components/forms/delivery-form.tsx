@@ -52,18 +52,24 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const submitDeliveryRequest = () => {
       let start_time = minsFromNow;
       let description = deliveryOption;
-      let evaluator_option = evaluator;
+      let request = {};
+      if (evaluator.length > 0 ){
+        let evaluator_option = evaluator;
+        request = { task_type: "Delivery",
+                    start_time: start_time,
+                    evaluator: evaluator_option,
+                    description: description }
+      } else {
+        request = { task_type: "Delivery",
+                    start_time: start_time,
+                    description: description }
+      }
       console.log("submit task: ", start_time, description);
       console.log("Submitting Task");
       try {
         fetch('/submit_task', {
         method: "POST",
-        body: JSON.stringify({
-                task_type: "Delivery", 
-                start_time: start_time,
-                evaluator: evaluator_option,
-                description: description
-              }),
+        body: JSON.stringify(request),
         headers: { 
             "Content-type": "application/json; charset=UTF-8"
         } 

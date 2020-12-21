@@ -91,15 +91,6 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
                 />
             </div>
             <div className={classes.divForm}>
-                <Autocomplete id="set-evaluator"
-                openOnFocus
-                options={evaluators}
-                getOptionLabel={(evaluator) => evaluator}
-                onChange={(_, value) => setEvaluator(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
-                />
-            </div>
-            <div className={classes.divForm}>
                 <TextField
                 className={classes.input}
                 onChange={(e) => {
@@ -113,6 +104,15 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
                 id="set-start-time"
                 helperText={timeError}
                 error={!!timeError}
+                />
+            </div>
+            <div className={classes.divForm}>
+                <Autocomplete id="set-evaluator"
+                openOnFocus
+                options={evaluators}
+                getOptionLabel={(evaluator) => evaluator}
+                onChange={(_, value) => setEvaluator(value)}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.buttonContainer}>
