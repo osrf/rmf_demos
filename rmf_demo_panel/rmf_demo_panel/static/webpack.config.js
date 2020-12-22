@@ -27,10 +27,6 @@ const config = {
                 loader: 'ts-loader'
             },
             {
-                test: /\.css$/i,
-                use: ["css-loader", "style-loader"]
-            },
-            {
                 test: /\.json$/,
                 use: [
                 {
