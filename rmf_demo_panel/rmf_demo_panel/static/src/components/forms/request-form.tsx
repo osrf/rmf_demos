@@ -9,7 +9,6 @@ import { WorldContext } from '../fixed-components/app-context';
 
 const RequestForm = (): React.ReactElement => {
     const { config } = React.useContext(WorldContext);
-    console.log("req form config", config);
     const [requestTypes, setRequestTypes] = React.useState(config.valid_task);
     const [formType, setFormType] = React.useState('');
     const [loopPlaces, setLoopPlaces] = React.useState([]);

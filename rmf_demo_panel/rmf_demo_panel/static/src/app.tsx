@@ -10,22 +10,16 @@ import { getDefaultConfig } from './components/services';
 export default function App(): React.ReactElement {
     const currWorld = React.useContext(WorldContext);
     const [currentWorld, setCurrentWorld] = React.useState(currWorld);
-    const [config, setConfig] = React.useState(currentWorld.config);
     console.log("The current map is the", World[currentWorld.map]);
-    console.log("The config is", config);
-
+    
     const setDefaultConfig = async () => {
         const defaultConfig = await getDefaultConfig();
-        setConfig(defaultConfig);
+        setCurrentWorld({map: World.Office, config: defaultConfig});
     };
 
     React.useEffect(() => {
        setDefaultConfig();
-    }, [currentWorld]);
-
-    React.useEffect(() => {
-        setConfig(currentWorld.config);
-    }, [currentWorld]);
+    }, []);
 
     return (
         <div>
