@@ -39,7 +39,7 @@ from rclpy.parameter import Parameter
 from rclpy.qos import qos_profile_system_default
 from rclpy.qos import QoSProfile
 
-from rmf_task_msgs.srv import SubmitTask, GetTask, CancelTask
+from rmf_task_msgs.srv import SubmitTask, GetTaskList, CancelTask
 from rmf_task_msgs.msg import TaskType
 from rmf_fleet_msgs.msg import FleetState
 
@@ -54,7 +54,7 @@ class DispatcherClient(Node):
         super().__init__('dispatcher_client')
         self.submit_task_srv = self.create_client(SubmitTask, '/submit_task')
         self.cancel_task_srv = self.create_client(CancelTask, '/cancel_task')
-        self.get_task_srv = self.create_client(GetTask, '/get_task')
+        self.get_task_srv = self.create_client(GetTaskList, '/get_task')
 
         qos_profile = QoSProfile(depth=10)
         self.dashboard_config = dashboard_config
@@ -128,7 +128,7 @@ class DispatcherClient(Node):
         Get all task status - This fn will trigger a ros srv call to acquire 
         all submitted tasks to dispatcher node. Fn returns an object of tasks
         """
-        req = GetTask.Request()
+        req = GetTaskList.Request()
         try:
             future = self.get_task_srv.call_async(req)
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
