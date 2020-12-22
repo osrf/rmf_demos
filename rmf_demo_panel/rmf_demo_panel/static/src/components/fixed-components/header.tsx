@@ -2,7 +2,6 @@ import * as React from "react";
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
 
 const Header = () : React.ReactElement => {
-
     return (
         <div>
             <AppBar id="appbar" position="sticky">

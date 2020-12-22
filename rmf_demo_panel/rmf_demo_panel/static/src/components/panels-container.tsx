@@ -34,7 +34,7 @@ const PanelsContainer = (): React.ReactElement => {
                     <Grid item xs={5}>
                         <RobotContainer />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                         <TasksContainer />
                     </Grid>
                 </Grid>

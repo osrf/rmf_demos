@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { Progress } from 'antd';
+import { useRobotCardStyles } from '../styles';
 
 interface RobotCardProps {
   robotState: {
@@ -15,7 +16,7 @@ interface RobotCardProps {
 
 export const RobotCard = (props: RobotCardProps) : React.ReactElement => {
     const { robotState } = props
-    const classes = useStyles();
+    const classes = useRobotCardStyles();
 
     return (
         <Card className={classes.root} variant="outlined">
@@ -68,15 +69,3 @@ export const RobotCard = (props: RobotCardProps) : React.ReactElement => {
         </Card>
     );                                                                
 }
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 180,
-    maxHeight: 240,
-    overflow: "auto",
-    margin: "0.5em"
-  },
-  text: {
-    textAlign: "center"
-  }
-});

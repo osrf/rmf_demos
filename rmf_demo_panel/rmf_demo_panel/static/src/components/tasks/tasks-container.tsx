@@ -7,11 +7,13 @@ import { getTasks } from "../services";
 const TasksContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
     const [taskStates, setTaskStates] = React.useState([]);
+
+    //example state can eventually be removed
     const exampleState  = {
         task_id: "4000",
         description: "zone_x",
         robot_name: "magnus",
-        state: "Active",
+        state: "Active/Executing",
         task_type: "Clean",
         start_time: 1500,
         end_time: 1540,

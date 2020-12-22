@@ -74,3 +74,25 @@ export const useFormStyles = makeStyles({
     alignItems: 'center'
   },
 });
+
+export const useTaskCardStyles = makeStyles({
+  root: {
+    maxWidth: 240,
+    maxHeight: 330,
+    margin: "0.25em",
+    textAlign: 'center',
+    justifyContent: 'center'
+  },
+});
+
+export const useRobotCardStyles = makeStyles({
+  root: {
+    maxWidth: 180,
+    maxHeight: 240,
+    overflow: "auto",
+    margin: "0.5em"
+  },
+  text: {
+    textAlign: "center"
+  }
+});

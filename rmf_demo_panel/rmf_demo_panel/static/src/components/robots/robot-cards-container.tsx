@@ -7,11 +7,13 @@ import { getRobots } from "../services";
 const RobotContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
     const [robotStates, setRobotStates] = React.useState([]);
+
+    //example state can eventually be removed
     const exampleState  = {
             robot_name: "magnus",
             fleet_name: "fleet1",
-            assignments: "4000",
-            mode: "Active",
+            assignments: "1003",
+            mode: "Idle-0",
             battery_percent: "90",
             level_name: "Level 2"
         };

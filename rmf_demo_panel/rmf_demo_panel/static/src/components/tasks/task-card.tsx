@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Card, CardContent, Chip, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardContent, Chip, Grid, Typography } from '@material-ui/core';
 import { Progress } from 'antd';
+import { useTaskCardStyles } from '../styles';
 
 interface TaskCardProps {
     taskState: {
@@ -17,7 +18,7 @@ interface TaskCardProps {
 
 export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
     const { taskState } = props
-    const classes = useStyles();
+    const classes = useTaskCardStyles();
 
     const returnStateColor = (state: string) => {
       switch(state) {
@@ -64,7 +65,9 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
                       Task State
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}><Chip color={returnStateColor(taskState.state)} label={taskState.state} size='small'/></Grid>
+                  <Grid item xs={6}>
+                    <Chip color={returnStateColor(taskState.state)} label={taskState.state} size='small'/>
+                  </Grid>
                   <Grid item xs={3}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       Start: 
@@ -82,13 +85,3 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
         </Card>
     );                              
 }
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 210,
-    maxHeight: 330,
-    margin: "0.25em",
-    textAlign: 'center',
-    justifyContent: 'center'
-  },
-});
