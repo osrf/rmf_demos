@@ -3,7 +3,7 @@ import { AppBar, Typography, Toolbar } from '@material-ui/core';
 
 const Header = () : React.ReactElement => {
     return (
-        <div>
+        <div role="header">
             <AppBar id="appbar" position="sticky">
                 <Toolbar>
                     <Typography variant="h4">RMF Panel</Typography>

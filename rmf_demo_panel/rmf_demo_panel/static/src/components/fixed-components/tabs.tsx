@@ -74,7 +74,7 @@ const NavTabs: React.FC<NavTabsProps> = (props: NavTabsProps) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} role="nav-tabs">
       <div className={classes.tabs}>
         <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
           <StyledTab label="Office" />

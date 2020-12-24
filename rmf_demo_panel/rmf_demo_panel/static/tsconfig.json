@@ -6,11 +6,12 @@
         "target": "es5",
         "jsx": "react",
         "resolveJsonModule": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "allowJs": true
     },
     "include": [
         "./src/**/*.tsx",
-        "*.d.ts"
+        "*.d.ts", "setupTests.ts"
     ],
     "exclude": ["./node_modules"]
 }
