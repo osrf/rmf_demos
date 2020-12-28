@@ -6,17 +6,21 @@ const RostimeClock = () => {
     const [time, setTime] = React.useState('');
 
     React.useEffect(() => {
+        let isSubscribed = true;
         socket.on("ros_time", msg => {
-            const timeData = Math.floor(msg / 3600) + ":" +
-            (Math.floor(msg / 60) % 60) + ":" +
-            (msg % 60);
-            setTime(timeData);
+            if(isSubscribed) {
+                const timeData = Math.floor(msg / 3600) + ":" +
+                (Math.floor(msg / 60) % 60) + ":" +
+                (msg % 60);
+                setTime(timeData);
+            }
         });
-    });
+        return () => (isSubscribed = false)
+    }, []);
 
     return (
         <Box>
-            <Typography variant='overline' align="center" gutterBottom>Time is: {time}</Typography>
+            <Typography variant='overline' align="center" gutterBottom role="clock-time">Time is: {time}</Typography>
         </Box>
     )
 }
