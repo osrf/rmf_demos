@@ -5,6 +5,7 @@ import RobotContainer from "./robots/robot-cards-container";
 import TasksContainer from "./tasks/tasks-container";
 import { usePanelContainerStyles } from "./styles";
 import RequestForm from "./forms/request-form";
+import RostimeClock from "./fixed-components/rostime-clock";
 
 const PanelsContainer = (): React.ReactElement => {
     const classes = usePanelContainerStyles();
@@ -12,6 +13,9 @@ const PanelsContainer = (): React.ReactElement => {
     return (
             <Grid className={classes.panels}>
                 <Grid container direction="row" alignContent="center" justify="center">
+                    <Grid item xs={12}>
+                        <RostimeClock />
+                    </Grid>
                     <Grid item xs={12}>
                         <Typography className={classes.centered} variant="h4">Task Submissions</Typography>
                     </Grid>
