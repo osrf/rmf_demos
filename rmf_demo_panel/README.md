@@ -36,11 +36,10 @@ ros2 launch demos dispatcher.launch.xml
 
 Open `http://localhost:5000/` on browser
 
-On the left hand Column, you are able to select a file which consists of scheduled tasks.
+On the left hand column, you are able to select a file which consists of scheduled tasks.
 
 Select tasks for office: `rmf_demos/rmf_demo_panel/task_list/office_tasks.json`.
 
-Once the taks is populated on the box, hit submit! 
+Once the tasks are populated in the box, hit submit!
 
-Similarly, this works with other .world
-
+Similarly, this works with other worlds
