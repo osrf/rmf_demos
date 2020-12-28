@@ -40,7 +40,7 @@ from rclpy.qos import qos_profile_system_default
 from rclpy.qos import QoSProfile
 
 from rmf_task_msgs.srv import SubmitTask, GetTaskList, CancelTask
-from rmf_task_msgs.msg import TaskType
+from rmf_task_msgs.msg import TaskType, Delivery, Loop
 from rmf_fleet_msgs.msg import FleetState
 
 from flask import Flask, render_template, request, jsonify
@@ -54,7 +54,7 @@ class DispatcherClient(Node):
         super().__init__('dispatcher_client')
         self.submit_task_srv = self.create_client(SubmitTask, '/submit_task')
         self.cancel_task_srv = self.create_client(CancelTask, '/cancel_task')
-        self.get_task_srv = self.create_client(GetTaskList, '/get_task')
+        self.get_tasks_srv = self.create_client(GetTaskList, '/get_tasks')
 
         qos_profile = QoSProfile(depth=10)
         self.dashboard_config = dashboard_config
@@ -130,7 +130,7 @@ class DispatcherClient(Node):
         """
         req = GetTaskList.Request()
         try:
-            future = self.get_task_srv.call_async(req)
+            future = self.get_tasks_srv.call_async(req)
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
             if response is None:
@@ -172,15 +172,15 @@ class DispatcherClient(Node):
         rclpy.spin_once(self, timeout_sec=0.0)
         now = self.get_clock().now().to_msg().sec  # only use sec
         for task in task_summaries:
-            desc = task.task_profile
+            desc = task.task_profile.description
             status = {}
-            status["task_id"] = desc.task_id
+            status["task_id"] = task.task_id
             status["state"] = states_enum[task.state]
             status["done"] = is_done
             status["fleet_name"] = task.fleet_name
             status["robot_name"] = task.robot_name
             status["task_type"] = type_enum[desc.task_type.type]
-            status["submited_start_time"] = task.task_profile.start_time.sec
+            status["submited_start_time"] = desc.start_time.sec
             status["start_time"] = task.start_time.sec     # only use sec
             status["end_time"] = task.end_time.sec         # only use sec
 
@@ -291,23 +291,27 @@ class DispatcherClient(Node):
             desc = task_json["description"]
             task_config = self.dashboard_config["task"][task_json["task_type"]]
             if task_json["task_type"] == "Clean":
-                req_msg.task_type.type = TaskType.TYPE_CLEAN
-                req_msg.clean.start_waypoint = desc["cleaning_zone"]
+                req_msg.description.task_type.type = TaskType.TYPE_CLEAN
+                req_msg.description.clean.start_waypoint = desc["cleaning_zone"]
             elif task_json["task_type"] == "Loop":
-                req_msg.task_type.type = TaskType.TYPE_LOOP
-                req_msg.loop.num_loops = int(desc["num_loops"])
-                req_msg.loop.start_name = desc["start_name"]
-                req_msg.loop.finish_name = desc["finish_name"]
+                req_msg.description.task_type.type = TaskType.TYPE_LOOP
+                loop = Loop()
+                loop.num_loops = int(desc["num_loops"])
+                loop.start_name = desc["start_name"]
+                loop.finish_name = desc["finish_name"]
+                req_msg.description.loop = loop
             elif task_json["task_type"] == "Delivery":
-                req_msg.task_type.type = TaskType.TYPE_DELIVERY
+                req_msg.description.task_type.type = TaskType.TYPE_DELIVERY
                 print(task_config)
                 opt = task_config["option"][desc["option"]]
-                req_msg.delivery.pickup_place_name = opt["pickup_place_name"]
-                req_msg.delivery.pickup_dispenser = opt["pickup_dispenser"]
-                req_msg.delivery.dropoff_ingestor = opt["dropoff_ingestor"]
-                req_msg.delivery.dropoff_place_name = opt["dropoff_place_name"]
+                delivery = Delivery()
+                delivery.pickup_place_name = opt["pickup_place_name"]
+                delivery.pickup_dispenser = opt["pickup_dispenser"]
+                delivery.dropoff_ingestor = opt["dropoff_ingestor"]
+                delivery.dropoff_place_name = opt["dropoff_place_name"]
+                req_msg.description.delivery = delivery
             else:
-                print("ERROR! Invalid format")
+                print("ERROR! Invalid TaskType")
                 return None
 
             # Calc start time, convert min to sec: TODO better represenation
