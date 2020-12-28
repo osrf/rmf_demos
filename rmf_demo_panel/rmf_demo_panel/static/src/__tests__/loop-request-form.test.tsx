@@ -6,7 +6,6 @@ describe('Footer', () => {
     const availablePlaces = ['place1', 'place2'];
     test("should render", () => {
         render(<LoopRequestForm availablePlaces={availablePlaces} />);
-    
         expect(screen.getByText("Schedule a Loop Request")).toBeInTheDocument();
     });
 });

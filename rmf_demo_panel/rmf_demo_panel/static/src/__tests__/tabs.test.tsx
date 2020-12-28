@@ -6,8 +6,6 @@ describe('Nav Tabs', () => {
     test("should render", () => {
         let handleWorldChange = jest.fn();
         render(<NavTabs handleWorldChange={handleWorldChange}/>);
-    
         expect(screen.getByRole('nav-tabs')).toBeVisible();
-    
     });
 })
