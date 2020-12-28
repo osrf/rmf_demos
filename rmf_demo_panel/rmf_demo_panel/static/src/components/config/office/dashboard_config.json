@@ -1,5 +1,5 @@
 { 
-  "valid_task" : ["Delivery", "Clean", "Loop"],
+  "valid_task" : ["Delivery", "Loop"],
   "task": {
     "Delivery": {
       "option": {

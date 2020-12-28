@@ -3,7 +3,7 @@ import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/s
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { WorldContextType, World } from './app-context';
-import { getConfigFile } from "../services";
+import { getConfigFile } from '../services';
 
 interface StyledTabsProps {
   value: number;
