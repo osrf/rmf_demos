@@ -20,7 +20,7 @@ const RostimeClock = () => {
 
     return (
         <Box>
-            <Typography variant='overline' align="center" gutterBottom role="clock-time">Time is: {time}</Typography>
+            <Typography variant='h6' align="center" gutterBottom role="clock-time">Time is: {time}</Typography>
         </Box>
     )
 }
