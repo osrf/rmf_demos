@@ -49,13 +49,13 @@ export const RobotCard = (props: RobotCardProps) : React.ReactElement => {
                       Task ID
                     </Typography>
                   </Grid>
-                  <Grid item xs={7}>{robotState.assignments}</Grid>
+                  <Grid item xs={7}><Typography>{robotState.assignments}</Typography></Grid>
                   <Grid item xs={5}>
                     <Typography variant="subtitle2" color="textSecondary" gutterBottom>
                       Status
                     </Typography>
                   </Grid>
-                  <Grid item xs={7}>{robotState.mode}</Grid>
+                  <Grid item xs={7}><Typography>{robotState.mode}</Typography></Grid>
                   <Grid item xs={5}>
                     <Typography variant="subtitle2" color="textSecondary" gutterBottom>
                       Battery
@@ -69,7 +69,7 @@ export const RobotCard = (props: RobotCardProps) : React.ReactElement => {
                       Location
                     </Typography>
                   </Grid>
-                  <Grid item xs={7}>{robotState.level_name}</Grid>
+                  <Grid item xs={7}><Typography>{robotState.level_name}</Typography></Grid>
                   <Grid item container direction="column" alignItems="flex-end" justify="flex-end">{returnStatusIcon(robotState.mode)}</Grid>
               </Grid>
             </CardContent>

@@ -41,25 +41,25 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
                       Task ID
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{taskState.task_id}</Grid>
+                  <Grid item xs={6}><Typography>{taskState.task_id}</Typography></Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       Details
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{taskState.description}</Grid>
+                  <Grid item xs={6}><Typography>{taskState.description}</Typography></Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       Robot
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{taskState.robot_name}</Grid>
+                  <Grid item xs={6}><Typography>{taskState.robot_name}</Typography></Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       Task Type
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>{taskState.task_type}</Grid>
+                  <Grid item xs={6}><Typography>{taskState.task_type}</Typography></Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       Task State
@@ -73,13 +73,13 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
                       Start: 
                     </Typography>
                   </Grid>
-                  <Grid item xs={3}>{taskState.start_time}</Grid>
+                  <Grid item xs={3}><Typography>{taskState.start_time}</Typography></Grid>
                   <Grid item xs={3}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       End: 
                     </Typography>
                   </Grid>
-                  <Grid item xs={3}>{taskState.end_time}</Grid>
+                  <Grid item xs={3}><Typography>{taskState.end_time}</Typography></Grid>
               </Grid>
             </CardContent>
         </Card>
