@@ -75,7 +75,7 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
                   </Grid>
                   <Grid item xs={3}>{taskState.start_time}</Grid>
                   <Grid item xs={3}>
-                    <Typography variant="subtitle2" align="left" color="textSecondary">
+                    <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
                       End: 
                     </Typography>
                   </Grid>
