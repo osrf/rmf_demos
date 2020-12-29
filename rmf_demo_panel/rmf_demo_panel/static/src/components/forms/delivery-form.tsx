@@ -109,6 +109,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           onChange={(_, value) => setDeliveryTask(value)}
           renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" error={!!taskError} helperText={taskError} />}
           value={deliveryTask ? deliveryTask : null}
+          role="listbox"
         />
       </div>
       <div className={classes.divForm}>
