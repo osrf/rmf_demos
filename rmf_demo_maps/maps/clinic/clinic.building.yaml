@@ -1483,6 +1483,24 @@ levels:
       - [274, 446, {alpha: [3, 1], texture_name: [1, default]}]
       - [447, 273, {alpha: [3, 1], texture_name: [1, default]}]
   L2:
+    crowd_sim:
+      agent_profiles:
+        - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
+        - {ORCA_tau: 1, ORCA_tauObst: 1, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: human, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.18}
+      enable: 1
+      external_agent_groups:
+        - {agents_name: [tinyRobot_1, tinyRobot_2], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
+      goal_sets:
+        - {capacity: 1, set_area: [reception], set_id: 0}
+      model_types:
+        - {animation: walk, animation_speed: 1, typename: human}
+      obstacle_set: {class: 1, file_name: navmesh.nav, type: nav_mesh}
+      states:
+        - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
+        - {final: 0, goal_set: 0, name: work_at_L2_reception1, navmesh_file_name: navmesh.nav}
+      transitions:
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: work_at_L2_reception1, weight: 1}], from: work_at_L2_reception1, to: work_at_L2_reception1}
+      update_time_step: 0.1
     doors:
       - [14, 15, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_clinic_a], plugin: [1, normal], type: [1, double_sliding]}]
       - [121, 122, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_left_consult_rm_13_outer], plugin: [1, none], type: [1, sliding]}]
@@ -1651,6 +1669,7 @@ levels:
     measurements:
       - [0, 1, {distance: [3, 0.7]}]
     models:
+      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_L2_reception1, static: false, x: 760.491, y: 1393.494, yaw: 0, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 1927.091, y: 1509.158, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 2024.263, y: 1509.451, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 2023.971, y: 1456.767, yaw: 1.5708, z: 0}
