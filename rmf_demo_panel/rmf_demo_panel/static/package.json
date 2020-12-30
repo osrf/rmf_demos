@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
     "build": "webpack --progress --config webpack.config.js",
     "dev-build": "webpack --progress --config webpack.config.js",
     "watch": "webpack --progress --config webpack.config.js --watch"
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.1",
+    "@material-ui/icons": "^4.11.2",
     "antd": "^4.9.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -40,6 +42,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
     "@types/jest": "^26.0.19",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

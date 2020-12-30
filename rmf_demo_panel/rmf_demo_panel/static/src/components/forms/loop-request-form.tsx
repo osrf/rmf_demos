@@ -134,6 +134,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                     helperText={locationError} 
                   />}
                 value={startLocation ? startLocation : null}
+                role="listbox"
                 />
             </div>
             <div className={classes.divForm}>
@@ -144,6 +145,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 onChange={(_, value) => setEndLocation(value)}
                 renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select end location" variant="outlined" margin="normal" error={!!locationError} helperText={locationError}/>}
                 value={endLocation ? endLocation : null}
+                role="listbox"
                 />
             </div>
             <div className={classes.divForm}>
