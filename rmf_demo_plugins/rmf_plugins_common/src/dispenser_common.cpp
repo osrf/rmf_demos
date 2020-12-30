@@ -111,7 +111,7 @@ void TeleportDispenserCommon::on_update(
   if (sim_time - last_pub_time >= interval || dispense)
   {
     last_pub_time = sim_time;
-    current_state.time = simulation_now(sim_time);;
+    current_state.time = simulation_now(sim_time);
 
     if (dispense)
     {
@@ -126,12 +126,12 @@ void TeleportDispenserCommon::on_update(
     _state_pub->publish(current_state);
   }
 
-  // `dispense` is set to true if the dispenser plugin node has 
+  // `dispense` is set to true if the dispenser plugin node has
   // received a valid DispenserRequest
   if (dispense)
   {
     send_dispenser_response(DispenserResult::ACKNOWLEDGED);
-    
+
     bool is_success = false;
     if (dispenser_filled)
     {
@@ -158,8 +158,8 @@ void TeleportDispenserCommon::on_update(
       send_dispenser_response(DispenserResult::FAILED);
     }
 
-    _past_request_guids.insert(std::pair<std::string,bool>(
-      latest.request_guid, is_success));
+    _past_request_guids.insert(std::pair<std::string, bool>(
+        latest.request_guid, is_success));
 
     dispense = false;
   }
