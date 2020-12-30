@@ -2,10 +2,12 @@ import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { useFormStyles } from "../styles";
+import { showErrorMessage, showSuccessMessage } from "../fixed-components/messages";
 
 interface CleaningFormProps {
   cleaningZones: string[]
 }
+
 export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
   const { cleaningZones } = props;
   const [allZones, setZones] = React.useState(cleaningZones);
@@ -41,24 +43,27 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
     }
     return true;
   }
+
+  const createRequest = () => {
+    let start_time = minsFromNow;
+    let cleaning_zone = targetZone;
+    let request = {};
+    if (evaluator.length > 0 ){
+      let evaluator_option = evaluator;
+      request = { task_type: "Clean",
+                  start_time: start_time,
+                  evaluator: evaluator_option,
+                  description: {'cleaning_zone': cleaning_zone} }
+    } else {
+      request = { task_type: "Clean",
+                  start_time: start_time,
+                  description: {'cleaning_zone': cleaning_zone} }
+      }
+    return request;
+  }
   
   const submitCleaningRequest = () => {
-      let start_time = minsFromNow;
-      let cleaning_zone = targetZone;
-      let request = {};
-      if (evaluator.length > 0 ){
-        let evaluator_option = evaluator;
-        request = { task_type: "Clean",
-                    start_time: start_time,
-                    evaluator: evaluator_option,
-                    description: {'cleaning_zone': cleaning_zone} }
-      } else {
-        request = { task_type: "Clean",
-                    start_time: start_time,
-                    description: {'cleaning_zone': cleaning_zone} }
-      }
-      console.log("submit task: ", start_time, cleaning_zone);
-      console.log("Submitting Task");
+      const request = createRequest();
       try {
         fetch('/submit_task', {
         method: "POST",
@@ -69,9 +74,10 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
       })
         .then(res => res.json())
         .then(data => JSON.stringify(data));
-        
+        showSuccessMessage("Cleaning Request submitted successfully!");
       } catch (err) {
-        console.log('Unable to submit cleaning request');
+        console.log(err);
+        showErrorMessage("Unable to submit cleaning request");
       }
       cleanUpForm();
   }

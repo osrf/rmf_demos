@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
+import { showSuccessMessage, showErrorMessage } from '../fixed-components/messages';
 import { useFormStyles } from '../styles';
 
 //declare without any
@@ -30,7 +31,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   }, [deliveryOptions]);
 
   React.useEffect(() => {
-    {deliveryTask.length > 0 && 
+    { deliveryTask.length > 0 &&
       setDeliveryOption({ option: deliveryTask }) }
   }, [deliveryTask]);
 
@@ -52,9 +53,9 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
     setTaskError("");
     setTimeError("");
   }
-  
-  const submitDeliveryRequest = () => {
-      let start_time = minsFromNow;
+
+  const createRequest = () => {
+     let start_time = minsFromNow;
       let description = deliveryOption;
       let request = {};
       if (evaluator.length > 0 ){
@@ -68,8 +69,11 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
                     start_time: start_time,
                     description: description }
       }
-      console.log("submit task: ", start_time, description);
-      console.log("Submitting Task");
+      return request;
+  }
+  
+  const submitDeliveryRequest = () => {
+      const request = createRequest();
       try {
         fetch('/submit_task', {
         method: "POST",
@@ -80,13 +84,13 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
       })
         .then(res => res.json())
         .then(data => JSON.stringify(data));
+        showSuccessMessage("Delivery Request submitted successfully!");
       } catch (err) {
-        alert("Unable to submit delivery request");
-        console.log('Unable to submit delivery request');
+        console.log(err);
+        showErrorMessage("Unable to submit delivery request");
       }
       cleanUpForm();
-      console.log("Delivery request submitted");
-  }
+    }
 
   const handleSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();

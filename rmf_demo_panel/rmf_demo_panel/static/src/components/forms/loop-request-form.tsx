@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
+import { showErrorMessage, showSuccessMessage } from '../fixed-components/messages';
 import { useFormStyles } from '../styles';
 
 interface LoopDescription {
@@ -65,9 +66,9 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
       setLocationError('');
       setNumLoopsError('');
       setTimeError('');
-    };
+  };
 
-  const submitLoopRequest = () => {
+  const createRequest = () => {
     let description: LoopDescription = {
       num_loops: numLoops,
       start_name: startLocation,
@@ -75,19 +76,22 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
     }
     let start_time = minsFromNow;
     let request = {};
-    if (evaluator.length > 0 ){
+    if (evaluator.length > 0 ) {
         let evaluator_option = evaluator;
         request = { task_type: "Loop",
                     start_time: start_time,
                     evaluator: evaluator_option,
                     description: description }
-      } else {
-        request = { task_type: "Loop",
-                    start_time: start_time,
-                    description: description }
-      }
-      console.log("submit task: ", start_time, description);
-      console.log("Submitting Task");
+    } else {
+      request = { task_type: "Loop",
+                  start_time: start_time,
+                  description: description }
+    }
+    return request;
+  }
+
+  const submitLoopRequest = () => {
+      const request = createRequest();
       try {
         fetch('/submit_task', {
         method: "POST",
@@ -97,21 +101,22 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
         } 
       })
         .then(res => res.json())
-        .then(data => JSON.stringify(data));
+        .then(data => JSON.stringify(data))
+        .then(data => console.log(data))
+        showSuccessMessage("Loop Request submitted successfully!");
       } catch (err) {
-        alert("Unable to submit loop request");
-        console.log('Unable to submit loop request');
+        console.log(err);
+        showErrorMessage("Unable to submit loop request");
       }
       cleanUpForm();
-      console.log("loop request submitted");
-  }
-
-  const handleSubmit = (ev: React.FormEvent): void => {
-    ev.preventDefault();
-    if(isFormValid()) {
-      submitLoopRequest();
     }
-  }
+    
+    const handleSubmit = (ev: React.FormEvent): void => {
+      ev.preventDefault();
+      if(isFormValid()) {
+        submitLoopRequest();
+      }
+    }
 
   const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
 
