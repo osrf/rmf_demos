@@ -8,8 +8,8 @@ levels:
       external_agent_groups:
         - {agents_name: [tinyRobot2, tinyRobot1], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
       goal_sets:
-        - {capacity: 1, set_area: [hardware_2], set_id: 0}
-        - {capacity: 1, set_area: [conf_1, conf_2], set_id: 1}
+        - {capacity: 2, set_area: [hardware_2], set_id: 0}
+        - {capacity: 4, set_area: [conf_1, conf_2], set_id: 1}
       model_types:
         - {animation: walk, animation_speed: 1, typename: human}
       obstacle_set: {class: 1, file_name: navmesh.nav, type: nav_mesh}
@@ -250,7 +250,7 @@ levels:
       - [2709.623, 380.669, 0, "", {human_goal_set_name: [1, conf_2]}]
       - [2681.866, 658.24, 0, "", {human_goal_set_name: [1, conf_2]}]
       - [2339.528, 664.849, 0, "", {human_goal_set_name: [1, conf_2]}]
-      - [2219.248, 650.31, 0, "", {human_goal_set_name: [1, conf_1]}]
+      - [2219.248, 650.3099999999999, 0, "", {human_goal_set_name: [1, conf_1]}]
     walls:
       - [6, 7, {alpha: [3, 1], texture_name: [1, default]}]
       - [7, 12, {alpha: [3, 1], texture_name: [1, default]}]
