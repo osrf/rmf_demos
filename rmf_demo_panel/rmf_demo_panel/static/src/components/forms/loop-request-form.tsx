@@ -91,32 +91,31 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
   }
 
   const submitLoopRequest = () => {
-      const request = createRequest();
-      try {
-        fetch('/submit_task', {
+    const request = createRequest();
+    try {
+      fetch('/submit_task', {
         method: "POST",
         body: JSON.stringify(request),
         headers: { 
             "Content-type": "application/json; charset=UTF-8"
         } 
       })
-        .then(res => res.json())
-        .then(data => JSON.stringify(data))
-        .then(data => console.log(data))
-        showSuccessMessage("Loop Request submitted successfully!");
-      } catch (err) {
-        console.log(err);
-        showErrorMessage("Unable to submit loop request");
-      }
-      cleanUpForm();
+      .then(res => res.json())
+      .then(data => JSON.stringify(data));
+      showSuccessMessage("Loop Request submitted successfully!");
+    } catch (err) {
+      console.log(err);
+      showErrorMessage("Unable to submit loop request");
     }
+    cleanUpForm();
+  }
     
-    const handleSubmit = (ev: React.FormEvent): void => {
-      ev.preventDefault();
-      if(isFormValid()) {
-        submitLoopRequest();
-      }
+  const handleSubmit = (ev: React.FormEvent): void => {
+    ev.preventDefault();
+    if(isFormValid()) {
+      submitLoopRequest();
     }
+  }
 
   const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
 
