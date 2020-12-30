@@ -318,7 +318,7 @@ class DispatcherClient(Node):
             rclpy.spin_once(self, timeout_sec=0.0)
             ros_start_time = self.get_clock().now().to_msg()
             ros_start_time.sec += int(task_json["start_time"]*60)
-            req_msg.start_time = ros_start_time
+            req_msg.description.start_time = ros_start_time
 
         except Exception as e:
             print('Error!! Task Req description is invalid: ', e)
