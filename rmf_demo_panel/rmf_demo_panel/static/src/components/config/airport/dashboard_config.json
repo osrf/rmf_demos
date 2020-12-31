@@ -13,8 +13,13 @@
     },
     "Loop": {
       "places": [
-        "airport office",
-        "canteen"
+        "koi_pond",
+        "west_koi_pond",
+        "n01",
+        "n08",
+        "n23",
+        "n24",
+        "n25"
       ]
     },
     "Clean": {
