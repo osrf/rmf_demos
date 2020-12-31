@@ -103,7 +103,7 @@ class DispatcherClient(Node):
     def cancel_task_request(self, task_id) -> bool:
         """
         Cancel Task - This function will trigger a ros srv call to the
-        dispatcher node, and return a response. 
+        dispatcher node, and return a response.
         """
         print("Canceling Task Request!")
         req = CancelTask.Request()
@@ -125,7 +125,7 @@ class DispatcherClient(Node):
     # either from DB or via srv call
     def get_task_status(self):
         """
-        Get all task status - This fn will trigger a ros srv call to acquire 
+        Get all task status - This fn will trigger a ros srv call to acquire
         all submitted tasks to dispatcher node. Fn returns an object of tasks
         """
         req = GetTaskList.Request()
@@ -150,7 +150,7 @@ class DispatcherClient(Node):
 
     def get_robot_states(self):
         """
-        This function will return an aggregated list of robot states to the 
+        This function will return an aggregated list of robot states to the
         front end UI when a ajax GET is requested.
         """
         agg_robot_states = []
@@ -260,10 +260,10 @@ class DispatcherClient(Node):
 
     def convert_task(self, task_json):
         """
-        :param obj task_json: 
+        :param obj task_json:
         :return rmf submit task req_msgs
         This is to convert a json task req format to a rmf_task_msgs
-        task_profile format. add this accordingly when a new msg field 
+        task_profile format. add this accordingly when a new msg field
         is introduced.
         The 'start time' here is refered to the "Duration" from now.
         """
@@ -292,7 +292,8 @@ class DispatcherClient(Node):
             task_config = self.dashboard_config["task"][task_json["task_type"]]
             if task_json["task_type"] == "Clean":
                 req_msg.description.task_type.type = TaskType.TYPE_CLEAN
-                req_msg.description.clean.start_waypoint = desc["cleaning_zone"]
+                req_msg.description.clean.start_waypoint = desc[
+                    "cleaning_zone"]
             elif task_json["task_type"] == "Loop":
                 req_msg.description.task_type.type = TaskType.TYPE_LOOP
                 loop = Loop()
@@ -408,8 +409,8 @@ def load_cleaning_tasks(yaml_file):
                 dispatcher_client.submit_task_request(req_msg)
             except yaml.YAMLError as exc:
                 print("YAML ERROR",  exc)
-    except:
-        raise ValueError('ERROR: Unable load Task config file')
+    except Exception as e:
+        raise ValueError(f'ERROR: Unable load Task config file {e}')
 
 
 def web_server_spin():
