@@ -6,6 +6,7 @@ import CleaningForm from './cleaning-form';
 import LoopRequestForm from './loop-request-form';
 import DeliveryForm from './delivery-form';
 import { WorldContext } from '../fixed-components/app-context';
+import { submitRequest } from '../services';
 
 const RequestForm = (): React.ReactElement => {
     const { config } = React.useContext(WorldContext);
@@ -37,7 +38,7 @@ const RequestForm = (): React.ReactElement => {
             case "Delivery": 
                 return <DeliveryForm deliveryOptions={deliveryOptions} />
             case "Clean":
-                return <CleaningForm cleaningZones={cleaningZones}/>
+                return <CleaningForm cleaningZones={cleaningZones} submitRequest={submitRequest} />
         }
     }
   

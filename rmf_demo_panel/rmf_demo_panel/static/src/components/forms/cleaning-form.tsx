@@ -2,14 +2,14 @@ import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { useFormStyles } from "../styles";
-import { showErrorMessage, showSuccessMessage } from "../fixed-components/messages";
 
 interface CleaningFormProps {
-  cleaningZones: string[]
+  cleaningZones: string[],
+  submitRequest: (request: {}, type: string) => void;
 }
 
 export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
-  const { cleaningZones } = props;
+  const { cleaningZones, submitRequest } = props;
   const [allZones, setZones] = React.useState(cleaningZones);
   const [targetZone, setTargetZone] = React.useState('');
   const [evaluator, setEvaluator] = React.useState('');
@@ -61,31 +61,13 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
       }
     return request;
   }
-  
-  const submitCleaningRequest = () => {
-      const request = createRequest();
-      try {
-        fetch('/submit_task', {
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: { 
-            "Content-type": "application/json; charset=UTF-8"
-        } 
-      })
-        .then(res => res.json())
-        .then(data => JSON.stringify(data));
-        showSuccessMessage("Cleaning Request submitted successfully!");
-      } catch (err) {
-        console.log(err);
-        showErrorMessage("Unable to submit cleaning request");
-      }
-      cleanUpForm();
-  }
 
   const handleSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();
     if(isFormValid()) {
-      submitCleaningRequest();
+      let request = createRequest();
+      submitRequest(request, "Cleaning");
+      cleanUpForm();
     }
   }
 

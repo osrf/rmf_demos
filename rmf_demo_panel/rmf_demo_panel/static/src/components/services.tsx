@@ -1,5 +1,5 @@
-//calling API endpoints
-
+import { showErrorMessage, showSuccessMessage } from './fixed-components/messages';
+//API endpoints
 export const getRobots = async () => {
     try {
         let response = await fetch('/get_robots');
@@ -26,6 +26,24 @@ export const getTasks = async () => {
     } catch (err) {
         throw new Error(err.message);
     }
+}
+
+export const submitRequest = (request: {}, type: string) => {
+    try {
+        fetch('/submit_task', {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+        .then(res => res.json())
+        .then(data => JSON.stringify(data));
+        showSuccessMessage(`${type} Request submitted successfully!`);
+      } catch (err) {
+        console.log(err);
+        showErrorMessage(`Unable to submit ${type} Request`);
+      }
 }
 
 //calling config files
