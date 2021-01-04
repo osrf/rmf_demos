@@ -1,16 +1,15 @@
 import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
-import { showSuccessMessage, showErrorMessage } from '../fixed-components/messages';
 import { useFormStyles } from '../styles';
 
-//declare without any
 interface DeliveryFormProps {
   deliveryOptions: any
+  submitRequest: (request: {}, type: string) => void;
 }
 
 const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
-  const { deliveryOptions } = props;
+  const { deliveryOptions, submitRequest } = props;
   const classes = useFormStyles();
   const [deliveryTask, setDeliveryTask] = React.useState("");
   const [deliveryOption, setDeliveryOption] = React.useState({});
@@ -72,30 +71,12 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
       return request;
   }
   
-  const submitDeliveryRequest = () => {
-      const request = createRequest();
-      try {
-        fetch('/submit_task', {
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: { 
-            "Content-type": "application/json; charset=UTF-8"
-        } 
-      })
-        .then(res => res.json())
-        .then(data => JSON.stringify(data));
-        showSuccessMessage("Delivery Request submitted successfully!");
-      } catch (err) {
-        console.log(err);
-        showErrorMessage("Unable to submit delivery request");
-      }
-      cleanUpForm();
-    }
-
-  const handleSubmit = (ev: React.FormEvent): void => {
+    const handleSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();
     if(isFormValid()) {
-      submitDeliveryRequest();
+      let request = createRequest();
+      submitRequest(request, "Delivery");
+      cleanUpForm();
     }
   }
 
@@ -113,7 +94,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           onChange={(_, value) => setDeliveryTask(value)}
           renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" error={!!taskError} helperText={taskError} />}
           value={deliveryTask ? deliveryTask : null}
-          role="listbox"
         />
       </div>
       <div className={classes.divForm}>

@@ -110,7 +110,7 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
                 />
             </div>
             <div className={classes.buttonContainer}>
-                <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Task</Button>
+                <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Request</Button>
             </div>
         </Box>
     );

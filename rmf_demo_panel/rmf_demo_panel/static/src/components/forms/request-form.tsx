@@ -36,7 +36,7 @@ const RequestForm = (): React.ReactElement => {
             case "Loop":
                 return <LoopRequestForm availablePlaces={loopPlaces} />
             case "Delivery": 
-                return <DeliveryForm deliveryOptions={deliveryOptions} />
+                return <DeliveryForm deliveryOptions={deliveryOptions} submitRequest={submitRequest}/>
             case "Clean":
                 return <CleaningForm cleaningZones={cleaningZones} submitRequest={submitRequest} />
         }
