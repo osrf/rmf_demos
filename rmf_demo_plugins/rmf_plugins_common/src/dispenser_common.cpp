@@ -158,8 +158,7 @@ void TeleportDispenserCommon::on_update(
       send_dispenser_response(DispenserResult::FAILED);
     }
 
-    _past_request_guids.insert(std::pair<std::string, bool>(
-        latest.request_guid, is_success));
+    _past_request_guids.emplace(latest.request_guid, is_success);
 
     dispense = false;
   }
