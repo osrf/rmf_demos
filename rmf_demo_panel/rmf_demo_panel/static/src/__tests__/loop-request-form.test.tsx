@@ -6,10 +6,15 @@ import LoopRequestForm from '../components/forms/loop-request-form';
 describe('Loop Request Form', () => {
     let root: ReturnType<typeof renderForm>;
     let submitRequest = jest.fn();
+     let setTimeError = jest.fn();
+    let setMinsFromNow = jest.fn();
+    let minsFromNow = 0;
+    let evaluator = "";
+    let timeAndEvaluator = { minsFromNow, evaluator, setTimeError, setMinsFromNow}
     
     function renderForm() {
         const availablePlaces = ['place1', 'place2'];
-        return render(<LoopRequestForm availablePlaces={availablePlaces} submitRequest={submitRequest}/>);
+        return render(<LoopRequestForm availablePlaces={availablePlaces} submitRequest={submitRequest} timeAndEvaluator={timeAndEvaluator}/>);
     }
     
     beforeEach(() => {

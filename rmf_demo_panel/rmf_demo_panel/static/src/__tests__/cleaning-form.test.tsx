@@ -6,10 +6,15 @@ import CleaningForm from '../components/forms/cleaning-form';
 describe('Cleaning Form', () => {
     let root: ReturnType<typeof renderForm>;
     let submitRequest = jest.fn();
+    let setTimeError = jest.fn();
+    let setMinsFromNow = jest.fn();
+    let minsFromNow = 0;
+    let evaluator = "";
+    let timeAndEvaluator = { minsFromNow, evaluator, setTimeError, setMinsFromNow}
 
     function renderForm() {
         const cleaningZones = ['zone1', 'zone2'];
-        return render(<CleaningForm cleaningZones={cleaningZones} submitRequest={submitRequest} />);
+        return render(<CleaningForm cleaningZones={cleaningZones} submitRequest={submitRequest} timeAndEvaluator={timeAndEvaluator} />);
     }
 
     beforeEach(() => {

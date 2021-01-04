@@ -12,20 +12,19 @@ interface LoopDescription {
 interface LoopFormProps {
   availablePlaces: string[]
   submitRequest: (request: {}, type: string) => void;
+  timeAndEvaluator: { minsFromNow: number, evaluator: string, setTimeError: React.Dispatch<React.SetStateAction<string>>, setMinsFromNow: React.Dispatch<React.SetStateAction<number>>}
 }
 
 const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
-  const { availablePlaces, submitRequest } = props;
+  const { availablePlaces, submitRequest, timeAndEvaluator } = props;
+   const { minsFromNow, evaluator, setTimeError, setMinsFromNow } = timeAndEvaluator;
   const classes = useFormStyles();
   const [startLocation, setStartLocation] = React.useState("");
   const [endLocation, setEndLocation] = React.useState("");
   const [places, setPlaces] = React.useState(availablePlaces);
   const [numLoops, setNumLoops] = React.useState(1);
-  const [minsFromNow, setMinsFromNow] = React.useState(0);
-  const [evaluator, setEvaluator] = React.useState('');
 
   //errors
-  const [timeError, setTimeError] = React.useState("");
   const [numLoopsError, setNumLoopsError] = React.useState("");
   const [locationError, setLocationError] = React.useState("");
 
@@ -48,7 +47,7 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
       isValid = false;
     }
     if(minsFromNow < 0) {
-      setTimeError("Start time can only be >= 0");
+      setTimeError("Start time cannot be negative");
       isValid = false;
     }
     return isValid;
@@ -99,8 +98,6 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
     }
   }
 
-  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
-
   return (
         <Box className={classes.form} role="loop-request-form">
             <div className={classes.divForm}>
@@ -146,31 +143,6 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                   id="set-num-loops"
                   error={!!numLoopsError}
                   helperText={numLoopsError}
-                />
-            </div>
-            <div className={classes.divForm}>
-                <TextField
-                  className={classes.input}
-                  onChange={(e) => {
-                  setMinsFromNow(e.target.value ? parseInt(e.target.value) : 0);
-                  }}
-                  placeholder="Set start time (mins from now)"
-                  type="number"
-                  value={minsFromNow || 0}
-                  label="Set start time (mins from now)"
-                  variant="outlined"
-                  id="set-start-time"
-                  error={!!timeError}
-                  helperText={timeError}
-                />
-            </div>
-            <div className={classes.divForm}>
-                <Autocomplete id="set-evaluator"
-                openOnFocus
-                options={evaluators}
-                getOptionLabel={(evaluator) => evaluator}
-                onChange={(_, value) => setEvaluator(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.buttonContainer}>

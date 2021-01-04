@@ -6,6 +6,11 @@ import DeliveryForm from '../components/forms/delivery-form';
 describe('Delivery Form', () => {
     let root: ReturnType<typeof renderForm>;
     let submitRequest = jest.fn();
+    let setTimeError = jest.fn();
+    let setMinsFromNow = jest.fn();
+    let minsFromNow = 0;
+    let evaluator = "";
+    let timeAndEvaluator = { minsFromNow, evaluator, setTimeError, setMinsFromNow}
     
     function renderForm() {
         const deliveryOptions = {
@@ -16,7 +21,7 @@ describe('Delivery Form', () => {
               "dropoff_ingestor": "mopcart_collector"
             }
         }
-        return render(<DeliveryForm deliveryOptions={deliveryOptions} submitRequest={submitRequest}/>);
+        return render(<DeliveryForm deliveryOptions={deliveryOptions} submitRequest={submitRequest} timeAndEvaluator={timeAndEvaluator}/>);
     }
 
     beforeEach(() => {

@@ -6,30 +6,27 @@ import { useFormStyles } from "../styles";
 interface CleaningFormProps {
   cleaningZones: string[],
   submitRequest: (request: {}, type: string) => void;
+  timeAndEvaluator: { minsFromNow: number, evaluator: string, setTimeError: React.Dispatch<React.SetStateAction<string>>, setMinsFromNow: React.Dispatch<React.SetStateAction<number>>}
 }
 
 export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
-  const { cleaningZones, submitRequest } = props;
+  const { cleaningZones, submitRequest, timeAndEvaluator } = props;
+  const { minsFromNow, evaluator, setTimeError, setMinsFromNow } = timeAndEvaluator;
   const [allZones, setZones] = React.useState(cleaningZones);
   const [targetZone, setTargetZone] = React.useState('');
-  const [evaluator, setEvaluator] = React.useState('');
-  const [minsFromNow, setMinsFromNow] = React.useState(0);
 
   //errors
-  const [timeError, setTimeError] = React.useState("");
   const [zoneError, setZoneError] = React.useState("");
   
   const classes = useFormStyles();
-  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
   
   React.useEffect(() => {
     setZones(cleaningZones);
   }, [cleaningZones]);
 
   const cleanUpForm = () => {
-    setTargetZone('');
-    setEvaluator('');
     setMinsFromNow(0);
+    setTargetZone('');
   }
 
   const isFormValid = () => {
@@ -82,31 +79,6 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
                 openOnFocus
                 onChange={(_, value) => setTargetZone(value)}
                 renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Pick a zone" variant="outlined" margin="normal" helperText={zoneError} error={!!zoneError}/>}
-                />
-            </div>
-            <div className={classes.divForm}>
-                <TextField
-                className={classes.input}
-                onChange={(e) => {
-                setMinsFromNow(e.target.value ? parseInt(e.target.value) : 0);
-                }}
-                placeholder="Set start time (mins from now)"
-                type="number"
-                value={minsFromNow || 0}
-                label="Set start time (mins from now)"
-                variant="outlined"
-                id="set-start-time"
-                helperText={timeError}
-                error={!!timeError}
-                />
-            </div>
-            <div className={classes.divForm}>
-                <Autocomplete id="set-evaluator"
-                openOnFocus
-                options={evaluators}
-                getOptionLabel={(evaluator) => evaluator}
-                onChange={(_, value) => setEvaluator(value)}
-                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.buttonContainer}>

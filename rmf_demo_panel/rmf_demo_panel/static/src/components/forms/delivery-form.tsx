@@ -6,19 +6,18 @@ import { useFormStyles } from '../styles';
 interface DeliveryFormProps {
   deliveryOptions: any
   submitRequest: (request: {}, type: string) => void;
+  timeAndEvaluator: { minsFromNow: number, evaluator: string, setTimeError: React.Dispatch<React.SetStateAction<string>>, setMinsFromNow: React.Dispatch<React.SetStateAction<number>> }
 }
 
 const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
-  const { deliveryOptions, submitRequest } = props;
+  const { deliveryOptions, submitRequest, timeAndEvaluator } = props;
+  const { minsFromNow, evaluator, setTimeError, setMinsFromNow } = timeAndEvaluator;
   const classes = useFormStyles();
   const [deliveryTask, setDeliveryTask] = React.useState("");
   const [deliveryOption, setDeliveryOption] = React.useState({});
   const [deliveryOptionKeys, setDeliveryOptionKeys] = React.useState([]);
-  const [minsFromNow, setMinsFromNow] = React.useState(0);
-  const [evaluator, setEvaluator] = React.useState('');
 
   //errors
-  const [timeError, setTimeError] = React.useState("");
   const [taskError, setTaskError] = React.useState("");
 
   React.useEffect(() => {
@@ -39,7 +38,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
       setTaskError("Please select a delivery task");
       return false;
     }
-    if(timeError) {
+    if(minsFromNow < 0) {
       setTimeError("Start time cannot be negative");
       return false;
     }
@@ -51,6 +50,7 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
     setDeliveryTask("");
     setTaskError("");
     setTimeError("");
+    setMinsFromNow(0);
   }
 
   const createRequest = () => {
@@ -94,31 +94,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
           onChange={(_, value) => setDeliveryTask(value)}
           renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select delivery task" variant="outlined" margin="normal" error={!!taskError} helperText={taskError} />}
           value={deliveryTask ? deliveryTask : null}
-        />
-      </div>
-      <div className={classes.divForm}>
-        <TextField
-          className={classes.input}
-          onChange={(e) => {
-          setMinsFromNow(e.target.value ? parseInt(e.target.value) : 0);
-          }}
-          placeholder="Set start time (mins from now)"
-          type="number"
-          value={minsFromNow || 0}
-          label="Set start time (mins from now)"
-          variant="outlined"
-          id="set-start-time"
-          error={!!timeError}
-          helperText={timeError}
-        />
-      </div>
-      <div className={classes.divForm}>
-        <Autocomplete id="set-evaluator"
-          openOnFocus
-          options={evaluators}
-          getOptionLabel={(evaluator) => evaluator}
-          onChange={(_, value) => setEvaluator(value)}
-          renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
         />
       </div>
       <div className={classes.buttonContainer}>

@@ -15,7 +15,11 @@ const RequestForm = (): React.ReactElement => {
     const [loopPlaces, setLoopPlaces] = React.useState([]);
     const [deliveryOptions, setDeliveryOptions] = React.useState({});
     const [cleaningZones, setCleaningZones] = React.useState([]);
+    const [minsFromNow, setMinsFromNow] = React.useState(0);
+    const [evaluator, setEvaluator] = React.useState('');
     
+    const [timeError, setTimeError] = React.useState("");
+
     React.useEffect(() => {
         if(Object.keys(config).length > 0) {
             setRequestTypes(config.valid_task);
@@ -32,15 +36,18 @@ const RequestForm = (): React.ReactElement => {
     }, [config]);
 
     const returnFormType = (formType: string) => {
+        const timeAndEvaluator = { minsFromNow, evaluator, setTimeError, setMinsFromNow };
         switch (formType) {
             case "Loop":
-                return <LoopRequestForm availablePlaces={loopPlaces} submitRequest={submitRequest}/>
+                return <LoopRequestForm availablePlaces={loopPlaces} submitRequest={submitRequest} timeAndEvaluator={timeAndEvaluator}/>
             case "Delivery": 
-                return <DeliveryForm deliveryOptions={deliveryOptions} submitRequest={submitRequest}/>
+                return <DeliveryForm deliveryOptions={deliveryOptions} submitRequest={submitRequest} timeAndEvaluator={timeAndEvaluator}/>
             case "Clean":
-                return <CleaningForm cleaningZones={cleaningZones} submitRequest={submitRequest} />
+                return <CleaningForm cleaningZones={cleaningZones} submitRequest={submitRequest} timeAndEvaluator={timeAndEvaluator}/>
         }
     }
+
+    const evaluators:string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
   
     const classes = useFormStyles();
     
@@ -56,6 +63,31 @@ const RequestForm = (): React.ReactElement => {
                 defaultValue={formType}
                 onChange={(_, value) => setFormType(value)}
                 renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select a request type" variant="outlined" margin="normal" />}
+                />
+            </div>
+            <div className={classes.divForm}>
+                <TextField
+                className={classes.input}
+                onChange={(e) => {
+                setMinsFromNow(e.target.value ? parseInt(e.target.value) : 0);
+                }}
+                placeholder="Set start time (mins from now)"
+                type="number"
+                value={minsFromNow || 0}
+                label="Set start time (mins from now)"
+                variant="outlined"
+                id="set-start-time"
+                error={!!timeError}
+                helperText={timeError}
+                />
+            </div>
+            <div className={classes.divForm}>
+                <Autocomplete id="set-evaluator"
+                openOnFocus
+                options={evaluators}
+                getOptionLabel={(evaluator) => evaluator}
+                onChange={(_, value) => setEvaluator(value)}
+                renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Choose an evaluator (optional)" variant="outlined" margin="normal" />}
                 />
             </div>
             <div className={classes.divForm}>
