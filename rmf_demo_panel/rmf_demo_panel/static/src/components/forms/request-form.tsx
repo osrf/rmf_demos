@@ -34,7 +34,7 @@ const RequestForm = (): React.ReactElement => {
     const returnFormType = (formType: string) => {
         switch (formType) {
             case "Loop":
-                return <LoopRequestForm availablePlaces={loopPlaces} />
+                return <LoopRequestForm availablePlaces={loopPlaces} submitRequest={submitRequest}/>
             case "Delivery": 
                 return <DeliveryForm deliveryOptions={deliveryOptions} submitRequest={submitRequest}/>
             case "Clean":

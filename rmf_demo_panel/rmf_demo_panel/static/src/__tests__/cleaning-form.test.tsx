@@ -20,14 +20,14 @@ describe('Cleaning Form', () => {
         expect(screen.getByRole('cleaning-form')).toBeInTheDocument();
     });
 
-    test("invalid form will render error message", () => {
+    test("should render error messages when invalid form is submitted", () => {
         const submitButton = screen.getByText('Submit Request');
         fireEvent.click(submitButton);
         expect(root.container.querySelector('.MuiFormHelperText-root.Mui-error')).toBeTruthy();
         expect(screen.getByText("Cleaning zone cannot be an empty field")).toBeInTheDocument();
     });
 
-    test("submitting a valid form renders success message", () => {
+    test("should submit a valid form", () => {
         const submitButton = screen.getByText('Submit Request');
         userEvent.click(root.getByLabelText('Pick a zone'));
         userEvent.click(within(screen.getAllByRole('listbox')[0]).getByText('zone1'));

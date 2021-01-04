@@ -24,16 +24,16 @@ describe('Delivery Form', () => {
     });
 
     test("should render", () => {
-        expect(screen.getByText("Schedule a Delivery Request")).toBeInTheDocument();
+        expect(screen.getByRole('delivery-form')).toBeInTheDocument();
     });
 
-    test("invalid form will render error message", () => {
+    test("should render error messages when invalid form is submitted", () => {
         const submitButton = screen.getByText('Submit Request');
         fireEvent.click(submitButton);
         expect(root.container.querySelector('.MuiFormHelperText-root.Mui-error')).toBeTruthy();
     });
 
-    test("submitting a valid form renders success message", () => {
+    test("should submit a valid form", () => {
         const submitButton = screen.getByText('Submit Request');
         userEvent.click(root.getByLabelText('Select delivery task'));
         userEvent.click(within(screen.getAllByRole('listbox')[0]).getByText('mop'));

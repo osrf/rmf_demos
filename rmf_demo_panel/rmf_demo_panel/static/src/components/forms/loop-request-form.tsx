@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
-import { showErrorMessage, showSuccessMessage } from '../fixed-components/messages';
 import { useFormStyles } from '../styles';
 
 interface LoopDescription {
@@ -12,10 +11,11 @@ interface LoopDescription {
 
 interface LoopFormProps {
   availablePlaces: string[]
+  submitRequest: (request: {}, type: string) => void;
 }
 
 const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
-  const { availablePlaces } = props;
+  const { availablePlaces, submitRequest } = props;
   const classes = useFormStyles();
   const [startLocation, setStartLocation] = React.useState("");
   const [endLocation, setEndLocation] = React.useState("");
@@ -89,38 +89,20 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
     }
     return request;
   }
-
-  const submitLoopRequest = () => {
-    const request = createRequest();
-    try {
-      fetch('/submit_task', {
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: { 
-            "Content-type": "application/json; charset=UTF-8"
-        } 
-      })
-      .then(res => res.json())
-      .then(data => JSON.stringify(data));
-      showSuccessMessage("Loop Request submitted successfully!");
-    } catch (err) {
-      console.log(err);
-      showErrorMessage("Unable to submit loop request");
-    }
-    cleanUpForm();
-  }
     
   const handleSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();
     if(isFormValid()) {
-      submitLoopRequest();
+      let request = createRequest();
+      submitRequest(request, "Loop");
+      cleanUpForm();
     }
   }
 
   const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
 
   return (
-        <Box className={classes.form}>
+        <Box className={classes.form} role="loop-request-form">
             <div className={classes.divForm}>
             <Typography variant="h6">Schedule a Loop Request</Typography>
                 <Autocomplete
@@ -138,7 +120,6 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                     helperText={locationError} 
                   />}
                 value={startLocation ? startLocation : null}
-                role="listbox"
                 />
             </div>
             <div className={classes.divForm}>
@@ -149,7 +130,6 @@ const LoopRequestForm = (props: LoopFormProps): React.ReactElement => {
                 onChange={(_, value) => setEndLocation(value)}
                 renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="Select end location" variant="outlined" margin="normal" error={!!locationError} helperText={locationError}/>}
                 value={endLocation ? endLocation : null}
-                role="listbox"
                 />
             </div>
             <div className={classes.divForm}>
