@@ -53,9 +53,9 @@
 
       <!-- TODO Update these values with actual specs -->
       <!-- Battery parameters -->
-      <arg name="battery_voltage" value="24.0"/>
-      <arg name="battery_capacity" value="2.0"/>
-      <arg name="battery_charging_current" value="24.0"/>
+      <arg name="battery_voltage" value="12.0"/>
+      <arg name="battery_capacity" value="24.0"/>
+      <arg name="battery_charging_current" value="5.0"/>
 
       <!-- Physical parameters -->
       <arg name="mass" value="70.0"/>
@@ -68,8 +68,9 @@
       
       <!-- Whether to consider battery drain for task planning -->
       <arg name="drain_battery" value="true"/>
-  
-      <arg name="recharge_threshold" value="0.2"/>
+
+      <!-- Battery level at which the robot ceases to operate -->
+      <arg name="recharge_threshold" value="0.1"/>
 
     </include>
   </group>
