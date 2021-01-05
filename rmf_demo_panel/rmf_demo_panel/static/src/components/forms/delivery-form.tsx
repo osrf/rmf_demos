@@ -80,8 +80,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
     }
   }
 
-  const evaluators: string[] = ["lowest_delta_cost", "lowest_cost", "quickest_time"];
-
   return (
     <Box className={classes.form} role="delivery-form">
       <div className={classes.divForm}>

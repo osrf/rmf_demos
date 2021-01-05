@@ -1,58 +1,36 @@
 import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
-import { showSuccessMessage, showErrorMessage } from "../fixed-components/messages";
+import { showErrorMessage } from "../fixed-components/messages";
 import { useFormStyles } from "../styles";
 
-interface Task {
-  task_type: string,
-  start_time: number,
-  description: string
+interface ScheduledTaskFormProps {
+  submitTaskList: (taskList: string | ArrayBuffer) => void;
 }
 
-const ScheduledTaskForm = (): React.ReactElement => {
+const ScheduledTaskForm = (props: ScheduledTaskFormProps): React.ReactElement => {
+  const { submitTaskList } = props;
   const classes = useFormStyles();
-  const [taskList, setTaskList] = React.useState<string | ArrayBuffer>();
+  const [taskList, setTaskList] = React.useState<string | ArrayBuffer>('');
   const placeholder = `eg. [
 {"task_type":"Clean", "start_time":0, "description":{"cleaning_zone":"zone_1"}},
 {"task_type":"Clean", "start_time":10, "description":{"cleaning_zone":"zone_2"}},
 {"task_type":"Clean", "start_time":5, "description":{"cleaning_zone":"zone_3"}}
 ]`
 
-  let global_list_count = 0;
-  let global_task_list: Array<Task> = [];
+  const isFormValid = () => {
+    if(taskList === "" || taskList === `[]` || taskList === `{}`) {
+      showErrorMessage("Unable to submit an empty task list");
+      return false;
+    }
+    return true;
+  }
 
-  const submitTaskList = () => {
-    global_list_count = 0;
-    global_task_list = [];
-    let i = 0; // to set time "delay"
-    let res = "Task List submitted successfully";
-    let tempTaskList: any = taskList; //best to remove 'any
-    let jsonTaskList: Array<Task> = JSON.parse(tempTaskList);
-
-    //simulate submission of tasks at intervals
-    jsonTaskList.forEach((task) => {
-      global_task_list.push(task);
-      setTimeout(function(i) {
-        try {
-          fetch('/submit_task', {
-            method: "POST",
-            body: JSON.stringify(global_task_list[global_list_count]),
-            headers: { 
-                "Content-type": "application/json; charset=UTF-8"
-            } 
-          })
-          .then(res => res.json())
-          .then(data => JSON.stringify(data));
-          global_list_count++;
-        } catch (err) {
-          res = "ERROR! " + err;
-          showErrorMessage(res);
-          console.log('Unable to submit task request');
-        }
-      }, 900*(++i));
-    });
-    showSuccessMessage(res);
-    setTaskList('');
+  const handleSubmit = (ev: React.FormEvent): void => {
+    ev.preventDefault();
+    if(isFormValid()) {
+      submitTaskList(taskList);
+      setTaskList('');
+    }
   }
 
   const readTaskFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +44,7 @@ const ScheduledTaskForm = (): React.ReactElement => {
   }
 
   return (
-      <Box className={classes.form}>
+      <Box className={classes.form} role="scheduled-task-form">
         <div className={classes.divForm}>
           <Typography variant="h6">Scheduled Task List</Typography>
           </div>
@@ -77,7 +55,6 @@ const ScheduledTaskForm = (): React.ReactElement => {
         </div>
         <div className={classes.divForm}>
           <TextField
-                id="task_list_box"
                 multiline
                 rows={5}
                 placeholder={placeholder}
@@ -88,7 +65,7 @@ const ScheduledTaskForm = (): React.ReactElement => {
               />
         </div>
         <div className={classes.buttonContainer}>
-          <Button variant="contained" color="primary" onClick={submitTaskList} className={classes.button}>Submit Task List</Button>
+          <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>Submit Task List</Button>
         </div>
     </Box>
   )
