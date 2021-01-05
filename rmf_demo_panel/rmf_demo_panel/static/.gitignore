@@ -1,4 +1,5 @@
 node_modules
-dist/
+dist
 web_server.log
 package-lock.json
+coverage
