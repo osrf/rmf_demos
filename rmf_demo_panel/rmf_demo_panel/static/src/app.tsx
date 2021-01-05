@@ -10,7 +10,6 @@ import { getDefaultConfig } from './components/services';
 export default function App(): React.ReactElement {
     const currWorld = React.useContext(WorldContext);
     const [currentWorld, setCurrentWorld] = React.useState(currWorld);
-    console.log("The current map is the", World[currentWorld.map]);
     
     const setDefaultConfig = async () => {
         const defaultConfig = await getDefaultConfig();
