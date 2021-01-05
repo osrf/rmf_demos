@@ -46,6 +46,46 @@ export const submitRequest = (request: {}, type: string) => {
       }
 }
 
+
+interface Task {
+  task_type: string,
+  start_time: number,
+  description: string
+}
+
+export const submitTaskList = (taskList: string | ArrayBuffer) => {
+    let global_list_count = 0;
+    let global_task_list: Array<Task> = [];
+    let i = 0; // to set time "delay"
+    let res = "Task List submitted successfully";
+    let tempTaskList: any = taskList; //best to remove 'any
+    let jsonTaskList: Array<Task> = JSON.parse(tempTaskList);
+
+    //simulate submission of tasks at intervals
+    jsonTaskList.forEach((task) => {
+      global_task_list.push(task);
+      setTimeout(function(i) {
+        try {
+          fetch('/submit_task', {
+            method: "POST",
+            body: JSON.stringify(global_task_list[global_list_count]),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+          })
+          .then(res => res.json())
+          .then(data => JSON.stringify(data));
+          global_list_count++;
+        } catch (err) {
+          res = "ERROR! " + err;
+          showErrorMessage(res);
+          console.log('Unable to submit task request');
+        }
+      }, 900*(++i));
+    });
+    showSuccessMessage(res);
+}
+
 //calling config files
 import officeConfig from "./config/office/dashboard_config.json";
 import airportConfig from "./config/airport/dashboard_config.json";

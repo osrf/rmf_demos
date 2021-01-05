@@ -30,7 +30,7 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
     }
 
     return (
-        <Card className={classes.root} variant="outlined">
+        <Card className={classes.root} variant="outlined" role="task-details">
             <CardContent>
               <Grid container>
                   <Grid item xs={12}>

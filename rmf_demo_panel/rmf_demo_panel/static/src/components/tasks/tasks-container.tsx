@@ -23,7 +23,7 @@ const TasksContainer = () : React.ReactElement => {
     const refreshTaskData = async () => {
         let updatedData = await getTasks();
         if(updatedData != taskStates) {
-                setTaskStates(updatedData);
+            setTaskStates(updatedData);
         }
     }
 

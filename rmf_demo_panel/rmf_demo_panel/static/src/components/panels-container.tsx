@@ -6,6 +6,7 @@ import TasksContainer from "./tasks/tasks-container";
 import { usePanelContainerStyles } from "./styles";
 import RequestForm from "./forms/request-form";
 import RostimeClock from "./fixed-components/rostime-clock";
+import { submitTaskList } from './services';
 
 const PanelsContainer = (): React.ReactElement => {
     const classes = usePanelContainerStyles();
@@ -25,7 +26,7 @@ const PanelsContainer = (): React.ReactElement => {
                         <RequestForm />
                     </Grid>
                     <Grid item xs={5}>
-                        <ScheduledTaskForm />
+                        <ScheduledTaskForm submitTaskList={submitTaskList} />
                     </Grid>
                 </Grid>
                 <Divider variant="middle"/>

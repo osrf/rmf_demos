@@ -31,7 +31,7 @@ export const RobotCard = (props: RobotCardProps) : React.ReactElement => {
     }
 
     return (
-        <Card className={classes.root} variant="outlined">
+        <Card className={classes.root} variant="outlined" role="robot-details">
             <CardContent>
               <Grid container>
                 <Grid item xs={12}>
