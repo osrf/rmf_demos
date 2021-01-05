@@ -1,26 +1,17 @@
 { 
-  "valid_task" : ["Delivery", "Clean", "Loop"],
+  "valid_task" : ["Clean", "Loop"],
   "task": {
-    "Delivery": {
-      "option": {
-        "coke": {
-          "pickup_place_name": "pantry",
-          "pickup_dispenser": "coke_dispenser",
-          "dropoff_place_name": "hardware_2",
-          "dropoff_ingestor": "coke_ingestor"
-        },
-        "mop": {
-          "pickup_place_name": "mopcart_pickup",
-          "pickup_dispenser": "mopcart_dispenser",
-          "dropoff_place_name": "spill",
-          "dropoff_ingestor": "mopcart_collector"
-        }
-      }
-    },
+    "Delivery": {},
     "Loop": {
       "places": [
-        "nurse counter",
-        "pharmarcy"
+        "L1_left_nurse_center",
+        "L1_right_nurse_center",
+        "L2_left_nurse_center",
+        "L2_right_nurse_center",
+        "L2_sub_waiting_area_2",
+        "L2_west_counter",
+        "L2_north_counter",
+        "L2_south_counter"
       ]
     },
     "Clean": {
