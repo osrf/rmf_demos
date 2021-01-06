@@ -11,18 +11,6 @@ const TasksContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
     const [taskStates, setTaskStates] = React.useState([]);
 
-    //example state can eventually be removed
-    const exampleState  = {
-        task_id: "4000",
-        description: "zone_x",
-        robot_name: "magnus",
-        state: "Active/Executing",
-        task_type: "Clean",
-        start_time: 1500,
-        end_time: 1540,
-        progress: "42"
-    };
-
     const refreshTaskData = async () => {
         let updatedData = await getTasks();
         if(updatedData != taskStates) {
@@ -30,7 +18,6 @@ const TasksContainer = () : React.ReactElement => {
         }
     }
 
-    //refresh the tasks summary at intervals of 5 seconds
     React.useEffect(() => {
         const timer = setInterval(() => {
             refreshTaskData();
@@ -47,7 +34,6 @@ const TasksContainer = () : React.ReactElement => {
             <Typography variant="h5">Tasks</Typography>
             <Button variant="outlined" onClick={refreshTaskData}>Refresh</Button>
             <Grid container className={classes.grid}>
-                <TaskCard taskState={exampleState} />
                 {allTasks}
             </Grid>
         </Box>
