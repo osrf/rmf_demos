@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { TaskCard } from './task-card';
 import { useContainerStyles } from '../styles';
 import { getTasks } from "../services";
+import { socket } from '../socket';
 
 const TasksContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
@@ -19,10 +20,13 @@ const TasksContainer = () : React.ReactElement => {
     }
 
     React.useEffect(() => {
-        const timer = setInterval(() => {
-            refreshTaskData();
-        }, 5000);
-        return () => clearInterval(timer);
+        let isSubscribed = true;
+        socket.on("task_status", taskData => {
+            if(isSubscribed) {
+                setTaskStates(taskData);
+            }
+        });
+        return () => (isSubscribed = false);
     });
 
     const allTasks = taskStates.map(taskState => {

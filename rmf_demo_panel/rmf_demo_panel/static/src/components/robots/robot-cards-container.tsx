@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { RobotCard } from './robot-card';
 import { useContainerStyles } from '../styles';
 import { getRobots } from "../services";
+import { socket } from '../socket';
 
 const RobotContainer = () : React.ReactElement => {
     const classes = useContainerStyles();
@@ -19,10 +20,13 @@ const RobotContainer = () : React.ReactElement => {
     }
 
     React.useEffect(() => {
-        const timer = setInterval(() => {
-            refreshRobotData();
-        }, 2000);
-        return () => clearInterval(timer);
+        let isSubscribed = true;
+        socket.on("robot_states", robotData => {
+            if(isSubscribed) {
+                setRobotStates(robotData);
+            }
+        });
+        return () => (isSubscribed = false);
     });
 
     const allRobots = robotStates.map(robotState => {
