@@ -28,13 +28,13 @@ void TeleportIngestorCommon::ingestor_request_cb(IngestorRequest::UniquePtr msg)
       if (it->second)
       {
         RCLCPP_WARN(ros_node->get_logger(),
-          "Request already succeeded: [%s]", latest.request_guid);
+          "Request already succeeded: [%s]", latest.request_guid.c_str());
         send_ingestor_response(IngestorResult::SUCCESS);
       }
       else
       {
         RCLCPP_WARN(ros_node->get_logger(),
-          "Request already failed: [%s]", latest.request_guid);
+          "Request already failed: [%s]", latest.request_guid.c_str());
         send_ingestor_response(IngestorResult::FAILED);
       }
       return;
@@ -94,10 +94,31 @@ void TeleportIngestorCommon::on_update(
   std::function<void()> transport_model_cb,
   std::function<void(void)> send_ingested_item_home_cb)
 {
+  // periodic ingestor status publisher
+  constexpr double interval = 2.0;
+  if (sim_time - last_pub_time >= interval || ingest)
+  {
+    last_pub_time = sim_time;
+    current_state.time = simulation_now(sim_time);
+
+    if (ingest)
+    {
+      current_state.mode = IngestorState::BUSY;
+      current_state.request_guid_queue = {latest.request_guid};
+    }
+    else
+    {
+      current_state.mode = IngestorState::IDLE;
+      current_state.request_guid_queue.clear();
+    }
+    _state_pub->publish(current_state);
+  }
+
   if (ingest)
   {
     send_ingestor_response(IngestorResult::ACKNOWLEDGED);
 
+    bool is_success = false;
     if (!ingestor_filled)
     {
       RCLCPP_INFO(ros_node->get_logger(), "Ingesting item");
@@ -108,6 +129,7 @@ void TeleportIngestorCommon::on_update(
       {
         send_ingestor_response(IngestorResult::SUCCESS);
         last_ingested_time = sim_time;
+        is_success = true;
         RCLCPP_INFO(ros_node->get_logger(), "Success");
       }
       else
@@ -122,18 +144,10 @@ void TeleportIngestorCommon::on_update(
         "No item to ingest: [%s]", latest.request_guid);
       send_ingestor_response(IngestorResult::FAILED);
     }
+
+    _past_request_guids.emplace(latest.request_guid, is_success);
+
     ingest = false;
-  }
-
-  constexpr double interval = 2.0;
-  if (sim_time - last_pub_time >= interval)
-  {
-    last_pub_time = sim_time;
-    const auto now = simulation_now(sim_time);
-
-    current_state.time = now;
-    current_state.mode = IngestorState::IDLE;
-    _state_pub->publish(current_state);
   }
 
   // Periodically try to teleport ingested item back to original location
@@ -160,7 +174,7 @@ void TeleportIngestorCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
 
   _request_sub = ros_node->create_subscription<IngestorRequest>(
     "/ingestor_requests",
-    rclcpp::SystemDefaultsQoS(),
+    rclcpp::SystemDefaultsQoS().reliable(),
     std::bind(&TeleportIngestorCommon::ingestor_request_cb, this,
     std::placeholders::_1));
 
