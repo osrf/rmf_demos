@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Divider } from '@material-ui/core';
+import React from 'react';
+import Divider from '@material-ui/core/Divider';
 import Header from "./components/fixed-components/header";
 import PanelsContainer from './components/panels-container';
 import Footer from './components/fixed-components/footer';

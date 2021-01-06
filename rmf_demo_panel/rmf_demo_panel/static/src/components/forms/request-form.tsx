@@ -1,6 +1,8 @@
-import * as React from 'react';
-import { Box, TextField, Typography } from "@material-ui/core";
-import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
+import React from "react";
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Autocomplete, { AutocompleteRenderInputParams } from '@material-ui/lab/Autocomplete';
 import { useFormStyles } from "../styles";
 import CleaningForm from './cleaning-form';
 import LoopRequestForm from './loop-request-form';

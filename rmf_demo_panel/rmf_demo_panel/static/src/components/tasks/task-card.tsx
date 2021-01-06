@@ -1,6 +1,10 @@
-import * as React from 'react';
-import { Card, CardContent, Chip, Grid, Typography } from '@material-ui/core';
-import { Progress } from 'antd';
+import React from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Progress from 'antd/lib/progress';
 import { useTaskCardStyles } from '../styles';
 
 interface TaskCardProps {

@@ -1,11 +1,13 @@
-import * as React from "react"
-import { Divider, Grid, Typography } from "@material-ui/core";
-import ScheduledTaskForm from "./forms/scheduled-task-form";
-import RobotContainer from "./robots/robot-cards-container";
-import TasksContainer from "./tasks/tasks-container";
+import React from "react"
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import ScheduledTaskForm from './forms/scheduled-task-form';
+import RobotContainer from './robots/robot-cards-container';
+import TasksContainer from './tasks/tasks-container';
+import RostimeClock from './fixed-components/rostime-clock';
+import RequestForm from './forms/request-form';
 import { usePanelContainerStyles } from "./styles";
-import RequestForm from "./forms/request-form";
-import RostimeClock from "./fixed-components/rostime-clock";
 import { submitTaskList } from './services';
 
 const PanelsContainer = (): React.ReactElement => {

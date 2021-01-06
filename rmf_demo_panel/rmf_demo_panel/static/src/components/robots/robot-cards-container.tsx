@@ -1,5 +1,8 @@
-import * as React from 'react';
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import React from 'react';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { RobotCard } from './robot-card';
 import { useContainerStyles } from '../styles';
 import { getRobots } from "../services";
