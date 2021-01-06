@@ -378,7 +378,6 @@ def cancel():
     return " Failed to cancel"
 
 
-# TODO: use socket broadcast.
 @app.route('/get_task', methods=['GET'])
 def status():
     task_status = jsonify(dispatcher_client.get_task_status())
@@ -387,7 +386,6 @@ def status():
     return task_status
 
 
-# TODO: use socket broadcast
 @app.route('/get_robots', methods=['GET'])
 def robots():
     robot_status = jsonify(dispatcher_client.get_robot_states())

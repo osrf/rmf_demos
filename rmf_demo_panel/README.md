@@ -4,7 +4,7 @@ This will be a replacement of rviz's [rmf_panel](https://github.com/osrf/rmf_sch
 
 ## Installation
 Dependencies
- - rmf_core: `feature/task-dispatcher` branch
+ - rmf_core: [`develop/dispatcher_demo`](https://github.com/osrf/rmf_demos/tree/develop/dispatcher_demo) branch
 
 Setup `rmf_demo_panel`
 ```bash
