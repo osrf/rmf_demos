@@ -31,12 +31,12 @@ export const getTasks = async () => {
 export const submitRequest = (request: {}, type: string) => {
     try {
         fetch('/submit_task', {
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
-      })
+            method: "POST",
+            body: JSON.stringify(request),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
         .then(res => res.json())
         .then(data => JSON.stringify(data));
         showSuccessMessage(`${type} Request submitted successfully!`);
@@ -46,6 +46,23 @@ export const submitRequest = (request: {}, type: string) => {
       }
 }
 
+export const cancelTask = (id: string) => {
+    try {
+        fetch('/cancel_task', {
+            method: "POST",
+            body: JSON.stringify({ task_id: id }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(res => res.json())
+        .then(data => JSON.stringify(data));
+        showSuccessMessage(`Task ${id} has been cancelled`);
+    } catch (err) {
+        console.log(err);
+        showErrorMessage(`Unable to cancel Task ${id}`);
+    }
+}
 
 interface Task {
   task_type: string,
