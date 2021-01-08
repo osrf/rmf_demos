@@ -74,7 +74,7 @@ export const CleaningForm = (props: CleaningFormProps): React.ReactElement => {
     return (
         <Box className={classes.form} role="cleaning-form">
             <div className={classes.divForm}>
-            <Typography variant="h6">Schedule an Ad-Hoc Task</Typography>
+            <Typography variant="h6">Schedule a Clean Request</Typography>
                 <Autocomplete
                 options={allZones}
                 getOptionLabel={(zone) => zone}
