@@ -78,7 +78,6 @@ export const useFormStyles = makeStyles({
 export const useTaskCardStyles = makeStyles({
   root: {
     maxWidth: 240,
-    maxHeight: 330,
     margin: "0.25em",
     textAlign: 'center',
     justifyContent: 'center'
