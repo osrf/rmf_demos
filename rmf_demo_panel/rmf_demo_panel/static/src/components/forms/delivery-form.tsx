@@ -17,7 +17,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   const { minsFromNow, evaluator, setTimeError, setMinsFromNow } = timeAndEvaluator;
   const classes = useFormStyles();
   const [deliveryTask, setDeliveryTask] = React.useState("");
-  const [deliveryOption, setDeliveryOption] = React.useState({});
   const [deliveryOptionKeys, setDeliveryOptionKeys] = React.useState([]);
 
   //errors
@@ -30,11 +29,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
     }
     setDeliveryOptionKeys(optionKeys);
   }, [deliveryOptions]);
-
-  React.useEffect(() => {
-    { deliveryTask.length > 0 &&
-      setDeliveryOption({ option: deliveryTask }) }
-  }, [deliveryTask]);
 
   const isFormValid = () => {
     if(deliveryTask === "") {
@@ -49,7 +43,6 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
   }
 
   const cleanUpForm = () => {
-    setDeliveryOption({});
     setDeliveryTask("");
     setTaskError("");
     setTimeError("");
