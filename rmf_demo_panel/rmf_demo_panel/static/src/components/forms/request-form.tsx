@@ -56,7 +56,7 @@ const RequestForm = (): React.ReactElement => {
     return (
         <Box className={classes.form}>
             <div className={classes.divForm}>
-            <Typography variant="h6">Requests</Typography>
+            <Typography variant="h6">Submit a Task</Typography>
                 <Autocomplete
                 options={requestTypes}
                 getOptionLabel={(requestType) => requestType}

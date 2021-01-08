@@ -49,7 +49,7 @@ const ScheduledTaskForm = (props: ScheduledTaskFormProps): React.ReactElement =>
   return (
       <Box className={classes.form} role="scheduled-task-form">
         <div className={classes.divForm}>
-          <Typography variant="h6">Scheduled Task List</Typography>
+          <Typography variant="h6">Submit a List of Tasks</Typography>
           </div>
         <div className={classes.buttonContainer}>
           <Button variant="contained" color="primary" className={classes.button}>
