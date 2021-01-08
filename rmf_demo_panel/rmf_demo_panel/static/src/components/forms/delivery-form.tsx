@@ -55,10 +55,15 @@ const DeliveryForm = (props: DeliveryFormProps): React.ReactElement => {
     setTimeError("");
     setMinsFromNow(0);
   }
+  
+  const createTaskDescription = (deliveryTask: string): {} => {
+    let newDelivery = deliveryOptions[deliveryTask];
+    return newDelivery;
+  }
 
   const createRequest = () => {
      let start_time = minsFromNow;
-      let description = deliveryOption;
+      let description = createTaskDescription(deliveryTask);
       let request = {};
       if (evaluator.length > 0 ){
         let evaluator_option = evaluator;

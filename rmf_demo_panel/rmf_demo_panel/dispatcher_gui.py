@@ -50,14 +50,13 @@ from flask_socketio import SocketIO, emit, disconnect
 
 
 class DispatcherClient(Node):
-    def __init__(self, dashboard_config):
+    def __init__(self):
         super().__init__('dispatcher_client')
         self.submit_task_srv = self.create_client(SubmitTask, '/submit_task')
         self.cancel_task_srv = self.create_client(CancelTask, '/cancel_task')
         self.get_tasks_srv = self.create_client(GetTaskList, '/get_tasks')
 
         qos_profile = QoSProfile(depth=10)
-        self.dashboard_config = dashboard_config
 
         # to show robot states
         self.fleet_state_subscription = self.create_subscription(
@@ -289,7 +288,6 @@ class DispatcherClient(Node):
 
         try:
             desc = task_json["description"]
-            task_config = self.dashboard_config["task"][task_json["task_type"]]
             if task_json["task_type"] == "Clean":
                 req_msg.description.task_type.type = TaskType.TYPE_CLEAN
                 req_msg.description.clean.start_waypoint = desc[
@@ -303,13 +301,11 @@ class DispatcherClient(Node):
                 req_msg.description.loop = loop
             elif task_json["task_type"] == "Delivery":
                 req_msg.description.task_type.type = TaskType.TYPE_DELIVERY
-                print(task_config)
-                opt = task_config["option"][desc["option"]]
                 delivery = Delivery()
-                delivery.pickup_place_name = opt["pickup_place_name"]
-                delivery.pickup_dispenser = opt["pickup_dispenser"]
-                delivery.dropoff_ingestor = opt["dropoff_ingestor"]
-                delivery.dropoff_place_name = opt["dropoff_place_name"]
+                delivery.pickup_place_name = desc["pickup_place_name"]
+                delivery.pickup_dispenser = desc["pickup_dispenser"]
+                delivery.dropoff_ingestor = desc["dropoff_ingestor"]
+                delivery.dropoff_place_name = desc["dropoff_place_name"]
                 req_msg.description.delivery = delivery
             else:
                 print("ERROR! Invalid TaskType")
@@ -333,15 +329,8 @@ class DispatcherClient(Node):
 app = Flask(__name__, static_url_path="/static")
 socketio = SocketIO(app, async_mode='threading')
 
-# TODO: Layout of frontend gui will depends on this config.json file. This can
-# retrived via static file, and configure layout of Adhoc task submisison form.
-json_config = {}
-with app.open_resource('static/dashboard_config.json') as f:
-    contents = f.read()
-    json_config = json.loads(contents)
-
 rclpy.init(args=None)
-dispatcher_client = DispatcherClient(json_config)
+dispatcher_client = DispatcherClient()
 
 # logging config
 logging.getLogger('werkzeug').setLevel(logging.ERROR)  # hide logs from flask
