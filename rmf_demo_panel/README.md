@@ -1,13 +1,11 @@
-# RMF Demo Panel
-
-This will be a replacement of rviz's [rmf_panel](https://github.com/osrf/rmf_schedule_visualizer)
-
 ## Installation
 Dependencies
  - rmf_core: [`develop/dispatcher_demo`](https://github.com/osrf/rmf_demos/tree/develop/dispatcher_demo) branch
 
 Setup `rmf_demo_panel`
+- Ensure you have node v12 installed (see: [node](https://nodejs.org/en/download/package-manager/) or [nvm](https://github.com/nvm-sh/nvm))
 ```bash
+nvm use 12 //if you have other versions of node
 cd $ROS2_WS
 npm install --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
 npm run build --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
