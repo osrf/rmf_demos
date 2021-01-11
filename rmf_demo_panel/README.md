@@ -63,6 +63,6 @@ and interact with the existing `api_server`.
 
 ## Note
 - Edit the `dashboard_config.json` to configure the input of the Demo World GUI Task Submission.
-The File is located here: `rmf_demo_panel/static/src/components/config/$WORLD`
+The dashboard config file is located here: `rmf_dashboard_resources/$WORLD/dashboard_config.json`.
 - server ip is configureable via `WEB_SERVER_IP_ADDRESS` in the `dashboard.launch.xml`
 - cancel task will not be working. A fully functional cancel will be introduced in a future PR.

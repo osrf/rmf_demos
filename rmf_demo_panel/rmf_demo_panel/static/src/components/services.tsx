@@ -106,10 +106,10 @@ export const submitTaskList = (taskList: string | ArrayBuffer) => {
     showSuccessMessage(res);
 }
 
-//calling config files
-import officeConfig from "./config/office/dashboard_config.json";
-import airportConfig from "./config/airport/dashboard_config.json";
-import clinicConfig from "./config/clinic/dashboard_config.json";
+// Getting config files from "rmf_dashboard_resources"
+import officeConfig from "../../../../../rmf_dashboard_resources/office/dashboard_config.json";
+import airportConfig from "../../../../../rmf_dashboard_resources/airport_terminal/dashboard_config.json";
+import clinicConfig from "../../../../../rmf_dashboard_resources/clinic/dashboard_config.json";
 
 export const getDefaultConfig = async () => {
     let response = await fetch(officeConfig.toString()).then(resp => resp.json());
