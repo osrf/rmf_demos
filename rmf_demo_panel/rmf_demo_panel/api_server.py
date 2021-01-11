@@ -15,7 +15,7 @@
 
 
 """
-The main Interfaces to the front end GUI are:
+The main API Interfaces (with port 8080):
 1) HTTP interfaces are:  /submit_task, /cancel_task, /get_task, /get_robots
 2) socketIO broadcast states: /task_status, /robot_states, /ros_time
 """
@@ -43,7 +43,8 @@ from rmf_task_msgs.srv import SubmitTask, GetTaskList, CancelTask
 from rmf_task_msgs.msg import TaskType, Delivery, Loop
 from rmf_fleet_msgs.msg import FleetState
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit, disconnect
 
 ###############################################################################
@@ -326,8 +327,11 @@ class DispatcherClient(Node):
 ###############################################################################
 
 
-app = Flask(__name__, static_url_path="/static")
+app = Flask(__name__)
+cors = CORS(app, origins=r"/*")
+
 socketio = SocketIO(app, async_mode='threading')
+socketio.init_app(app, cors_allowed_origins="*")
 
 rclpy.init(args=None)
 dispatcher_client = DispatcherClient()
@@ -340,11 +344,6 @@ logging.basicConfig(level=logging.DEBUG,
                     filemode='w')
 
 ###############################################################################
-
-
-@app.route("/")
-def home():
-    return render_template("index.html")
 
 
 @app.route('/submit_task', methods=['POST'])
@@ -385,21 +384,6 @@ def robots():
 
 ###############################################################################
 
-def load_cleaning_tasks(yaml_file):
-    try:
-        with open(yaml_file, 'r') as stream:
-            try:
-                print("Loaded Yaml input task")
-                load_tasks = yaml.safe_load(stream)
-                # TODO: will need to test this
-                req_msg = dispatcher_client.convert_task(load_tasks)
-                dispatcher_client.submit_task_request(req_msg)
-            except yaml.YAMLError as exc:
-                print("YAML ERROR",  exc)
-    except Exception as e:
-        raise ValueError(f'ERROR: Unable load Task config file {e}')
-
-
 def web_server_spin():
     while rclpy.ok():
         dispatcher_client.spin_once()
@@ -429,24 +413,10 @@ def broadcast_states():
 
 
 def main(args=None):
-    parser = argparse.ArgumentParser(
-        description='Cleaning Dispatcher GUI Server')
-    parser.add_argument("--load", help="preload tasks config yaml path")
-    parser.add_argument('args', nargs=argparse.REMAINDER)
-
-    # hackish way to solve rosparam input in launch file
-    parser.add_argument("--ros-args", help="ignore this", nargs='?', const='')
-    parser.add_argument("--params-file", help="ignore this",
-                        nargs='?', const='')
-    args = parser.parse_args()
-    if args.load:
-        print("load task config yaml: ", args.load)
-        load_cleaning_tasks(args.load)
-
     server_ip = "0.0.0.0"
 
-    if "DISPATCHER_GUI_IP_ADDRESS" in os.environ:
-        server_ip = os.environ['DISPATCHER_GUI_IP_ADDRESS']
+    if "WEB_SERVER_IP_ADDRESS" in os.environ:
+        server_ip = os.environ['WEB_SERVER_IP_ADDRESS']
         print(f"set ip to: {server_ip}")
 
     spin_thread = Thread(target=web_server_spin, args=())
@@ -455,8 +425,8 @@ def main(args=None):
     broadcast_thread = Thread(target=broadcast_states, args=())
     broadcast_thread.start()
 
-    print("Starting Dispatcher GUI Server")
-    app.run(host=server_ip, port=5000, debug=False)
+    print("Starting Dispatcher API Server")
+    app.run(host=server_ip, port=8080, debug=False)
     dispatcher_client.destroy_node()
     rclpy.shutdown()
 

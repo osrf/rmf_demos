@@ -51,12 +51,8 @@
     </node>
   </group>
 
-  <!-- Dispatcher GUI Server -->
-  <group>
-    <node pkg="rmf_demo_panel" exec="dispatcher_gui"  output="screen"  args=" --load $(var config_file)" >
-      <param name="use_sim_time" value="$(var use_sim_time)"/>
-      <env name="DISPATCHER_GUI_IP_ADDRESS" value="$(var server_ip)" />
-    </node>
-  </group>
-  
+  <include file="$(find-pkg-share demos)/dashboard.launch.xml">
+    <arg name="use_sim_time" value="true"/>
+  </include>
+
 </launch>
