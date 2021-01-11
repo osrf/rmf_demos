@@ -4,6 +4,13 @@ Dependencies
 
 Setup `rmf_demo_panel`
 - Ensure you have node v12 installed (see: [node](https://nodejs.org/en/download/package-manager/) or [nvm](https://github.com/nvm-sh/nvm))
+
+Install Flask
+```bash
+python3 -m pip install Flask flask-socketio flask-cors
+```
+
+Compilation
 ```bash
 nvm use 12 //if you have other versions of node
 cd $ROS2_WS
@@ -48,8 +55,8 @@ Similarly, Please try out different world.
 
 Internally, there are 2 web-based server running behind the scene, namely:
 
-1. `gui_server`: Providing the static gui to the web client. Non RMF dependent
-2. `api_server`: Hosting all endpoints for gui clients to interact with RMF
+1. `gui_server` (port `5000`): Providing the static gui to the web client. Non RMF dependent
+2. `api_server` (port `8080`): Hosting all endpoints for gui clients to interact with RMF
 
 To create your own customize GUI, you will only require to create your own `CUSTOM_gui_server` 
 and interact with the existing `api_server`.
