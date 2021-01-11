@@ -21,8 +21,6 @@ import requests
 
 app = Flask(__name__, static_url_path="/static")
 
-SITE_NAME = "http://localhost:5000/"
-
 
 @app.route("/")
 def home():
@@ -31,13 +29,14 @@ def home():
 
 def main(args=None):
     server_ip = "0.0.0.0"
+    port_num = 5000
 
     if "WEB_SERVER_IP_ADDRESS" in os.environ:
         server_ip = os.environ['WEB_SERVER_IP_ADDRESS']
-        print(f"set ip to: {server_ip}")
+        print(f"Set Server IP to: {server_ip}:{port_num}")
 
     print("Starting Dispatcher Dashboard GUI Server")
-    app.run(host=server_ip, debug=False, port=5000)
+    app.run(host=server_ip, debug=False, port=port_num)
 
 
 if __name__ == "__main__":

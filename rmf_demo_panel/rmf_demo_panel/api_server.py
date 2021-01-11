@@ -91,14 +91,14 @@ class DispatcherClient(Node):
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
             if response is None:
-                self.get_logger().error('Failed to get srv result !!!')
+                self.get_logger().warn('/submit_task srv call failed')
             else:
                 self.get_logger().info(
                     f'New Dispatch task_id {response.task_id}')
                 return response.task_id
         except Exception as e:
-            self.get_logger().error('Error! Srv call failed !!!  %r' % (e,))
-        return "FAILED"
+            self.get_logger().error('Error! Submit Srv failed %r' % (e,))
+        return None
 
     def cancel_task_request(self, task_id) -> bool:
         """
@@ -113,13 +113,13 @@ class DispatcherClient(Node):
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
             if response is None:
-                self.get_logger().error('Failed to get srv result !!!')
+                self.get_logger().warn('/cancel_task srv call failed')
             else:
                 self.get_logger().info(
                     f'Cancel Task, success? {response.success}')
                 return response.success
         except Exception as e:
-            self.get_logger().error('Error! Srv call failed %r' % (e,))
+            self.get_logger().error('Error! Cancel Srv failed %r' % (e,))
         return False
 
     # either from DB or via srv call
@@ -134,7 +134,7 @@ class DispatcherClient(Node):
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
             if response is None:
-                self.get_logger().error('Failed to get srv result !!!')
+                self.get_logger().warn('/get_tasks srv call failed')
             else:
                 # self.get_logger().info(f'Get Task, success? \
                 #   {response.success}')
@@ -145,7 +145,7 @@ class DispatcherClient(Node):
                 self.__generate_assignments_list(active_tasks)
                 return active_tasks + terminated_tasks
         except Exception as e:
-            self.get_logger().error('Service call failed %r' % (e,))
+            self.get_logger().error('Error! GetTasks Srv failed %r' % (e,))
         return []  # empty list
 
     def get_robot_states(self):
@@ -258,7 +258,7 @@ class DispatcherClient(Node):
             bots.append(state)
         return bots
 
-    def convert_task(self, task_json):
+    def convert_task_request(self, task_json):
         """
         :param obj task_json:
         :return rmf submit task req_msgs
@@ -351,19 +351,18 @@ def submit():
     if request.method == "POST":
         logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
             Task Submission: {json.dumps(request.json)}")
-        req_msg = dispatcher_client.convert_task(request.json)
+        req_msg = dispatcher_client.convert_task_request(request.json)
         return dispatcher_client.submit_task_request(req_msg)
-    return ""
+    return None
 
 
 @app.route('/cancel_task', methods=['POST'])
 def cancel():
     if request.method == "POST":
         cancel_id = request.json['task_id']
-        print(cancel_id)
         if (dispatcher_client.cancel_task_request(cancel_id)):
-            return " Cancel Success"
-    return " Failed to cancel"
+            return True
+    return False
 
 
 @app.route('/get_task', methods=['GET'])
@@ -414,10 +413,11 @@ def broadcast_states():
 
 def main(args=None):
     server_ip = "0.0.0.0"
+    port_num = 8080
 
     if "WEB_SERVER_IP_ADDRESS" in os.environ:
         server_ip = os.environ['WEB_SERVER_IP_ADDRESS']
-        print(f"set ip to: {server_ip}")
+        print(f"Set Server IP to: {server_ip}:{port_num}")
 
     spin_thread = Thread(target=web_server_spin, args=())
     spin_thread.start()
@@ -426,7 +426,7 @@ def main(args=None):
     broadcast_thread.start()
 
     print("Starting Dispatcher API Server")
-    app.run(host=server_ip, port=8080, debug=False)
+    app.run(host=server_ip, port=port_num, debug=False)
     dispatcher_client.destroy_node()
     rclpy.shutdown()
 
