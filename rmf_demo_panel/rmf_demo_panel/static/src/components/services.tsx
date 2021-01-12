@@ -67,12 +67,6 @@ export const cancelTask = (id: string) => {
     }
 }
 
-interface Task {
-  task_type: string,
-  start_time: number,
-  description: string
-}
-
 export const submitTaskList = (taskList: any[]) => {
     //simulate submission of tasks at intervals
     let res = "Task List submitted successfully";
@@ -82,7 +76,7 @@ export const submitTaskList = (taskList: any[]) => {
         try {
           fetch(API_SERVER_ADD + '/submit_task', {
             method: "POST",
-            body: task,
+            body: JSON.stringify(task),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
