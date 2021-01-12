@@ -3,23 +3,26 @@ levels:
     crowd_sim:
       agent_profiles:
         - {ORCA_tau: 1, ORCA_tauObst: 0.4, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
-        - {ORCA_tau: 1, ORCA_tauObst: 1, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: human, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.25}
+        - {ORCA_tau: 1, ORCA_tauObst: 1, class: 1, max_accel: 3, max_angle_vel: 270, max_neighbors: 10, max_speed: 2, name: human, neighbor_dist: 5, obstacle_set: 1, pref_speed: 1.3, r: 0.18}
       enable: 1
       external_agent_groups:
         - {agents_name: [deliveryRobot_1, deliveryRobot_2], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
       goal_sets:
-        - {capacity: 2, set_area: [L1_reception1], set_id: 0}
-        - {capacity: 1, set_area: [L1_outdoor], set_id: 1}
+        - {capacity: 3, set_area: [L1_reception_1, L1_waiting_area_3_wc], set_id: 0}
+        - {capacity: 3, set_area: [L1_reception_2, L1_waiting_area_3_wc], set_id: 1}
+        - {capacity: 2, set_area: [L1_reception_1, L1_reception_2, L1_waiting_area_3_wc], set_id: 2}
       model_types:
         - {animation: walk, animation_speed: 1, typename: human}
       obstacle_set: {class: 1, file_name: navmesh.nav, type: nav_mesh}
       states:
         - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
-        - {final: 0, goal_set: 0, name: work_at_L1_reception1, navmesh_file_name: navmesh.nav}
-        - {final: 0, goal_set: 1, name: breath_fresh_air, navmesh_file_name: navmesh.nav}
+        - {final: 0, goal_set: 0, name: work_at_reception_1, navmesh_file_name: navmesh.nav}
+        - {final: 0, goal_set: 1, name: work_at_reception_2, navmesh_file_name: navmesh.nav}
+        - {final: 0, goal_set: 2, name: toilet_break, navmesh_file_name: navmesh.nav}
       transitions:
-        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: breath_fresh_air, weight: 1}, {name: work_at_L1_reception1, weight: 1}], from: work_at_L1_reception1, to: ""}
-        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: breath_fresh_air, weight: 1}, {name: work_at_L1_reception1, weight: 1}], from: breath_fresh_air, to: ""}
+        - {Condition: {distance: 0.8, type: goal_reached}, Target: [{name: toilet_break, weight: 1}, {name: work_at_reception_1, weight: 1}], from: work_at_reception_1, to: ""}
+        - {Condition: {distance: 0.8, type: goal_reached}, Target: [{name: toilet_break, weight: 1}, {name: work_at_reception_2, weight: 1}], from: work_at_reception_2, to: ""}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: toilet_break, weight: 1}, {name: work_at_reception_1, weight: 1}, {name: work_at_reception_2, weight: 1}], from: toilet_break, to: ""}
       update_time_step: 0.1
     doors:
       - [24, 35, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L1_clinic_a], plugin: [1, normal], type: [1, double_sliding]}]
@@ -115,15 +118,56 @@ levels:
       - parameters: {texture_name: [1, brown_marble], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [363, 470, 38, 39, 40, 41, 386, 387, 364]
     human_lanes:
-      - [476, 475, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [475, 474, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [474, 473, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [473, 472, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [472, 471, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [471, 477, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [471, 472, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [472, 473, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [473, 474, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 0.7]}]
+      - [474, 475, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [475, 476, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [476, 477, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
       - [477, 478, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [478, 463, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [463, 464, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [478, 479, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [479, 423, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.6]}]
+      - [423, 480, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [480, 481, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [481, 482, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [482, 483, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [483, 484, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [484, 485, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [485, 486, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [486, 487, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [487, 488, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 0.8]}]
+      - [488, 431, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [431, 414, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.3]}]
+      - [414, 412, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.4]}]
+      - [412, 410, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.5]}]
+      - [410, 449, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [449, 450, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [450, 453, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [453, 420, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [420, 425, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [425, 427, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [427, 421, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [421, 479, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.7]}]
+      - [477, 489, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [489, 490, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [490, 457, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [457, 400, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [400, 460, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [460, 397, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [397, 461, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [461, 395, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.5]}]
+      - [395, 437, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.5]}]
+      - [437, 393, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [393, 434, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.5]}]
+      - [434, 436, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.7]}]
+      - [436, 491, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [491, 471, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [491, 463, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2.3]}]
+      - [463, 464, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [453, 454, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.8]}]
+      - [454, 492, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.3]}]
+      - [492, 493, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [420, 490, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
     lanes:
       - [367, 390, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
       - [390, 391, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
@@ -206,8 +250,9 @@ levels:
     measurements:
       - [0, 1, {distance: [3, 0.7]}]
     models:
-      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_L1_reception1, static: false, x: 890.283, y: 1359.973, yaw: 0, z: 0}
-      - {agent_group_id: 2, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_L1_reception1, static: false, x: 765.571, y: 1397.069, yaw: 0, z: 0}
+      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_reception_2, static: false, x: 1498.09, y: 1401.924, yaw: 0, z: 0}
+      - {agent_group_id: 2, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: toilet_break, static: false, x: 670.225, y: 1490.811, yaw: 0, z: 0}
+      - {agent_group_id: 3, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_reception_1, static: false, x: 1051.499, y: 1330, yaw: 0, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 992.989, y: 1539.645, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 1084.49, y: 1539.645, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 1175.725, y: 1539.645, yaw: 1.5708, z: 0}
@@ -616,7 +661,7 @@ levels:
       - {model_name: OpenRobotics/PatientWheelChair, name: OpenRobotics/PatientWheelChair, static: true, x: 570.37, y: 1519.617, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PatientWheelChair, name: OpenRobotics/PatientWheelChair, static: true, x: 1781.428, y: 1471.274, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PatientWheelChair, name: OpenRobotics/PatientWheelChair, static: true, x: 1913.59, y: 1311.388, yaw: -3.0041, z: 0}
-      - {model_name: OpenRobotics/PatientWheelChair, name: OpenRobotics/PatientWheelChair, static: true, x: 1375.199, y: 322.074, yaw: -2.2818, z: 0}
+      - {model_name: OpenRobotics/PatientWheelChair, name: OpenRobotics/PatientWheelChair, static: true, x: 1361.202, y: 251.65, yaw: -2.2818, z: 0}
       - {model_name: OpenRobotics/PatientWheelChair, name: OpenRobotics/PatientWheelChair, static: true, x: 791.908, y: 368.471, yaw: -0.7854, z: 0}
       - {model_name: OpenRobotics/Scrubs, name: OpenRobotics/Scrubs, static: true, x: 1957.309, y: 671.032, yaw: -0.0141, z: 0}
       - {model_name: OpenRobotics/Scrubs, name: OpenRobotics/Scrubs, static: true, x: 362.88, y: 484.164, yaw: 0.3851, z: 0}
@@ -1092,7 +1137,7 @@ levels:
       - [1509.477, 573.223, 0, ""]
       - [1524.466, 760.14, 0, L1_right_nurse_center, {is_parking_spot: [4, true]}]
       - [1349.892, 448.905, 0, ""]
-      - [1353.831, 376.317, 0, L1_sub_waiting_area_3, {is_parking_spot: [4, true]}]
+      - [1365, 376.317, 0, L1_sub_waiting_area_3, {is_parking_spot: [4, true]}]
       - [1148.868, 443.615, 0, ""]
       - [1151.513, 534.428, 0, L1_sub_waiting_area_4, {is_parking_spot: [4, true]}]
       - [797.957, 434.798, 0, ""]
@@ -1102,21 +1147,36 @@ levels:
       - [497.337, 684.277, 0, ""]
       - [504.68, 1330.445, 0, ""]
       - [646.03, 1525.948, 0, ""]
-      - [643.276, 1611.308, 0, "", {human_goal_set_name: [1, L1_outdoor]}]
+      - [643.276, 1611.308, 0, ""]
       - [341.303, 1562.662, 0, ""]
       - [1325.241, 1614.062, 0, ""]
       - [1438.136, 1614.98, 0, ""]
       - [1808.949, 1375.42, 0, ""]
       - [1803.442, 455.732, 0, ""]
       - [434.749, 1671.08, 0, ""]
-      - [703.745, 1395.302, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [741.547, 1356.794, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [765.571, 1397.069, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [867.672, 1332.063, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [890.283, 1359.973, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [925.965, 1302.74, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [673.362, 1433.458, 0, "", {human_goal_set_name: [1, L1_reception1]}]
-      - [672.303, 1468.787, 0, ""]
+      - [675.2329999999999, 1423.424, 0, "", {human_goal_set_name: [1, L1_reception_1]}]
+      - [734.36, 1365.193, 0, "", {human_goal_set_name: [1, L1_reception_1]}]
+      - [763.924, 1403.715, 0, "", {human_goal_set_name: [1, L1_reception_1]}]
+      - [858.439, 1333.389, 0, "", {human_goal_set_name: [1, L1_reception_1]}]
+      - [887.554, 1360.713, 0, "", {human_goal_set_name: [1, L1_reception_1]}]
+      - [930.1079999999999, 1280, 0, "", {human_goal_set_name: [1, L1_reception_1]}]
+      - [1051.499, 1330, 0, ""]
+      - [1069.416, 1361.609, 0, ""]
+      - [1284.425, 1356.234, 0, ""]
+      - [1396.857, 1451.196, 0, ""]
+      - [1407.607, 1406.851, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1473.902, 1345.036, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1498.09, 1401.924, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1588.573, 1340.556, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1628.44, 1380.423, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1627.096, 1329.358, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1668.754, 1280, 0, "", {human_goal_set_name: [1, L1_reception_2]}]
+      - [1758.789, 1320.847, 0, ""]
+      - [1096.286, 1244.556, 0, ""]
+      - [1088.468, 432.565, 0, ""]
+      - [670.225, 1490.811, 0, ""]
+      - [1365, 292.148, 0, ""]
+      - [1473.82, 302.793, 0, "", {human_goal_set_name: [1, L1_waiting_area_3_wc]}]
     walls:
       - [2, 4, {alpha: [3, 1], texture_name: [1, default]}]
       - [4, 5, {alpha: [3, 1], texture_name: [1, default]}]
@@ -1491,15 +1551,15 @@ levels:
       external_agent_groups:
         - {agents_name: [tinyRobot_1, tinyRobot_2], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
       goal_sets:
-        - {capacity: 1, set_area: [reception], set_id: 0}
+        - {capacity: 1, set_area: [L2_back_sub_waiting_area, L2_east_consult_room, L2_entrance, L2_west_counter], set_id: 0}
       model_types:
         - {animation: walk, animation_speed: 1, typename: human}
       obstacle_set: {class: 1, file_name: navmesh.nav, type: nav_mesh}
       states:
         - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
-        - {final: 0, goal_set: 0, name: work_at_L2_reception1, navmesh_file_name: navmesh.nav}
+        - {final: 0, goal_set: 0, name: perimeter_stroller, navmesh_file_name: navmesh.nav}
       transitions:
-        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: work_at_L2_reception1, weight: 1}], from: work_at_L2_reception1, to: work_at_L2_reception1}
+        - {Condition: {condition1: {distance: 0.8, type: goal_reached}, condition2: {dist: c, per_agent: true, type: timer, value: 20}, type: or}, Target: [{name: perimeter_stroller, weight: 1}], from: perimeter_stroller, to: perimeter_stroller}
       update_time_step: 0.1
     doors:
       - [14, 15, {motion_axis: [1, start], motion_degrees: [3, 90], motion_direction: [2, 1], name: [1, L2_clinic_a], plugin: [1, normal], type: [1, double_sliding]}]
@@ -1574,17 +1634,22 @@ levels:
       - parameters: {texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
         vertices: [2, 54, 55, 33, 32, 37, 36, 56, 57, 58, 59, 60, 43, 38, 39, 40, 61, 62, 63, 64, 65, 45, 44, 49, 48, 66, 67, 69, 50, 53, 22, 23, 24, 26, 27, 28, 29, 31, 75, 76, 77, 78, 79, 21, 20, 19, 18, 80, 272, 273, 281, 274, 271, 275, 3, 11, 10, 9, 8, 7, 6, 5, 4]
     human_lanes:
-      - [372, 373, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [373, 374, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [374, 375, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [375, 376, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [376, 377, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [382, 381, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [381, 380, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [380, 379, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [379, 378, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [378, 375, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
-      - [375, 373, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1]}]
+      - [343, 312, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [312, 313, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 1.5]}]
+      - [313, 319, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [319, 314, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [314, 315, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [315, 316, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [316, 318, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [318, 334, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [334, 366, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [366, 322, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [322, 350, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [350, 304, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [304, 305, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [305, 345, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [345, 344, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
+      - [344, 343, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 9], orientation: [1, ""], width: [3, 2]}]
     lanes:
       - [284, 294, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
       - [294, 295, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
@@ -1669,7 +1734,9 @@ levels:
     measurements:
       - [0, 1, {distance: [3, 0.7]}]
     models:
-      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: work_at_L2_reception1, static: false, x: 760.491, y: 1393.494, yaw: 0, z: 0}
+      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: perimeter_stroller, static: false, x: 625.995, y: 1631.365, yaw: 0, z: 0}
+      - {agent_group_id: 2, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: perimeter_stroller, static: false, x: 1825.957, y: 1364.327, yaw: 0, z: 0}
+      - {agent_group_id: 3, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: perimeter_stroller, static: false, x: 1216.882, y: 443.767, yaw: 0, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 1927.091, y: 1509.158, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 2024.263, y: 1509.451, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/PotatoChipChair, name: OpenRobotics/PotatoChipChair, static: true, x: 2023.971, y: 1456.767, yaw: 1.5708, z: 0}
@@ -2297,7 +2364,7 @@ levels:
       - [1116.273, 444.203, 0, ""]
       - [1113.631, 270.744, 0, L2_north_counter, {is_parking_spot: [4, true]}]
       - [530.247, 440.415, 0, ""]
-      - [448.853, 661.686, 0, ""]
+      - [448.853, 661.686, 0, "", {human_goal_set_name: [1, L2_west_counter]}]
       - [277.155, 660.806, 0, L2_west_counter, {is_parking_spot: [4, true]}]
       - [489.356, 1254.264, 0, ""]
       - [287.721, 1262.188, 0, L2_sub_waiting_area_1, {is_parking_spot: [4, true]}]
@@ -2308,7 +2375,7 @@ levels:
       - [1438.536, 1613.508, 0, ""]
       - [1655.14, 1466.465, 0, ""]
       - [1825.957, 1364.327, 0, ""]
-      - [1826.837, 1047.346, 0, ""]
+      - [1826.837, 1047.346, 0, "", {human_goal_set_name: [1, L2_east_consult_room]}]
       - [2030.233, 1054.39, 0, L2_east_counter, {is_parking_spot: [4, true]}]
       - [1825.076, 505.838, 0, ""]
       - [1503.262, 1560.602, 0, ""]
@@ -2335,14 +2402,14 @@ levels:
       - [1489.763, 1557.613, 0, ""]
       - [1420.386, 1617.614, 0, ""]
       - [1320.133, 1606.051, 0, ""]
-      - [625.995, 1631.365, 0, ""]
+      - [625.995, 1631.365, 0, "", {human_goal_set_name: [1, L2_entrance]}]
       - [615.37, 1505.737, 0, ""]
       - [475.367, 1251.357, 0, ""]
       - [283.141, 1249.343, 0, L2_sub_waiting_area_1, {is_parking_spot: [4, true]}]
       - [334.739, 1566.988, 0, ""]
       - [458.67, 650.821, 0, ""]
       - [276.919, 647.575, 0, L2_west_counter, {is_parking_spot: [4, true]}]
-      - [618.513, 443.106, 0, ""]
+      - [618.513, 443.106, 0, "", {human_goal_set_name: [1, L2_back_sub_waiting_area]}]
       - [766.997, 445.54, 0, ""]
       - [800.263, 561.568, 0, ""]
       - [797.829, 740.073, 0, ""]
@@ -2364,17 +2431,6 @@ levels:
       - [1212.667, 1036.455, 0, ""]
       - [1148.547, 1028.44, 0, L2_sub_waiting_area_3, {is_parking_spot: [4, true]}]
       - [1154.272, 651.165, 0, L2_sub_waiting_area_2, {is_parking_spot: [4, true]}]
-      - [673.1660000000001, 1477.46, 0, "", {human_goal_set_name: [1, reception]}]
-      - [672.047, 1414.766, 0, "", {human_goal_set_name: [1, reception]}]
-      - [728.77, 1364.013, 0, "", {human_goal_set_name: [1, reception]}]
-      - [760.491, 1393.494, 0, "", {human_goal_set_name: [1, reception]}]
-      - [789.972, 1435.664, 0, "", {human_goal_set_name: [1, reception]}]
-      - [794.45, 1471.489, 0, "", {human_goal_set_name: [1, reception]}]
-      - [810.497, 1361.401, 0, "", {human_goal_set_name: [1, reception]}]
-      - [867.967, 1333.412, 0, "", {human_goal_set_name: [1, reception]}]
-      - [892.223, 1359.908, 0, "", {human_goal_set_name: [1, reception]}]
-      - [935.5119999999999, 1282.66, 0, "", {human_goal_set_name: [1, reception]}]
-      - [1031.047, 1324.456, 0, "", {human_goal_set_name: [1, reception]}]
     walls:
       - [2, 4, {alpha: [3, 1], texture_name: [1, default]}]
       - [4, 5, {alpha: [3, 1], texture_name: [1, default]}]
