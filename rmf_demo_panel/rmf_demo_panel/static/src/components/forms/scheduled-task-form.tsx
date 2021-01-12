@@ -3,23 +3,63 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { WorldContext } from '../fixed-components/app-context';
 import { showErrorMessage } from "../fixed-components/messages";
 import { useFormStyles } from "../styles";
 
+interface TaskRequest {
+  task_type: string,
+  start_time: number,
+  description: any
+}
+
 interface ScheduledTaskFormProps {
-  submitTaskList: (taskList: string | ArrayBuffer) => void;
+  submitTaskList: (taskList: any[]) => void;
 }
 
 const ScheduledTaskForm = (props: ScheduledTaskFormProps): React.ReactElement => {
+  const { config } = React.useContext(WorldContext);
   const { submitTaskList } = props;
-  const classes = useFormStyles();
   const [taskList, setTaskList] = React.useState<string | ArrayBuffer>('');
+  const [deliveryOptions, setDeliveryOptions] = React.useState({});
   const placeholder = `eg. [
-{"task_type":"Clean", "start_time":0, "description":{"cleaning_zone":"zone_1"}},
-{"task_type":"Clean", "start_time":10, "description":{"cleaning_zone":"zone_2"}},
-{"task_type":"Clean", "start_time":5, "description":{"cleaning_zone":"zone_3"}}
+{"task_type":"Loop", "start_time":0, "description": {"num_loops":5, "start_name":"coe", "finish_name":"lounge"}},
+{"task_type":"Delivery", "start_time":0, "description": {"option": "coke"}},
+{"task_type":"Loop", "start_time":0, "description": {"num_loops":5, "start_name":"cubicle_2", "finish_name":"supplies"}}
 ]`
 
+  React.useEffect(() => {
+    if(Object.keys(config).length > 0) {
+      setDeliveryOptions(config.task.Delivery.option);
+    } else {
+      setDeliveryOptions({});
+    }
+  }, [config]);
+  
+  const createTaskDescription = (deliveryTask: string): {} => {
+    let newDesc = deliveryOptions[deliveryTask];
+    return newDesc;
+  }
+
+  const convertTaskList = () => {
+    let globalTaskList = [];
+    let tempTaskList: string | any = taskList;
+    let jsonTaskList = JSON.parse(tempTaskList);
+    globalTaskList = jsonTaskList.map((task: TaskRequest) => {
+      if(task.task_type == "Delivery") {
+        let taskDesc = createTaskDescription(task.description.option);
+        return {
+          task_type: task.task_type,
+          start_time: task.start_time,
+          description: taskDesc
+        }
+      } else {
+        return task
+      }
+    });
+    return globalTaskList;
+  }
+  
   const isFormValid = () => {
     if(taskList === "" || taskList === `[]` || taskList === `{}`) {
       showErrorMessage("Unable to submit an empty task list");
@@ -27,15 +67,16 @@ const ScheduledTaskForm = (props: ScheduledTaskFormProps): React.ReactElement =>
     }
     return true;
   }
-
+  
   const handleSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();
     if(isFormValid()) {
-      submitTaskList(taskList);
+      let globalList = convertTaskList();
+      submitTaskList(globalList);
       setTaskList('');
     }
   }
-
+  
   const readTaskFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     let file = e.target.files[0];
     const reader = new FileReader();
@@ -45,9 +86,11 @@ const ScheduledTaskForm = (props: ScheduledTaskFormProps): React.ReactElement =>
     };
     reader.readAsText(file);
   }
-
+  
+  const classes = useFormStyles();
+  
   return (
-      <Box className={classes.form} role="scheduled-task-form">
+    <Box className={classes.form} role="scheduled-task-form">
         <div className={classes.divForm}>
           <Typography variant="h6">Submit a List of Tasks</Typography>
           </div>

@@ -7,7 +7,7 @@ import Autocomplete, { AutocompleteRenderInputParams } from '@material-ui/lab/Au
 import { useFormStyles } from '../styles';
 
 interface DeliveryFormProps {
-  deliveryOptions: any
+  deliveryOptions: {}
   submitRequest: (request: {}, type: string) => void;
   timeAndEvaluator: { minsFromNow: number, evaluator: string, setTimeError: React.Dispatch<React.SetStateAction<string>>, setMinsFromNow: React.Dispatch<React.SetStateAction<number>> }
 }
