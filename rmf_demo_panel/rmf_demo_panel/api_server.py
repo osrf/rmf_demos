@@ -355,7 +355,7 @@ def submit():
         logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
             Task Submission: {json.dumps(request.json)}")
         req_msg = dispatcher_client.convert_task_request(request.json)
-        if req_msg != None:
+        if req_msg is not None:
             return dispatcher_client.submit_task_request(req_msg)
         else:
             logging.error(f" Failed to Submit task: req_msg: {request.json}")
