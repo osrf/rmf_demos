@@ -57,7 +57,7 @@ class DispatcherClient(Node):
         self.cancel_task_srv = self.create_client(CancelTask, '/cancel_task')
         self.get_tasks_srv = self.create_client(GetTaskList, '/get_tasks')
 
-        qos_profile = QoSProfile(depth=10)
+        qos_profile = QoSProfile(depth=20)
 
         # to show robot states
         self.fleet_state_subscription = self.create_subscription(
@@ -65,6 +65,7 @@ class DispatcherClient(Node):
             qos_profile=qos_profile)
         self.fleet_states_dict = {}
         self.tasks_assignments = {}
+        self.tasks_cache = []
 
         # just check one srv endpoint
         while not self.submit_task_srv.wait_for_service(timeout_sec=1.0):
@@ -88,7 +89,7 @@ class DispatcherClient(Node):
         print("Submit Task Request!")
         try:
             future = self.submit_task_srv.call_async(req_msg)
-            rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
+            rclpy.spin_until_future_complete(self, future, timeout_sec=0.5)
             response = future.result()
             if response is None:
                 self.get_logger().warn('/submit_task srv call failed')
@@ -135,6 +136,7 @@ class DispatcherClient(Node):
             response = future.result()
             if response is None:
                 self.get_logger().warn('/get_tasks srv call failed')
+                return self.tasks_cache
             else:
                 # self.get_logger().info(f'Get Task, success? \
                 #   {response.success}')
@@ -143,7 +145,8 @@ class DispatcherClient(Node):
                 terminated_tasks = self.__convert_task_status_msg(
                     response.terminated_tasks, True)
                 self.__generate_assignments_list(active_tasks)
-                return active_tasks + terminated_tasks
+                self.tasks_cache = active_tasks + terminated_tasks
+                return self.tasks_cache
         except Exception as e:
             self.get_logger().error('Error! GetTasks Srv failed %r' % (e,))
         return []  # empty list
@@ -352,7 +355,10 @@ def submit():
         logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
             Task Submission: {json.dumps(request.json)}")
         req_msg = dispatcher_client.convert_task_request(request.json)
-        return dispatcher_client.submit_task_request(req_msg)
+        if req_msg is not None:
+            return dispatcher_client.submit_task_request(req_msg)
+        else:
+            logging.error(f" Failed to Submit task: req_msg: {request.json}")
     return None
 
 
