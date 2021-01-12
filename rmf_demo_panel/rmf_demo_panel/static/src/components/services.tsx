@@ -1,8 +1,11 @@
 import { showErrorMessage, showSuccessMessage } from './fixed-components/messages';
+
+const API_SERVER_ADD = "http://" + location.hostname + ":8080"
+
 //API endpoints
 export const getRobots = async () => {
     try {
-        let response = await fetch('/get_robots');
+        let response = await fetch(API_SERVER_ADD + '/get_robots');
         if(response) {
             let data = await response.json()
             console.log("Populate robots: ", data);
@@ -17,7 +20,7 @@ export const getRobots = async () => {
 
 export const getTasks = async () => {
     try {
-        let response = await fetch('/get_task');
+        let response = await fetch(API_SERVER_ADD + '/get_task');
         if(response) {
             let data = await response.json()
             console.log("Populate tasks: ", data);
@@ -30,7 +33,7 @@ export const getTasks = async () => {
 
 export const submitRequest = (request: {}, type: string) => {
     try {
-        fetch('/submit_task', {
+        fetch(API_SERVER_ADD + '/submit_task', {
             method: "POST",
             body: JSON.stringify(request),
             headers: {
@@ -48,7 +51,7 @@ export const submitRequest = (request: {}, type: string) => {
 
 export const cancelTask = (id: string) => {
     try {
-        fetch('/cancel_task', {
+        fetch(API_SERVER_ADD + '/cancel_task', {
             method: "POST",
             body: JSON.stringify({ task_id: id }),
             headers: {
@@ -83,7 +86,7 @@ export const submitTaskList = (taskList: string | ArrayBuffer) => {
       global_task_list.push(task);
       setTimeout(function(i) {
         try {
-          fetch('/submit_task', {
+          fetch(API_SERVER_ADD + '/submit_task', {
             method: "POST",
             body: JSON.stringify(global_task_list[global_list_count]),
             headers: {
@@ -103,10 +106,10 @@ export const submitTaskList = (taskList: string | ArrayBuffer) => {
     showSuccessMessage(res);
 }
 
-//calling config files
-import officeConfig from "./config/office/dashboard_config.json";
-import airportConfig from "./config/airport/dashboard_config.json";
-import clinicConfig from "./config/clinic/dashboard_config.json";
+// Getting config files from "rmf_dashboard_resources"
+import officeConfig from "../../../../../rmf_dashboard_resources/office/dashboard_config.json";
+import airportConfig from "../../../../../rmf_dashboard_resources/airport_terminal/dashboard_config.json";
+import clinicConfig from "../../../../../rmf_dashboard_resources/clinic/dashboard_config.json";
 
 export const getDefaultConfig = async () => {
     let response = await fetch(officeConfig.toString()).then(resp => resp.json());

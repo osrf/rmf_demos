@@ -19,10 +19,6 @@ setup(
             glob(package_name + '/templates/*')
         ),
         (
-            site_pkgs_path + '/static',
-            glob(package_name + '/static/*.*')
-        ),
-        (
             site_pkgs_path + '/static/dist',
             glob(package_name + '/static/dist/*.*')
         )
@@ -36,7 +32,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'dispatcher_gui=rmf_demo_panel.dispatcher_gui:main'
+            'api_server=rmf_demo_panel.api_server:main',
+            'gui_server=rmf_demo_panel.gui_server:main'
         ],
     },
 )

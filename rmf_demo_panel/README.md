@@ -4,6 +4,13 @@ Dependencies
 
 Setup `rmf_demo_panel`
 - Ensure you have node v12 installed (see: [node](https://nodejs.org/en/download/package-manager/) or [nvm](https://github.com/nvm-sh/nvm))
+
+Install Flask
+```bash
+python3 -m pip install Flask flask-socketio flask-cors
+```
+
+Compilation
 ```bash
 nvm use 12 //if you have other versions of node
 cd $ROS2_WS
@@ -27,13 +34,13 @@ ros2 launch demos dispatcher.launch.xml
 
 ## Run Sample Tasks
 
-Open `http://localhost:5000/` on browser
+Open `http://localhost:5000/` on browser.
 
 Take `office.world` as an example:
 
 **Task List***
 On the right side column, you are able to select a file which consists of scheduled 
-tasks. Select tasks for office: `rmf_demos/rmf_demo_panel/task_list/office_tasks.json`. 
+tasks. Select tasks for office: `rmf_demos_tasks/rmf_demo_tasks/office_tasks.json`. 
 Once the tasks are populated in the box, hit submit!
 
 **Adhoc Task***
@@ -44,7 +51,18 @@ The latest robot states and task summaries will be reflected at the bottom porti
 
 Similarly, Please try out different world.
 
-## Note
+## Create your own GUI
 
+Internally, there are 2 web-based server running behind the scene, namely:
+
+1. `gui_server` (port `5000`): Providing the static gui to the web client. Non RMF dependent
+2. `api_server` (port `8080`): Hosting all endpoints for gui clients to interact with RMF
+
+To create your own customize GUI, you will only require to create your own `CUSTOM_gui_server` 
+and interact with the existing `api_server`.
+
+## Note
 - Edit the `dashboard_config.json` to configure the input of the Demo World GUI Task Submission.
-The File is located here: `rmf_demo_panel/static/src/components/config/$WORLD`
+The dashboard config file is located here: `rmf_dashboard_resources/$WORLD/dashboard_config.json`.
+- server ip is configureable via `WEB_SERVER_IP_ADDRESS` in the `dashboard.launch.xml`
+- cancel task will not be working. A fully functional cancel will be introduced in a future PR.

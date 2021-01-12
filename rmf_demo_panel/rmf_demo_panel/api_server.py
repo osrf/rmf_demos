@@ -15,7 +15,7 @@
 
 
 """
-The main Interfaces to the front end GUI are:
+The main API Interfaces (with port 8080):
 1) HTTP interfaces are:  /submit_task, /cancel_task, /get_task, /get_robots
 2) socketIO broadcast states: /task_status, /robot_states, /ros_time
 """
@@ -43,7 +43,8 @@ from rmf_task_msgs.srv import SubmitTask, GetTaskList, CancelTask
 from rmf_task_msgs.msg import TaskType, Delivery, Loop
 from rmf_fleet_msgs.msg import FleetState
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit, disconnect
 
 ###############################################################################
@@ -56,7 +57,7 @@ class DispatcherClient(Node):
         self.cancel_task_srv = self.create_client(CancelTask, '/cancel_task')
         self.get_tasks_srv = self.create_client(GetTaskList, '/get_tasks')
 
-        qos_profile = QoSProfile(depth=10)
+        qos_profile = QoSProfile(depth=20)
 
         # to show robot states
         self.fleet_state_subscription = self.create_subscription(
@@ -64,6 +65,7 @@ class DispatcherClient(Node):
             qos_profile=qos_profile)
         self.fleet_states_dict = {}
         self.tasks_assignments = {}
+        self.tasks_cache = []
 
         # just check one srv endpoint
         while not self.submit_task_srv.wait_for_service(timeout_sec=1.0):
@@ -87,17 +89,17 @@ class DispatcherClient(Node):
         print("Submit Task Request!")
         try:
             future = self.submit_task_srv.call_async(req_msg)
-            rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
+            rclpy.spin_until_future_complete(self, future, timeout_sec=0.5)
             response = future.result()
             if response is None:
-                self.get_logger().error('Failed to get srv result !!!')
+                self.get_logger().warn('/submit_task srv call failed')
             else:
                 self.get_logger().info(
                     f'New Dispatch task_id {response.task_id}')
                 return response.task_id
         except Exception as e:
-            self.get_logger().error('Error! Srv call failed !!!  %r' % (e,))
-        return "FAILED"
+            self.get_logger().error('Error! Submit Srv failed %r' % (e,))
+        return None
 
     def cancel_task_request(self, task_id) -> bool:
         """
@@ -112,13 +114,13 @@ class DispatcherClient(Node):
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
             if response is None:
-                self.get_logger().error('Failed to get srv result !!!')
+                self.get_logger().warn('/cancel_task srv call failed')
             else:
                 self.get_logger().info(
                     f'Cancel Task, success? {response.success}')
                 return response.success
         except Exception as e:
-            self.get_logger().error('Error! Srv call failed %r' % (e,))
+            self.get_logger().error('Error! Cancel Srv failed %r' % (e,))
         return False
 
     # either from DB or via srv call
@@ -133,7 +135,8 @@ class DispatcherClient(Node):
             rclpy.spin_until_future_complete(self, future, timeout_sec=0.4)
             response = future.result()
             if response is None:
-                self.get_logger().error('Failed to get srv result !!!')
+                self.get_logger().warn('/get_tasks srv call failed')
+                return self.tasks_cache
             else:
                 # self.get_logger().info(f'Get Task, success? \
                 #   {response.success}')
@@ -142,9 +145,10 @@ class DispatcherClient(Node):
                 terminated_tasks = self.__convert_task_status_msg(
                     response.terminated_tasks, True)
                 self.__generate_assignments_list(active_tasks)
-                return active_tasks + terminated_tasks
+                self.tasks_cache = active_tasks + terminated_tasks
+                return self.tasks_cache
         except Exception as e:
-            self.get_logger().error('Service call failed %r' % (e,))
+            self.get_logger().error('Error! GetTasks Srv failed %r' % (e,))
         return []  # empty list
 
     def get_robot_states(self):
@@ -257,7 +261,7 @@ class DispatcherClient(Node):
             bots.append(state)
         return bots
 
-    def convert_task(self, task_json):
+    def convert_task_request(self, task_json):
         """
         :param obj task_json:
         :return rmf submit task req_msgs
@@ -326,8 +330,11 @@ class DispatcherClient(Node):
 ###############################################################################
 
 
-app = Flask(__name__, static_url_path="/static")
+app = Flask(__name__)
+cors = CORS(app, origins=r"/*")
+
 socketio = SocketIO(app, async_mode='threading')
+socketio.init_app(app, cors_allowed_origins="*")
 
 rclpy.init(args=None)
 dispatcher_client = DispatcherClient()
@@ -342,29 +349,26 @@ logging.basicConfig(level=logging.DEBUG,
 ###############################################################################
 
 
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-
 @app.route('/submit_task', methods=['POST'])
 def submit():
     if request.method == "POST":
         logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
             Task Submission: {json.dumps(request.json)}")
-        req_msg = dispatcher_client.convert_task(request.json)
-        return dispatcher_client.submit_task_request(req_msg)
-    return ""
+        req_msg = dispatcher_client.convert_task_request(request.json)
+        if req_msg is not None:
+            return dispatcher_client.submit_task_request(req_msg)
+        else:
+            logging.error(f" Failed to Submit task: req_msg: {request.json}")
+    return None
 
 
 @app.route('/cancel_task', methods=['POST'])
 def cancel():
     if request.method == "POST":
         cancel_id = request.json['task_id']
-        print(cancel_id)
         if (dispatcher_client.cancel_task_request(cancel_id)):
-            return " Cancel Success"
-    return " Failed to cancel"
+            return True
+    return False
 
 
 @app.route('/get_task', methods=['GET'])
@@ -384,21 +388,6 @@ def robots():
 
 
 ###############################################################################
-
-def load_cleaning_tasks(yaml_file):
-    try:
-        with open(yaml_file, 'r') as stream:
-            try:
-                print("Loaded Yaml input task")
-                load_tasks = yaml.safe_load(stream)
-                # TODO: will need to test this
-                req_msg = dispatcher_client.convert_task(load_tasks)
-                dispatcher_client.submit_task_request(req_msg)
-            except yaml.YAMLError as exc:
-                print("YAML ERROR",  exc)
-    except Exception as e:
-        raise ValueError(f'ERROR: Unable load Task config file {e}')
-
 
 def web_server_spin():
     while rclpy.ok():
@@ -429,25 +418,12 @@ def broadcast_states():
 
 
 def main(args=None):
-    parser = argparse.ArgumentParser(
-        description='Cleaning Dispatcher GUI Server')
-    parser.add_argument("--load", help="preload tasks config yaml path")
-    parser.add_argument('args', nargs=argparse.REMAINDER)
-
-    # hackish way to solve rosparam input in launch file
-    parser.add_argument("--ros-args", help="ignore this", nargs='?', const='')
-    parser.add_argument("--params-file", help="ignore this",
-                        nargs='?', const='')
-    args = parser.parse_args()
-    if args.load:
-        print("load task config yaml: ", args.load)
-        load_cleaning_tasks(args.load)
-
     server_ip = "0.0.0.0"
+    port_num = 8080
 
-    if "DISPATCHER_GUI_IP_ADDRESS" in os.environ:
-        server_ip = os.environ['DISPATCHER_GUI_IP_ADDRESS']
-        print(f"set ip to: {server_ip}")
+    if "WEB_SERVER_IP_ADDRESS" in os.environ:
+        server_ip = os.environ['WEB_SERVER_IP_ADDRESS']
+        print(f"Set Server IP to: {server_ip}:{port_num}")
 
     spin_thread = Thread(target=web_server_spin, args=())
     spin_thread.start()
@@ -455,8 +431,8 @@ def main(args=None):
     broadcast_thread = Thread(target=broadcast_states, args=())
     broadcast_thread.start()
 
-    print("Starting Dispatcher GUI Server")
-    app.run(host=server_ip, port=5000, debug=False)
+    print("Starting Dispatcher API Server")
+    app.run(host=server_ip, port=port_num, debug=False)
     dispatcher_client.destroy_node()
     rclpy.shutdown()
 
