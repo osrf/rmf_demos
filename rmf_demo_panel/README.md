@@ -1,11 +1,11 @@
 ## Installation
 Dependencies
- - rmf_core: [`develop/dispatcher_demo`](https://github.com/osrf/rmf_demos/tree/develop/dispatcher_demo) branch
+ - rmf_core: `master` branch
 
 Setup `rmf_demo_panel`
 - Ensure you have node v12 installed (see: [node](https://nodejs.org/en/download/package-manager/) or [nvm](https://github.com/nvm-sh/nvm))
 
-Install Flask
+Install Flask and other dependencies
 ```bash
 python3 -m pip install Flask flask-socketio flask-cors
 ```
@@ -26,34 +26,47 @@ Test Run with office world
 ```bash
 ros2 launch demos office.launch.xml
 ```
-
-Run with gazebo simulation
-```bash
-ros2 launch demos dispatcher.launch.xml
+Launch the dashboard
+```
+firefox localhost:5000
 ```
 
 ## Run Sample Tasks
 
 Open `http://localhost:5000/` on browser.
 
-Take `office.world` as an example:
 
-**Task List***
-On the right side column, you are able to select a file which consists of scheduled 
-tasks. Select tasks for office: `rmf_demos_tasks/rmf_demo_tasks/office_tasks.json`. 
+**Submit a list of tasks***
+On the right side column, users are able to select a file which consists of a list of  
+tasks. Example. for office world, load `rmf_demos_tasks/rmf_demo_tasks/office_tasks.json`. 
 Once the tasks are populated in the box, hit submit!
 
-**Adhoc Task***
-User can also submit adhoc task request. This can be done by selecting the 
-Request form on the Left panel.
+More details on the format for the `.json` file is presented below.
+
+For loop requests:
+```
+{"task_type":"Loop", "start_time":0, "description": {"num_loops":5, "start_name":"coe", "finish_name":"lounge"}}
+```
+
+For delivery requests:
+```
+{"task_type":"Delivery", "start_time":0, "description": {"option": "coke"}}
+```
+Internally, the option `coke` is mapped to a set of parameters required for a delivery request. This mapping can be seen in the `rmf_dashboard_resources/office/dashboard_config.json` file.
+
+For clean requests:
+```
+{"task_type":"Clean", "start_time":0, "description":{"cleaning_zone":"zone_2"}}
+```
+
+**Submit a task***
+User can also submit a single task request via the request form on the top-left side of the page.
 
 The latest robot states and task summaries will be reflected at the bottom portion of the GUI.
 
-Similarly, Please try out different world.
-
 ## Create your own GUI
 
-Internally, there are 2 web-based server running behind the scene, namely:
+There are 2 web-based server running behind the scene, namely:
 
 1. `gui_server` (port `5000`): Providing the static gui to the web client. Non RMF dependent
 2. `api_server` (port `8080`): Hosting all endpoints for gui clients to interact with RMF
@@ -64,5 +77,5 @@ and interact with the existing `api_server`.
 ## Note
 - Edit the `dashboard_config.json` to configure the input of the Demo World GUI Task Submission.
 The dashboard config file is located here: `rmf_dashboard_resources/$WORLD/dashboard_config.json`.
-- server ip is configureable via `WEB_SERVER_IP_ADDRESS` in the `dashboard.launch.xml`
+- server ip is configurable via `WEB_SERVER_IP_ADDRESS` in the `dashboard.launch.xml`
 - cancel task will not be working. A fully functional cancel will be introduced in a future PR.
