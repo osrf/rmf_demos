@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Progress from 'antd/lib/progress';
@@ -24,7 +23,7 @@ interface TaskCardProps {
 }
 
 export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
-    const { taskState } = props
+    const { taskState } = props;
     const [lastKnownProgress, setLastKnownProgress] = React.useState(0);
     const [isDelayed, setDelayed] = React.useState(false);
     const classes = useTaskCardStyles();
