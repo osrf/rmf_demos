@@ -51,4 +51,8 @@
     </node>
   </group>
 
+  <include file="$(find-pkg-share demos)/dashboard.launch.xml">
+    <arg name="use_sim_time" value="true"/>
+  </include>
+
 </launch>
