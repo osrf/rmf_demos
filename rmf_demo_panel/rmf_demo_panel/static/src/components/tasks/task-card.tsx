@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Progress from 'antd/lib/progress';
 import { useTaskCardStyles } from '../styles';
 import { cancelTask } from '../services';
+import StyledChip from '../styled-components/styled-chip';
 
 interface TaskCardProps {
     taskState: {
@@ -24,23 +25,28 @@ interface TaskCardProps {
 
 export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
     const { taskState } = props
+    const [lastKnownProgress, setLastKnownProgress] = React.useState(0);
+    const [isDelayed, setDelayed] = React.useState(false);
     const classes = useTaskCardStyles();
 
-    const returnStateColor = (state: string) => {
-      switch(state) {
-        case "Failed":
-          return "secondary";
-        default:
-          return "primary";
+    React.useEffect(() => {
+      let progValue = parseInt(taskState.progress);
+      if(isNaN(parseInt(taskState.progress))) {
+        setDelayed(true);
+      } else {
+        setDelayed(false);
+        setLastKnownProgress(progValue);
       }
-    }
+    }, [taskState.progress]);
 
     return (
         <Card className={classes.root} variant="outlined" role="task-details">
             <CardContent>
               <Grid container>
                   <Grid item xs={12}>
-                    <Progress type="dashboard" gapDegree={120} percent={parseInt(taskState.progress)} />
+                    <Progress type="dashboard" gapDegree={120} percent={lastKnownProgress} />
+                  </Grid>
+                  <Grid item xs={12}>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
@@ -72,7 +78,8 @@ export const TaskCard = (props: TaskCardProps) : React.ReactElement => {
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Chip color={returnStateColor(taskState.state)} label={taskState.state} size='small'/>
+                    { !isDelayed && <StyledChip state={taskState.state}/> }
+                    { isDelayed && <StyledChip state="Delayed"/> }
                   </Grid>
                   <Grid item xs={3}>
                     <Typography variant="subtitle2" align="left" color="textSecondary" gutterBottom>
