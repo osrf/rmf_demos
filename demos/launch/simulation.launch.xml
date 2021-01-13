@@ -3,7 +3,7 @@
 <launch>
   <arg name="map_name" help="Name of the rmf_demos map to simulate" />
   <arg name="use_ignition" default="0" />
-  <arg name="use_crowdsim" default="1" />
+  <arg name="use_crowdsim" default="0" />
 
   <let name="menge_resource_path" value=""/>
 
