@@ -2,6 +2,10 @@
 Changelog for package rmf_demo_assets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.X.X (2021-01-14)
+------------------
+* Add configs files for RMF web-based dashboard: https://github.com/osrf/rmf_demos/pull/176
+
 1.2.0 (2021-01-06)
 ------------------
 * Changed DeliveryRobot texture name to avoid Ignition rendering issue. [#142](https://github.com/osrf/rmf_demos/pull/142)
