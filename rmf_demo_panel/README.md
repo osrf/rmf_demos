@@ -1,6 +1,4 @@
-## Installation
-Dependencies
- - rmf_core: `master` branch
+## RMF Demo Panel Installation
 
 Setup `rmf_demo_panel`
 - Ensure you have node v12 installed (see: [node](https://nodejs.org/en/download/package-manager/) or [nvm](https://github.com/nvm-sh/nvm))
@@ -12,7 +10,6 @@ python3 -m pip install Flask flask-socketio flask-cors
 
 Compilation
 ```bash
-nvm use 12 //if you have other versions of node
 cd $ROS2_WS
 npm install --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
 npm run build --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
@@ -78,4 +75,5 @@ and interact with the existing `api_server`.
 - Edit the `dashboard_config.json` to configure the input of the Demo World GUI Task Submission.
 The dashboard config file is located here: `rmf_dashboard_resources/$WORLD/dashboard_config.json`.
 - server ip is configurable via `WEB_SERVER_IP_ADDRESS` in the `dashboard.launch.xml`
+- The `api_server` outputs and stores a summarized log: `web_server.log`.
 - cancel task will not be working. A fully functional cancel will be introduced in a future PR.

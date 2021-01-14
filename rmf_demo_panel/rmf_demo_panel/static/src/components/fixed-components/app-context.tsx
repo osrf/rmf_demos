@@ -3,13 +3,15 @@ import React from 'react';
 export const Worlds = {
     0: "Office",
     1: "Airport",
-    2: "Clinic"
+    2: "Clinic",
+    3: "Hotel"
 }
 
 export enum World {
     Office = 0,
     Airport,
     Clinic,
+    Hotel,
 }
 
 export type WorldContextType = {

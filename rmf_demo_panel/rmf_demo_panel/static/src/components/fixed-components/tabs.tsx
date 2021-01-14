@@ -80,6 +80,7 @@ const NavTabs: React.FC<NavTabsProps> = (props: NavTabsProps) => {
           <StyledTab label="Office" />
           <StyledTab label="Airport" />
           <StyledTab label="Clinic" />
+          <StyledTab label="Hotel" />
         </StyledTabs>
       </div>
     </div>

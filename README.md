@@ -90,7 +90,7 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos airport_terminal.launch.xml
 ```
 
-Load the `airport_terminal_tasks.json` list into RMF Panel and click submit to begin a collection of loop, delivery and cleaning tasks.
+Select the `airport` tab on RMF Panel. Load the `airport_terminal_tasks.json` list and click submit to begin a collection of loop, delivery and cleaning tasks.
 
 Non-autonomous vehicles can also be integrated with RMF provided their positions can be localized in the world. This may be of value at facilities where space is shared by autonomous robots as well as manually operated vehicles such as forklifts or transporters. In this demo, we can introduce a vehicle (caddy) which can be driven around through keyboard/joystick teleop. In RMF nomenclature, this vehicle is classified as a `read_only` type, ie, RMF can only infer its position in the world but does not have control over its motion. Here, the goal is to have other controllable robots avoid this vehicle's path by replanning their routes if needed. The model is fitted with a plugin which generates a prediction of the vehicle's path based on its current heading. It is configured to occupy the same lanes as the `tinyRobot` robots. Here, a `read_only_fleet_adapter` submits the prediction from the plugin to the RMF schedule.
 
@@ -112,7 +112,7 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos clinic.launch.xml
 ```
 
-Load the `clinic_tasks.json` list into RMF Panel and click submit to begin a collection of loop and delivery tasks.
+Select the `clinic` tab on RMF Panel. Load the `clinic_tasks.json` list and click submit to begin a collection of loop and delivery tasks.
 
 Robots taking lift:
 
@@ -145,7 +145,7 @@ source ~/rmf_demos_ws/install/setup.bash
 ros2 launch demos hotel.launch.xml
 ```
 
-Loop requests can be submitted via the RMF Panel.
+Select the `hotel` tab on RMF Panel. Loop requests can be submitted via "Submit a Task" form.
 
 Robot taking lift:
 

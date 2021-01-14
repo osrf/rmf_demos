@@ -97,6 +97,7 @@ export const submitTaskList = (taskList: any[]) => {
 import officeConfig from "../../../../../rmf_dashboard_resources/office/dashboard_config.json";
 import airportConfig from "../../../../../rmf_dashboard_resources/airport_terminal/dashboard_config.json";
 import clinicConfig from "../../../../../rmf_dashboard_resources/clinic/dashboard_config.json";
+import hotelConfig from "../../../../../rmf_dashboard_resources/hotel/dashboard_config.json";
 
 export const getDefaultConfig = async () => {
     let response = await fetch(officeConfig.toString()).then(resp => resp.json());
@@ -119,6 +120,11 @@ export const getConfigFile = async (folderName: string) => {
 
         case 'Clinic':
             config = await fetch(clinicConfig.toString())
+            .then(resp => resp.json());
+            return config;
+
+        case 'Hotel':
+            config = await fetch(hotelConfig.toString())
             .then(resp => resp.json());
             return config;
     }
