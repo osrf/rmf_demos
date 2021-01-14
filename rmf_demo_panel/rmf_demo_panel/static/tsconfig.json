@@ -11,7 +11,7 @@
     },
     "include": [
         "./src/**/*.tsx",
-        "*.d.ts", "setupTests.ts"
+        "*.d.ts"
     ],
     "exclude": ["./node_modules"]
 }
