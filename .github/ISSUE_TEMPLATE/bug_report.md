@@ -10,14 +10,17 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Workspace (please complete the following information):**
- - OS:
- - RMF binaries version: 
- If building from source,
- - rmf_demos branch:
- - rmf_core branch:
- - rmf_schedule_visualizer branch:
- - traffic_editor branch:
+**Workspace information:**
+ - Operating system and version:
+ - ROS distribution:
+ - ROS installation method: [from binary packages or from source]
+ - RMF installation method: [from binary packages or from source]
+ - RMF binaries version, if installed from binaries:
+ - RMF source versions, if installed from source:
+   - `rmf_demos` branch or commit hash: 
+   - `rmf_core` branch or commit hash: 
+   - `rmf_schedule_visualizaer` branch or commit hash: 
+   - `traffic_editor` branch or commit hash: 
 
 **Steps to Reproduce**
 1. 
