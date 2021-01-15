@@ -253,7 +253,8 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const
   // TODO(BH): Currently mocking up VehicleTraits, potential to give more
   // accurate values
 
-  RCLCPP_INFO(_node->get_logger(), "Loading " + fleet_name + "..");
+  RCLCPP_INFO(_node->get_logger(),
+    std::string("Loading " + fleet_name + "..").c_str());
 
   rclcpp::Node::SharedPtr _param_node =
     std::make_shared<rclcpp::Node>("nav_graph_param_loader");
@@ -266,10 +267,12 @@ RmfPanel::load_fleet_graph_info(std::string fleet_name) const
   {
     RCLCPP_ERROR(
       _node->get_logger(),
-      "Parameter service not found for " + fleet_name + ".");
+      std::string("Parameter service not found for "
+      + fleet_name + ".").c_str());
     RCLCPP_ERROR(
-      _node->get_logger(), "Please check that the fleet adapter is named "
-      + fleet_name + "_fleet_adapter");
+      _node->get_logger(),
+      std::string("Please check that the fleet adapter is named "
+      + fleet_name + "_fleet_adapter").c_str());
     return rmf_utils::nullopt;
   }
 

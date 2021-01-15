@@ -34,7 +34,7 @@ rmf_utils::optional<GraphInfo> parse_graph(
   {
     RCLCPP_ERROR(
       node.get_logger(),
-      "Failed to load graph file [" + graph_file + "]");
+      std::string("Failed to load graph file [" + graph_file + "]").c_str());
     return rmf_utils::nullopt;
   }
 
@@ -43,7 +43,8 @@ rmf_utils::optional<GraphInfo> parse_graph(
   {
     RCLCPP_ERROR(
       node.get_logger(),
-      "Graph file [" + graph_file + "] is missing the [levels] key");
+      std::string("Graph file [" + graph_file
+      + "] is missing the [levels] key").c_str());
     return rmf_utils::nullopt;
   }
 
@@ -51,8 +52,8 @@ rmf_utils::optional<GraphInfo> parse_graph(
   {
     RCLCPP_ERROR(
       node.get_logger(),
-      "The [levels] key does not point to a map in graph file ["
-      + graph_file + "]");
+      std::string("The [levels] key does not point to a map in graph file ["
+      + graph_file + "]").c_str());
     return rmf_utils::nullopt;
   }
 
@@ -81,8 +82,8 @@ rmf_utils::optional<GraphInfo> parse_graph(
           {
             RCLCPP_ERROR(
               node.get_logger(),
-              "Duplicated waypoint name [" + name + "] in graph ["
-              + graph_file + "]");
+              std::string("Duplicated waypoint name [" + name +
+              "] in graph [" + graph_file + "]").c_str());
             return rmf_utils::nullopt;
           }
         }
@@ -140,11 +141,11 @@ rmf_utils::optional<GraphInfo> parse_graph(
         {
           RCLCPP_ERROR(
             node.get_logger(),
-            "Unrecognized orientation constraint label given to lane ["
-            + std::to_string(lane[0].as<std::size_t>()) + ", "
+            std::string("Unrecognized orientation constraint label given "
+            "to lane [" + std::to_string(lane[0].as<std::size_t>()) + ", "
             + std::to_string(lane[1].as<std::size_t>()) + "]: ["
             + constraint_label + "] in graph ["
-            + graph_file + "]");
+            + graph_file + "]").c_str());
           return rmf_utils::nullopt;
         }
       }

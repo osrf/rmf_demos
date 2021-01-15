@@ -52,7 +52,7 @@ void ReadonlyCommon::init(rclcpp::Node::SharedPtr node)
     qos_profile,
     std::bind(&ReadonlyCommon::map_cb, this, std::placeholders::_1));
 
-  RCLCPP_INFO(logger(), "hello i am " + _name);
+  RCLCPP_INFO(logger(), std::string("hello i am " + _name).c_str());
 }
 
 void ReadonlyCommon::on_update(Eigen::Isometry3d& pose, double sim_time)
