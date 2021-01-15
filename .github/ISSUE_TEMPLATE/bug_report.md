@@ -20,7 +20,9 @@ A clear and concise description of what the bug is.
  - traffic_editor branch:
 
 **Steps to Reproduce**
-Steps to reproduce the behavior:
+1. 
+2. 
+3. ```
 
 
 **Expected behavior**
