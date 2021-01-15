@@ -13,7 +13,7 @@ sudo rosdep init
 rosdep update
 ```
 
-## Additional Depenendencies
+## Additional Dependencies
 
 Setup your computer to accept Gazebo packages from packages.osrfoundation.org.
 
@@ -80,3 +80,13 @@ source ~/ros2_foxy/install/setup.bash
 CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 > Note: The build will fail if the compiler is not set to g++ version 8 or above.
+
+## Install RMF Panel Dashbaord
+```bash
+sudo apt install npm
+python3 -m pip install Flask flask-socketio flask-cors
+cd ~/rmf_demos_ws
+npm install --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+npm run build --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+colcon build --packages-select rmf_demo_panel
+```
