@@ -19,7 +19,7 @@ A clear and concise description of what the bug is.
  - rmf_schedule_visualizer branch:
  - traffic_editor branch:
 
-**To Reproduce**
+**Steps to Reproduce**
 Steps to reproduce the behavior:
 
 
