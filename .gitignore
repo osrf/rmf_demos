@@ -1,0 +1,4 @@
+*.pyc
+rmf_dashboard_resources/clinic/main.json
+rmf_dashboard_resources/hotel/main.json
+rmf_dashboard_resources/office/main.json
