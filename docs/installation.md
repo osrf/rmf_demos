@@ -85,8 +85,12 @@ CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```bash
 sudo apt install npm
 python3 -m pip install Flask flask-socketio flask-cors
+
 cd ~/rmf_demos_ws
-npm install --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
-npm run build --prefix src/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+
+# change the npm prefix according to the path to "rmf_demo_panel/static/"
+npm install --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+npm run build --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+
 colcon build --packages-select rmf_demo_panel
 ```
