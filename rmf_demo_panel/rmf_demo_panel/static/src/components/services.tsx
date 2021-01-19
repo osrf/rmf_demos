@@ -40,8 +40,7 @@ export const submitRequest = (request: {}, type: string) => {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(res => res.json())
-        .then(data => JSON.stringify(data));
+        .then(res => res.text());
         showSuccessMessage(`${type} Request submitted successfully!`);
       } catch (err) {
         console.log(err);
@@ -58,8 +57,8 @@ export const cancelTask = (id: string) => {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(res => res.json())
-        .then(data => JSON.stringify(data));
+        .then(res => res.text())
+        .then(data => console.log(data));
         showSuccessMessage(`Task ${id} has been cancelled`);
     } catch (err) {
         console.log(err);
@@ -81,8 +80,7 @@ export const submitTaskList = (taskList: any[]) => {
                 "Content-type": "application/json; charset=UTF-8"
             }
           })
-          .then(res => res.json())
-          .then(data => JSON.stringify(data));
+          .then(res => res.text());
         } catch (err) {
           res = "ERROR! " + err;
           showErrorMessage(res);
