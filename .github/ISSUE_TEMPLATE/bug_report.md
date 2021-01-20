@@ -1,8 +1,3 @@
-<!--
-This form is strictly to report bugs.
-For technical help or general questions, please use the Discussions tab on https://github.com/osrf/rmf_demos
--->
-
 ---
 name: Bug report
 about: Create a report to help us improve
@@ -11,6 +6,11 @@ labels: ''
 assignees: ''
 
 ---
+
+<!--
+This form is strictly to report bugs.
+For technical help or general questions, please use the Discussions tab on https://github.com/osrf/rmf_demos
+-->
 
 **Describe the bug**
 A clear and concise description of what the bug is.
