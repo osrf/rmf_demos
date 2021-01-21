@@ -21,21 +21,22 @@ void TeleportDispenserCommon::dispenser_request_cb(
 {
   latest = *msg;
 
-  if (guid == latest.target_guid && dispenser_filled)
+  if (guid == latest.target_guid)
   {
+    // check if task has been completed previously
     const auto it = _past_request_guids.find(latest.request_guid);
     if (it != _past_request_guids.end())
     {
       if (it->second)
       {
         RCLCPP_WARN(ros_node->get_logger(),
-          "Request already succeeded: [%s]", latest.request_guid);
+          "Request already succeeded: [%s]", latest.request_guid.c_str());
         send_dispenser_response(DispenserResult::SUCCESS);
       }
       else
       {
         RCLCPP_WARN(ros_node->get_logger(),
-          "Request already failed: [%s]", latest.request_guid);
+          "Request already failed: [%s]", latest.request_guid.c_str());
         send_dispenser_response(DispenserResult::FAILED);
       }
       return;
@@ -103,11 +104,35 @@ void TeleportDispenserCommon::on_update(
   std::function<void(const SimEntity&)> place_on_entity_cb,
   std::function<bool(void)> check_filled_cb)
 {
-  // `_dispense` is set to true if the dispenser plugin node has received a valid DispenserRequest
+  try_refill_dispenser(check_filled_cb);
+
+  // periodic pub on dispenser state
+  constexpr double interval = 2.0;
+  if (sim_time - last_pub_time >= interval || dispense)
+  {
+    last_pub_time = sim_time;
+    current_state.time = simulation_now(sim_time);
+
+    if (dispense)
+    {
+      current_state.mode = DispenserState::BUSY;
+      current_state.request_guid_queue = {latest.request_guid};
+    }
+    else
+    {
+      current_state.mode = DispenserState::IDLE;
+      current_state.request_guid_queue.clear();
+    }
+    _state_pub->publish(current_state);
+  }
+
+  // `dispense` is set to true if the dispenser plugin node has
+  // received a valid DispenserRequest
   if (dispense)
   {
     send_dispenser_response(DispenserResult::ACKNOWLEDGED);
 
+    bool is_success = false;
     if (dispenser_filled)
     {
       RCLCPP_INFO(ros_node->get_logger(), "Dispensing item");
@@ -116,6 +141,7 @@ void TeleportDispenserCommon::on_update(
           latest.transporter_type);
       if (res)
       {
+        is_success = true;
         send_dispenser_response(DispenserResult::SUCCESS);
         RCLCPP_INFO(ros_node->get_logger(), "Success");
       }
@@ -128,23 +154,13 @@ void TeleportDispenserCommon::on_update(
     else
     {
       RCLCPP_WARN(ros_node->get_logger(),
-        "No item to dispense: [%s]", latest.request_guid);
+        "No item to dispense: [%s]", latest.request_guid.c_str());
       send_dispenser_response(DispenserResult::FAILED);
     }
+
+    _past_request_guids.emplace(latest.request_guid, is_success);
+
     dispense = false;
-  }
-
-  try_refill_dispenser(check_filled_cb);
-
-  constexpr double interval = 2.0;
-  if (sim_time - last_pub_time >= interval)
-  {
-    last_pub_time = sim_time;
-    const auto now = simulation_now(sim_time);
-
-    current_state.time = now;
-    current_state.mode = DispenserState::IDLE;
-    _state_pub->publish(current_state);
   }
 }
 
@@ -163,7 +179,7 @@ void TeleportDispenserCommon::init_ros_node(const rclcpp::Node::SharedPtr node)
 
   _request_sub = ros_node->create_subscription<DispenserRequest>(
     "/dispenser_requests",
-    rclcpp::SystemDefaultsQoS(),
+    rclcpp::SystemDefaultsQoS().reliable(),
     std::bind(&TeleportDispenserCommon::dispenser_request_cb, this,
     std::placeholders::_1));
 
