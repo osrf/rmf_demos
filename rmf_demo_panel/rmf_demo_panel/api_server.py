@@ -167,7 +167,7 @@ class DispatcherClient(Node):
         convert task summary msg and return a jsonify-able task status obj
         """
         states_enum = {0: "Queued", 1: "Active/Executing", 2: "Completed",
-                       3: "Failed", 4: "Canceled", 5: "Pending"}
+                       3: "Failed", 4: "Cancelled", 5: "Pending"}
         type_enum = {0: "Station", 1: "Loop", 2: "Delivery",
                      3: "Charging", 4: "Clean", 5: "Patrol"}
 
@@ -200,14 +200,14 @@ class DispatcherClient(Node):
 
             # Current hack to generate a progress percentage
             duration = abs(task.end_time.sec - task.start_time.sec)
-            if is_done and states_enum[task.state] == "Completed":
+            if is_done and task.state == 3: # completed
                 status["progress"] = "100%"
-            elif duration == 0 or status["state"] == "Queued":
+            elif duration == 0 or (task.state in [0, 4]): # queued/cancelled
                 status["progress"] = "0%"
             else:
                 percent = int(100*(now - task.start_time.sec)/float(duration))
                 if (percent < 0):
-                    status["progress"] = "queued"
+                    status["progress"] = "0%"
                 elif (percent > 100):
                     status["progress"] = "in-progress"
                 else:
@@ -355,8 +355,8 @@ def cancel():
     if request.method == "POST":
         cancel_id = request.json['task_id']
         if (dispatcher_client.cancel_task_request(cancel_id)):
-            return True
-    return False
+            return "Success"
+    return "Failed"
 
 
 @app.route('/get_task', methods=['GET'])
