@@ -96,14 +96,18 @@ class TaskRequester:
             return None
 
         req_msg.description.start_time = self.node.get_clock().now().to_msg()
-        print(f"\n This is the req_msg: {req_msg}\n")
+        print(f"\n Req Msg: \n {req_msg}\n")
         return req_msg
 
     def main(self):
+        if not self.submit_task_srv.wait_for_service(timeout_sec=1.0):
+            self.node.get_logger().error('Dispatcher Node is not available')
+            return
+
         req_msg = self.generate_task_req_msg()
+
         if req_msg is None:
             self.node.get_logger().error('Invalid input arguments, pls check')
-            rclpy.shutdown()
             return
 
         self.node.get_logger().info("Submitting Task Request")
@@ -120,7 +124,6 @@ class TaskRequester:
         except Exception as e:
             self.node.get_logger().error('Error! Submit Srv failed %r' % (e,))
 
-        rclpy.shutdown()
 
 ###############################################################################
 
@@ -131,7 +134,7 @@ def main(argv=sys.argv):
 
     loop_requester = TaskRequester(args_without_ros)
     loop_requester.main()
-
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main(sys.argv)

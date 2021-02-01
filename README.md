@@ -68,8 +68,8 @@ To submit a delivery task, select `Delivery` from the `Select a request type` dr
 
 Or, submit a task via CML:
 ```
-ros2 run dispatch_task --loop -s coe -f lounge -n 3
-ros2 run dispatch_task --delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
+ros2 run rmf_demo_tasks dispatch_task --loop -s coe -f lounge -n 3
+ros2 run rmf_demo_tasks dispatch_task --delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
 ```
 
 ![](docs/media/delivery_request.gif)
