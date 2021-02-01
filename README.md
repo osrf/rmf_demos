@@ -67,9 +67,9 @@ firefox localhost:5000
 To submit a delivery task, select `Delivery` from the `Select a request type` dropdown list. Next, select `coke` from the `Select delivery task` list. Choose an desired start time for task and click submit.
 
 Or, submit a task via CML:
-```
-ros2 run rmf_demo_tasks dispatch_task --loop -s coe -f lounge -n 3
-ros2 run rmf_demo_tasks dispatch_task --delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
+```bash
+ros2 run rmf_demo_tasks dispatch_loop -s coe -f lounge -n 3
+ros2 run rmf_demo_tasks dispatch_delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
 ```
 
 ![](docs/media/delivery_request.gif)

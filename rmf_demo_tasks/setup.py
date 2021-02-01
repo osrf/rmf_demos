@@ -24,7 +24,9 @@ setup(
         'console_scripts': [
           'request_loop = rmf_demo_tasks.request_loop:main',
           'request_lift = rmf_demo_tasks.request_lift:main',
-          'dispatch_task = rmf_demo_tasks.dispatch_task:main'
+          'dispatch_loop = rmf_demo_tasks.dispatch_loop:main',
+          'dispatch_delivery = rmf_demo_tasks.dispatch_delivery:main',
+          'dispatch_clean = rmf_demo_tasks.dispatch_clean:main'
         ],
     },
 )
