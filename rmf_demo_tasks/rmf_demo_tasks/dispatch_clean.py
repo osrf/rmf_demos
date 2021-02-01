@@ -32,7 +32,7 @@ class TaskRequester:
     def __init__(self, argv=sys.argv):
         parser = argparse.ArgumentParser()
         parser.add_argument('-cs', '--clean_start', required=True,
-                               help='clean start waypoint')
+                            help='clean start waypoint')
         parser.add_argument('-st', '--start_time',
                             help='Start time from now in secs, default: Now',
                             type=int, default=0)
@@ -61,7 +61,7 @@ class TaskRequester:
             return
 
         req_msg = self.generate_task_req_msg()
-        print(f"\n Req Msg: \n {req_msg}\n")
+        print(f"\nSubmit Task Msg: \n {req_msg}\n")
         self.node.get_logger().info("Submitting Task Request")
 
         try:

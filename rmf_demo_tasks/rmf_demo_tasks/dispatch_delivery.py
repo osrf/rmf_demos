@@ -51,7 +51,7 @@ class TaskRequester:
     def generate_task_req_msg(self):
         req_msg = SubmitTask.Request()
         req_msg.description.task_type.type = TaskType.TYPE_DELIVERY
-        
+
         delivery = Delivery()
         delivery.pickup_place_name = self.args.pickup
         delivery.pickup_dispenser = self.args.pickup_dispenser
