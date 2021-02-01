@@ -200,9 +200,11 @@ class DispatcherClient(Node):
 
             # Current hack to generate a progress percentage
             duration = abs(task.end_time.sec - task.start_time.sec)
-            if is_done and task.state == 3: # completed
+            # check if completed
+            if is_done and task.state == 3:
                 status["progress"] = "100%"
-            elif duration == 0 or (task.state in [0, 4]): # queued/cancelled
+            # check if it state is queued/cancelled
+            elif duration == 0 or (task.state in [0, 4]):
                 status["progress"] = "0%"
             else:
                 percent = int(100*(now - task.start_time.sec)/float(duration))

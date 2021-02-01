@@ -39,14 +39,14 @@ class TaskRequester:
                               help='Start waypoint')
         loop_arg.add_argument('-f', '--finish',
                               help='Finish waypoint')
-        loop_arg.add_argument('-n', '--loop_num', 
+        loop_arg.add_argument('-n', '--loop_num',
                               help='Number of loops to perform',
                               type=int, default=1)
 
         delivery_arg = parser.add_argument_group("delivery task arguments")
         delivery_arg.add_argument("--delivery", action="store_true",
-                                  help='select delivery task',)
-        delivery_arg.add_argument('-p','--pickup',
+                                  help='select delivery task')
+        delivery_arg.add_argument('-p', '--pickup',
                                   help='Start waypoint')
         delivery_arg.add_argument('-pd', '--pickup_dispenser',
                                   help='Pickup dispenser name')
@@ -65,7 +65,6 @@ class TaskRequester:
         self.node = rclpy.create_node('task_requester')
         self.submit_task_srv = self.node.create_client(
             SubmitTask, '/submit_task')
-
 
     def generate_task_req_msg(self):
         req_msg = SubmitTask.Request()
@@ -92,7 +91,7 @@ class TaskRequester:
                 req_msg.description.clean = clean
             else:
                 return None
-        except:
+        except Exception as e:
             return None
 
         req_msg.description.start_time = self.node.get_clock().now().to_msg()
@@ -135,6 +134,7 @@ def main(argv=sys.argv):
     loop_requester = TaskRequester(args_without_ros)
     loop_requester.main()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main(sys.argv)
