@@ -66,6 +66,12 @@ firefox localhost:5000
 
 To submit a delivery task, select `Delivery` from the `Select a request type` dropdown list. Next, select `coke` from the `Select delivery task` list. Choose an desired start time for task and click submit.
 
+Or, submit a task via CML:
+```
+ros2 run dispatch_task --loop -s coe -f lounge -n 3
+ros2 run dispatch_task --delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
+```
+
 ![](docs/media/delivery_request.gif)
 
 To send loop requests, select `Loop` from the `Select a request type` dropdown list. Choose desired start and end locations and click submit.
@@ -150,6 +156,31 @@ Select the `hotel` tab on RMF Panel. Loop requests can be submitted via "Submit 
 Robot taking lift:
 
 ![](docs/media/robot_taking_lift_hotel.gif)
+
+---
+
+### Traffic Light Robot Demos
+
+These traffic light demos demonstrate the capability of a "traffic_light" fleet adapter.
+
+#### Triple-H scenario:
+```bash
+$ ros2 launch demos triple_H.launch.xml
+(new terminal) $ ros2 launch demos the_pedigree.launch.xml
+```
+#### Battle Royale Scenario:
+
+```bash
+$ ros2 launch demos battle_royale.launch.xml
+(new terminal) $ ros2 launch demos battle_go.launch.xml
+```
+
+#### Office Scenario:
+Note that `tinyRobot1` is a standard "full control" robot, while `tinyRobot2` "traffic light" robot.
+```bash
+$ ros2 launch demos office_mock_traffic_light.launch.xml
+(new terminal) $ ros2 launch demos office_traffic_light_test.launch.xml
+```
 
 ## Task Dispatching in RMF
 ![](docs/media/RMF_Bidding.png)

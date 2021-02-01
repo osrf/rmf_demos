@@ -345,18 +345,21 @@ def submit():
         if req_msg is not None:
             id = dispatcher_client.submit_task_request(req_msg)
             if id:
-                return id
+                return jsonify({"task_id": id})
     logging.error(f" Failed to Submit task: req_msg: {request.json}")
-    return ""
+    return jsonify({"task_id": ""})
 
 
 @app.route('/cancel_task', methods=['POST'])
 def cancel():
     if request.method == "POST":
         cancel_id = request.json['task_id']
-        if (dispatcher_client.cancel_task_request(cancel_id)):
-            return "Success"
-    return "Failed"
+        cancel_success = dispatcher_client.cancel_task_request(cancel_id)
+        logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
+            Cancel Task: {cancel_id}, success: {cancel_success}")
+        if cancel_success:
+            return jsonify({"success": True})
+    return jsonify({"success": False})
 
 
 @app.route('/get_task', methods=['GET'])
@@ -371,7 +374,7 @@ def status():
 def robots():
     robot_status = jsonify(dispatcher_client.get_robot_states())
     logging.debug(f" ROS Time: {dispatcher_client.ros_time()} | \
-        Robot Status: {json.dumps(robot_status.json)}")
+        Robot Status: {robot_status}")
     return robot_status
 
 

@@ -23,7 +23,8 @@ setup(
     entry_points={
         'console_scripts': [
           'request_loop = rmf_demo_tasks.request_loop:main',
-          'request_lift = rmf_demo_tasks.request_lift:main'
+          'request_lift = rmf_demo_tasks.request_lift:main',
+          'dispatch_task = rmf_demo_tasks.dispatch_task:main'
         ],
     },
 )
