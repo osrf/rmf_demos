@@ -113,9 +113,9 @@ levels:
       - [5, 4, {distance: [3, 8.409000000000001]}]
       - [2, 3, {distance: [3, 20.089]}]
     models:
-      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: conf_runner, static: false, x: 2243.204, y: 450.751, yaw: 0, z: 0}
-      - {agent_group_id: 2, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: chill_out, static: false, x: 841.124, y: 227.931, yaw: 0, z: 0}
-      - {agent_group_id: 3, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: working, static: false, x: 912.149, y: 1266.465, yaw: 0, z: 0}
+      - {agent_group_id: 1, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: conf_runner, static: false, x: 2732.282, y: 388.007, yaw: 0, z: 0}
+      - {agent_group_id: 2, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: chill_out, static: false, x: 323.77, y: 1095.22, yaw: 0, z: 0}
+      - {agent_group_id: 3, model_name: OpenRobotics/MaleVisitorPhone, name: MaleVisitorPhone, profile_selector: human, state_selector: working, static: false, x: 2501.65, y: 787.8579999999999, yaw: 0, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 775.16, y: 794.006, yaw: 4.2503, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 737, y: 884, yaw: 4.2239, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 680.226, y: 975.778, yaw: 4.247, z: 0}
