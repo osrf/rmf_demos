@@ -94,6 +94,9 @@ class DispatcherClient(Node):
             response = future.result()
             if response is None:
                 self.get_logger().warn('/submit_task srv call failed')
+            elif not response.success:
+                self.node.get_logger().error(
+                    'Dispatcher node failed to accept task')
             else:
                 self.get_logger().info(
                     f'New Dispatch task_id {response.task_id}')

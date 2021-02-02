@@ -86,7 +86,7 @@ class TaskRequester:
             response = future.result()
             if response is None:
                 self.node.get_logger().error('/submit_task srv call failed')
-            elif not response.task_id:
+            elif not response.success:
                 self.node.get_logger().error(
                     'Dispatcher node failed to accept task')
             else:
