@@ -200,8 +200,8 @@ class DispatcherClient(Node):
 
             # Current hack to generate a progress percentage
             duration = abs(task.end_time.sec - task.start_time.sec)
-            # check if completed
-            if is_done and task.state == 3:
+            # check if is completed
+            if is_done or task.state == 3:
                 status["progress"] = "100%"
             # check if it state is queued/cancelled
             elif duration == 0 or (task.state in [0, 4]):
@@ -211,7 +211,7 @@ class DispatcherClient(Node):
                 if (percent < 0):
                     status["progress"] = "0%"
                 elif (percent > 100):
-                    status["progress"] = "in-progress"
+                    status["progress"] = "Delayed"
                 else:
                     status["progress"] = f"{percent}%"
             status_list.insert(0, status)  # insert front

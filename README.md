@@ -81,6 +81,8 @@ To run a scenario with multiple task requests, load `office_tasks.json` from `rm
 
 The office demo can be run in secure mode using ROS 2 DDS-Security integration. Click [here](docs/secure_office_world.md) to learn more.
 
+---
+
 ### Airport Terminal World
 
 This demo world shows robot interaction on a much larger map, with a lot more lanes, destinations, robots and possible interactions between robots from different fleets, robots and infrastructure, as well as robots and users. In the illustrations below, from top to bottom we have how the world looks like in `traffic_editor`, the schedule visualizer in `rviz`, and the full simulation in `gazebo`,
@@ -98,11 +100,19 @@ ros2 launch demos airport_terminal.launch.xml
 
 Select the `airport` tab on RMF Panel. Load the `airport_terminal_tasks.json` list and click submit to begin a collection of loop, delivery and cleaning tasks.
 
+Or, submit a task via CML:
+```bash
+ros2 run rmf_demo_tasks dispatch_loop -s s07 -f n12 -n 3
+ros2 run rmf_demo_tasks dispatch_delivery -p mopcart_pickup -pd mopcart_dispenser -d spill -di mopcart_collector
+```
+
 Non-autonomous vehicles can also be integrated with RMF provided their positions can be localized in the world. This may be of value at facilities where space is shared by autonomous robots as well as manually operated vehicles such as forklifts or transporters. In this demo, we can introduce a vehicle (caddy) which can be driven around through keyboard/joystick teleop. In RMF nomenclature, this vehicle is classified as a `read_only` type, ie, RMF can only infer its position in the world but does not have control over its motion. Here, the goal is to have other controllable robots avoid this vehicle's path by replanning their routes if needed. The model is fitted with a plugin which generates a prediction of the vehicle's path based on its current heading. It is configured to occupy the same lanes as the `tinyRobot` robots. Here, a `read_only_fleet_adapter` submits the prediction from the plugin to the RMF schedule.
 
 In the airport terminal map, a `Caddy` is spawned in the far right corner and can be controlled with `geometry_msgs/Twist` messages published over the `cmd_vel` topic. 
 
 ![](docs/media/caddy.gif)
+
+---
 
 ### Clinic World
 
@@ -119,6 +129,12 @@ ros2 launch demos clinic.launch.xml
 ```
 
 Select the `clinic` tab on RMF Panel. Load the `clinic_tasks.json` list and click submit to begin a collection of loop and delivery tasks.
+
+Or, submit a task via CML:
+```bash
+ros2 run rmf_demo_tasks dispatch_loop -s L1_left_nurse_center -f L2_right_nurse_center -n 5
+ros2 run rmf_demo_tasks dispatch_loop -s L2_north_counter -f L1_right_nurse_center -n 5
+```
 
 Robots taking lift:
 
