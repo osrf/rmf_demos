@@ -21,8 +21,10 @@ import argparse
 
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import Parameter
 from rmf_task_msgs.srv import SubmitTask
 from rmf_task_msgs.msg import TaskType, Clean
+
 
 ###############################################################################
 
@@ -32,15 +34,22 @@ class TaskRequester:
     def __init__(self, argv=sys.argv):
         parser = argparse.ArgumentParser()
         parser.add_argument('-cs', '--clean_start', required=True,
-                            help='clean start waypoint')
+                            type=str, help='Clean start waypoint')
         parser.add_argument('-st', '--start_time',
-                            help='Start time from now in secs, default: Now',
+                            help='Start time from now in secs, default: 0',
                             type=int, default=0)
+        parser.add_argument("--disable_sim_time", action="store_true",
+                            help='Disable sim time, default: use sim time')
 
         self.args = parser.parse_args(argv[1:])
         self.node = rclpy.create_node('task_requester')
         self.submit_task_srv = self.node.create_client(
             SubmitTask, '/submit_task')
+
+        # Will enable sim time as default
+        if not self.args.disable_sim_time:
+            param = Parameter("use_sim_time", Parameter.Type.BOOL, True)
+            self.node.set_parameters([param])
 
     def generate_task_req_msg(self):
         req_msg = SubmitTask.Request()
@@ -61,8 +70,8 @@ class TaskRequester:
             return
 
         req_msg = self.generate_task_req_msg()
-        print(f"\nSubmit Task Msg: \n {req_msg}\n")
-        self.node.get_logger().info("Submitting Task Request")
+        print(f"\nGenerated clean request: \n {req_msg}\n")
+        self.node.get_logger().info("Submitting Clean Request")
 
         try:
             future = self.submit_task_srv.call_async(req_msg)
@@ -71,9 +80,13 @@ class TaskRequester:
             response = future.result()
             if response is None:
                 self.node.get_logger().error('/submit_task srv call failed')
+            elif not response.task_id:
+                self.node.get_logger().error(
+                    'Dispatcher node failed to accept task')
             else:
                 self.node.get_logger().info(
-                    f'New Dispatch task_id [{response.task_id}]')
+                    'Request was successfully submitted '
+                    f'and assigned task_id: [{response.task_id}]')
         except Exception as e:
             self.node.get_logger().error('Error! Submit Srv failed %r' % (e,))
 

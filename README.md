@@ -66,7 +66,7 @@ firefox localhost:5000
 
 To submit a delivery task, select `Delivery` from the `Select a request type` dropdown list. Next, select `coke` from the `Select delivery task` list. Choose an desired start time for task and click submit.
 
-Or, submit a task via CML:
+Or, submit a task via CLI:
 ```bash
 ros2 run rmf_demo_tasks dispatch_loop -s coe -f lounge -n 3
 ros2 run rmf_demo_tasks dispatch_delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
@@ -100,7 +100,7 @@ ros2 launch demos airport_terminal.launch.xml
 
 Select the `airport` tab on RMF Panel. Load the `airport_terminal_tasks.json` list and click submit to begin a collection of loop, delivery and cleaning tasks.
 
-Or, submit a task via CML:
+Or, submit a task via CLI:
 ```bash
 ros2 run rmf_demo_tasks dispatch_loop -s s07 -f n12 -n 3
 ros2 run rmf_demo_tasks dispatch_delivery -p mopcart_pickup -pd mopcart_dispenser -d spill -di mopcart_collector
@@ -130,7 +130,7 @@ ros2 launch demos clinic.launch.xml
 
 Select the `clinic` tab on RMF Panel. Load the `clinic_tasks.json` list and click submit to begin a collection of loop and delivery tasks.
 
-Or, submit a task via CML:
+Or, submit a task via CLI:
 ```bash
 ros2 run rmf_demo_tasks dispatch_loop -s L1_left_nurse_center -f L2_right_nurse_center -n 5
 ros2 run rmf_demo_tasks dispatch_loop -s L2_north_counter -f L1_right_nurse_center -n 5
@@ -177,7 +177,7 @@ Robot taking lift:
 
 ### Traffic Light Robot Demos
 
-These traffic light demos demonstrate the capability of a "traffic_light" fleet adapter.
+RMF can also manage fleets whose API or fleet managers only offer pause and resume commands to control their robots. Such fleets are classified as `traffic_light`. To integrate a `traffic_light` fleet, users are expected to implement a `traffic_light` fleet adapter based on this [API](https://github.com/osrf/rmf_core/blob/master/rmf_fleet_adapter/include/rmf_fleet_adapter/agv/EasyTrafficLight.hpp). The `rmf_demos` repository contains demonstrations of `traffic_light` fleets in various scenarios. A simplistic `mock_traffic_light` adapter is used in these demonstrations.
 
 #### Triple-H scenario:
 ```bash
