@@ -42,16 +42,17 @@ class TaskRequester:
         parser.add_argument('-st', '--start_time',
                             help='Start time from now in secs, default: 0',
                             type=int, default=0)
-        parser.add_argument("--disable_sim_time", action="store_true",
-                            help='Disable sim time, default: use sim time')
+        parser.add_argument("--use_sim_time", action="store_true",
+                            help='Use sim time, default: false')
 
         self.args = parser.parse_args(argv[1:])
         self.node = rclpy.create_node('task_requester')
         self.submit_task_srv = self.node.create_client(
             SubmitTask, '/submit_task')
 
-        # Will enable sim time as default
-        if not self.args.disable_sim_time:
+        # enable ros sim time
+        if self.args.use_sim_time:
+            self.node.get_logger().info("Using Sim Time")
             param = Parameter("use_sim_time", Parameter.Type.BOOL, True)
             self.node.set_parameters([param])
 
@@ -75,6 +76,7 @@ class TaskRequester:
             self.node.get_logger().error('Dispatcher Node is not available')
             return
 
+        rclpy.spin_once(self.node, timeout_sec=1.0)
         req_msg = self.generate_task_req_msg()
         print(f"\nGenerated loop request: \n {req_msg}\n")
         self.node.get_logger().info("Submitting Loop Request")

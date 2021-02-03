@@ -68,8 +68,8 @@ To submit a delivery task, select `Delivery` from the `Select a request type` dr
 
 Or, submit a task via CLI:
 ```bash
-ros2 run rmf_demo_tasks dispatch_loop -s coe -f lounge -n 3
-ros2 run rmf_demo_tasks dispatch_delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor
+ros2 run rmf_demo_tasks dispatch_loop -s coe -f lounge -n 3 --use_sim_time
+ros2 run rmf_demo_tasks dispatch_delivery -p pantry -pd coke_dispenser -d hardware_2 -di coke_ingestor --use_sim_time
 ```
 
 ![](docs/media/delivery_request.gif)
@@ -102,8 +102,8 @@ Select the `airport` tab on RMF Panel. Load the `airport_terminal_tasks.json` li
 
 Or, submit a task via CLI:
 ```bash
-ros2 run rmf_demo_tasks dispatch_loop -s s07 -f n12 -n 3
-ros2 run rmf_demo_tasks dispatch_delivery -p mopcart_pickup -pd mopcart_dispenser -d spill -di mopcart_collector
+ros2 run rmf_demo_tasks dispatch_loop -s s07 -f n12 -n 3 --use_sim_time
+ros2 run rmf_demo_tasks dispatch_delivery -p mopcart_pickup -pd mopcart_dispenser -d spill -di mopcart_collector --use_sim_time
 ```
 
 Non-autonomous vehicles can also be integrated with RMF provided their positions can be localized in the world. This may be of value at facilities where space is shared by autonomous robots as well as manually operated vehicles such as forklifts or transporters. In this demo, we can introduce a vehicle (caddy) which can be driven around through keyboard/joystick teleop. In RMF nomenclature, this vehicle is classified as a `read_only` type, ie, RMF can only infer its position in the world but does not have control over its motion. Here, the goal is to have other controllable robots avoid this vehicle's path by replanning their routes if needed. The model is fitted with a plugin which generates a prediction of the vehicle's path based on its current heading. It is configured to occupy the same lanes as the `tinyRobot` robots. Here, a `read_only_fleet_adapter` submits the prediction from the plugin to the RMF schedule.
@@ -132,8 +132,8 @@ Select the `clinic` tab on RMF Panel. Load the `clinic_tasks.json` list and clic
 
 Or, submit a task via CLI:
 ```bash
-ros2 run rmf_demo_tasks dispatch_loop -s L1_left_nurse_center -f L2_right_nurse_center -n 5
-ros2 run rmf_demo_tasks dispatch_loop -s L2_north_counter -f L1_right_nurse_center -n 5
+ros2 run rmf_demo_tasks dispatch_loop -s L1_left_nurse_center -f L2_right_nurse_center -n 5 --use_sim_time
+ros2 run rmf_demo_tasks dispatch_loop -s L2_north_counter -f L1_right_nurse_center -n 5 --use_sim_time
 ```
 
 Robots taking lift:
