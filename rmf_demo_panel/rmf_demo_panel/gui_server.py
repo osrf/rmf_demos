@@ -18,21 +18,24 @@ from flask import Flask, render_template, jsonify
 import os
 import sys
 import requests
-import json 
+import json
 
 ###############################################################################
 
 app = Flask(__name__, static_url_path="/static")
 dashboard_config = {"world_name": ""}
 
+
 @app.route("/")
 def home():
     return render_template("index.html")
+
 
 @app.route("/dashboard_config", methods=['GET'])
 def config():
     config = jsonify(dashboard_config)
     return config
+
 
 ###############################################################################
 
@@ -46,7 +49,7 @@ def main(args=None):
 
     if "DASHBOARD_CONFIG_PATH" in os.environ:
         config_path = os.environ['DASHBOARD_CONFIG_PATH']
-        
+
         if not config_path:
             print(f"WARN! env DASHBOARD_CONFIG_PATH is empty...")
         elif not os.path.exists(config_path):
