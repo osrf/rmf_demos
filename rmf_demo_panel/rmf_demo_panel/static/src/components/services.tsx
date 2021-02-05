@@ -1,6 +1,7 @@
 import { showErrorMessage, showSuccessMessage } from './fixed-components/messages';
 
 const API_SERVER_ADD = "http://" + location.hostname + ":8080"
+const GUI_SERVER_ADD = "http://" + location.hostname + ":5000"
 
 //API endpoints
 export const getRobots = async () => {
@@ -41,8 +42,15 @@ export const submitRequest = (request: {}, type: string) => {
             }
         })
         .then(res => res.json())
-        .then(data => JSON.stringify(data));
-        showSuccessMessage(`${type} Request submitted successfully!`);
+        .then(data => {
+            JSON.stringify(data);
+            let task_id = data["task_id"];
+            if (task_id === "")
+                showErrorMessage(`${type} Request Failed!`);
+            else
+                showSuccessMessage(
+                    `${type} Request submitted successfully! Task ID: [${task_id}]`);
+        });
       } catch (err) {
         console.log(err);
         showErrorMessage(`Unable to submit ${type} Request`);
@@ -59,8 +67,14 @@ export const cancelTask = (id: string) => {
             }
         })
         .then(res => res.json())
-        .then(data => JSON.stringify(data));
-        showSuccessMessage(`Task ${id} has been cancelled`);
+        .then(data => {
+            JSON.stringify(data);
+            let is_success = data["success"];
+            if (is_success)
+                showSuccessMessage(`Task ${id} has been cancelled`);
+            else
+                showErrorMessage(`Unable to cancel Task ${id}`);
+        });
     } catch (err) {
         console.log(err);
         showErrorMessage(`Unable to cancel Task ${id}`);
@@ -93,39 +107,15 @@ export const submitTaskList = (taskList: any[]) => {
     showSuccessMessage(res);
 }
 
-// Getting config files from "rmf_dashboard_resources"
-import officeConfig from "../../../../../rmf_dashboard_resources/office/dashboard_config.json";
-import airportConfig from "../../../../../rmf_dashboard_resources/airport_terminal/dashboard_config.json";
-import clinicConfig from "../../../../../rmf_dashboard_resources/clinic/dashboard_config.json";
-import hotelConfig from "../../../../../rmf_dashboard_resources/hotel/dashboard_config.json";
-
-export const getDefaultConfig = async () => {
-    let response = await fetch(officeConfig.toString()).then(resp => resp.json());
-    return response;
-}
-
-export const getConfigFile = async (folderName: string) => {
-    let config: object;
-
-    switch(folderName) {
-        case 'Office':
-            config = await fetch(officeConfig.toString())
-            .then(resp => resp.json());
-            return config;
-
-        case 'Airport':
-            config = await fetch(airportConfig.toString())
-            .then(resp => resp.json());
-            return config;
-
-        case 'Clinic':
-            config = await fetch(clinicConfig.toString())
-            .then(resp => resp.json());
-            return config;
-
-        case 'Hotel':
-            config = await fetch(hotelConfig.toString())
-            .then(resp => resp.json());
-            return config;
+export const getDashboardConfig = async () => {
+    try {
+        let response = await fetch(GUI_SERVER_ADD + '/dashboard_config');
+        if(response) {
+            let data = await response.json()
+            console.log("Get Dashboard Config", data);
+            return data;
+        }
+    } catch (err) {
+        throw new Error(err.message);
     }
 }

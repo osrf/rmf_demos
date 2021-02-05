@@ -9,6 +9,8 @@
 
   <exec_depend>building_map_msgs</exec_depend>
   <exec_depend>rmf_fleet_msgs</exec_depend>
+  <exec_depend>rmf_task_msgs</exec_depend>
+  <exec_depend>rmf_demos_dashboard_resources</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>

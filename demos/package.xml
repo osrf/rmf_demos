@@ -25,6 +25,7 @@
   <exec_depend>rmf_demo_tasks</exec_depend>
   <exec_depend>rmf_rviz_plugin</exec_depend>
   <exec_depend>rviz2_rolling</exec_depend>
+  <exec_depend>rmf_demo_panel</exec_depend>
 
   <exec_depend>joy_rolling</exec_depend>
   <exec_depend>teleop_twist_joy_rolling</exec_depend>
