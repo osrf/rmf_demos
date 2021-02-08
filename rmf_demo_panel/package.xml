@@ -7,7 +7,12 @@
   <maintainer email="youliang@openrobotics.org">yadu</maintainer>
   <license>Apache License 2.0</license>
 
-  <exec_depend>building_map_msgs</exec_depend>
+  <build_depend>npm</build_depend>
+
+  <exec_depend>python3-flask</exec_depend>
+  <exec_depend>python3-flask-socketio</exec_depend>
+  <exec_depend>python3-flask-cors</exec_depend>
+
   <exec_depend>rmf_fleet_msgs</exec_depend>
   <exec_depend>rmf_task_msgs</exec_depend>
   <exec_depend>rmf_demos_dashboard_resources</exec_depend>
