@@ -2,9 +2,8 @@
 
 Setup `rmf_demo_panel`
 
-Install npm, Flask and other dependencies
+Install flask-socketio as the system version is too old
 ```bash
-sudo apt install npm
 python3 -m pip install flask-socketio
 ```
 
