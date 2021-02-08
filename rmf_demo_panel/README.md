@@ -5,7 +5,7 @@ Setup `rmf_demo_panel`
 Install npm, Flask and other dependencies
 ```bash
 sudo apt install npm
-python3 -m pip install Flask flask-socketio flask-cors
+python3 -m pip install flask-socketio
 ```
 
 Compilation
