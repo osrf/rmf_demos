@@ -1,0 +1,4 @@
+<?xml version='1.0' ?>
+<launch>
+  <executable cmd="ros2 run rmf_demo_tasks dispatch_loop -s DeliveryRobot_start -f guest4 -n 500 --use-sim-time" output="both"/>
+</launch>
