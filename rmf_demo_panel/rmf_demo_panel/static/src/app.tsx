@@ -5,15 +5,17 @@ import PanelsContainer from './components/panels-container';
 import Footer from './components/fixed-components/footer';
 import NavTabs from './components/fixed-components/tabs';
 import { WorldContext, World } from './components/fixed-components/app-context';
-import { getDefaultConfig } from './components/services';
+import { getDashboardConfig } from './components/services';
 
 export default function App(): React.ReactElement {
     const currWorld = React.useContext(WorldContext);
     const [currentWorld, setCurrentWorld] = React.useState(currWorld);
+    const [worldName, setWorldName] = React.useState('');
     
     const setDefaultConfig = async () => {
-        const defaultConfig = await getDefaultConfig();
+        const defaultConfig = await getDashboardConfig();
         setCurrentWorld({map: World.Office, config: defaultConfig});
+        setWorldName(defaultConfig.world_name);
     };
 
     React.useEffect(() => {
@@ -24,7 +26,7 @@ export default function App(): React.ReactElement {
         <div>
             <WorldContext.Provider value={currentWorld}>
                 <Header />
-                <NavTabs handleWorldChange={(world) => setCurrentWorld(world)} />
+                <NavTabs worldName={worldName} />
                 <Divider variant="middle" />
                 <PanelsContainer />
                 <Divider variant="middle"/>

@@ -2,7 +2,7 @@
 
 Greetings,
 
-This page aims to document frequently asked questions pertaining to the demonstrations of the Robotics Middleware Framework (also termed RoMi-H) as showcased in this repository. The `rmf_core` repository has an additional [FAQ page](https://github.com/osrf/rmf_core/blob/develop/docs/faq.md) which addresses some important higher level topics. 
+This page aims to document frequently asked questions pertaining to the demonstrations of the Robotics Middleware Framework (also termed RoMi-H) as showcased in this repository. The `rmf_core` repository has an additional [FAQ page](https://github.com/osrf/rmf_core/blob/master/docs/faq.md) which addresses some important higher level topics.
 
 
 #### Gazebo crashes with `No namespace found` error at launch
