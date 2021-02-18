@@ -106,7 +106,6 @@ levels:
       - {model_name: OpenRobotics/OfficeChairBlue, name: OfficeChairBlue, static: true, x: 2106.547, y: 1148.811, yaw: -1.5708, z: 0}
       - {model_name: OpenRobotics/OfficeChairBlack, name: OfficeChairBlack, static: true, x: 1464.125, y: 1147.33, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1398.96, y: 657.332, yaw: 0.016, z: 0}
-      - {model_name: OpenRobotics/Drawer, name: Drawer, static: true, x: 1224.595, y: 1275.574, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/Drawer, name: Drawer, static: true, x: 2119.682, y: 936.998, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/Drawer, name: Drawer, static: true, x: 2625.448, y: 1094.713, yaw: 4.6217, z: 0}
       - {model_name: OpenRobotics/ConfTable, name: ConfTable, static: true, x: 620, y: 872, yaw: 1.1017, z: 0}
