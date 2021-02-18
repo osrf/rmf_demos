@@ -43,9 +43,8 @@ levels:
       - [57, 54, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
       - [54, 53, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
       - [53, 65, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [67, 68, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [68, 59, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
-      - [68, 45, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [59, 67, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
+      - [59, 45, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], orientation: [1, ""]}]
     layers:
       {}
     measurements:
@@ -86,12 +85,12 @@ levels:
       - {model_name: OpenRobotics/AdjTable, name: AdjTable, static: true, x: 2354.629, y: 849.779, yaw: 1.5733, z: 0}
       - {model_name: OpenRobotics/AdjTable, name: AdjTable, static: true, x: 883, y: 457, yaw: 4.2286, z: 0}
       - {model_name: OpenRobotics/AdjTable, name: AdjTable, static: true, x: 1536.41, y: 657.461, yaw: 1.5914, z: 0}
-      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2466, y: 469, yaw: 0, z: 0}
-      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2561, y: 469, yaw: 0, z: 0}
-      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2621, y: 533, yaw: -1.5708, z: 0}
-      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2559, y: 599, yaw: 3.1416, z: 0}
-      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2459, y: 595, yaw: 3.1416, z: 0}
-      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2393, y: 535, yaw: 1.5708, z: 0}
+      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2544.666, y: 466.974, yaw: 0, z: 0}
+      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2648.309, y: 466.974, yaw: 0, z: 0}
+      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2681.089, y: 531.5700000000001, yaw: -1.5708, z: 0}
+      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2643.97, y: 594.72, yaw: 3.1416, z: 0}
+      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2537.917, y: 593.756, yaw: 3.1416, z: 0}
+      - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2475.249, y: 532.534, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 1678.061, y: 1006.211, yaw: -1.5708, z: 0}
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2598, y: 888, yaw: 1.419, z: 0}
       - {model_name: OpenRobotics/OfficeChairGrey, name: OfficeChairGrey, static: true, x: 2567.058, y: 1215.851, yaw: 1.4599, z: 0}
@@ -111,7 +110,7 @@ levels:
       - {model_name: OpenRobotics/Drawer, name: Drawer, static: true, x: 2119.682, y: 936.998, yaw: 1.5708, z: 0}
       - {model_name: OpenRobotics/Drawer, name: Drawer, static: true, x: 2625.448, y: 1094.713, yaw: 4.6217, z: 0}
       - {model_name: OpenRobotics/ConfTable, name: ConfTable, static: true, x: 620, y: 872, yaw: 1.1017, z: 0}
-      - {model_name: OpenRobotics/RecTable, name: RecTable, static: true, x: 2508, y: 532, yaw: 0, z: 0}
+      - {model_name: OpenRobotics/RecTable, name: RecTable, static: true, x: 2584.195, y: 527.713, yaw: 0, z: 0}
       - {model_name: OpenRobotics/WhiteCabinet, name: WhiteCabinet, static: true, x: 1779.929, y: 344.234, yaw: -0.0292, z: 0}
       - {model_name: OpenRobotics/SquareShelf, name: SquareShelf, static: true, x: 938.97, y: 352.118, yaw: 2.664, z: 0}
       - {model_name: OpenRobotics/TeleportDispenser, name: coke_dispenser, static: true, x: 2091.359, y: 624.821, yaw: 1.5708, z: 0}
@@ -126,8 +125,8 @@ levels:
       - [2951.32, 368.569, 0, ""]
       - [1249.786, 556.5700000000001, 0, ""]
       - [1829.797, 547.502, 0, ""]
-      - [2137.396, 543.5119999999999, 0, ""]
-      - [2139.935, 719.075, 0, ""]
+      - [2132.04, 543.808, 0, ""]
+      - [2132.544, 719.297, 0, ""]
       - [2056.869, 723.0650000000001, 0, ""]
       - [1914.314, 725.241, 0, ""]
       - [1832.337, 726.329, 0, ""]
@@ -185,8 +184,7 @@ levels:
       - [769.867, 618.148, 0, ""]
       - [2016.125, 1310.955, 0, ""]
       - [2468.096, 1217.693, 0, ""]
-      - [2363.597, 649.609, 0, tinyRobot2_charger, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot2], spawn_robot_type: [1, TinyRobot]}]
-      - [2222.439, 651.961, 0, ""]
+      - [2412.581, 627.5, 0, tinyRobot2_charger, {is_charger: [4, true], is_holding_point: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, tinyRobot2], spawn_robot_type: [1, TinyRobot]}]
     walls:
       - [6, 7, {alpha: [3, 1], texture_name: [1, default]}]
       - [7, 12, {alpha: [3, 1], texture_name: [1, default]}]
