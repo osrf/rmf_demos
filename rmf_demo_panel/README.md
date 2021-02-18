@@ -2,7 +2,7 @@
 
 Setup `rmf_demo_panel`
 
-Install flask-socketio as the system version is too old
+Rosdep will automatically install system version of python3-flask and python3-flask-cors. Yet we will download flask-socketio (5.x) separately via pip since the ubutuntu packaged version is too old.
 ```bash
 python3 -m pip install flask-socketio
 ```
