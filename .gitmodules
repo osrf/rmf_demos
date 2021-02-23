@@ -1,0 +1,9 @@
+[submodule "rmf_core"]
+	path = rmf_core
+	url = https://github.com/osrf/rmf_core
+[submodule "traffic_editor"]
+	path = traffic_editor
+	url = https://github.com/osrf/traffic_editor
+[submodule "rmf_schedule_visualizer"]
+	path = rmf_schedule_visualizer
+	url = https://github.com/osrf/rmf_schedule_visualizer
