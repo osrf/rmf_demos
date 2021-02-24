@@ -83,8 +83,7 @@ CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 ## Install RMF Panel Dashbaord
 ```bash
-sudo apt install npm
-python3 -m pip install Flask flask-socketio flask-cors
+python3 -m pip install flask-socketio
 
 cd ~/rmf_demos_ws
 
