@@ -39,8 +39,8 @@ class TaskRequester:
                             help='Start time from now in secs, default: 0',
                             type=int, default=0)
         parser.add_argument('-pt', '--priority',
-                             help='Priority value for this request',
-                             type=int, default=0)
+                            help='Priority value for this request',
+                            type=int, default=0)
         parser.add_argument("--use_sim_time", action="store_true",
                             help='Use sim time, default: false')
 
