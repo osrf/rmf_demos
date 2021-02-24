@@ -264,25 +264,23 @@ class DispatcherClient(Node):
         """
         req_msg = SubmitTask.Request()
 
+        print(task_json)
+
         if (("task_type" not in task_json) or
             ("start_time" not in task_json) or
+            ("priority" not in task_json) or
                 ("description" not in task_json)):
             print("Error!! Key value is invalid!")
             return None
 
-        if ("evaluator" in task_json):
-            evaluator = task_json["evaluator"]
-            if (evaluator == "lowest_delta_cost"):
-                req_msg.evaluator = req_msg.LOWEST_DIFF_COST_EVAL
-            elif (evaluator == "lowest_cost"):
-                req_msg.evaluator = req_msg.LOWEST_COST_EVAL
-            elif (evaluator == "quickest_time"):
-                req_msg.evaluator = req_msg.QUICKEST_FINISH_EVAL
-            else:
-                print("Error!! INVALID evaluator, pls check!")
+        try:
+            priority = int(task_json["priority"])
+            if (priority < 0):
+                print("ERROR! priority value is less than 0")
                 return None
 
-        try:
+            req_msg.description.priority.value = priority
+
             desc = task_json["description"]
             if task_json["task_type"] == "Clean":
                 req_msg.description.task_type.type = TaskType.TYPE_CLEAN
@@ -317,6 +315,7 @@ class DispatcherClient(Node):
             print('Error!! Task Req description is invalid: ', e)
             return None
 
+        print("PRINOT ", req_msg)
         return req_msg
 
 ###############################################################################
