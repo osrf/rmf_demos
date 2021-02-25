@@ -1,5 +1,10 @@
 ## RMF Demo Panel Installation
 
+### RMF Dependencies
+ - `rmf_task_ros2`
+ - `rmf_fleet_adapter`
+ - `rmf_demos_dashboard_resources`
+
 Setup `rmf_demo_panel`
 
 Rosdep will automatically install system version of python3-flask and python3-flask-cors. Yet we will download flask-socketio (5.x) separately via pip since the ubutuntu packaged version is too old.
@@ -43,19 +48,19 @@ Once the tasks are populated in the box, hit submit!
 More details on the format for the `.json` file is presented below.
 
 For loop requests:
-```
-{"task_type":"Loop", "start_time":0, "description": {"num_loops":5, "start_name":"coe", "finish_name":"lounge"}}
+```json
+{"task_type":"Loop", "start_time":0, "priority":0, "description": {"num_loops":5, "start_name":"coe", "finish_name":"lounge"}}
 ```
 
 For delivery requests:
-```
-{"task_type":"Delivery", "start_time":0, "description": {"option": "coke"}}
+```json
+{"task_type":"Delivery", "start_time":0, "priority":0, "description": {"option": "coke"}}
 ```
 Internally, the option `coke` is mapped to a set of parameters required for a delivery request. This mapping can be seen in the `rmf_dashboard_resources/office/dashboard_config.json` file.
 
 For clean requests:
-```
-{"task_type":"Clean", "start_time":0, "description":{"cleaning_zone":"zone_2"}}
+```json
+{"task_type":"Clean", "start_time":0, "priority":0, "description":{"cleaning_zone":"zone_2"}}
 ```
 
 **Submit a task***

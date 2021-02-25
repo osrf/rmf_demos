@@ -12,8 +12,8 @@
   <exec_depend>python3-flask</exec_depend>
   <exec_depend>python3-flask-cors</exec_depend>
 
-  <exec_depend>rmf_fleet_msgs</exec_depend>
-  <exec_depend>rmf_task_msgs</exec_depend>
+  <exec_depend>rmf_fleet_adapter</exec_depend>
+  <exec_depend>rmf_task_ros2</exec_depend>
   <exec_depend>rmf_demos_dashboard_resources</exec_depend>
 
   <export>
