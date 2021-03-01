@@ -186,6 +186,7 @@ class DispatcherClient(Node):
             status["fleet_name"] = task.fleet_name
             status["robot_name"] = task.robot_name
             status["task_type"] = type_enum[desc.task_type.type]
+            status["priority"] = desc.priority.value
             status["submited_start_time"] = desc.start_time.sec
             status["start_time"] = task.start_time.sec     # only use sec
             status["end_time"] = task.end_time.sec         # only use sec
@@ -222,14 +223,14 @@ class DispatcherClient(Node):
 
     def __get_robot_assignment(self, robot_name):
         assigned_tasks = []
-        assigned_task_ids = ""
+        assigned_task_ids = []
         for task in self.active_tasks_cache:
             if task["robot_name"] == robot_name:
                 assigned_tasks.append(task)
         assigned_tasks.sort(key=lambda x: x.get('start_time'))
         for task in assigned_tasks:
-            assigned_task_ids += (task["task_id"] + "  ")
-        return assigned_task_ids   # TODO: return list
+            assigned_task_ids.append(task["task_id"])
+        return assigned_task_ids
 
     def __convert_robot_states_msg(self, fleet_name, robot_states):
         """
@@ -263,23 +264,23 @@ class DispatcherClient(Node):
         The 'start time' here is refered to the "Duration" from now.
         """
         req_msg = SubmitTask.Request()
-
         print(task_json)
 
         if (("task_type" not in task_json) or
             ("start_time" not in task_json) or
-            ("priority" not in task_json) or
                 ("description" not in task_json)):
             print("Error!! Key value is invalid!")
             return None
 
         try:
-            priority = int(task_json["priority"])
-            if (priority < 0):
-                print("ERROR! priority value is less than 0")
-                return None
-
-            req_msg.description.priority.value = priority
+            if ("priority" in task_json):
+                priority = int(task_json["priority"])
+                if (priority < 0):
+                    print("ERROR! priority value is less than 0")
+                    return None
+                req_msg.description.priority.value = priority
+            else:
+                req_msg.description.priority.value = 0
 
             desc = task_json["description"]
             if task_json["task_type"] == "Clean":
