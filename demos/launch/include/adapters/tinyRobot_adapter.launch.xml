@@ -64,7 +64,7 @@
       <arg name="tool_power_drain" value="0.0"/>
       
       <!-- Whether to consider battery drain for task planning -->
-      <arg name="drain_battery" value="true"/>
+      <arg name="drain_battery" value="false"/>
 
       <!-- Battery level at which the robot ceases to operate -->
       <arg name="recharge_threshold" value="0.1"/>
