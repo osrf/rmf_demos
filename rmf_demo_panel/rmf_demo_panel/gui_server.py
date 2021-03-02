@@ -25,11 +25,15 @@ import json
 app = Flask(__name__, static_url_path="/static")
 dashboard_config = {"world_name": ""}
 
-
+# This will use the webpack gui hosted on github page
 @app.route("/")
 def home():
     return render_template("index.html")
 
+# This will use local compiled webpack gui
+@app.route("/test")
+def home_test():
+    return render_template("index_test.html")
 
 @app.route("/dashboard_config", methods=['GET'])
 def config():

@@ -34,6 +34,11 @@ sudo apt update && sudo apt install \
 sudo apt-get install python3-colcon*
 ```
 
+Install [rmf_demo_panel](../rmf_demo_panel/README.md) dependency.
+```bash
+python3 -m pip install flask-socketio
+```
+
 ## Download the source code
 Setup a new ROS 2 workspace and pull in the demo repositories using `vcs`,
 
@@ -80,16 +85,3 @@ source ~/ros2_foxy/install/setup.bash
 CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 > Note: The build will fail if the compiler is not set to g++ version 8 or above.
-
-## Install RMF Panel Dashbaord
-```bash
-python3 -m pip install flask-socketio
-
-cd ~/rmf_demos_ws
-
-# change the npm prefix according to the path to "rmf_demo_panel/static/"
-npm install --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
-npm run build --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
-
-colcon build --packages-select rmf_demo_panel
-```

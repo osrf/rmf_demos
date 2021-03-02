@@ -5,21 +5,10 @@
  - `rmf_fleet_msgs`
  - `rmf_demos_dashboard_resources`
 
-Setup `rmf_demo_panel`
+### Setup `rmf_demo_panel`
 
-Rosdep will automatically install system version of python3-flask and python3-flask-cors. Yet we will download flask-socketio (5.x) separately via pip since the ubutuntu packaged version is too old.
 ```bash
 python3 -m pip install flask-socketio
-```
-
-Compilation
-```bash
-cd ~/rmf_demos_ws
-
-# change the npm prefix according to the path to "rmf_demo_panel/static/"
-npm install --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
-npm run build --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
-
 colcon build --packages-select rmf_demo_panel
 ```
 
@@ -35,10 +24,37 @@ Launch the dashboard
 firefox localhost:5000
 ```
 
+> Note that this will page use the latest gui hosted on `rmf_demos` github page. Thus internet is
+required when running this. Do check the compatability.
+
+---
+
+## Development Mode (local)
+
+This development mode is useful for personel who are interested to compile a local React Gui 
+Bundle. **Else you can skip this portion.**.
+
+### Dependencies: 
+ - npm (node version > 12)
+
+Compilation
+```bash
+cd ~/rmf_demos_ws
+
+# change the npm prefix according to the path to "rmf_demo_panel/static/"
+npm install --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+npm run build --prefix src/rmf/rmf_demos/rmf_demo_panel/rmf_demo_panel/static/
+
+colcon build --packages-select rmf_demo_panel
+```
+
+Once Done, use this link: `http://localhost:5000/test` instead.
+
+---
+
 ## Run Sample Tasks
 
-Open `http://localhost:5000/` on browser.
-
+Once `http://localhost:5000/` is ready on browser:
 
 **Submit a list of tasks***
 On the right side column, users are able to select a file which consists of a list of  
@@ -84,3 +100,4 @@ The dashboard config file is located here: `rmf_dashboard_resources/$WORLD/dashb
 - server ip is configurable via `WEB_SERVER_IP_ADDRESS` in the `dashboard.launch.xml`
 - The `api_server` outputs and stores a summarized log: `web_server.log`.
 - cancel task will not be working. A fully functional cancel will be introduced in a future PR.
+- Rosdep will automatically install system version of `python3-flask` and `python3-flask-cors`. Yet we will download `flask-socketio` (5.x) separately via pip since the ubutuntu packaged version is too old.
