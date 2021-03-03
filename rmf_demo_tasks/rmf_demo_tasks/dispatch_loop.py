@@ -68,7 +68,6 @@ class TaskRequester:
 
         ros_start_time = self.node.get_clock().now().to_msg()
         ros_start_time.sec += self.args.start_time
-        print(f'Start time: {ros_start_time.sec}')
         req_msg.description.start_time = ros_start_time
         return req_msg
 
