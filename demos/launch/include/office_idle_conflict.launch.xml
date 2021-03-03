@@ -1,0 +1,7 @@
+<?xml version='1.0' ?>
+<launch>
+  <arg name="loops" default="10" description="How many loops to perform"/>
+
+  <executable cmd="ros2 run rmf_demo_tasks dispatch_loop -s pantry -f supplies -n $(var loops) --use_sim_time" output="both"/>
+  <executable cmd="ros2 run rmf_demo_tasks dispatch_loop -s midpoint -f midpoint -n 1 --use_sim_time" output="both"/>
+</launch>
