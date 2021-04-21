@@ -81,7 +81,7 @@ CXX=g++-8 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 > Note: The build will fail if the compiler is not set to g++ version 8 or above.
 
-## Install RMF Panel Dashbaord
+## Install RMF Panel Dashboard
 ```bash
 python3 -m pip install flask-socketio
 
